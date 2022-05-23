@@ -1,4 +1,4 @@
-# Algebra5-6
+# Educational Videos made on Manim
 
 ## Contribution
 
