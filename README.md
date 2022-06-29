@@ -28,7 +28,7 @@ That's it :)
 
 TODO (fix PYTHONPATH for other OS)
 ```
-PYTHONPATH=.:lib manim -pql scripts/path/to/file.py SceneClassName
+PYTHONPATH=lib:objects manim -pql problems/path/to/file.py
 ```
 
 ### Golden rules
