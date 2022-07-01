@@ -28,7 +28,7 @@ That's it :)
 
 TODO (fix PYTHONPATH for other OS)
 ```
-PYTHONPATH=lib:objects manim -pql problems/path/to/file.py
+LANGUAGE=armenian PYTHONPATH=lib:objects python qarakusi.am.py 10674
 ```
 
 ### Golden rules
