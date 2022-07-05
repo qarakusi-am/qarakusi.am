@@ -7,4 +7,4 @@ problem_statement = Tex(
 )
 first_name = Tex('First', font_size=DEFAULT_NAME_FONT_SIZE)
 second_name = Tex('Second', font_size=DEFAULT_NAME_FONT_SIZE)
-part = 'part'
+part = r'\textrm{part}'
