@@ -120,7 +120,7 @@ class Cup(Polygonal):
         self.stretch_to_fit_height(height)
 
 class Segment(VGroup):
-    def __init__(self, start=0.5*LEFT, end=0.5*RIGHT, label=None, label_font_size=0.3*DEFAULT_LABEL_FONT_SIZE, **kwargs):
+    def __init__(self, start=0.5*LEFT, end=0.5*RIGHT, label=None, label_font_size=DEFAULT_LABEL_FONT_SIZE, **kwargs):
         start = np.array(start)
         end = np.array(end)
         normal_direction = normal(end-start)
