@@ -26,11 +26,14 @@ That's it :)
 
 ### Create the video
 
-TODO
+FOR LINUX, MACOS: 
 ```
-FOR LINUX, MACOS: LANGUAGE=armenian PYTHONPATH=lib:objects python qarakusi.am.py 10674
+LANGUAGE=armenian PYTHONPATH=lib:objects python qarakusi.am.py 10674
+```
 
-FOR WINDOWS: $env:LANGUAGE='armenian'; $env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10674
+FOR WINDOWS: 
+```
+$env:LANGUAGE='armenian'; $env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10674
 
 ```
 
