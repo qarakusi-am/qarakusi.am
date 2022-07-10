@@ -26,9 +26,14 @@ That's it :)
 
 ### Create the video
 
-TODO (fix PYTHONPATH for other OS)
+FOR LINUX, MACOS: 
 ```
-PYTHONPATH=lib:objects manim -pql problems/path/to/file.py
+LANGUAGE=armenian PYTHONPATH=lib:objects python qarakusi.am.py 10674
+```
+
+FOR WINDOWS: 
+```
+$env:LANGUAGE='armenian'; $env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10674
 ```
 
 ### Golden rules

@@ -12,10 +12,9 @@ from manim import Scene
 from constants import DEFAULT_ENDMARK_LENGTH
 from constants import DEFAULT_EXTRA_SEGMENT_COLOR, DEFAULT_COUNTING_COLOR
 from constants import DEFAULT_SEGMENT_TEXT_POSITION
-from constants import DEFAULT_NAME_FONT_SIZE, DEFAULT_SEGMENT_LENGTH_FONT_SIZE
+from constants import DEFAULT_SEGMENT_LENGTH_FONT_SIZE
 from constants import DEFAULT_TOTAL_LENGTH_FONT_SIZE
-from constants import DEFAULT_EQUATION_FONT_SIZE
-from constants import ARMTEX
+from constants import DEFAULT_EQUATION_FONT_SIZE, ARMTEX
 from objects import Scissors
 
 
@@ -123,6 +122,7 @@ class SimpleTwoPartsProblem(VGroup):
         self,
         name_1,
         name_2,
+        part,
         extra_length,
         total_length,
         wanted,
@@ -130,7 +130,6 @@ class SimpleTwoPartsProblem(VGroup):
         sum_of_lengths_of_segments=5,
         extra_segment_color=DEFAULT_EXTRA_SEGMENT_COLOR,
         counting_color=DEFAULT_COUNTING_COLOR,
-        name_font_size=DEFAULT_NAME_FONT_SIZE,
         segment_length_font_size=DEFAULT_SEGMENT_LENGTH_FONT_SIZE,
         total_length_font_size=DEFAULT_TOTAL_LENGTH_FONT_SIZE,
         equation_font_size=DEFAULT_EQUATION_FONT_SIZE
@@ -184,14 +183,10 @@ class SimpleTwoPartsProblem(VGroup):
                             )
                         )
 
-                self.first_name = Tex(name_1,
-                                      tex_template=ARMTEX,
-                                      font_size=name_font_size)
+                self.first_name = name_1
                 self.first_name.next_to(self.first_segment, LEFT, buff=0.5)
 
-                self.second_name = Tex(name_2,
-                                       tex_template=ARMTEX,
-                                       font_size=name_font_size)
+                self.second_name = name_2
                 self.second_name.next_to(self.second_segment, LEFT, buff=0.5)
 
                 self.brace = BraceLabel(
@@ -242,10 +237,10 @@ class SimpleTwoPartsProblem(VGroup):
                 self.equal_length_plus_extra[0].set_color(LIGHT_GRAY)
 
                 self.count_one_part = MathTex(
-                    '1', r'\textrm{ մաս}',
+                    '1',
+                    part,
                     font_size=equation_font_size,
                     color=counting_color,
-                    tex_template=ARMTEX
                 )
                 self.count_one_part[0].move_to(
                     self.divide_by_two[3].get_center()

@@ -10,11 +10,9 @@ COLORS = [WHITE, GREEN, ORANGE, RED, BLUE, YELLOW]
 armenian_tex_template = TexTemplate()
 armenian_tex_template.add_to_preamble(r'\usepackage{armtex}')
 
+ENGTEX = TexTemplate()
 ARMTEX = TexTemplate()
 ARMTEX.add_to_preamble(r'\usepackage{armtex}')
-
-Tex.set_default(tex_template=ARMTEX)
-MathTex.set_default(tex_template=ARMTEX)
 
 
 # Մասերով խնդիրների հաստատուններ
@@ -59,7 +57,27 @@ WEEK_DAYS_ARM_LONG = ['ԵՐԿ', 'ԵՐՔ', 'ՉՐՔ', 'ՀՆԳ', 'ՈւՐԲ', 'ՇԲ�
 WEEK_BLOCK_WIDTH = 0.35
 WEEK_BLOCK_HEIGHT = 0.25
 
-
 # ԽԱՌԸ
 
 DEFAULT_PAPERS_BUFF = 0.125
+
+
+class LanguageConfig:
+    language = 'armenian'
+
+    Tex.set_default(tex_template=ARMTEX)
+    MathTex.set_default(tex_template=ARMTEX)
+
+    @classmethod
+    def set_language(cls, language):
+        if language == 'english':
+            Tex.set_default(tex_template=ENGTEX)
+            MathTex.set_default(tex_template=ENGTEX)
+        elif language == 'armenian':
+            Tex.set_default(tex_template=ARMTEX)
+            MathTex.set_default(tex_template=ARMTEX)
+        cls.language = language
+
+    @classmethod
+    def is_armenian(cls):
+        return cls.language == 'armenian'
