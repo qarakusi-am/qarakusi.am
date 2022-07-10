@@ -1,31 +1,31 @@
-from manim import Tex, ApplyWave
+from manim import ApplyWave
 from maserovkhndirner import SimpleTwoPartsProblem
 from maserovkhndirscene import MaserovKhndirScene
 from qarakusiscene import Task
-from constants import DEFAULT_TASK_NUMBER_FONT_SIZE, ARMTEX
+from .text import problem_statement, problem_number
+from .text import first_name, second_name, extra_length, total_length, part
 
 
 class Problem10674(MaserovKhndirScene):
     def __init__(self):
         super().__init__()
 
+        print(problem_statement)
         self.task = Task(
-            Tex('$\\#10674$', font_size=DEFAULT_TASK_NUMBER_FONT_SIZE),
-            Tex(
-                'Գտնել երկու թիվ, որոնց գումարը $51$ է,',
-                'իսկ տարբերությունը՝ $13$։',
-                tex_template=ARMTEX, font_size=DEFAULT_TASK_NUMBER_FONT_SIZE
-            )
+            problem_number,
+            problem_statement
         )
-        self.name_1 = 'Առաջին'
-        self.name_2 = 'Երկրորդ'
-        self.extra_length = 13
-        self.total_length = 51
+
+        self.name_1 = first_name
+        self.name_2 = second_name
+        self.extra_length = extra_length
+        self.total_length = total_length
         self.wanted = 'both'
 
         self.problem = SimpleTwoPartsProblem(
             self.name_1,
             self.name_2,
+            part,
             self.extra_length,
             self.total_length,
             self.wanted
