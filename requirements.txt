@@ -2,3 +2,4 @@ numpy==1.19.0
 pytest==5.4.3
 manim==0.15.2
 flake8==4.0.1
+click==8.1.3
