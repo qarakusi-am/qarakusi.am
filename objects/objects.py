@@ -124,6 +124,15 @@ class Man(VMobject):
 
         self.add(man)
 
+class Woman(VMobject):
+    def __init__(self, svg_index=1):
+        super().__init__()
+
+        man = SVGMobject(path_to_SVG / 'people' / 'woman' / f'woman_{svg_index}')
+        man.set_color(WHITE)
+
+        self.add(man)
+
 
 class Boy(VMobject):
     def __init__(self, svg_index=1):
