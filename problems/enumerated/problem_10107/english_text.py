@@ -1,0 +1,8 @@
+ani_string = "Ani"
+mayrik_string  = "Mammy"
+one_year_after_string = "$1$ year later"
+now_string = "Այժմ"
+another_one_year_after_string = "after another $1$ year"
+two_years_after_string = "$2$ years later"
+after_some_years_string = "After a few years"
+some_years_string = "years later"
