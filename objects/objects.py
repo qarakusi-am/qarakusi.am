@@ -93,7 +93,7 @@ svg_defaults.add_default(
      'color': GOLD})
 svg_defaults.add_prefix_default(
     'empty_bag_',
-    {'folder': path_to_SVG / 'bgas'})
+    {'folder': path_to_SVG / 'bags'})
 svg_defaults.add_default(
     'bucket_of_mandarins',
     {'folder': path_to_SVG / 'fruits',
