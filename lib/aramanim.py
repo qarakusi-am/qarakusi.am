@@ -112,3 +112,33 @@ class Segment(VGroup):
     def update_label_pos(self, buff = 0.05, direction = UP):
         self.label.next_to(self, direction, buff)
         return self.label
+
+# մկրատի անիմացիաներ (Scissors)
+class CutIn(FadeIn):
+    def __init__(self, mobject: Scissors, **kwargs):
+        super().__init__(mobject, **kwargs)
+    def interpolate(self, alpha: float):
+        if self.rate_func(alpha) < 0.5:
+            angle = (PI / 6) * self.rate_func(alpha)
+            self.mobject.set_opacity(2*self.rate_func(alpha))
+        else:
+            angle = (PI / 6) * (1-self.rate_func(alpha))
+
+        self.mobject.become(self.starting_mobject)
+        self.mobject.open(angle)
+        self.mobject.shift(0.5*UP*self.rate_func(alpha))
+    def clean_up_from_scene(self, scene: Scene) -> None:
+        scene.add(self.mobject)
+
+class CutOut(FadeOut):
+    def __init__(self, mobject: Scissors, **kwargs):
+        super().__init__(mobject, **kwargs)
+    def interpolate(self, alpha: float):
+        if self.rate_func(alpha) > 0.5:
+            self.mobject.set_opacity(2*(1-self.rate_func(alpha)))
+        angle = (PI / 9) * self.rate_func(alpha)
+        self.mobject.become(self.starting_mobject)
+        self.mobject.open(angle)
+        self.mobject.shift(0.5*DOWN*self.rate_func(alpha))
+    def clean_up_from_scene(self, scene: Scene) -> None:
+        scene.remove(self.mobject)
