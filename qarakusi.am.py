@@ -10,12 +10,17 @@ from manim.cli.render.ease_of_access_options import ease_of_access_options
 from manim.cli.render.global_options import global_options
 from manim.cli.render.output_options import output_options
 from manim.cli.render.render_options import render_options
+from manim import Scene
 
 from constants import LanguageConfig
 
 
 @click.command()
 @click.argument("problem_id", type=str, required=True)
+@click.option("--scene-class",
+              type=str,
+              required=False,
+              help="Scene class name")
 @click.option("--language",
               default='armenian',
               show_default=True,
@@ -29,6 +34,7 @@ from constants import LanguageConfig
 def render(
     *,
     language='armenian',
+    scene_class=None,
     **kwargs
 ):
     """Render SCENE from the file corresponding to problem_id.
@@ -70,7 +76,7 @@ def render(
     print('Hello, Qarakusi.am!')
 
     try:
-        scene = load_problem_scene(kwargs['problem_id'])
+        scene = load_problem_scene(kwargs['problem_id'], scene_class)
     except Exception as err:
         sys.exit(f'Loading problem module failed: {err}')
 
@@ -83,13 +89,40 @@ def render(
     return kwargs
 
 
-def load_problem_scene(problem_id):
+def load_problem_scene(problem_id, scene_class_name):
     module_name = (
         f'problems.enumerated.problem_{problem_id}.problem_{problem_id}'
     )
     problem_module = importlib.import_module(module_name)
 
-    sceneClass = getattr(problem_module, f'Problem{problem_id}')
+    if scene_class_name is None:
+        scene_class_name = f'Problem{problem_id}'
+
+        scene_names = [key for key in dir(problem_module)
+                       if key.startswith(scene_class_name)
+                       and issubclass(getattr(problem_module, key), Scene)]
+        if len(scene_names) == 0:
+            raise Exception('No scene found')
+        elif len(scene_names) == 1:
+            scene_class_name = scene_names[0]
+        else:
+            print_lst = ['Several Scenes found'] + [
+                f'[{ind+1}] {name}'
+                for ind, name in enumerate(scene_names)
+            ] + ['', 'Which one do you want to render? (type the index only)']
+
+            print('\n'.join(print_lst), flush=True)
+            ind = None
+            try:
+                ind = int(input()) - 1
+                if ind not in range(len(scene_names)):
+                    ind = None
+            except Exception:
+                pass
+            if ind is None:
+                raise Exception('Wrong scene index inputted')
+            scene_class_name = scene_names[ind]
+    sceneClass = getattr(problem_module, scene_class_name)
     return sceneClass()
 
 
