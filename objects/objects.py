@@ -160,7 +160,7 @@ svg_defaults.add_prefix_default(
     {'folder': path_to_SVG / 'scissors'})
 
 
-class SimpleSVGVMobject(VMobject):
+class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
                  *,
                  scale: float = None,
@@ -446,7 +446,7 @@ class Weight(VGroup):
         self.weight_value = kg
 
         self.weight = VGroup(
-            SimpleSVGVMobject('weight').scale(0.5),
+            SimpleSVGMobject('weight').scale(0.5),
             MathTex(f"{kg:,}".replace(',', '.'),
                     color=BLACK, font_size=35).shift(0.1 * DOWN)
         ).scale(((kg / (2 * unit_kg)) ** (1. / 3.)) * self.scale_factor)
@@ -502,8 +502,8 @@ class Scissors:
         self.style = style
 
         if style == 1:
-            self.open_scissors = SimpleSVGVMobject('open_scissors')
-            self.closed_scissors = SimpleSVGVMobject('closed_scissors')
+            self.open_scissors = SimpleSVGMobject('open_scissors')
+            self.closed_scissors = SimpleSVGMobject('closed_scissors')
             self.cut_coordinate = (
                 np.array(cut_coordinate)
                 - np.array([0.2, 0.4, 0])
@@ -515,8 +515,8 @@ class Scissors:
             )
         elif style == 2:
             self.cut_coordinate = cut_coordinate
-            scissor_1 = SimpleSVGVMobject('scissors_1')
-            scissor_2 = SimpleSVGVMobject('scissors_2')
+            scissor_1 = SimpleSVGMobject('scissors_1')
+            scissor_2 = SimpleSVGMobject('scissors_2')
 
             dot = Dot().scale(0.2)
             self.__p_end = [a + b for a, b in
