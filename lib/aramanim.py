@@ -3,12 +3,13 @@ from manim import VMobject, VGroup, Line
 from manim import TexTemplate, MathTex
 from manim import always_redraw
 import numpy as np
+from numpy import linalg as la
 
 # np վեկտորների համար ՛մեթոդներ՛
 
 def length(array):
     array = np.array(array)
-    return np.matmul(array.transpose(), array) **(1/2)
+    return la.norm(array)
 
 def normalized_vector(array):
     array = np.array(array)
@@ -17,12 +18,12 @@ def normalized_vector(array):
 
 def rotate2angle(array, alpha):
     array = np.array(array)
-    rotation__matrix = [
+    rotation__matrix = np.matrix([
         [np.cos(alpha), -np.sin(alpha), 0],
         [np.sin(alpha), np.cos(alpha), 0],
         [0, 0, 1],
-    ]
-    return np.matmul(rotation__matrix, array)
+    ])
+    return rotation__matrix @ array
 
 def normal(array):
     array = np.array(array)
