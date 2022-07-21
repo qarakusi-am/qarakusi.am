@@ -42,12 +42,6 @@ XELATEX_preamble = r"""
 XELATEX = TexTemplate('xelatex', '.pdf', preamble=XELATEX_preamble)
 
 
-ARMTEX = TexTemplate()
-ARMTEX.add_to_preamble(
-    r"""\usepackage{armtex}
-\usepackage{xcolor}
-"""
-)
 
 # Մասերով խնդրի համար
 
