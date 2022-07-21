@@ -1,12 +1,13 @@
 from manim import UP, LEFT, RIGHT, ORIGIN, PI, DEFAULT_STROKE_WIDTH
 from manim import VMobject, VGroup, Line
 from manim import TexTemplate, MathTex
+from manim import FadeIn, FadeOut, Scene
 from manim import always_redraw
 import numpy as np
 from numpy import linalg as la
+from objects import Scissors
 
 # np վեկտորների համար ՛մեթոդներ՛
-
 def length(array):
     array = np.array(array)
     return la.norm(array)
@@ -14,7 +15,6 @@ def length(array):
 def normalized_vector(array):
     array = np.array(array)
     return (1/length(array)) * array
-
 
 def rotate2angle(array, alpha):
     array = np.array(array)
@@ -30,7 +30,6 @@ def normal(array):
     return normalized_vector(rotate2angle(array, PI/2))
 
 # հայերեն լեզվով LaTeX աշխատացնելու համար
-
 XELATEX_preamble = r"""
 \usepackage{tikz}
 \usepackage{fontspec}
@@ -42,14 +41,9 @@ XELATEX_preamble = r"""
 """
 XELATEX = TexTemplate('xelatex', '.pdf', preamble=XELATEX_preamble)
 
-
-
 # Մասերով խնդրի համար
-
 DEFALT_EDGE_HIGHT = 0.2
 DEFAULT_LABEL_FONT_SIZE = 50
-
-
 
 class Segment(VGroup):
     def __init__(
@@ -63,20 +57,16 @@ class Segment(VGroup):
         start = np.array(start)
         end = np.array(end)
         normal_direction = normal(end-start)
-
         if 'stroke_width' in kwargs:
             stroke_width = kwargs['stroke_width']
         else:
             stroke_width = DEFAULT_STROKE_WIDTH
-
         if 'edge_hight' in kwargs:
             edge_hight = kwargs['edge_hight']
             del kwargs['edge_hight']
         else:
-            edge_hight = DEFALT_EDGE_HIGHT
-        
+            edge_hight = DEFALT_EDGE_HIGHT        
         self.line = Line(start, end, buff=0, **kwargs)
-
         self.left_edge = always_redraw(
             lambda: Line(
                 ORIGIN,
@@ -91,10 +81,7 @@ class Segment(VGroup):
                 **kwargs
             ).move_to(self.line.get_right())
         )
-        
         super().__init__(self.line, self.left_edge, self.right_edge)
-
-        
         self.label = VMobject()
         if label != None:
             label = MathTex(label, font_size = label_font_size, tex_template = ARMTEX)
@@ -118,7 +105,6 @@ class CutIn(FadeIn):
             self.mobject.set_opacity(2*self.rate_func(alpha))
         else:
             angle = (PI / 6) * (1-self.rate_func(alpha))
-
         self.mobject.become(self.starting_mobject)
         self.mobject.open(angle)
         self.mobject.shift(0.5*UP*self.rate_func(alpha))
