@@ -10,7 +10,7 @@ from aramanim import Segment
 from .text import ani_string, mayrik_string, one_year_after_string, now_string, another_one_year_after_string, two_years_after_string, after_some_years_string, some_years_string
 UNIT = 0.27
 
-class PartScene(Scene):
+class Problem10107(Scene):
     def construct(self):
         self.set_up()
         self.time_pass()
