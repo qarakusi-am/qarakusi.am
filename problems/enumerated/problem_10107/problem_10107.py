@@ -6,7 +6,6 @@ from manim import always_redraw
 from manim import Scene
 from objects import Woman, Girl
 from aramanim import Segment
-
 from .text import ani_string, mayrik_string, one_year_after_string, now_string, another_one_year_after_string, two_years_after_string, after_some_years_string, some_years_string
 UNIT = 0.27
 
@@ -21,8 +20,6 @@ class Problem10107(Scene):
         mother_segment = self.mother_segment
         daughter_label = self.daughter_label
         mother_label = self.mother_label
-
-
         x3_daughter_segment = self.x3_daughter_segment
         self.play(
             Create(daughter),
@@ -42,7 +39,6 @@ class Problem10107(Scene):
         self.wait(0.8)
         self.play(Create(daughter_segment))
         self.play(Write(daughter_label))
-
         self.wait(0.8)
         self.play(Create(mother_segment))
         self.play(Write(mother_label))
@@ -144,7 +140,6 @@ class Problem10107(Scene):
                 
             )
         )
-        
         small_main_group = always_redraw(lambda: self.time_pass(False))
         self.add(small_main_group)
         self.wait(0.5)
@@ -216,35 +211,27 @@ class Problem10107(Scene):
         )
         self.wait(3)
 
-
-
-
-    
     def set_up(self, add = False):
         self.time = ValueTracker(0)
         daughter = self.daughter_svg = Girl(4)
         daughter.scale(1.4)
         mother = self.mother_svg = Woman(1)
         mother.scale(1.9)
-
         mother_pos = self.mother_pos = [-5.5, -1, 0]
         daughter_pos = self.daughter_pos = [-5.5, 2.5, 0]
         mother.move_to(mother_pos)
         daughter.move_to(daughter_pos)
-
         daughter_segment = self.daughter_segment = self.get_part(7, "7", GREEN)
         daughter_segment.next_to(daughter_pos, RIGHT, buff=1)
         mother_segment = self.mother_segment = self.get_part(31, "31", ORANGE)
         mother_segment.next_to(mother_pos, RIGHT, buff=1).shift(0.75*DOWN)
         mother_label = self.mother_label = mother_segment.update_label_pos()
         daughter_label = self.daughter_label = daughter_segment.update_label_pos()
-
         x3_daughter_segment = self.x3_daughter_segment = VGroup(
             daughter_segment.copy(),
             daughter_segment.copy(),
             daughter_segment.copy()
         ).arrange(RIGHT, buff=0).next_to(mother_segment, UP, aligned_edge=LEFT, buff=1)
-
         brace = self.brace = Brace(x3_daughter_segment, UP)
         brace_label = self.brace_label = MathTex(r"3 \cdot 7 = 21").next_to(brace, UP)
         main_group = self.main_group = VGroup(
@@ -255,7 +242,6 @@ class Problem10107(Scene):
         if add:
             self.add(main_group)
 
-        
     def get_part(self, value, label = None, color = WHITE):
         seg = Segment(
             ORIGIN,
@@ -268,15 +254,11 @@ class Problem10107(Scene):
 
     def time_pass(self, all = True):
         time = self.time.get_value()
-        
         daughter_segment = self.daughter_segment
         daughter_label = self.daughter_label
         mother_segment = self.mother_segment
-        
         mother_label = self.mother_label
-
         x3_daughter_segment = self.x3_daughter_segment
-        
         daughter_segment.become(self.get_part(
             7+time,
             r"{:,}".format(int(time+7.5)),
@@ -284,7 +266,6 @@ class Problem10107(Scene):
         ).align_to(daughter_segment, LEFT+UP))
         daughter_segment.set_label(MathTex(r"{:,}".format(int(time+7.5))))
         daughter_label.become(daughter_segment.update_label_pos())
-        
         mother_segment.become(self.get_part(
             31+time,
             r"{:,}".format(int(time+31.5)),
@@ -292,20 +273,15 @@ class Problem10107(Scene):
         ).align_to(mother_segment, LEFT+UP))
         mother_segment.set_label(MathTex(r"{:,}".format(int(time+31.5))))
         mother_label.become(mother_segment.update_label_pos())
-
         x3_daughter_segment.become(VGroup(
             daughter_segment.copy(),
             daughter_segment.copy(),
             daughter_segment.copy()
         ).arrange(RIGHT, buff=0).next_to(mother_segment, UP, aligned_edge=LEFT, buff=1))
-
         brace = self.brace 
         brace_label = self.brace_label
-
         brace.become(Brace(x3_daughter_segment, UP))
         brace_label.become(MathTex(r"3 \cdot", r"{:,}".format(int(time+7.5)), r"=", r"{:,}".format(3*int(time+7.5))).next_to(brace, UP))
-
-        
         if all:
             return VGroup(
                 daughter_segment, daughter_label,
@@ -338,6 +314,3 @@ class Problem10107(Scene):
         ), run_time = 1.7)
         self.play(Indicate(formula[4], 1.1), run_time = 0.8)
         self.play(FadeOut(formula), run_time = 0.5)
-
-
-
