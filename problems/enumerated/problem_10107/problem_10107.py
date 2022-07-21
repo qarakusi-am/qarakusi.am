@@ -5,7 +5,6 @@ from manim import Create, FadeIn, FadeOut, Write, Flash, AnimationGroup, Replace
 from manim import always_redraw
 from manim import Scene
 from objects import Woman, Girl
-from aramanim import ARMTEX
 from aramanim import Segment
 
 from .text import ani_string, mayrik_string, one_year_after_string, now_string, another_one_year_after_string, two_years_after_string, after_some_years_string, some_years_string
@@ -28,7 +27,7 @@ class PartScene(Scene):
         self.play(
             Create(daughter),
             FadeIn(
-                Tex(ani_string, tex_template=ARMTEX).scale(0.5).next_to(daughter, DOWN),
+                Tex(ani_string).scale(0.5).next_to(daughter, DOWN),
                 rate_func = rate_functions.there_and_back_with_pause
             )
         )
@@ -36,7 +35,7 @@ class PartScene(Scene):
         self.play(
             Create(mother),
             FadeIn(
-                Tex(mayrik_string, tex_template=ARMTEX).scale(0.5).next_to(mother, DOWN),
+                Tex(mayrik_string).scale(0.5).next_to(mother, DOWN),
                 rate_func = rate_functions.there_and_back_with_pause
             )
         )
@@ -65,7 +64,7 @@ class PartScene(Scene):
             Flash(daughter_segment.get_edge_center(RIGHT), run_time=0.7),
             Flash(mother_segment.get_edge_center(RIGHT), run_time=0.7),
             FadeIn(
-                Tex(one_year_after_string, tex_template=ARMTEX).scale(1.5).to_edge(DR).set_color(RED),
+                Tex(one_year_after_string).scale(1.5).to_edge(DR).set_color(RED),
                 rate_func = rate_functions.there_and_back_with_pause
             ),
             run_time = 2
@@ -76,7 +75,7 @@ class PartScene(Scene):
             Flash(daughter_segment.get_edge_center(RIGHT), run_time=0.7),
             Flash(mother_segment.get_edge_center(RIGHT), run_time=0.7),
             FadeIn(
-                Tex(another_one_year_after_string, tex_template=ARMTEX).scale(1.5).to_edge(DR).set_color(RED),
+                Tex(another_one_year_after_string).scale(1.5).to_edge(DR).set_color(RED),
                 rate_func = rate_functions.there_and_back_with_pause
             ),
             run_time = 2
@@ -85,7 +84,7 @@ class PartScene(Scene):
         self.play(
             time.animate.set_value(0),
             FadeIn(
-                Tex(now_string, tex_template=ARMTEX).scale(1.5).to_edge(DR).set_color(RED),
+                Tex(now_string).scale(1.5).to_edge(DR).set_color(RED),
                 rate_func = rate_functions.there_and_back_with_pause
             ),
             run_time = 3
@@ -116,7 +115,7 @@ class PartScene(Scene):
             Flash(daughter_segment.get_edge_center(RIGHT), run_time=0.7),
             Flash(mother_segment.get_edge_center(RIGHT), run_time=0.7),
             FadeIn(
-                Tex(one_year_after_string, tex_template=ARMTEX).scale(1.5).to_edge(DR).set_color(RED),
+                Tex(one_year_after_string).scale(1.5).to_edge(DR).set_color(RED),
                 rate_func = rate_functions.there_and_back_with_pause
             ),
             run_time = 1
@@ -128,7 +127,7 @@ class PartScene(Scene):
             Flash(daughter_segment.get_edge_center(RIGHT), run_time=0.7),
             Flash(mother_segment.get_edge_center(RIGHT), run_time=0.7),
             FadeIn(
-                Tex(two_years_after_string, tex_template=ARMTEX).scale(1.5).to_edge(DR).set_color(RED),
+                Tex(two_years_after_string).scale(1.5).to_edge(DR).set_color(RED),
                 rate_func = rate_functions.there_and_back_with_pause
             ),
             run_time = 1
@@ -152,7 +151,7 @@ class PartScene(Scene):
         self.play(
             time.animate.set_value(5),
             FadeIn(
-                Tex(after_some_years_string, tex_template=ARMTEX).scale(1.3).to_edge(DR).set_color(RED),
+                Tex(after_some_years_string).scale(1.3).to_edge(DR).set_color(RED),
                 rate_func = rate_functions.there_and_back_with_pause
             ),
             run_time = 7
@@ -213,7 +212,7 @@ class PartScene(Scene):
             ReplacementTransform(mother_label.copy(), mother_target[1].update_label_pos()),
             ReplacementTransform(mother_label, mother_target[0].update_label_pos()),
             Indicate(formula_0[1], 1.1),
-            Write(Tex(some_years_string, tex_template=ARMTEX).next_to(formula_0[1], RIGHT).set_color(RED))
+            Write(Tex(some_years_string).next_to(formula_0[1], RIGHT).set_color(RED))
         )
         self.wait(3)
 
