@@ -10,7 +10,7 @@ from objects import Scissors
 # np վեկտորների համար ՛մեթոդներ՛
 def length(array):
     array = np.array(array)
-    return la.norm(array)
+    return np.matmul(array.transpose(), array) **(1/2)
 
 def normalized_vector(array):
     array = np.array(array)
@@ -18,12 +18,12 @@ def normalized_vector(array):
 
 def rotate2angle(array, alpha):
     array = np.array(array)
-    rotation__matrix = np.matrix([
+    rotation__matrix = [
         [np.cos(alpha), -np.sin(alpha), 0],
         [np.sin(alpha), np.cos(alpha), 0],
         [0, 0, 1],
-    ])
-    return rotation__matrix @ array
+    ]
+    return np.matmul(rotation__matrix, array)
 
 def normal(array):
     array = np.array(array)
@@ -84,7 +84,7 @@ class Segment(VGroup):
         super().__init__(self.line, self.left_edge, self.right_edge)
         self.label = VMobject()
         if label != None:
-            label = MathTex(label, font_size = label_font_size, tex_template = ARMTEX)
+            label = MathTex(label, font_size = label_font_size)
             self.set_label(label)
 
     def set_label(self, label):
