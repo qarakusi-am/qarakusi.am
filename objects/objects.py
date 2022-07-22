@@ -6,7 +6,7 @@ from manim import linear, MathTex
 from manim import VMobject, VGroup, ValueTracker, Scene
 from manim import Dot, Rectangle
 from manim import RED, WHITE, BLACK, GOLD, GREEN
-from manim import RIGHT, DOWN, UP, ORIGIN, PI
+from manim import RIGHT, DOWN, UP, ORIGIN, OUT, PI
 from manim import FadeIn, UpdateFromAlphaFunc
 from manim import SVGMobject as OriginalSVGMobject
 from colour import Color
@@ -739,9 +739,9 @@ class Stopwatch(VGroup):
     def __init__(self, **kwargs):
         self.__speed = 1
         self.time = ValueTracker(0)
-        self.stopwatch = SVGMobject('stopwatch.svg').set_color(WHITE).scale(1.8)
-        self.stopwatch_arrow = SVGMobject('stopwatch_arow.svg')
-        self.stopwatch_resetter = SVGMobject('stopwatch_resetter.svg').set_color(WHITE).scale(0.3)
+        self.stopwatch = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch.svg').set_color(WHITE).scale(1.8)
+        self.stopwatch_arrow = SVGMobject(path_to_SVG / 'stopwatch' /'stopwatch_arow.svg')
+        self.stopwatch_resetter = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_resetter.svg').set_color(WHITE).scale(0.3)
         self.__aligning()
         vmobjects = [self.stopwatch, self.stopwatch_arrow, self.stopwatch_resetter]
         super().__init__(*vmobjects, **kwargs)
