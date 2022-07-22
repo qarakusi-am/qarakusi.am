@@ -1,11 +1,11 @@
-from manim import UP, LEFT, RIGHT, ORIGIN, PI, DEFAULT_STROKE_WIDTH
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH
 from manim import VMobject, VGroup, Line
 from manim import TexTemplate, MathTex
-from manim import FadeIn, FadeOut, Scene
+from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
 import numpy as np
 from numpy import linalg as la
-from objects import Scissors
+from objects import Scissors, Stopwatch
 
 # np վեկտորների համար ՛մեթոդներ՛
 def length(array):
@@ -122,3 +122,92 @@ class CutOut(FadeOut):
         self.mobject.shift(0.5*DOWN*self.rate_func(alpha))
     def clean_up_from_scene(self, scene: Scene) -> None:
         scene.remove(self.mobject)
+
+# ժամացույցի անիմացիա
+class Run(Animation):
+    def __init__(
+        self,
+        mobject: Stopwatch,
+        speed=1,
+        run_time =1,
+        dirt = 1,
+        **kwargs
+    ) -> None:
+        super().__init__(
+            mobject,
+            run_time = run_time,
+            **kwargs
+        )
+        self.radians = 2 * PI * speed * run_time / 60 * dirt
+        self.time_passed = speed * run_time * dirt
+        self.about_point = mobject.stopwatch.get_center()
+        self.shift_resetter = 0.3 * (
+            np.array(mobject.stopwatch_resetter.get_center())
+            - np.array(mobject.stopwatch.get_edge_center(UP))
+        )
+
+    def interpolate(self, alpha: float) -> None:
+        if alpha < 0.1:
+            self.mobject.stopwatch_resetter.move_to(
+                self.starting_mobject.stopwatch_resetter.get_center()
+                - (10*alpha) * self.shift_resetter
+            )
+        if alpha >= 0.9 and alpha <=1:
+            self.mobject.stopwatch_resetter.move_to(
+                self.starting_mobject.stopwatch_resetter.get_center()
+                - (10*(1-alpha)) * self.shift_resetter
+            )
+        self.mobject.stopwatch_arrow.become(
+            self.starting_mobject.stopwatch_arrow
+        )
+        self.mobject.stopwatch_arrow.rotate(
+            -self.rate_func(alpha) * self.radians,
+            axis=OUT,
+            about_point=self.about_point
+        )
+        self.mobject.time.set_value(
+            self.starting_mobject.time.get_value()
+            + self.rate_func(alpha) * self.time_passed
+        )
+
+class Reset(Animation):
+    def __init__(
+        self,
+        mobject: Stopwatch,
+        **kwargs
+    ) -> None:
+        super().__init__(mobject, run_time=0.4, **kwargs)
+        self.shift_resetter = 0.3 * (
+            np.array(mobject.stopwatch_resetter.get_center())
+            - np.array(mobject.stopwatch.get_edge_center(UP))
+        )
+        self.radians = 2*PI*(mobject.time.get_value()%60)/60
+        self.about_point = mobject.stopwatch.get_center()
+    def interpolate(self, alpha):
+        if alpha < 0.25:
+            self.mobject.stopwatch_resetter.move_to(
+                self.starting_mobject.stopwatch_resetter.get_center()
+                - self.rate_func(4*alpha) * self.shift_resetter
+            )
+        if alpha >= 0.25 and alpha < 0.5:
+            self.mobject.stopwatch_resetter.move_to(
+                self.starting_mobject.stopwatch_resetter.get_center()
+                - self.rate_func(4*(0.5-alpha)) * self.shift_resetter
+            )
+        if alpha >= 0.5 and alpha < 0.75:
+            self.mobject.stopwatch_resetter.move_to(
+                self.starting_mobject.stopwatch_resetter.get_center()
+                - self.rate_func(4*(0.75-alpha)) * self.shift_resetter
+            )
+        if alpha >= 0.75:
+            self.mobject.stopwatch_resetter.move_to(
+                self.starting_mobject.stopwatch_resetter.get_center()
+                - self.rate_func(4*(1-alpha)) * self.shift_resetter
+            )
+        self.mobject.stopwatch_arrow.become(self.starting_mobject.stopwatch_arrow)
+        self.mobject.stopwatch_arrow.rotate(
+            self.rate_func(alpha) * self.radians,
+            axis=OUT,
+            about_point=self.about_point
+        )
+        self.mobject.time.set_value(0)
