@@ -9,8 +9,7 @@ from objects import Scissors
 
 # np վեկտորների համար ՛մեթոդներ՛
 def length(array):
-    array = np.array(array)
-    return np.matmul(array.transpose(), array) **(1/2)
+    return la.norm(array)
 
 def normalized_vector(array):
     array = np.array(array)
@@ -42,7 +41,7 @@ XELATEX_preamble = r"""
 XELATEX = TexTemplate('xelatex', '.pdf', preamble=XELATEX_preamble)
 
 # Մասերով խնդրի համար
-DEFALT_EDGE_HIGHT = 0.2
+DEFAULT_EDGE_HEIGHT = 0.2
 DEFAULT_LABEL_FONT_SIZE = 50
 
 class Segment(VGroup):
@@ -65,7 +64,7 @@ class Segment(VGroup):
             edge_hight = kwargs['edge_hight']
             del kwargs['edge_hight']
         else:
-            edge_hight = DEFALT_EDGE_HIGHT        
+            edge_hight = DEFAULT_EDGE_HEIGHT        
         self.line = Line(start, end, buff=0, **kwargs)
         self.left_edge = always_redraw(
             lambda: Line(
