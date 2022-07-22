@@ -3,7 +3,7 @@ from pathlib import Path
 import numpy as np
 
 from manim import linear, MathTex
-from manim import VMobject, VGroup, Scene
+from manim import VMobject, VGroup, ValueTracker, Scene
 from manim import Dot, Rectangle
 from manim import RED, WHITE, BLACK, GOLD, GREEN
 from manim import RIGHT, DOWN, UP, ORIGIN, PI
@@ -733,3 +733,30 @@ class Scissors:
                 )
             )
             scene.remove(self.siz)
+
+
+class Stopwatch(VGroup):
+    def __init__(self, **kwargs):
+        self.__speed = 1
+        self.time = ValueTracker(0)
+        self.stopwatch = SVGMobject('stopwatch.svg').set_color(WHITE).scale(1.8)
+        self.stopwatch_arrow = SVGMobject('stopwatch_arow.svg')
+        self.stopwatch_resetter = SVGMobject('stopwatch_resetter.svg').set_color(WHITE).scale(0.3)
+        self.__aligning()
+        vmobjects = [self.stopwatch, self.stopwatch_arrow, self.stopwatch_resetter]
+        super().__init__(*vmobjects, **kwargs)
+    
+    def __aligning(self):
+        self.stopwatch_arrow.move_to(self.stopwatch.get_center()).shift(0.48*UP+0.01*RIGHT)
+        self.stopwatch_resetter.next_to(self.stopwatch, UP, buff=0.05)
+    def speedup(self, ratio:float):
+        self.__speed *= ratio
+    def set_time(self, value = 0):
+        self.time.set_value(value=value)
+        self.stopwatch_arrow.rotate(
+            2 * value/60 * PI,
+            axis=OUT,
+            about_point=self.stopwatch.get_center()
+        )
+
+
