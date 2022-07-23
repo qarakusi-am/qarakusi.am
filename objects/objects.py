@@ -3,10 +3,10 @@ from pathlib import Path
 import numpy as np
 
 from manim import linear, MathTex
-from manim import VMobject, VGroup, Scene
+from manim import VMobject, VGroup, ValueTracker, Scene
 from manim import Dot, Rectangle
 from manim import RED, WHITE, BLACK, GOLD, GREEN
-from manim import RIGHT, DOWN, UP, ORIGIN, PI
+from manim import RIGHT, DOWN, UP, ORIGIN, OUT, PI
 from manim import FadeIn, UpdateFromAlphaFunc
 from manim import SVGMobject as OriginalSVGMobject
 from colour import Color
@@ -124,6 +124,15 @@ class Man(VMobject):
 
         self.add(man)
 
+class Woman(VMobject):
+    def __init__(self, svg_index=1):
+        super().__init__()
+
+        man = SVGMobject(path_to_SVG / 'people' / 'woman' / f'woman_{svg_index}')
+        man.set_color(WHITE)
+
+        self.add(man)
+
 
 class Boy(VMobject):
     def __init__(self, svg_index=1):
@@ -202,6 +211,32 @@ class ClosedScissors(VMobject):
         closed_scissors.set_color(WHITE).scale(0.4).rotate(PI/5)
 
         self.add(closed_scissors)
+
+class Scissors(VGroup):
+    def __init__(self, cut_point, **kwargs):
+        self.scissor_1 = SVGMobject(
+            path_to_SVG / 'scissors' / 'scissors_1.svg'
+        ).set_color(WHITE)
+        self.scissor_2 = SVGMobject(
+            path_to_SVG / 'scissors' / 'scissors_1.svg'
+        ).set_color(WHITE)
+        self.dot = Dot().scale(0.2)
+        super().__init__(self.scissor_1, self.scissor_2, **kwargs)
+        self.arrange(RIGHT, buff=-1.1)
+        self.add(self.dot)
+        self.scale(0.5)
+        
+        self.scissor_1.shift(0.08 * DOWN).rotate(angle=-0.03, about_point=self.dot.get_center())
+        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())
+        
+        self.cut_point = np.array(cut_point)
+        shift_vector = np.array([0, -0.35, 0])
+        p_end = self.cut_point + shift_vector
+        self.move_to(p_end).shift(0.5*DOWN)
+    def open(self, angle):
+        self.scissor_1.rotate(angle=angle, about_point=self.dot.get_center())
+        self.scissor_2.rotate(angle=-angle, about_point=self.dot.get_center())
+
 
 
 class ThinkingBubble(VMobject):
@@ -698,3 +733,30 @@ class Scissors:
                 )
             )
             scene.remove(self.siz)
+
+
+class Stopwatch(VGroup):
+    def __init__(self, **kwargs):
+        self.__speed = 1
+        self.time = ValueTracker(0)
+        self.stopwatch = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch.svg').set_color(WHITE).scale(1.8)
+        self.stopwatch_arrow = SVGMobject(path_to_SVG / 'stopwatch' /'stopwatch_arow.svg')
+        self.stopwatch_resetter = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_resetter.svg').set_color(WHITE).scale(0.3)
+        self.__aligning()
+        vmobjects = [self.stopwatch, self.stopwatch_arrow, self.stopwatch_resetter]
+        super().__init__(*vmobjects, **kwargs)
+    
+    def __aligning(self):
+        self.stopwatch_arrow.move_to(self.stopwatch.get_center()).shift(0.48*UP+0.01*RIGHT)
+        self.stopwatch_resetter.next_to(self.stopwatch, UP, buff=0.05)
+    def speedup(self, ratio:float):
+        self.__speed *= ratio
+    def set_time(self, value = 0):
+        self.time.set_value(value=value)
+        self.stopwatch_arrow.rotate(
+            2 * value/60 * PI,
+            axis=OUT,
+            about_point=self.stopwatch.get_center()
+        )
+
+
