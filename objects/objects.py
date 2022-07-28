@@ -60,7 +60,7 @@ class Defaults:
             defaults.update(self.fixed_defaults[name])
             return defaults
         for key in self.prefix_defaults:
-            if name.startswith(name):
+            if name.startswith(key):
                 defaults.update(self.prefix_defaults[key])
                 return defaults
         return defaults
@@ -275,12 +275,8 @@ class ChessFigures(VMobject):
 
 class Scissors(VGroup):
     def __init__(self, cut_point, **kwargs):
-        self.scissor_1 = SVGMobject(
-            path_to_SVG / 'scissors' / 'scissors_1.svg'
-        ).set_color(WHITE)
-        self.scissor_2 = SVGMobject(
-            path_to_SVG / 'scissors' / 'scissors_1.svg'
-        ).set_color(WHITE)
+        self.scissor_1 = SimpleSVGMobject('scissors_1')
+        self.scissor_2 = SVGMobject('scissors_1')
         self.dot = Dot().scale(0.2)
         super().__init__(self.scissor_1, self.scissor_2, **kwargs)
         self.arrange(RIGHT, buff=-1.1)
@@ -293,7 +289,8 @@ class Scissors(VGroup):
         self.cut_point = np.array(cut_point)
         shift_vector = np.array([0, -0.35, 0])
         p_end = self.cut_point + shift_vector
-        self.move_to(p_end).shift(0.5*DOWN)
+        self.move_to(p_end).shift(0.5 * DOWN)
+
     def open(self, angle):
         self.scissor_1.rotate(angle=angle, about_point=self.dot.get_center())
         self.scissor_2.rotate(angle=-angle, about_point=self.dot.get_center())
