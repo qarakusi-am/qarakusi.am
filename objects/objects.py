@@ -51,7 +51,6 @@ class Defaults:
     def get_defaults(self, name):
         defaults = {
             'scale': 1,
-            'color': WHITE,
             'rotate': 0,
             'folder': path_to_SVG
         }
@@ -68,24 +67,30 @@ class Defaults:
 svg_defaults = Defaults()
 svg_defaults.add_prefix_default(
     'man_',
-    {'folder': path_to_SVG / 'people' / 'men'})
+    {'folder': path_to_SVG / 'people' / 'men',
+     'color': WHITE})
 svg_defaults.add_prefix_default(
     'woman_',
-    {'folder': path_to_SVG / 'people' / 'woman'})
+    {'folder': path_to_SVG / 'people' / 'woman',
+     'color': WHITE})
 svg_defaults.add_prefix_default(
     'boy_',
-    {'folder': path_to_SVG / 'people' / 'children'})
+    {'folder': path_to_SVG / 'people' / 'children',
+     'color': WHITE})
 svg_defaults.add_prefix_default(
     'girl_',
-    {'folder': path_to_SVG / 'people' / 'children'})
+    {'folder': path_to_SVG / 'people' / 'children',
+     'color': WHTIE})
 svg_defaults.add_default(
     'pigeon',
     {'folder': path_to_SVG / 'animals',
-     'scale': 0.5})
+     'scale': 0.5,
+     'color': WHITE})
 svg_defaults.add_default(
     'rabbit',
     {'folder': path_to_SVG / 'animals',
-     'scale': 0.55})
+     'scale': 0.55,
+     'color': WHITE})
 svg_defaults.add_default(
     'cage_square',
     {'scale': 1.5,
@@ -108,7 +113,7 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'red_apple',
     {'folder': path_to_SVG / 'fruits',
-     'scale': 0.25})
+     'scale': 0.25})    
 svg_defaults.add_default(
     'mushfroom',
     {'folder': path_to_SVG / 'fruits',
@@ -138,26 +143,37 @@ svg_defaults.add_default(
      'scale': 0.35})
 svg_defaults.add_prefix_default(
     'book_',
-    {'folder': path_to_SVG / 'books'})
+    {'folder': path_to_SVG / 'books',
+     'color': WHITE})
+svg_defaults.add_default(
+    'house',
+    {'color': WHITE})
+svg_defaults.add_default(
+    'video_icon',
+    {'color': WHITE})
 svg_defaults.add_default(
     'pen',
     {'rotate': PI / 7,
-     'scale': 0.5})
+     'scale': 0.5,
+     'color': WHITE})
 svg_defaults.add_prefix_default(
     'pencil_',
     {'folder': path_to_SVG / 'pencils',
      'scale': 0.6,
-     'rotate': PI / 12})
+     'rotate': PI / 12,
+     'color': WHITE})
 svg_defaults.add_default(
     'open_scissors',
     {'folder': path_to_SVG / 'scissors',
      'scale': 0.5,
-     'rotate': PI / 10})
+     'rotate': PI / 10,
+     'color': WHITE})
 svg_defaults.add_default(
     'closed_scissors',
     {'folder': path_to_SVG / 'scissors',
      'scale': 0.4,
-     'rotate': PI / 5})
+     'rotate': PI / 5,
+     'color': WHITE})
 svg_defaults.add_prefix_default(
     'scissors_',
     {'folder': path_to_SVG / 'scissors'})
