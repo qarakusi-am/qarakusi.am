@@ -13,16 +13,18 @@ manim
 git # of course
 ```
 
+// TODO: Add other modules that needs to be installed (e.g. latex related)
+
 ### Create the video
 
 FOR LINUX, MACOS: 
 ```
-PYTHONPATH=lib:objects python qarakusi.am.py 10674 --language armenian -pqh
+PYTHONPATH=lib:objects python qarakusi.am.py 10107 --language armenian -pqh
 ```
 
 FOR WINDOWS: 
 ```
-$env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10674 --language english -pql
+$env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10107 --language english -pql
 ```
 
 ### Golden rules
