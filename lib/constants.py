@@ -6,15 +6,6 @@ from manim import TexTemplate, Tex, MathTex
 COLORS = [WHITE, GREEN, ORANGE, RED, BLUE, YELLOW]
 
 
-# Հայերեն գրելու համար tex_template (նույն բանն են)
-armenian_tex_template = TexTemplate()
-armenian_tex_template.add_to_preamble(r'\usepackage{armtex}')
-
-ENGTEX = TexTemplate()
-ARMTEX = TexTemplate()
-ARMTEX.add_to_preamble(r'\usepackage{armtex}')
-
-
 # Մասերով խնդիրների հաստատուններ
 DEFAULT_ENDMARK_LENGTH = 0.2
 DEFAULT_SEGMENT_TEXT_POSITION = 0.75 * UP
@@ -60,6 +51,12 @@ WEEK_BLOCK_HEIGHT = 0.25
 # ԽԱՌԸ
 
 DEFAULT_PAPERS_BUFF = 0.125
+
+
+# Հայերեն գրելու համար tex_template (նույն բանն են)
+ENGTEX = TexTemplate('xelatex', '.pdf')
+ARMTEX = TexTemplate('xelatex', '.pdf')
+ARMTEX.add_to_preamble(r'\usepackage{armtex}')
 
 
 class LanguageConfig:
