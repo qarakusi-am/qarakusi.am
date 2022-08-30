@@ -190,6 +190,12 @@ class Cage(VMobject):
 
         self.add(cage)
 
+class Coin(VMobject):
+    def __init__(self) -> None:
+        super().__init__()
+        coin = SVGMobject(path_to_SVG / 'coins' / '20dram')
+        self.add(coin)
+
 
 class OpenScissors(VMobject):
     def __init__(self):
@@ -212,7 +218,7 @@ class ClosedScissors(VMobject):
 
         self.add(closed_scissors)
 
-class Scissors(VGroup):
+class DScissors(VGroup):
     def __init__(self, cut_point, **kwargs):
         self.scissor_1 = SVGMobject(
             path_to_SVG / 'scissors' / 'scissors_1.svg'
