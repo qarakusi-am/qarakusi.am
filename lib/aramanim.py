@@ -63,6 +63,9 @@ class Segment(VGroup):
         self.label.next_to(self, direction, buff)
         return self.label
 
+    def add_label_updater(self, buff = 0.05, direction = UP):
+        self.label.add_updater(lambda mob: mob.next_to(self, direction, buff))
+
 
 ### մկրատի անիմացիաներ (Scissors) ###
 class CutIn(FadeIn):
