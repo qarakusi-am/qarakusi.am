@@ -191,7 +191,7 @@ class Cage(VMobject):
         self.add(cage)
 
 class Coin(VMobject):
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
         coin = SVGMobject(path_to_SVG / 'coins' / '20dram')
         self.add(coin)
