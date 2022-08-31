@@ -2,12 +2,13 @@ from aramanim import Segment
 from manim import WHITE, GREEN, RED, BLACK
 from manim import ORIGIN, RIGHT, LEFT, UP, DOWN
 from manim import Tex, MathTex,DashedLine, SurroundingRectangle, VGroup, Brace
-from manim import Write, Create, FadeIn, FadeOut, TransformMatchingShapes, Indicate
+from manim import Write, Create, FadeIn, FadeOut, TransformMatchingShapes, Indicate, ReplacementTransform
 from manim import Scene
 from .text import arshak_str, levon_str, toy_str, missing_str
+from objects import Coin
 
 UNIT = 1/50
-POSITION = [-4.5, 2.5, 0]
+POSITION = [-4.5, 2.25, 0]
 RUN_TIME = 2
 WAIT_TIME = 1.5
 NAME_SEGMENT_BUFF = 0.5
@@ -18,7 +19,10 @@ class Problem10382(Scene):
         toy_price = 440
         arshaks_money = 140
         levons_money = 240
+        coins = VGroup(*[Coin().copy() for _ in range(5)])
+        coins.arrange(RIGHT)
         missing_tex = Tex(missing_str).scale(0.7)
+        prob_number = MathTex(r'\#10382').to_corner(LEFT+UP)
         #toy (start)
         toy_seg_0 = self.get_part(
             toy_price,
@@ -83,23 +87,25 @@ class Problem10382(Scene):
         )
         diff_levon_arshak_toy_seg.add_label_updater()
         # toy - arshak - levon (end)
+        self.add(prob_number)
         #toy-arshak (start animation)
-        self.play(Create(toy_seg_0.next_to(POSITION, RIGHT, buff = NAME_SEGMENT_BUFF)), run_time = RUN_TIME)
+        self.play(FadeIn(coins))
+        self.play(ReplacementTransform(coins, toy_seg_0.next_to(POSITION, RIGHT, buff = NAME_SEGMENT_BUFF)), run_time = RUN_TIME)
         toy_brac = Brace(toy_seg_0, DOWN)
         self.wait(WAIT_TIME)
         self.play(
-            Create(arshak_seg_0.align_to(toy_seg_0, LEFT + UP)),
-            Write(toy_brac),
+            Write(toy_brac.shift(0.55*DOWN)),
             Write(toy_tex.next_to(toy_brac, DOWN)),
             run_time = RUN_TIME
         )
+        self.wait(0.25)
+        self.play(Create(arshak_seg_0.align_to(toy_seg_0, LEFT + UP)))
         self.play(Write(arshak_seg_0.update_label_pos()), run_time = RUN_TIME)
         self.wait(WAIT_TIME)
         self.play(Create(diff_arshak_toy_seg.next_to(arshak_seg_0, RIGHT, buff = 0)), run_time = RUN_TIME)
         self.play(
             Write(diff_arshak_toy_seg.update_label_pos()),
             FadeIn(missing_tex.next_to(diff_arshak_toy_seg, DOWN)),
-            VGroup(toy_brac, toy_tex).animate.shift(0.55*DOWN),
             run_time = RUN_TIME
         )
         self.wait(WAIT_TIME)
@@ -143,24 +149,28 @@ class Problem10382(Scene):
         self.add(levon_seg_1.update_label_pos())
         self.play(levon_seg_1.animate.align_to(toy_seg_2, LEFT + UP), run_time = RUN_TIME)
         self.play(arshak_seg_1.animate.next_to(levon_seg_1, RIGHT, buff = 0), run_time = RUN_TIME)
+        self.play(Indicate(arshak_seg_1))
+        self.play(Indicate(levon_seg_1))
         self.wait(WAIT_TIME)
         self.play(Create(diff_levon_arshak_toy_seg.align_to(toy_seg_2, RIGHT + UP)), run_time = RUN_TIME)
         self.play(
             Write(diff_levon_arshak_toy_seg.update_label_pos()),
-            FadeIn(missing_tex.next_to(diff_levon_arshak_toy_seg, DOWN)),
             run_time = RUN_TIME
         )
         self.wait(WAIT_TIME)
         toy_seg_2.set_opacity(0)
-        self.play(
-            FadeOut(missing_tex),
-        )
         self.wait(WAIT_TIME)
         #toy-levon-arshak (end animation)
         #finding arshaks and toys prise (start animation)
         dashed_line_left = DashedLine(levon_seg_0.line.get_start(), levon_seg_1.line.get_start())
         dashed_line_medium = DashedLine(levon_seg_0.line.get_end(), levon_seg_1.line.get_end())
         dashed_line_right = DashedLine(toy_seg_1.line.get_end(), toy_seg_2.line.get_end())
+        surrounding_rectangle_arshak = SurroundingRectangle(VGroup(toy_seg_0, toy_seg_0.label, arshak_seg_0.label), buff=0.1)
+        surrounding_rectangle_arshak.set_fill(BLACK, 0.85)
+        surrounding_rectangle_arshak.set_stroke(opacity=0)
+        surrounding_rectangle_arshak.align_to(toy_seg_0, DOWN)
+        self.play(FadeIn(surrounding_rectangle_arshak))
+        self.wait(0.25)
         self.play(
             Create(dashed_line_left),
             Create(dashed_line_medium),
@@ -171,13 +181,10 @@ class Problem10382(Scene):
         surrounding_rectangle_levon.set_fill(BLACK, 0.85)
         surrounding_rectangle_levon.set_stroke(opacity=0)
         surrounding_rectangle_levon.align_to(levon_seg_0.line, RIGHT)
-        surrounding_rectangle_arshak = SurroundingRectangle(VGroup(toy_seg_0, toy_seg_0.label, arshak_seg_0.label), buff=0.1)
-        surrounding_rectangle_arshak.set_fill(BLACK, 0.85)
-        surrounding_rectangle_arshak.set_stroke(opacity=0)
-        surrounding_rectangle_arshak.align_to(toy_seg_0, DOWN)
+        self.wait(0.25)
+        self.play(Indicate(arshak_seg_1))
         self.play(
-            FadeIn(surrounding_rectangle_levon),
-            FadeIn(surrounding_rectangle_arshak)
+            FadeIn(surrounding_rectangle_levon)
         )
         self.wait(WAIT_TIME)
         arshak_tex_in_equation = arshak_tex.copy()
@@ -207,14 +214,14 @@ class Problem10382(Scene):
         surrounding_rectangle_arshak_levon.set_stroke(opacity=0)
         toy_tex_in_equation = toy_tex.copy()
         toy_tex_in_equation.next_to(arshak_tex_in_equation, DOWN, buff=0.8, aligned_edge=LEFT)
-        toy_equation = MathTex("=", "140", "+", "300", "=", "440")
+        toy_equation = MathTex("=", "300", "+", "140", "=", "440")
         toy_equation.next_to(toy_tex_in_equation, RIGHT, buff=0.15)
         self.wait()
         self.play(Write(toy_tex_in_equation), FadeIn(surrounding_rectangle_arshak_levon))
         self.play(Write(toy_equation[0]))
-        self.play(TransformMatchingShapes(arshak_seg_0.label.copy(), toy_equation[1]))
+        self.play(TransformMatchingShapes(diff_arshak_toy_seg.label.copy(), toy_equation[1]))
         self.play(
-            TransformMatchingShapes(diff_arshak_toy_seg.label.copy(), toy_equation[3]),
+            TransformMatchingShapes(arshak_seg_0.label.copy(), toy_equation[3]),
             Write(toy_equation[2])
         )
         self.play(
@@ -229,6 +236,7 @@ class Problem10382(Scene):
         self.wait(WAIT_TIME)
         #finding arshaks and toys prise (end animation)
         self.play(FadeOut(toy_tex_in_equation, toy_equation))
+        self.wait(0.25)
         surrounding_rectangle_arshak_levon_only = SurroundingRectangle(VGroup(toy_seg_2), buff=0.5)
         surrounding_rectangle_arshak_levon_only.align_to(toy_seg_2, DOWN)
         surrounding_rectangle_arshak_levon_only.set_fill(BLACK, 0.85)
@@ -238,6 +246,8 @@ class Problem10382(Scene):
         levon_tex_in_equation.next_to(arshak_tex_in_equation, DOWN, buff=0.8, aligned_edge=LEFT)
         levon_equation = MathTex("=", "440", "-", "200", "=", "240")
         levon_equation.next_to(levon_tex_in_equation, RIGHT, buff=0.15)
+        self.play(Indicate(toy_seg_0.label))
+        self.play(Indicate(arshak_equation[5]))
         self.wait()
         self.play(Write(levon_tex_in_equation), FadeIn(surrounding_rectangle_arshak_levon_only))
         self.play(Write(levon_equation[0]))
@@ -280,6 +290,8 @@ class Problem10382(Scene):
         )
         self.play(TransformMatchingShapes(arshak_levon_brace_equation[4].copy(), arshak_levon_seg.update_label_pos()))
         self.wait()
+        self.play(Indicate(arshak_levon_seg.label))
+        self.play(Indicate(toy_seg_0.label))
         self.play(Indicate(diff_levon_arshak_toy_seg.label))
     
     def get_part(self, value, label = None, color = WHITE):
