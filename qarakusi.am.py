@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 
-from imp import load_source
 import importlib
-from json import load
-from statistics import multimode
 import sys
 from pathlib import Path
 

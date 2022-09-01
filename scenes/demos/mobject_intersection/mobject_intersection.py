@@ -1,4 +1,3 @@
-from multiprocessing.sharedctypes import Value
 from manim import Scene
 from manim import Line, Circle, Dot, Arc
 from manim import UP, RIGHT, TAU
