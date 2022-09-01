@@ -5,44 +5,14 @@ from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
 import numpy as np
 from numpy import linalg as la
-from objects import Stopwatch
+from objects import Scissors, Stopwatch
 
-# np վեկտորների համար ՛մեթոդներ՛
-def length(array):
-    return la.norm(array)
-
-def normalized_vector(array):
-    array = np.array(array)
-    return (1/length(array)) * array
-
-def rotate2angle(array, alpha):
-    array = np.array(array)
-    rotation__matrix = [
-        [np.cos(alpha), -np.sin(alpha), 0],
-        [np.sin(alpha), np.cos(alpha), 0],
-        [0, 0, 1],
-    ]
-    return np.matmul(rotation__matrix, array)
-
-def normal(array):
-    array = np.array(array)
-    return normalized_vector(rotate2angle(array, PI/2))
-
-# հայերեն լեզվով LaTeX աշխատացնելու համար
-XELATEX_preamble = r"""
-\usepackage{tikz}
-\usepackage{fontspec}
-\setmainfont{DejaVu Serif}
-\usepackage{amsfonts,amssymb,amsthm,mathtools}
-\usepackage{amsmath}
-\usepackage{upgreek}
-\usepackage{mathrsfs}
-"""
-XELATEX = TexTemplate('xelatex', '.pdf', preamble=XELATEX_preamble)
+from utilities import normal_vector
 
 # Մասերով խնդրի համար
 DEFAULT_EDGE_HEIGHT = 0.2
 DEFAULT_LABEL_FONT_SIZE = 50
+
 
 class Segment(VGroup):
     def __init__(
@@ -55,7 +25,7 @@ class Segment(VGroup):
         ):
         start = np.array(start)
         end = np.array(end)
-        normal_direction = normal(end-start)
+        normal_direction = normal_vector(end-start)
         if 'stroke_width' in kwargs:
             stroke_width = kwargs['stroke_width']
         else:
@@ -95,7 +65,39 @@ class Segment(VGroup):
         return self.label
 
 
-# ժամացույցի անիմացիա
+### մկրատի անիմացիաներ (Scissors) ###
+class CutIn(FadeIn):
+    def __init__(self, mobject: Scissors, **kwargs):
+        super().__init__(mobject, **kwargs)
+    def interpolate(self, alpha: float):
+        if self.rate_func(alpha) < 0.5:
+            angle = (PI / 6) * self.rate_func(alpha)
+            self.mobject.set_opacity(2*self.rate_func(alpha))
+        else:
+            angle = (PI / 6) * (1-self.rate_func(alpha))
+        self.mobject.become(self.starting_mobject)
+        self.mobject.open(angle)
+        self.mobject.shift(0.5*UP*self.rate_func(alpha))
+    def clean_up_from_scene(self, scene: Scene) -> None:
+        scene.add(self.mobject)
+
+
+class CutOut(FadeOut):
+    def __init__(self, mobject: Scissors, **kwargs):
+        super().__init__(mobject, **kwargs)
+    def interpolate(self, alpha: float):
+        if self.rate_func(alpha) > 0.5:
+            self.mobject.set_opacity(2*(1-self.rate_func(alpha)))
+        angle = (PI / 9) * self.rate_func(alpha)
+        self.mobject.become(self.starting_mobject)
+        self.mobject.open(angle)
+        self.mobject.shift(0.5*DOWN*self.rate_func(alpha))
+    def clean_up_from_scene(self, scene: Scene) -> None:
+        scene.remove(self.mobject)
+
+### մկրատի անիմացիաներ (Scissors) END ###
+
+### ժամացույցի անիմացիա  ###
 class Run(Animation):
     def __init__(
         self,
@@ -183,3 +185,5 @@ class Reset(Animation):
             about_point=self.about_point
         )
         self.mobject.time.set_value(0)
+
+### ժամացույցի անիմացիա  END ###
