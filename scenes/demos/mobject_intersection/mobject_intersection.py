@@ -25,7 +25,7 @@ def intersection(m1, m2):
     return points
 
 
-class Problem00000(Scene):
+class MobjectIntersectionDemo(Scene):
     def construct(self):
         objects = [Circle(radius=2), Circle(radius=1).shift(UP + RIGHT), Circle().shift(UP), Line([-2, 1, 0], [2, 1, 0]), Line([0, 1, 0], [1, 2, 0]),
                    Arc(radius=2, start_angle=TAU / 8, angle=TAU / 2)]

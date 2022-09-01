@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
+from imp import load_source
 import importlib
+from json import load
+from statistics import multimode
 import sys
 from pathlib import Path
 
@@ -76,7 +79,17 @@ def render(
     print('Hello, Qarakusi.am!')
 
     try:
-        scene = load_problem_scene(kwargs['problem_id'], scene_class)
+        if '/' in kwargs['problem_id'] or '\\' in kwargs['problem_id']:
+            file_path = kwargs['problem_id'].replace(
+                '\\', '.').replace(
+                '/', '.')
+            if file_path.endswith('.py'):
+                file_path = file_path[:-3]
+            if not file_path.startswith('scenes.'):
+                raise ValueError('Invalid file path given')
+            scene = load_scene(importlib.import_module(file_path), scene_class, True)
+        else:
+            scene = load_problem_scene(kwargs['problem_id'], scene_class)
     except Exception as err:
         sys.exit(f'Loading problem module failed: {err}')
 
@@ -91,16 +104,25 @@ def render(
 
 def load_problem_scene(problem_id, scene_class_name):
     module_name = (
-        f'problems.enumerated.problem_{problem_id}.problem_{problem_id}'
+        f'scenes.enumerated.problem_{problem_id}.problem_{problem_id}'
     )
     problem_module = importlib.import_module(module_name)
-
+    prefix = False
     if scene_class_name is None:
         scene_class_name = f'Problem{problem_id}'
+        prefix = True
+    return load_scene(problem_module, scene_class_name, prefix)
 
-        scene_names = [key for key in dir(problem_module)
+
+def load_scene(module, scene_class_name, prefix=False):
+    if scene_class_name is None:
+        scene_class_name = ''
+    if prefix:
+        scene_names = [key for key in dir(module)
                        if key.startswith(scene_class_name)
-                       and issubclass(getattr(problem_module, key), Scene)]
+                       and isinstance(getattr(module, key), type)
+                       and getattr(module, key) is not Scene
+                       and issubclass(getattr(module, key), Scene)]
         if len(scene_names) == 0:
             raise Exception('No scene found')
         elif len(scene_names) == 1:
@@ -122,7 +144,7 @@ def load_problem_scene(problem_id, scene_class_name):
             if ind is None:
                 raise Exception('Wrong scene index inputted')
             scene_class_name = scene_names[ind]
-    sceneClass = getattr(problem_module, scene_class_name)
+    sceneClass = getattr(module, scene_class_name)
     return sceneClass()
 
 
