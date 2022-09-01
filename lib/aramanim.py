@@ -4,7 +4,6 @@ from manim import TexTemplate, MathTex
 from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
 import numpy as np
-from numpy import linalg as la
 from objects import Scissors, Stopwatch
 
 from utilities import normal_vector
@@ -34,7 +33,7 @@ class Segment(VGroup):
             edge_hight = kwargs['edge_hight']
             del kwargs['edge_hight']
         else:
-            edge_hight = DEFAULT_EDGE_HEIGHT        
+            edge_hight = DEFAULT_EDGE_HEIGHT
         self.line = Line(start, end, buff=0, **kwargs)
         self.left_edge = always_redraw(
             lambda: Line(

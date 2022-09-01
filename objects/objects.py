@@ -113,7 +113,7 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'red_apple',
     {'folder': path_to_SVG / 'fruits',
-     'scale': 0.25})    
+     'scale': 0.25})
 svg_defaults.add_default(
     'mushfroom',
     {'folder': path_to_SVG / 'fruits',
