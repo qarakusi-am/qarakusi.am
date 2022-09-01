@@ -224,7 +224,7 @@ class DScissors(VGroup):
             path_to_SVG / 'scissors' / 'scissors_1.svg'
         ).set_color(WHITE)
         self.scissor_2 = SVGMobject(
-            path_to_SVG / 'scissors' / 'scissors_1.svg'
+            path_to_SVG / 'scissors' / 'scissors_2.svg'
         ).set_color(WHITE)
         self.dot = Dot().scale(0.2)
         super().__init__(self.scissor_1, self.scissor_2, **kwargs)
