@@ -14,8 +14,8 @@ class Problem10384(Scene):
 		self.play(Write(self.condition2))
 		self.wait(1)
 		self.play(
-            		VGroup(self.condition1, self.condition2).animate.scale(.8).to_edge(DOWN+LEFT)
-        	)
+            VGroup(self.condition1, self.condition2).animate.scale(.8).to_edge(DOWN+LEFT)
+        )
 		self.wait()
 		self.play(Write(self.first_rope_label))
 		self.play(GrowFromEdge(self.first_rope, LEFT))
