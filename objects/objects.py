@@ -174,7 +174,10 @@ class Rabbit(VMobject):
         rabbit.set_color(WHITE).scale(0.55)
 
         self.add(rabbit)
-
+class Locust(SVGMobject):
+    def __init__(self, *args, **kwargs):
+        path = path_to_SVG / 'animals' / 'locust.svg'
+        super().__init__(path, *args, **kwargs)
 
 class Cage(VMobject):
     def __init__(self, style='square'):
