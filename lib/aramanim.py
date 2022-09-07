@@ -4,7 +4,7 @@ from manim import TexTemplate, MathTex
 from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
 import numpy as np
-from objects import Scissors, Stopwatch
+from objects import DScissors, Stopwatch
 
 from utilities import normal_vector
 
@@ -63,10 +63,13 @@ class Segment(VGroup):
         self.label.next_to(self, direction, buff)
         return self.label
 
+    def add_label_updater(self, buff = 0.05, direction = UP):
+        self.label.add_updater(lambda mob: mob.next_to(self, direction, buff))
 
-### մկրատի անիմացիաներ (Scissors) ###
+
+### մկրատի անիմացիաներ (DScissors) ###
 class CutIn(FadeIn):
-    def __init__(self, mobject: Scissors, **kwargs):
+    def __init__(self, mobject: DScissors, **kwargs):
         super().__init__(mobject, **kwargs)
     def interpolate(self, alpha: float):
         if self.rate_func(alpha) < 0.5:
@@ -82,7 +85,7 @@ class CutIn(FadeIn):
 
 
 class CutOut(FadeOut):
-    def __init__(self, mobject: Scissors, **kwargs):
+    def __init__(self, mobject: DScissors, **kwargs):
         super().__init__(mobject, **kwargs)
     def interpolate(self, alpha: float):
         if self.rate_func(alpha) > 0.5:
@@ -94,7 +97,7 @@ class CutOut(FadeOut):
     def clean_up_from_scene(self, scene: Scene) -> None:
         scene.remove(self.mobject)
 
-### մկրատի անիմացիաներ (Scissors) END ###
+### մկրատի անիմացիաներ (DScissors) END ###
 
 ### ժամացույցի անիմացիա  ###
 class Run(Animation):
