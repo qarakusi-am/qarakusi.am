@@ -340,32 +340,3 @@ class Problem00000(Scene):
         self.play(Write(equation__3__2__5[-1]))
         self.play(Write(equation__3__2__5[-2]))
         self.wait()
-
-
-
-        
-
-
-
-
-
-        
-        
-        #self.play(jump_to(locust, nl.n2p(9)))
-        #self.play(Indicate(equation_5_2_7), run_time = 2)
-        #self.wait()
-        #self.play(FadeOut(equation_5_2_7))
-        #self.play(Write(equation_9_4_))
-        #self.play(Indicate(equation_9_4_[-1]))
-        #self.wait()
-        #self.play(locust.animate.flip())
-        #self.play(jump_to(locust, nl.n2p(8)))
-        #self.wait(0.25)
-        #self.play(jump_to(locust, nl.n2p(7)))
-        #self.wait(0.25)
-        #self.play(jump_to(locust, nl.n2p(6)))
-        #self.wait(0.25)
-        #self.play(jump_to(locust, nl.n2p(5)))
-        #self.wait()
-        #self.play(ReplacementTransform(equation_9_4_, equation_7_3_4))
-        #self.wait(2)
