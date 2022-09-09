@@ -64,7 +64,7 @@ XELATEX_preamble = r"""
 \usepackage{mathrsfs}
 """
 ARMTEX = TexTemplate('xelatex', '.pdf', preamble=XELATEX_preamble)
-
+ENGTEX = ARMTEX
 
 class LanguageConfig:
     language = 'armenian'
