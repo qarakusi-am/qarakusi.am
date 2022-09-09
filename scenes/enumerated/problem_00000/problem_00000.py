@@ -34,6 +34,7 @@ class Problem00000(Scene):
         self.play(FadeIn(apples))
         self.play(Write(brace_5))
         self.wait()
+        #5+2=7
         self.play(apples.animate.arrange(RIGHT).shift(shift_vector).set_opacity(1))
         self.play(Write(brace_2))
         self.wait()
@@ -67,13 +68,17 @@ class Problem00000(Scene):
         self.play(FadeOut(srd_rec_5, srd_rec_2))
         self.wait()
         self.play(FadeIn(equation_7_3_4, shift = DOWN))
+        brace_4 = always_redraw(lambda: Brace(apples[:4], UP).add(MathTex("4").scale(1.5).next_to(apples[:4], UP, buff = 0.9)))
+        brace_3 = always_redraw(lambda: Brace(apples[4:], UP).add(MathTex("3").scale(1.5).next_to(apples[4:], UP, buff = 0.9)))
+        #7-3=4
+        self.play(FadeIn(brace_7, brace_4, brace_3))
         self.play(
-            apples[:-3].animate.arrange(RIGHT).align_to(apples[-4:], UP),
-            apples[-3:].animate.shift(4*RIGHT).set_opacity(0)
+            apples[:-3].animate.shift(LEFT),
+            apples[-3:].animate.shift(RIGHT),
         )
         self.wait()
         self.play(
-            FadeOut(apples, equation_7_3_4)
+            FadeOut(apples, equation_7_3_4, brace_4, brace_3, brace_7)
         )
         boy = Boy(2)
         boy.scale(2)
@@ -111,11 +116,11 @@ class Problem00000(Scene):
         self.remove(apple_1, apple_2, apple_3) 
         self.play(FadeOut(boy, girl))
         self.wait()
-        def set_numberline(right = True, sign = 1):
+        def set_numberline(right = True, sign = 1, sur = True):
             a = 1 if right else -1
             nl = NumberLine(
                 x_range=[0, a*7, 1],
-                length=6,
+                length=6.5,
                 include_tip=False,
                 include_numbers=False,
                 include_ticks=False
@@ -124,20 +129,16 @@ class Problem00000(Scene):
                 nl.get_tick(a*x, size=0.15).align_to(nl, UP) for x in range(8)
             ])
             for i in range(8):
-                if i == 0:
-                    nl.add(MathTex("{:,}".format(sign*i)).next_to(nl.n2p(a*i), DOWN, buff = 0.5).align_to(nl.n2p(a*i), a*LEFT).shift(0.1*a*RIGHT))
-                elif i == 7:
-                    nl.add(MathTex("{:,}".format(sign*i)).next_to(nl.n2p(a*i), DOWN, buff = 0.5).align_to(nl.n2p(a*i), a*RIGHT))
-                else:
-                    nl.add(MathTex("{:,}".format(sign*i)).next_to(nl.n2p(a*i), DOWN, buff = 0.5))
-            sr = SurroundingRectangle(nl, color=WHITE, stroke_width = 2, buff=0.05)
-            sr.align_to(nl, UP + a*LEFT)
-            nl.add(sr)
+                nl.add(MathTex("{:,}".format(sign*i)).next_to(nl.n2p(a*i), DOWN, buff = 0.5))
+            if sur:
+                sr = SurroundingRectangle(nl, color=WHITE, stroke_width = 2, buff=0.05)
+                sr.align_to(nl, UP + a*LEFT)
+                nl.add(sr)
             return nl
         nl_right = set_numberline()
-        nl_right.align_to(DOWN, LEFT+UP)
+        nl_right.shift(-nl_right.n2p(0)+DOWN)
         nl_left = set_numberline(False)
-        nl_left.align_to(DOWN, RIGHT+UP)
+        nl_left.shift(-nl_left.n2p(0)+DOWN)
         line = Line(8*LEFT, 8*RIGHT).align_to(DOWN, UP)
         self.play(Create(line))
         self.wait()
@@ -167,14 +168,15 @@ class Problem00000(Scene):
         trip =  MathTex("0").add(Triangle().scale(0.3).set_opacity(1).rotate(60*DEGREES).stretch(0.2, 0).move_to(ORIGIN).shift(0.5*DOWN))
         self.play(FadeIn(trip))
         self.play(Write(nl_right))
-        self.play(ReplacementTransform(nl_right.copy(), nl_left.next_to(nl_right, DOWN)), run_time = 2)
+        self.play(FadeIn(nl_left))
         self.wait()
-        self.play(nl_left.animate.align_to(DOWN, RIGHT+UP), FadeOut(trip))
+        self.play(FadeOut(trip))
         self.wait()
         for i in range(1, 6):
             self.play(jump_to(locust, nl_right.n2p(i)))
             self.wait(0.25)
         self.wait()
+        #5+2
         equation_5_2_7.move_to(UP)
         equation_7_3_4.move_to(UP)
         self.play(Write(equation_5_2_7[0]))
@@ -188,17 +190,27 @@ class Problem00000(Scene):
         apples.become(VGroup(*[Apple() for _ in range(7)]).scale(2.5))
         set_apples()
         self.play(apples.animate.arrange(RIGHT).shift(shift_vector).set_opacity(1))
+        self.play(FadeIn(srd_rec_5, srd_rec_2))
         self.wait()
-        self.play(FadeOut(apples, equation_5_2_7))
+        self.play(FadeOut(apples, equation_5_2_7, srd_rec_5, srd_rec_2))
         self.wait(0.25)
         self.play(locust.animate.flip())
         self.wait(0.5)
+        #7-3
         for i in range(6, 3, -1):
             self.play(jump_to(locust, nl_right.n2p(i)))
             self.wait(0.35)
         self.play(Indicate(equation_7_3_4))
         self.play(FadeOut(equation_7_3_4))
+        self.play(
+            apples[:-3].animate.shift(LEFT),
+            apples[-3:].animate.shift(RIGHT),
+        )
+        self.play(FadeIn(brace_7, brace_3, brace_4))
         self.wait()
+        self.play(FadeOut(brace_7, brace_3, brace_4, apples))
+        self.wait(0.5)
+        #4-6
         for i in range(3, -3, -1):
             self.play(jump_to(locust, nl_right.n2p(i)))
             self.wait(0.35)
@@ -210,7 +222,7 @@ class Problem00000(Scene):
         self.play(Indicate(circle_1), Indicate(circle_2))
         self.play(FadeOut(circle_1, circle_2))
         nl_right_left = set_numberline(False, -1)
-        nl_right_left.align_to(DOWN, RIGHT+UP)
+        nl_right_left.shift(-nl_right_left.n2p(0)+DOWN)
         self.play(ReplacementTransform(nl_left, nl_right_left))
         self.wait()
         coordinate_tex = Tex(coordinate_text)
@@ -239,8 +251,13 @@ class Problem00000(Scene):
         self.play(line.animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW).shift(0.02*UP), run_time = 2)
         self.wait()
         self.add(number_line_tex)
+        nl_l = set_numberline(True, 1, False)
+        nl_l.shift(-nl_l.n2p(0)+DOWN)
+        nl_r = set_numberline(False, -1, False)
+        nl_r.shift(-nl_r.n2p(0)+DOWN)
         self.play(line.animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW).shift(0.02*UP), run_time = 2)
-        self.play(FadeOut(number_line_tex))
+        self.add(nl_l, nl_r)
+        self.play(FadeOut(number_line_tex, nl_right, nl_right_left))
         self.wait()
         self.wait()
         self.play(line.animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW).shift(0.02*UP), run_time = 1)
@@ -259,6 +276,7 @@ class Problem00000(Scene):
         self.play(jump_to(locust, nl_left.n2p(-2)), FadeOut(min))
         self.wait(0.25)
         self.wait()
+        #3-7
         self.play(jump_to(locust, nl_left.n2p(3)))
         self.wait(0.5)
         for i in range(2, -5, -1):
@@ -291,7 +309,16 @@ class Problem00000(Scene):
         self.play(Write(equation_3_7__4[-2]))
         self.wait()
         self.play(locust.animate.flip(), FadeOut(equation_3_7__4))
-
+        #-2+6
+        s__2_0 = Segment(nl_left.n2p(-2), nl_left.n2p(0), label = "2")
+        s__2_0.set_color(RED)
+        s__2_0.add(s__2_0.update_label_pos())
+        s__2_4 = Segment(nl_left.n2p(-2), nl_left.n2p(4), label = "6")
+        s__2_4.set_color(BLUE)
+        s__2_4.add(s__2_4.update_label_pos())
+        s_0_4 = Segment(nl_left.n2p(0), nl_left.n2p(4), label = "6-2")
+        s_0_4.set_color(GREEN)
+        s_0_4.shift(3.5*UP)
         self.wait(0.25)
         self.play(jump_to(locust, nl_left.n2p(-2)))
         self.wait()
@@ -300,14 +327,20 @@ class Problem00000(Scene):
             self.play(jump_to(locust, nl_left.n2p(i)))
             self.wait(0.5*w)
             if i == 0:
-                self.play(FadeOut(MathTex("6-2=4").scale(2)))
+                self.play(
+                    FadeOut(MathTex("6-2=4").scale(2)),
+                    s__2_0.animate.shift(3.5*UP),
+                )
             self.wait(0.5*w)
+        self.play(s__2_4.animate.shift(2.5*UP))
+        self.play(Create(s_0_4), Write(s_0_4.update_label_pos()))
+        s_0_4.add(s_0_4.update_label_pos())
         equation__2_6_4 = MathTex("-2", "+", "6", "=", "4")
         equation__2_6_4.scale(1.5)
         equation__2_6_4.move_to(equation_5_2_7)
         self.play(Write(equation__2_6_4))
         self.wait()
-        self.play(FadeOut(equation__2_6_4), locust.animate.flip())
+        self.play(FadeOut(equation__2_6_4, s_0_4, s__2_4, s__2_0), locust.animate.flip())
         self.play(jump_to(locust, nl_left.n2p(-3)))
         self.wait()
         for i in range(-4, -6, -1):
