@@ -175,6 +175,22 @@ class Rabbit(VMobject):
 
         self.add(rabbit)
 
+class Duck(VMobject):
+    def __init__(self):
+        VMobject.__init__(self)
+        duck = SVGMobject(path_to_SVG / 'animals' / 'duck')
+        duck.scale(0.5)
+
+        self.add(duck)
+
+class Goose(VMobject):
+    def __init__(self):
+        VMobject.__init__(self)
+        goose = SVGMobject(path_to_SVG / 'animals' / 'goose')
+        goose.scale(0.6)
+
+        self.add(goose)
+
 
 class Cage(VMobject):
     def __init__(self, style='square'):
