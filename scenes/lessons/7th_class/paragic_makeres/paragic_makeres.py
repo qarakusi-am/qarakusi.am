@@ -110,6 +110,14 @@ class ParagicMakeres(Scene):
         brace_b_minus_d = BraceBetweenPoints(new_shape.get_vertices()[0], new_shape.get_vertices()[5], UP)
         new_b_minus_d.next_to(brace_b, UP).shift(0.19 * RIGHT)
 
+        brace_c = BraceBetweenPoints(new_shape.get_vertices()[3], new_shape.get_vertices()[5], LEFT)
+        brace_c.align_to(new_shape_edges[2], RIGHT)
+        c_on_brace = new_c.copy().next_to(brace_c, LEFT, buff=0.1)
+
+        brace_d = BraceBetweenPoints(new_shape.get_vertices()[5], new_shape.get_vertices()[3], DOWN)
+        brace_d.align_to(new_shape_edges[5], UP)
+        d_on_brace = new_d.copy().next_to(brace_d, DOWN, buff=0.1)
+
     # new shape paragic
         new_shape_paragic = VGroup(
             Tex('a', '+', '(', 'b', '-', 'd', ')', '+', 'c', '+', 'd', '+', '(', 'a', '-', 'c', ')', '+', 'b', '='),
@@ -132,7 +140,8 @@ class ParagicMakeres(Scene):
         )
 
         surr_rect_c_1 = SurroundingRectangle(new_shape_paragic[0][7:9], buff=0.025)
-        surr_rect_c_2 = SurroundingRectangle(new_shape_paragic[0][14:16], buff=0.025).shift(0.18 * LEFT)
+        surr_rect_c_2 = SurroundingRectangle(new_shape_paragic[0][14:16], buff=0.025)
+        surr_rect_c_2.shift(0.18 * LEFT).stretch(1.4, 1)
 
         krchatman_gcikner_2 = VGroup(
             Line(
@@ -257,12 +266,17 @@ class ParagicMakeres(Scene):
             )
 
         # write a-c
-            self.play(Write(brace_a), Write(new_a_minus_c[0]))
+            self.play(
+                Write(brace_a), Write(new_a_minus_c[0]),
+                Write(brace_c), new_c.animate.next_to(brace_c, LEFT)
+            )
             self.wait(0.5)
             self.play(
                 ReplacementTransform(brace_a, brace_a_minus_c),
                 new_a_minus_c[0].animate.shift(DOWN * 0.5),
-                ReplacementTransform(Dot(radius=0).move_to(new_a_minus_c), new_a_minus_c[1:].shift(DOWN * 0.5))
+                ReplacementTransform(Dot(radius=0).move_to(new_a_minus_c), new_a_minus_c[1:].shift(DOWN * 0.5)),
+                new_c.animate.next_to(new_shape_edges[4], RIGHT),
+                FadeOut(brace_c)
             )
             self.wait(0.5)
             self.play(
@@ -270,14 +284,19 @@ class ParagicMakeres(Scene):
                 new_a_minus_c.animate.next_to(new_shape_edges[2], RIGHT)
             )
             self.wait(0.5)
-        
+
         # write b-d
-            self.play(Write(brace_b), Write(new_b_minus_d[0]))
+            self.play(
+                Write(brace_b), Write(new_b_minus_d[0]),
+                Write(brace_d), new_d.animate.next_to(brace_d, DOWN, buff=0.1)
+            )
             self.wait(0.5)
             self.play(
                 ReplacementTransform(brace_b, brace_b_minus_d),
                 new_b_minus_d[0].animate.shift(LEFT * 1.15),
-                ReplacementTransform(Dot(radius=0).move_to(new_b_minus_d), new_b_minus_d[1:].shift(LEFT * 1.15))
+                ReplacementTransform(Dot(radius=0).move_to(new_b_minus_d), new_b_minus_d[1:].shift(LEFT * 1.15)),
+                new_d.animate.next_to(new_shape_edges[3], UP, buff=0.1),
+                FadeOut(brace_d)
             )
             self.wait(0.5)
             self.play(
@@ -290,12 +309,7 @@ class ParagicMakeres(Scene):
             self.play(
                 Write(new_shape_paragic[0][:-1]),
                 AnimationGroup(
-                    Indicate(new_shape_edges[0]),
-                    Indicate(new_shape_edges[5]),
-                    Indicate(new_shape_edges[4]),
-                    Indicate(new_shape_edges[3]),
-                    Indicate(new_shape_edges[2]),
-                    Indicate(new_shape_edges[1]),
+                    *[Indicate(new_shape_edges[(6 - i) % 6], 1.2, ORANGE) for i in range(6)],
                     lag_ratio=1.1
                 ),
                 run_time=7, rate_func=linear
@@ -386,9 +400,9 @@ class ParagicMakeres(Scene):
             self.wait()
 
             self.play(Create(SurroundingRectangle(new_shape_makeres)))
-            self.wait()
+            self.wait(0.5)
             self.play(FadeOut(self.mobjects[-2]))
-            self.wait()
+            self.wait(0.5)
 
 
 
