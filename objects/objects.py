@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import numpy as np
-
 from manim import linear, MathTex
 from manim import VMobject, VGroup, ValueTracker, Scene
 from manim import Dot, Rectangle
@@ -9,6 +8,7 @@ from manim import RED, WHITE, BLACK, GOLD, GREEN
 from manim import RIGHT, DOWN, UP, ORIGIN, OUT, PI
 from manim import FadeIn, UpdateFromAlphaFunc
 from manim import SVGMobject as OriginalSVGMobject
+from manim import always_redraw
 from colour import Color
 
 from constants import DEFAULT_PAPERS_BUFF
@@ -174,6 +174,22 @@ class Rabbit(VMobject):
         rabbit.set_color(WHITE).scale(0.55)
 
         self.add(rabbit)
+
+class Duck(VMobject):
+    def __init__(self):
+        VMobject.__init__(self)
+        duck = SVGMobject(path_to_SVG / 'animals' / 'duck')
+        duck.scale(0.5)
+
+        self.add(duck)
+
+class Goose(VMobject):
+    def __init__(self):
+        VMobject.__init__(self)
+        goose = SVGMobject(path_to_SVG / 'animals' / 'goose')
+        goose.scale(0.6)
+
+        self.add(goose)
 
 
 class Cage(VMobject):
@@ -418,42 +434,38 @@ class VideoIcon(VMobject):
 
 
 class Scales(VMobject):
-    def __init__(self, svg_index=1, plate_stretch_factor=1):
-        super().__init__()
+    def __init__(self, plate_stretch_factor=1):
+        VMobject.__init__(self)
 
         self.plate_stretch_factor = plate_stretch_factor
 
-        scales = SVGMobject(
-            path_to_SVG / 'scales' / f'scale_{svg_index}'
-        ).scale(1.2)
+        scales = SVGMobject(path_to_SVG / 'scales').scale(1.2)
+        
+        
+        scales[0].set_color('#8c6239')
+        scales[1].set_color('#764d26')
+        scales[2].set_color('#603813')
+        scales[3].set_color('#00786f')
+        scales[4].set_color('#00a99d')
+        scales[5].set_color('#8c6239').set_stroke(BLACK, 0.4)
+        scales[6].set_color(BLACK)
+        scales[7].set_color('#00786f')
+        scales[8].set_color('#4a2c06')
+        scales[9].set_color('#4a2c06')
+        scales[10].set_color('#00786f')
+        scales[11].set_color('#00786f')
 
-        if svg_index == 1:
-            self.body = VGroup(scales[0], scales[1], scales[3], scales[2])
-            self.left_plate = scales[4]
-            self.right_plate = scales[5]
+        self.rotation_dot = scales[6]
 
-        elif svg_index == 5:
-            scales[0].set_color('#8c6239')
-            scales[1].set_color('#764d26')
-            scales[2].set_color('#603813')
-            scales[3].set_color('#00786f')
-            scales[4].set_color('#00a99d')
-            scales[5].set_color('#8c6239').set_stroke(BLACK, 0.4)
-            scales[6].set_color(BLACK)
-            scales[7].set_color('#00786f')
-            scales[8].set_color('#4a2c06')
-            scales[9].set_color('#4a2c06')
-            scales[10].set_color('#00786f')
-            scales[11].set_color('#00786f')
-            self.body = VGroup(*scales[: 10])
-            self.left_plate = VGroup(scales[-4])  # scales[-2],
-            self.right_plate = VGroup(scales[-3])  # scales[-1],
-        else:
-            scales.set_color(WHITE)
-            self.body = scales[0]
-            self.left_plate = scales[2]
-            self.right_plate = scales[1]
+        self.fixed_part = VGroup(scales[3], scales[4], scales[5], scales[6], scales[7])
+        self.rotating_part = VGroup(scales[0], scales[1], scales[2], scales[8], scales[9])
+        self.left_plate = always_redraw(lambda: scales[10].next_to(scales[8], UP, buff=0.01))
+        self.right_plate = always_redraw(lambda: scales[11].next_to(scales[9], UP, buff=0.01))
 
+        self.fixed_part.set_z_index(self.rotating_part.get_z() + 1)
+
+        self.body = VGroup(self.rotating_part, self.fixed_part)
+        
         self.left_plate.stretch(self.plate_stretch_factor, 0)
         self.right_plate.stretch(self.plate_stretch_factor, 0)
 
@@ -470,11 +482,13 @@ class Weight(VGroup):
         self.weight = VGroup(
             SVGMobject(path_to_SVG / 'weight').set_color(WHITE).scale(0.5),
             MathTex(f"{kg:,}".replace(',', '.'),
-                    color=BLACK, font_size=35).shift(0.1 * DOWN)
+                    color=BLACK, font_size=100 / (np.log10(kg)+1)).shift(0.1 * DOWN)
         ).scale(((kg / (2 * unit_kg)) ** (1. / 3.)) * self.scale_factor)
 
         self.kettlebell = self.weight[0]
         self.weight_text = self.weight[1]
+
+        # self.weight_text.match_width(self.kettlebell).scale(0.9)
 
         self.add(self.kettlebell, self.weight_text)
 
