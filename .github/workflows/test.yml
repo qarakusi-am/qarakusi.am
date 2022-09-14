@@ -4,9 +4,8 @@ on:
   push:
     branches:
       - main
-  pull-request:
-    pull_request_review_comment:
-      types: [created]
+  pull_request_review_comment:
+    types: [created]
 
 
 jobs:
