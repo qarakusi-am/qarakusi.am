@@ -1,0 +1,22 @@
+name: Check existing videos
+
+on:
+  push:
+    branches:
+      - main
+  pull-request:
+    pull_request_review_comment:
+      types: [created]
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Rendering Scenes
+        uses: manim-kindergarten/manim_action_renderer@master
+        id: renderer
+        with:
+          source_file: scenes/enumerated/problem_10107/problem_10107.py
+        args: "-pql"
