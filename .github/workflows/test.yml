@@ -7,9 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Rendering Scenes
-        uses: manim-kindergarten/manim_action_renderer@master
-        id: renderer
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
         with:
-          source_file: scenes/enumerated/problem_10107/problem_10107.py
-        args: "-pql"
+          python-version: '3.x'
+      - name: flake8 Lint
+        uses: py-actions/flake8@v2
+        with:
+          args: '--count --show-source --statistics'
