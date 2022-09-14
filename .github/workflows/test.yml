@@ -1,11 +1,7 @@
 name: Check existing videos
 
 on:
-  push:
-    branches:
-      - main
-  pull_request_review_comment:
-    types: [created]
+  push
 
 
 jobs:
