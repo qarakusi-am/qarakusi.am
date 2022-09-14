@@ -18,4 +18,4 @@ jobs:
         with:
           path: "requirements.txt"
       - name: Rendering Scenes
-        run: manim -pql scenes/enumerated/problem_10107/problem_10107.py
+        run: PYTHONPATH=lib:objects python qarakusi.am.py 10107 -pql
