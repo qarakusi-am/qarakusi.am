@@ -12,10 +12,10 @@ jobs:
         with:
           python-version: '3.8'
       - name: Install dependencies
-        run: sudo apt install libcairo2-dev libpango1.0-dev ffmpeg texlive-latex-recommended texlive-science texlive-xetex texlive-fonts-extra texlive-font-utils texlive-lang-other texlive texlive-latex-base texlive-full
+        run: sudo apt install libcairo2-dev libpango1.0-dev ffmpeg  texlive-full
       - name: Install Python dependencies
         uses: py-actions/py-dependency-install@v3
         with:
           path: "requirements.txt"
       - name: Rendering Scenes
-        run: PYTHONPATH=lib:objects python qarakusi.am.py 10107 -pql
+        run: PYTHONPATH=lib:objects python manim_test.py

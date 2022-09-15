@@ -91,7 +91,7 @@ def render(
         sys.exit(f'Loading problem module failed: {err}')
 
     try:
-        scene.render(True)
+        scene.render()
     except Exception:
         error_console.print_exception()
         sys.exit(1)
