@@ -325,62 +325,6 @@ class Problem10382(Scene):
         self.play(Wiggle(toy_seg_0.label))
         self.play(Wiggle(diff_levon_arshak_toy_seg.label))
         self.wait()
-
-
-#        surrounding_rectangle_arshak_levon_only = SurroundingRectangle(VGroup(toy_seg_2), buff=0.5)
-#        surrounding_rectangle_arshak_levon_only.align_to(toy_seg_2, DOWN)
-#        surrounding_rectangle_arshak_levon_only.set_fill(BLACK, 0.85)
-#        surrounding_rectangle_arshak_levon_only.set_stroke(opacity=0)
-#        levon_tex_in_equation = levon_tex.copy()
-#        levon_tex_in_equation.clear_updaters()
-#        levon_tex_in_equation.next_to(arshak_tex_in_equation, DOWN, buff=0.8, aligned_edge=LEFT)
-#        levon_equation = MathTex("=", "440", "-", "200", "=", "240")
-#        levon_equation.next_to(levon_tex_in_equation, RIGHT, buff=0.15)
-#        self.play(Wiggle(toy_seg_0.label))
-#        self.play(Wiggle(arshak_equation[5]))
-#        self.wait()
-#        self.play(Write(levon_tex_in_equation), FadeIn(surrounding_rectangle_arshak_levon_only))
-#        self.play(Write(levon_equation[0]))
-#        self.play(TransformMatchingShapes(toy_seg_0.label.copy(), levon_equation[1]))
-#        self.play(
-#            TransformMatchingShapes(diff_levon_toy_seg.label.copy(), levon_equation[3]),
-#            Write(levon_equation[2])
-#        )
-#        self.play(
-#            Write(levon_equation[4:])
-#        )
-#        self.play(
-#            FadeOut(surrounding_rectangle_arshak_levon_only)
-#        )
-#        self.wait(WAIT_TIME)
-#        surrounding_rectangle_levon_only = SurroundingRectangle(VGroup(toy_seg_1), buff=0.5)
-#        surrounding_rectangle_levon_only.align_to(toy_seg_1, DOWN)
-#        surrounding_rectangle_levon_only.set_fill(BLACK, 0.85)
-#        surrounding_rectangle_levon_only.set_stroke(opacity=0)
-# #        arshak_levon_brace = Brace(VGroup(arshak_equation, levon_equation), RIGHT)
-#        arshak_levon_brace_equation = MathTex("140", "+", "240", "=", "380")
-#        arshak_levon_brace_equation.next_to(arshak_levon_brace)
-#        arshak_levon_seg = self.get_part(
-#            arshaks_money + levons_money,
-#            label = "{:,}".format(arshaks_money + levons_money)
-#        )
-#        arshak_levon_seg.align_to(toy_seg_2, LEFT + UP)
-# #        self.play(
-#            FadeIn(surrounding_rectangle_levon_only),
-#            FadeIn(arshak_levon_brace),
-#            Write(arshak_levon_brace_equation)
-#        )
-#        self.wait()
-#        self.play(
-#            FadeOut(arshak_seg_1, levon_seg_1),
-#            FadeOut(arshak_seg_1.label, levon_seg_1.label),
-#            FadeIn(arshak_levon_seg)
-#        )
-#        self.play(TransformMatchingShapes(arshak_levon_brace_equation[4].copy(), arshak_levon_seg.update_label_pos()))
-#        self.wait()
-#        self.play(Wiggle(arshak_levon_seg.label))
-#        self.play(Wiggle(toy_seg_0.label))
-#        self.play(Wiggle(diff_levon_arshak_toy_seg.label))
     
     def get_part(self, value, label = None, color = WHITE):
         seg = Segment(
