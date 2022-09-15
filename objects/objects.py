@@ -478,11 +478,16 @@ class Weight(VGroup):
 
         self.scale_factor = scale_factor
         self.weight_value = kg
+        
+    # Սա ընդամենը բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափսը՝ կախված դրա զանգվածի նիշերի քանակից
+    # (առավելագույնը 4 նիշանոց թվերի համար)
+        x = len(str(kg))
+        polynomial = 20/6*(x-1)*(x-2)*(x-3)+25/(-2)*(x-1)*(x-2)*(x-4)+35/2*(x-1)*(x-3)*(x-4)+45/(-6)*(x-2)*(x-3)*(x-4)
 
         self.weight = VGroup(
             SVGMobject(path_to_SVG / 'weight').set_color(WHITE).scale(0.5),
             MathTex(f"{kg:,}".replace(',', '.'),
-                    color=BLACK, font_size=100 / len(str(kg))).shift(0.1 * DOWN)
+                    color=BLACK, font_size=polynomial).shift(0.1 * DOWN)
         ).scale(((kg / (2 * unit_kg)) ** (1. / 3.)) * self.scale_factor)
 
         self.kettlebell = self.weight[0]
