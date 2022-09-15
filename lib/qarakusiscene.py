@@ -1,9 +1,5 @@
-from manim import UP, DOWN, LEFT, RIGHT
+from manim import UP, LEFT
 from manim import VGroup
-from manim import MathTex
-from manim import YELLOW
-from manim import Scene, Write
-from manim import UpdateFromAlphaFunc
 from manim import Rectangle
 from manim import Tex
 
