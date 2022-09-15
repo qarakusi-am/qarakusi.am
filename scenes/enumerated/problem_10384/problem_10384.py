@@ -1,6 +1,6 @@
 from manim import *
 from lib.aramanim import *
-from lib.qarakusiscene import QarakusiScene
+from lib.qarakusiscene import TaskNumberBox
 from objects import DScissors, Checkmark
 from .text import *
 
@@ -205,7 +205,7 @@ class Problem10384(Scene):
         self.wait(2)
     
     def set_up(self):
-        self.task_number = QarakusiScene().task_number_box(task_number_string)
+        self.task_number = TaskNumberBox(task_number_string)
         self.condition1 = Tex(condition1_string).scale(.9*.9).shift(UP)
         self.condition1[0][:1].set_color(ORANGE)
         self.condition2 = Tex(condition2_string).scale(.9*.9)
