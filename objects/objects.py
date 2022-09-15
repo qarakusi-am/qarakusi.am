@@ -482,7 +482,7 @@ class Weight(VGroup):
         self.weight = VGroup(
             SVGMobject(path_to_SVG / 'weight').set_color(WHITE).scale(0.5),
             MathTex(f"{kg:,}".replace(',', '.'),
-                    color=BLACK, font_size=100 / (np.log10(kg)+1)).shift(0.1 * DOWN)
+                    color=BLACK, font_size=100 / len(str(kg))).shift(0.1 * DOWN)
         ).scale(((kg / (2 * unit_kg)) ** (1. / 3.)) * self.scale_factor)
 
         self.kettlebell = self.weight[0]
