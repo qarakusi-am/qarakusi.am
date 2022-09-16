@@ -1,13 +1,24 @@
 from manim import UP, DOWN, RIGHT, LEFT, ORIGIN, DR, UL, BLACK, BLUE, GREEN, ORANGE, YELLOW, WHITE, RED, DEGREES, rate_functions
 from manim import VMobject, Line, VGroup,  Brace, Circle, Triangle, RoundedRectangle, SurroundingRectangle, NumberLine, ArcBetweenPoints
 from manim import MathTex, Tex
-from manim import Create, Uncreate, FadeIn, FadeOut, Write, AnimationGroup, ReplacementTransform, MoveAlongPath, Indicate, UpdateFromAlphaFunc
+from manim import ShowPassingFlash, Wiggle, Create, Circumscribe, FadeIn, FadeOut, Write, AnimationGroup, ReplacementTransform, MoveAlongPath, Indicate, UpdateFromAlphaFunc
 from manim import Scene
 from manim import always_redraw
 from aramanim import Segment
-from objects import Apple, Locust, Boy, Girl
+from objects import Apple, Locust, Boy, Girl, Thinking
 from .text import coordinate_text, number_line_text
 import numpy as np
+
+def jump_to(mob, point, run_time = 0.5, hight = 3):
+            point_initial = mob.get_center()
+            path_template = lambda t: np.array([0, hight*t * (1 - t), 0]) 
+            jump_path_liner = lambda t: (1 - t) * point_initial + t * point
+            jump_path = lambda t: path_template(t) + jump_path_liner(t)
+            jump_path_points = [jump_path(t/(int(run_time * 60) - 1)) for t in range(int(run_time * 60))]
+            path = VMobject()
+            path.set_points_as_corners(jump_path_points)
+            animation = MoveAlongPath(mob, path, run_time=run_time, rate_func = rate_functions.linear)
+            return animation
 
 class Problem00000(Scene):
     def construct(self):
@@ -31,25 +42,36 @@ class Problem00000(Scene):
         equation_7_3_4.scale(1.5)
         equation_9_4_ = MathTex("9", "-", "4", "=", "?")
         equation_9_4_.scale(1.5)
-        self.play(FadeIn(apples))
-        self.play(Write(brace_5))
+        self.play(
+            AnimationGroup(
+                FadeIn(apples),
+                Write(brace_5),
+                lag_ratio=1
+            )
+        )
         self.wait()
         #5+2=7
-        self.play(apples.animate.arrange(RIGHT).shift(shift_vector).set_opacity(1))
-        self.play(Write(brace_2))
+        self.play(
+            AnimationGroup(
+                apples.animate.arrange(RIGHT).shift(shift_vector).set_opacity(1),
+                Write(brace_2),
+                lag_ratio=1
+            )
+        )
+        self.wait()
+        self.play(
+            ReplacementTransform(brace_5[1].copy(), equation_5_2_7[0]),
+            ReplacementTransform(brace_2[1].copy(), equation_5_2_7[2])
+        )
         self.wait()
         self.play(
             AnimationGroup(
-                ReplacementTransform(brace_5[1].copy(), equation_5_2_7[0]),
                 Write(equation_5_2_7[1]),
-                ReplacementTransform(brace_2[1].copy(), equation_5_2_7[2]),
                 Write(equation_5_2_7[3:]),
                 lag_ratio=1
             )
         )
         brace_7 = always_redraw(lambda: Brace(apples, DOWN).add(MathTex("7").scale(1.5).next_to(apples, DOWN, buff = 0.9)))
-        self.add(brace_7)
-        self.remove(brace_7)
         srd_rec_5 = SurroundingRectangle(apples[:-2], stroke_width = 2, buff=0.05)
         srd_rec_2 = SurroundingRectangle(apples[-2:], stroke_width = 2, buff=0.05)
         self.play(
@@ -62,32 +84,65 @@ class Problem00000(Scene):
         )
         self.wait()
         self.play(
-            FadeOut(brace_7),
-            FadeOut(equation_5_2_7, shift = UP)
+            FadeOut(equation_5_2_7, shift = UP),
+            FadeOut(srd_rec_5, srd_rec_2)
         )
-        self.play(FadeOut(srd_rec_5, srd_rec_2))
         self.wait()
-        self.play(FadeIn(equation_7_3_4, shift = DOWN))
-        brace_4 = always_redraw(lambda: Brace(apples[:4], UP).add(MathTex("4").scale(1.5).next_to(apples[:4], UP, buff = 0.9)))
-        brace_3 = always_redraw(lambda: Brace(apples[4:], UP).add(MathTex("3").scale(1.5).next_to(apples[4:], UP, buff = 0.9)))
+        brace_3 = always_redraw(
+            lambda: Brace(apples[4:], UP).add(
+                MathTex("3").scale(1.5).next_to(apples[4:], UP, buff = 0.9)
+            )
+        )
         #7-3=4
-        self.play(FadeIn(brace_7, brace_4, brace_3))
         self.play(
-            apples[:-3].animate.shift(LEFT),
-            apples[-3:].animate.shift(RIGHT),
+            AnimationGroup(
+                Write(equation_7_3_4[:-2]),
+                FadeIn(brace_3, suspend_mobject_updating = False),
+                AnimationGroup(
+                    apples[:-3].animate.shift(LEFT),
+                    apples[-3:].animate.shift(RIGHT),
+                ),
+                lag_ratio=1,
+            )
+        )
+        self.wait()
+        brace_4 = always_redraw(
+            lambda: Brace(apples[:4], UP).add(
+                MathTex("4").scale(1.5).next_to(apples[:4], UP, buff = 0.9)
+            )
+        )
+        self.play(
+            AnimationGroup(
+                Write(equation_7_3_4[-2:]),
+                FadeIn(brace_4),
+                lag_ratio=0.75
+            )
         )
         self.wait()
         self.play(
-            FadeOut(apples, equation_7_3_4, brace_4, brace_3, brace_7)
+            FadeOut(
+                apples,
+                equation_7_3_4,
+                brace_4,
+                brace_3,
+                brace_7
+            )
         )
+        #some apples scene (start)
         boy = Boy(2)
         boy.scale(2)
         boy.move_to([-4, -1, 0])
         girl = Girl(3)
         girl.scale(2)
         girl.move_to([4, -1, 0])
-        self.play(Write(boy))
-        self.play(Write(girl))
+        self.wait()
+        self.play(
+            AnimationGroup(
+                Write(boy),
+                Write(girl),
+                lag_ratio=0.8
+            )
+        )
         def apple_exchange(vmob, to_girl = True):
             arc = (ArcBetweenPoints(boy.get_center() + 0.5*UP, girl.get_center() + 0.5*UP, radius = 8) if to_girl
             else ArcBetweenPoints(girl.get_center() + 0.5*UP, boy.get_center() + 0.5*UP, radius = 5))
@@ -103,7 +158,8 @@ class Problem00000(Scene):
         apple_1.scale(1.5)
         apple_2.scale(1.5)
         apple_3.scale(1.5)        
-        self.add(apple_1, apple_2, apple_3)        
+        self.add(apple_1, apple_2, apple_3)  
+        self.wait()      
         self.play(
             AnimationGroup(
                 UpdateFromAlphaFunc(apple_1, apple_exchange(apple_1)),
@@ -113,9 +169,11 @@ class Problem00000(Scene):
             ),
             run_time = 4
         )
-        self.remove(apple_1, apple_2, apple_3) 
+        self.remove(apple_1, apple_2, apple_3)
+        self.wait()
         self.play(FadeOut(boy, girl))
         self.wait()
+        #some apples scene (end)
         def set_numberline(right = True, sign = 1, sur = True):
             a = 1 if right else -1
             nl = NumberLine(
@@ -132,7 +190,9 @@ class Problem00000(Scene):
                 nl.add(MathTex("{:,}".format(sign*i)).next_to(nl.n2p(a*i), DOWN, buff = 0.5))
             if sur:
                 sr = SurroundingRectangle(nl, color=WHITE, stroke_width = 2, buff=0.05)
+                sr.stretch_to_fit_width((nl.n2p(7) - nl.n2p(0))[0] + 0.75)
                 sr.align_to(nl, UP + a*LEFT)
+                sr.shift(0.15*a*LEFT)
                 nl.add(sr)
             return nl
         nl_right = set_numberline()
@@ -146,28 +206,23 @@ class Problem00000(Scene):
         locust.scale(0.5)
         locust.set_z_index(1)
         locust.move_to(DOWN)
-        self.play(Write(locust))
+        self.play(FadeIn(locust))
         self.wait()
-        def jump_to(mob, point, run_time = 0.5):
-            point_initial = mob.get_center()
-            path_template = lambda t: np.array([0, 3*t * (1 - t), 0]) 
-            jump_path_liner = lambda t: (1 - t) * point_initial + t * point
-            jump_path = lambda t: path_template(t) + jump_path_liner(t)
-            jump_path_points = [jump_path(t/(int(run_time * 60) - 1)) for t in range(int(run_time * 60))]
-            path = VMobject()
-            path.set_points_as_corners(jump_path_points)
-            animation = MoveAlongPath(mob, path, run_time=run_time, rate_func = rate_functions.linear)
-            return animation
         self.play(jump_to(locust, DOWN + RIGHT))
-        self.wait(0.5)
+        self.wait()
         self.play(locust.animate.flip())
-        self.wait(0.25)
+        self.wait()
         self.play(jump_to(locust, DOWN))
-        self.wait(0.5)
+        self.wait()
         self.play(locust.animate.flip())
         trip =  MathTex("0").add(Triangle().scale(0.3).set_opacity(1).rotate(60*DEGREES).stretch(0.2, 0).move_to(ORIGIN).shift(0.5*DOWN))
-        self.play(FadeIn(trip))
+        self.play(
+            FadeIn(trip),
+            locust.animate.scale(0.7)
+        )
+        self.wait()
         self.play(Write(nl_right))
+        self.wait()
         self.play(FadeIn(nl_left))
         self.wait()
         self.play(FadeOut(trip))
@@ -189,13 +244,25 @@ class Problem00000(Scene):
         self.wait()
         apples.become(VGroup(*[Apple() for _ in range(7)]).scale(2.5))
         set_apples()
-        self.play(apples.animate.arrange(RIGHT).shift(shift_vector).set_opacity(1))
-        self.play(FadeIn(srd_rec_5, srd_rec_2))
+        self.play(
+            AnimationGroup(
+                apples.animate.arrange(RIGHT).shift(shift_vector).set_opacity(1),
+                FadeIn(srd_rec_5, srd_rec_2),
+                lag_ratio=0.75
+            )
+        )
         self.wait()
-        self.play(FadeOut(apples, equation_5_2_7, srd_rec_5, srd_rec_2))
-        self.wait(0.25)
+        self.play(
+            FadeOut(
+                apples,
+                equation_5_2_7,
+                srd_rec_5,
+                srd_rec_2
+            )
+        )
+        self.wait()
         self.play(locust.animate.flip())
-        self.wait(0.5)
+        self.wait()
         #7-3
         for i in range(6, 3, -1):
             self.play(jump_to(locust, nl_right.n2p(i)))
@@ -209,7 +276,7 @@ class Problem00000(Scene):
         self.play(FadeIn(brace_7, brace_3, brace_4))
         self.wait()
         self.play(FadeOut(brace_7, brace_3, brace_4, apples))
-        self.wait(0.5)
+        self.wait()
         #4-6
         for i in range(3, -3, -1):
             self.play(jump_to(locust, nl_right.n2p(i)))
@@ -220,65 +287,130 @@ class Problem00000(Scene):
         circle_1 = Circle(0.3).next_to(nl_left.n2p(-2), DOWN, buff=0.38)
         circle_2 = Circle(0.3).next_to(nl_right.n2p(2), DOWN, buff=0.38)
         self.play(Indicate(circle_1), Indicate(circle_2))
+        self.wait()
         self.play(FadeOut(circle_1, circle_2))
         nl_right_left = set_numberline(False, -1)
         nl_right_left.shift(-nl_right_left.n2p(0)+DOWN)
+        self.wait()
         self.play(ReplacementTransform(nl_left, nl_right_left))
         self.wait()
+        self.play(
+                *[Indicate(n) for n in nl_right_left[-9:-1]],
+                *[Indicate(n) for n in nl_right[-9:-1]]
+        )
         coordinate_tex = Tex(coordinate_text)
         coordinate_tex.next_to(VGroup(nl_right_left, nl_right), DOWN)
         number_line_tex = Tex(number_line_text)
         number_line_tex.next_to(line, UP)
-        coord_rec = RoundedRectangle()
-        coord_rec.stretch_to_fit_width(13)
-        coord_rec.stretch_to_fit_height(0.8)
-        coord_rec.set_stroke(YELLOW)
-        coord_rec.next_to(nl_left.n2p(0), DOWN, buff=0.38)
-        self.add(coordinate_tex)
-        self.play(FadeOut(coord_rec), run_time = 2)
         trip__2 =  MathTex("-2").add(Triangle().scale(0.3).set_opacity(1).rotate(60*DEGREES).stretch(0.2, 0).move_to(ORIGIN).shift(0.5*DOWN))
         trip__2.next_to(nl_right.n2p(-2), UP)
-        self.play(FadeOut(coordinate_tex), Indicate(trip__2))
+        self.wait()
+        self.play(
+            *[Indicate(n) for n in nl_right_left[-9:-1]],
+            *[Indicate(n) for n in nl_right[-9:-1]],
+            FadeOut(coordinate_tex),
+            Indicate(trip__2),
+            run_time = 3
+        )
         self.play(FadeOut(trip__2))
         self.wait()
-        self.play(FadeOut(equation_5_2_7), run_time = 2)
-        self.play(FadeOut(equation_7_3_4), run_time = 2)
+        nl_5_2_7 = NumberLine(
+            x_range=[-1, 8.5, 1],
+            length=5,
+            include_tip=False,
+            include_numbers=True,
+            include_ticks=True
+        )
+        nl_7_3_4 = nl_5_2_7.copy()
+        VGroup(nl_5_2_7, nl_7_3_4).arrange(RIGHT, buff = 2.5).shift(1.5*UP)
+        locust_5_2_7 = Locust().scale(0.2)
+        locust_7_3_4 = Locust().scale(0.2).flip()
+        def jumping_updater(p_1, p_2):
+            def updater(mob, dt, start = p_1, end = p_2):
+                displacement = end - start
+                [x, y, z] = displacement
+                v_x = np.sign(x)*RIGHT
+                v_y_0 = np.abs(y/x) + (1/2) * np.abs(x)
+                t = mob.get_center()[0] - start[0]
+                v_y = (v_y_0 - np.sign(x)*t)*UP
+                mob.shift((v_x + v_y)*dt)
+                if np.abs(mob.get_center()[0] - end[0]) < 0.02 and np.abs(mob.get_center()[1] - end[1]) < 0.02:
+                    mob.move_to(start)
+            return updater
+        locust_5_2_7.move_to(nl_5_2_7.n2p(5))
+        locust_7_3_4.move_to(nl_7_3_4.n2p(7))
+        locust_5_2_7.add_updater(jumping_updater(nl_5_2_7.n2p(5), nl_5_2_7.n2p(7)))
+        locust_7_3_4.add_updater(jumping_updater(nl_7_3_4.n2p(7), nl_7_3_4.n2p(4)))
+        self.play(
+            FadeIn(equation_5_2_7.next_to(nl_5_2_7, UP, buff=1)),
+            FadeIn(equation_7_3_4.next_to(nl_7_3_4, UP, buff=1)),
+            FadeIn(locust_5_2_7, locust_7_3_4),
+            Write(nl_5_2_7), Write(nl_7_3_4)
+        )
+        self.wait()
+        self.play(Circumscribe(VGroup(nl_5_2_7, equation_5_2_7), color=BLUE), run_time = 1.5)
+        self.wait()
+        self.play(Circumscribe(VGroup(nl_7_3_4, equation_7_3_4), color=BLUE), run_time = 1.5)
+        self.wait()
         equation_4_6__2 = MathTex("4", "-", "6", "=", "-2")
         equation_4_6__2.scale(1.5)
-        equation_4_6__2.move_to(equation_5_2_7)
+        equation_4_6__2.next_to(VGroup(nl_right_left, nl_right), DOWN)
+        self.wait()
         self.play(Write(equation_4_6__2))
         self.wait()
-        self.play(line.animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW).shift(0.02*UP), run_time = 2)
+        self.play(ShowPassingFlash(line.copy().set_stroke(YELLOW, 8)), run_time = 2)
         self.wait()
-        self.add(number_line_tex)
         nl_l = set_numberline(True, 1, False)
         nl_l.shift(-nl_l.n2p(0)+DOWN)
         nl_r = set_numberline(False, -1, False)
         nl_r.shift(-nl_r.n2p(0)+DOWN)
-        self.play(line.animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW).shift(0.02*UP), run_time = 2)
+        self.play(
+            Indicate(number_line_tex),
+            ShowPassingFlash(line.copy().set_stroke(YELLOW, 8)),
+            run_time = 2
+        )
         self.add(nl_l, nl_r)
         self.play(FadeOut(number_line_tex, nl_right, nl_right_left))
         self.wait()
-        self.wait()
-        self.play(line.animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW).shift(0.02*UP), run_time = 1)
-        self.add(coordinate_tex)
-        self.play(Uncreate(coord_rec), run_time = 2)
-        self.play(FadeOut(coordinate_tex, equation_4_6__2))
+        self.add(coordinate_tex.next_to(VGroup(nl_right_left, nl_right), UP))
+        self.play(
+            *[Indicate(n) for n in nl_l[-8:]],
+            *[Indicate(n) for n in nl_r[-8:]],
+            run_time = 2
+        )
+        self.play(FadeOut(coordinate_tex))
         self.wait()
         plas = MathTex("+").scale(2)
         self.play(locust.animate.flip(), Indicate(plas))
-        self.wait(0.25)
-        self.play(jump_to(locust, nl_left.n2p(-1)), FadeOut(plas))
-        self.wait(0.25)
+        self.wait()
+        self.play(jump_to(locust, nl_left.n2p(-1)))
+        self.play(jump_to(locust, nl_left.n2p(0)))
+        self.play(jump_to(locust, nl_left.n2p(1)), FadeOut(plas))
+        self.wait()
         min = MathTex("-").scale(2)
         self.play(locust.animate.flip(), Indicate(min))
-        self.wait(0.25)
+        self.wait()
+        self.play(jump_to(locust, nl_left.n2p(0)))
+        self.play(jump_to(locust, nl_left.n2p(-1)))
         self.play(jump_to(locust, nl_left.n2p(-2)), FadeOut(min))
-        self.wait(0.25)
+        self.wait()
+        self.play(FadeOut(Thinking()), run_time = 3)
+        self.play(FadeOut(equation_4_6__2))
+        self.play(FadeOut(
+            locust_5_2_7, locust_7_3_4,
+            nl_5_2_7, nl_7_3_4,
+            equation_5_2_7, equation_7_3_4
+        ))
         self.wait()
         #3-7
-        self.play(jump_to(locust, nl_left.n2p(3)))
-        self.wait(0.5)
+        equation_3_7__4 = MathTex("3", "-", "7", "=", "-", "4")
+        equation_3_7__4.scale(1.5)
+        equation_3_7__4.next_to(VGroup(nl_right_left, nl_right), DOWN)
+        self.wait()
+        self.play(locust.animate.move_to(nl_left.n2p(3)))
+        self.wait()
+        self.play(Write(equation_3_7__4[:3]))
+        self.wait()
         for i in range(2, -5, -1):
             self.play(jump_to(locust, nl_left.n2p(i)))
             self.wait(0.2)
@@ -295,21 +427,56 @@ class Problem00000(Scene):
         self.wait()
         self.play(s_3__4.animate.shift(UP))
         s_0__4.shift(2*UP)
+        self.wait()
         self.play(Create(s_0__4))
-        self.play(Indicate(s_3__4.label))
-        self.play(Indicate(s_3_0.label))
+        self.wait()
+        self.play(Indicate(s_3__4.label, 1.5))
+        self.wait()
+        self.play(Indicate(s_3_0.label, 1.5))
+        self.wait()
         self.play(Write(s_0__4.update_label_pos()))
         s_0__4.add(s_0__4.update_label_pos())
-        self.play(FadeOut(s_0__4, s_3_0, s_3__4))
-        equation_3_7__4 = MathTex("3", "-", "7", "=", "-", "4")
-        equation_3_7__4.scale(1.5)
-        equation_3_7__4.move_to(equation_5_2_7)
-        self.play(Write(equation_3_7__4[:4]))
-        self.play(Write(equation_3_7__4[-1]))
-        self.play(Write(equation_3_7__4[-2]))
         self.wait()
-        self.play(locust.animate.flip(), FadeOut(equation_3_7__4))
+        self.play(Wiggle(s_0__4))
+        self.wait()
+        self.play(Write(equation_3_7__4[-3]))
+        self.play(Indicate(equation_3_7__4[-1]))
+        self.wait(0.5)
+        self.play(Write(equation_3_7__4[-2]), Indicate(nl_r))
+        self.wait()
+        self.play(FadeOut(s_0__4, s_3_0, s_3__4, equation_3_7__4))
+        self.wait()
+        #1-5=-4
+        equation_1__5__4 = MathTex("1", "-", "5", "=", "-", "4")
+        equation_1__5__4.scale(1.5)
+        equation_1__5__4.next_to(VGroup(nl_right_left, nl_right), DOWN)
+        locust.move_to(nl_r.n2p(1))
+        self.play(Write(equation_1__5__4[:3]))
+        self.play(jump_to(locust, nl_r.n2p(-4)))
+        s_1_0 = Segment(nl_left.n2p(1), nl_left.n2p(0), label = "1")
+        s_1_0.set_color(RED)
+        s_1_0.add(s_1_0.update_label_pos())
+        s_1__4 = Segment(nl_left.n2p(1), nl_left.n2p(-4), label = "5")
+        s_1__4.set_color(BLUE)
+        s_1__4.add(s_1__4.update_label_pos())
+        s_0__4 = Segment(nl_left.n2p(0), nl_left.n2p(-4), label = "5-1")
+        self.play(s_1_0.animate.shift(2*UP))
+        self.play(s_1__4.animate.shift(UP))
+        s_0__4.shift(2*UP)
+        self.play(Create(s_0__4))
+        self.play(Write(s_0__4.update_label_pos()))
+        self.play(Write(equation_1__5__4[3:]))
+        s_0__4.add(s_0__4.update_label_pos())
+        self.wait()
+        self.play(FadeOut(s_0__4, s_1_0, s_1__4, equation_1__5__4))
+        self.wait()
         #-2+6
+        self.play(locust.animate.move_to(nl_l.n2p(-2)).flip())
+        self.wait()
+        equation__2_6_4 = MathTex("-2", "+", "6", "=", "4")
+        equation__2_6_4.scale(1.5)
+        equation__2_6_4.next_to(VGroup(nl_right_left, nl_right), DOWN)
+        self.play(Write(equation__2_6_4[:3]))
         s__2_0 = Segment(nl_left.n2p(-2), nl_left.n2p(0), label = "2")
         s__2_0.set_color(RED)
         s__2_0.add(s__2_0.update_label_pos())
@@ -318,31 +485,34 @@ class Problem00000(Scene):
         s__2_4.add(s__2_4.update_label_pos())
         s_0_4 = Segment(nl_left.n2p(0), nl_left.n2p(4), label = "6-2")
         s_0_4.set_color(GREEN)
-        s_0_4.shift(3.5*UP)
-        self.wait(0.25)
-        self.play(jump_to(locust, nl_left.n2p(-2)))
+        s_0_4.shift(2*UP)
         self.wait()
         for i in range(-1, 5, 1):
-            w = 0.2 if i != 0 else 1
             self.play(jump_to(locust, nl_left.n2p(i)))
-            self.wait(0.5*w)
             if i == 0:
+                self.wait()
                 self.play(
                     FadeOut(MathTex("6-2=4").scale(2)),
-                    s__2_0.animate.shift(3.5*UP),
+                    run_time = 2
                 )
-            self.wait(0.5*w)
-        self.play(s__2_4.animate.shift(2.5*UP))
+                self.wait()
+            self.wait(0.25)
+        self.play(s__2_0.animate.shift(2*UP), s__2_4.animate.shift(UP))
+        self.wait()
         self.play(Create(s_0_4), Write(s_0_4.update_label_pos()))
         s_0_4.add(s_0_4.update_label_pos())
-        equation__2_6_4 = MathTex("-2", "+", "6", "=", "4")
-        equation__2_6_4.scale(1.5)
-        equation__2_6_4.move_to(equation_5_2_7)
-        self.play(Write(equation__2_6_4))
         self.wait()
-        self.play(FadeOut(equation__2_6_4, s_0_4, s__2_4, s__2_0), locust.animate.flip())
-        self.play(jump_to(locust, nl_left.n2p(-3)))
+        self.play(Write(equation__2_6_4[3:]))
         self.wait()
+        self.play(FadeOut(equation__2_6_4, s_0_4, s__2_4, s__2_0))
+        self.wait()
+        #-3-2
+        equation__3__2__5 = MathTex("-3", "-", "-2", "=", "-", "5")
+        equation__3__2__5.scale(1.5)
+        equation__3__2__5.next_to(VGroup(nl_right_left, nl_right), DOWN)
+        self.play((locust.animate.move_to(nl_left.n2p(-3)).flip()))
+        self.wait()
+        self.play(Write(equation__3__2__5[:3]))
         for i in range(-4, -6, -1):
             self.play(jump_to(locust, nl_left.n2p(i)))
             self.wait(0.2)
@@ -364,31 +534,48 @@ class Problem00000(Scene):
         self.wait(0.5)
         self.play(Write(s_0__5.update_label_pos()))
         s_0__5.add(s_0__5.update_label_pos())
-        self.play(FadeOut(s__3_0, s__3__5, s_0__5))
         self.wait()
-        equation__3__2__5 = MathTex("-3", "-", "-2", "=", "-", "5")
-        equation__3__2__5.scale(1.5)
-        equation__3__2__5.move_to(equation_5_2_7)
-        self.play(Write(equation__3__2__5[:-2]))
-        self.play(Write(equation__3__2__5[-1]))
-        self.play(Write(equation__3__2__5[-2]))
+        self.play(AnimationGroup(
+            Write(equation__3__2__5[-3]),
+            Write(equation__3__2__5[-1]),   
+            Write(equation__3__2__5[-2]),
+            lag_ratio=1
+        ))
         self.wait()
-        self.play(FadeOut(equation__3__2__5))
+        self.play(FadeOut(s__3_0, s__3__5, s_0__5, equation__3__2__5))
         self.wait()
-        self.play(jump_to(locust, nl_right.n2p(6)))
-        equation_6__9__3 = MathTex("6", "-", "9", "=", "-", "3")
-        equation_6__9__3.scale(1.5)
-        equation_6__9__3.move_to(equation_5_2_7)
-        self.wait(0.25)
-        self.play(Write(equation_6__9__3), jump_to(locust, nl_right.n2p(6)))
+        self.play(FadeOut(locust, nl_l, nl_r, line))
         self.wait()
-        self.play(FadeOut(equation_6__9__3))
+        ########
+        nl_6__9__3 = NumberLine(
+            x_range=[-4, 6.5, 1],
+            length=5,
+            include_tip=False,
+            include_numbers=True,
+            include_ticks=True
+        )
+        nl__4__5__9 = NumberLine(
+            x_range=[-9.5, -0.5, 1],
+            length=5,
+            include_tip=False,
+            include_numbers=True,
+            include_ticks=True
+        )
+        VGroup(nl_6__9__3, nl__4__5__9).arrange(RIGHT, buff=2.75).shift(2*DOWN)
+        locust__4__5__9 = Locust().scale(0.2).flip()
+        locust_6__9__3 = Locust().scale(0.2).flip()
+        locust_6__9__3.move_to(nl_6__9__3.n2p(6))
+        locust__4__5__9.move_to(nl__4__5__9.n2p(-4))
+        locust_6__9__3.add_updater(jumping_updater(nl_6__9__3.n2p(6), nl_6__9__3.n2p(-3)))
+        locust__4__5__9.add_updater(jumping_updater(nl__4__5__9.n2p(-4), nl__4__5__9.n2p(-9)))
+        equation__4__5__9 = MathTex("-4", "-", "5", "=", "-9").next_to(nl__4__5__9, UP, buff=2.5)
+        equation_6__9__3 = MathTex("6", "-", "9", "=", "-3").next_to(nl_6__9__3, UP, buff=2.5)
+        self.play(Write(nl_6__9__3))
         self.wait()
-        self.play(jump_to(locust, nl_right.n2p(-4)))
-        equation__4__5__9 = MathTex("-4", "-", "5", "=", "-", "9")
-        equation__4__5__9.scale(1.5)
-        equation__4__5__9.move_to(equation_5_2_7)
-        self.wait(0.25)
-        self.play(Write(equation__4__5__9), jump_to(locust, nl_right.n2p(-9)))
+        self.play(FadeIn(locust_6__9__3), Write(equation_6__9__3))
         self.wait()
-        self.play(FadeOut(equation__4__5__9))
+        self.play(Write(nl__4__5__9))
+        self.wait()
+        self.play(FadeIn(locust__4__5__9), Write(equation__4__5__9))
+        self.wait(5)
+
