@@ -568,6 +568,14 @@ class Tomato(VMobject):
         tomato.scale(0.25)
 
         self.add(tomato)
+        
+class Thinking(VMobject):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        thinking_simple = SVGMobject(path_to_SVG / 'people' / 'thinking'/ 'thinking_boy_outlines.svg')
+        thinking_simple.set_color(WHITE)
+        thinking_simple.scale(0.8)
+        self.add(thinking_simple)
 
 
 class Carrot(VMobject):
