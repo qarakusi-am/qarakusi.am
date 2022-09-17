@@ -13,10 +13,16 @@
 ** այսինքն 1 մաս և 12 **
 ավագը կլինի 4 մաս
 
+գծագիրը ուղղել
+
+
+
 """
 
 
 from manim import *
+
+from constants import DEFAULT_SEGMENT_TEXT_POSITION
 from .text import youngest, oldest
 
 
@@ -31,16 +37,19 @@ class Problem11334(Scene):
     
     # seg_1
         seg_1 = always_redraw(lambda: Segment([left_boundary, 3, 0], [left_boundary + part_length.get_value(), 3, 0]))
+        text_1 = Tex('4').next_to(seg_1, DEFAULT_SEGMENT_TEXT_POSITION)
         youngest.next_to(seg_1, 2 * LEFT)
 
     # seg_2
         seg_2 = always_redraw(lambda: Segment([left_boundary, 2, 0], [left_boundary + part_length.get_value(), 2, 0]))
+        text_2 = Tex('4').next_to(seg_2, DEFAULT_SEGMENT_TEXT_POSITION)
         seg_2_extra = always_redraw(lambda: 
             Segment(seg_2.line.get_right(), seg_2.line.get_right() + np.array([1.5, 0, 0]), GREEN, text=Tex('3'))
         )
 
     # seg_3
         seg_3 = always_redraw(lambda: Segment([left_boundary, 1, 0], [left_boundary + part_length.get_value(), 1, 0]))
+        text_3 = Tex('4').next_to(seg_3, DEFAULT_SEGMENT_TEXT_POSITION)
         seg_3_extra_1 = always_redraw(lambda: 
             Segment(seg_3.line.get_right(), seg_3.line.get_right() + np.array([1.5, 0, 0]), GREEN, text=Tex('3'))
         )
@@ -50,6 +59,7 @@ class Problem11334(Scene):
 
     # seg_4
         seg_4 = always_redraw(lambda: Segment([left_boundary, 0, 0], [left_boundary + part_length.get_value(), 0, 0]))
+        text_4 = Tex('4').next_to(seg_4, DEFAULT_SEGMENT_TEXT_POSITION)
         seg_4_extra_1 = always_redraw(lambda: 
             Segment(seg_4.line.get_right(), seg_4.line.get_right() + np.array([1.5, 0, 0]), GREEN, text=Tex('3'))
         )
@@ -62,6 +72,7 @@ class Problem11334(Scene):
 
     # seg_5
         seg_5 = always_redraw(lambda: Segment([left_boundary, -1, 0], [left_boundary + part_length.get_value(), -1, 0]))
+        text_5 = Tex('4').next_to(seg_5, DEFAULT_SEGMENT_TEXT_POSITION)
         seg_5_extra_combined = always_redraw(lambda: 
             Segment(seg_5.line.get_right(), seg_5.line.get_right() + np.array([1.5 * 4, 0, 0]), GREEN, text=Tex('12'))
         )
@@ -78,6 +89,8 @@ class Problem11334(Scene):
         seg_5_part_1 = always_redraw(lambda: 
             Segment([left_boundary, -2, 0], np.array([left_boundary, -2, 0]) + np.array([part_length.get_value(), 0, 0]))
         )
+        x_1 = Tex('4').next_to(seg_5_part_1, DEFAULT_SEGMENT_TEXT_POSITION)
+
         seg_5_part_2 = always_redraw(lambda: 
             Segment(seg_5_part_1.get_right(), seg_5_part_1.get_right() + np.array([part_length.get_value(), 0, 0]))
         )
@@ -89,6 +102,12 @@ class Problem11334(Scene):
         )
 
         brace_seg_5 = Brace(VGroup(seg_5, seg_5_part_1), LEFT, 0.2, 0.5)
+
+    # equations
+        eq_1 = MathTex("12 : 3 = ", "4", font_size=DEFAULT_FONT_SIZE).shift(3*UP+4*RIGHT)
+        x_2 = eq_1[1].copy()
+        x_3 = eq_1[1].copy()
+        x_4 = eq_1[1].copy()
 
 
 
@@ -173,6 +192,53 @@ class Problem11334(Scene):
         self.play(part_length.animate.set_value(3))
         self.wait()
         self.play(part_length.animate.set_value(2))
+        self.wait()
+
+# INIT
+        dline_1 = DashedLine(seg_5_extra_combined.endmark_left, seg_5_part_2.endmark_left)
+        dline_2 = DashedLine(seg_5_extra_combined.endmark_right, seg_5_part_4.endmark_right)
+#
+
+        self.play(Indicate(seg_5_extra_combined))
+        self.wait()
+
+        self.play(
+            Create(dline_1),
+            Create(dline_2)
+        )
+        self.wait()
+
+        seg_5_part_2.remove_updater()
+        seg_5_part_3.remove_updater()
+        seg_5_part_4.remove_updater()
+
+        self.play(seg_5_part_2.animate.shift(0.25*UP).set_color(YELLOW), rate_func=there_and_back)
+        self.wait(0.25)
+
+        self.play(seg_5_part_3.animate.shift(0.25*UP).set_color(YELLOW), rate_func=there_and_back)
+        self.wait(0.25)
+
+        self.play(seg_5_part_4.animate.shift(0.25*UP).set_color(YELLOW), rate_func=there_and_back)
+        self.wait(0.25)
+
+        self.play(Write(eq_1))
+        self.wait()
+
+        self.play(
+            x_2.animate.next_to(seg_5_part_2, DEFAULT_SEGMENT_TEXT_POSITION),
+            x_3.animate.next_to(seg_5_part_3, DEFAULT_SEGMENT_TEXT_POSITION),
+            x_4.animate.next_to(seg_5_part_4, DEFAULT_SEGMENT_TEXT_POSITION)
+        )
+        self.wait()
+
+        self.play(
+            Write(text_1),
+            Write(text_2),
+            Write(text_3),
+            Write(text_4),
+            Write(text_5),
+            Write(x_1)
+        )
         self.wait()
         
 
