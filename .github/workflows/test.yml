@@ -5,6 +5,8 @@ on:
     paths:
       - 'lib/**'
       - 'objects/**'
+    branches:
+      - master
 
 jobs:
   test:
