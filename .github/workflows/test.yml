@@ -2,7 +2,7 @@ name: Check existing videos
 
 on:
   push:
-    path:
+    paths:
       - 'lib/**'
       - 'objects/**'
 
