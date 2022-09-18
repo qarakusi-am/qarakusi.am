@@ -80,7 +80,7 @@ svg_defaults.add_prefix_default(
 svg_defaults.add_prefix_default(
     'girl_',
     {'folder': path_to_SVG / 'people' / 'children',
-     'color': WHTIE})
+     'color': WHITE})
 svg_defaults.add_default(
     'pigeon',
     {'folder': path_to_SVG / 'animals',
@@ -137,6 +137,9 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'mandarin',
     {'folder': path_to_SVG / 'fruits'})
+svg_defaults.add_default(
+    '20dram',
+    {'folder': path_to_SVG / 'coins'})
 svg_defaults.add_default(
     'mandarins',
     {'folder': path_to_SVG / 'fruits',
@@ -289,6 +292,34 @@ class ChessFigures(VMobject):
                                    chess_figures_stroke_width)
 
 
+class DScissors(VGroup):
+    def __init__(self, cut_point, **kwargs):
+        self.scissor_1 = SVGMobject(
+            path_to_SVG / 'scissors' / 'scissors_1.svg'
+        ).set_color(WHITE)
+        self.scissor_2 = SVGMobject(
+            path_to_SVG / 'scissors' / 'scissors_2.svg'
+        ).set_color(WHITE)
+        self.dot = Dot().scale(0.2)
+        super().__init__(self.scissor_1, self.scissor_2, **kwargs)
+        self.arrange(RIGHT, buff=-1.1)
+        self.add(self.dot)
+        self.scale(0.5)
+        
+        self.scissor_1.shift(0.08 * DOWN).rotate(angle=-0.03, about_point=self.dot.get_center())
+        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())
+        
+        self.cut_point = np.array(cut_point)
+        shift_vector = np.array([0, -0.35, 0])
+        p_end = self.cut_point + shift_vector
+        self.move_to(p_end).shift(0.5*DOWN)
+
+    def open(self, angle):
+        self.scissor_1.rotate(angle=angle, about_point=self.dot.get_center())
+        self.scissor_2.rotate(angle=-angle, about_point=self.dot.get_center())
+
+
+
 class ThinkingBubble(VMobject):
     def __init__(self, smooth=True, from_left_to_right=True, style=1):
         super().__init__()
@@ -297,8 +328,8 @@ class ThinkingBubble(VMobject):
             if from_left_to_right:
                 if style == 1:
                     thinking_bubble = SVGMobject(
-                        path_to_SVG /
-                        'thinking_bubbles'
+                        path_to_SVG
+                        / 'thinking_bubbles'
                         / 'smooth_thinking_bubble_left_1'
                     )
                 else:
@@ -649,5 +680,3 @@ class Stopwatch(VGroup):
             axis=OUT,
             about_point=self.stopwatch.get_center()
         )
-
-
