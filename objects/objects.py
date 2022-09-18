@@ -50,8 +50,6 @@ class Defaults:
 
     def get_defaults(self, name):
         defaults = {
-            'scale': 1,
-            'rotate': 0,
             'folder': path_to_SVG
         }
 
@@ -192,17 +190,18 @@ class SimpleSVGMobject(VMobject):
 
         defaults = svg_defaults.get_defaults(obj_name)
         if scale is None:
-            scale = defaults['scale']
+            scale = defaults.get('scale')
         if color is None:
-            color = defaults['color']
+            color = defaults.get('color')
         if rotate is None:
-            rotate = defaults['rotate']
+            rotate = defaults.get('rotate')
         obj_path = (defaults['folder'] / obj_name).with_suffix('.svg')
 
         svg_object = SVGMobject(obj_path)
         if color is not None:
             svg_object.set_color(color)
-        svg_object.scale(scale)
+        if scale is not None:
+            svg_object.scale(scale)
         if rotate is not None:
             svg_object.rotate(rotate)
         self.add(svg_object)
