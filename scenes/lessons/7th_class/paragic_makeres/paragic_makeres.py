@@ -1,5 +1,6 @@
 from manim import *
 
+# FIXME: Remove this once lib/constants doesn't use xelatex anymore
 ARMTEX = TexTemplate()
 ARMTEX.add_to_preamble(r'\usepackage{armtex}')
 
