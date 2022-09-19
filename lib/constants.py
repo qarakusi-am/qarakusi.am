@@ -54,8 +54,8 @@ DEFAULT_PAPERS_BUFF = 0.125
 
 
 # Հայերեն գրելու համար tex_template (նույն բանն են)
-ENGTEX = TexTemplate('xelatex', '.pdf')
-ARMTEX = TexTemplate('xelatex', '.pdf')
+ENGTEX = TexTemplate()
+ARMTEX = TexTemplate()
 ARMTEX.add_to_preamble(r'\usepackage{armtex}')
 
 
