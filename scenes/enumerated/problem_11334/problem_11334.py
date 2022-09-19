@@ -481,8 +481,9 @@ class Problem11334(Scene):
         self.play(
             final_length_5.animate.set_value(8),
             final_text_5.animate.move_to(fifth_length[0]),
-            Write(fifth_length[1]),
             final_text_5_extra.animate.move_to(fifth_length[2]),
+            Write(fifth_length[1]),
+            FadeOut(dline_1, dline_2),
             rate_func=linear
         )
         self.wait(0.25)
