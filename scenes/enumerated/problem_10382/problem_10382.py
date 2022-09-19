@@ -255,7 +255,13 @@ class Problem10382(Scene):
         self.play(FadeIn(arshak_seg_0.shift(2.5*DOWN), diff_arshak_toy_seg.shift(2.5*DOWN), shift = DOWN))
         arshak_tex_ = arshak_tex.copy()
         arshak_tex_.next_to(arshak_seg_0, DOWN)
-        self.play(FadeIn(arshak_seg_0.update_label_pos(), diff_arshak_toy_seg.update_label_pos(), arshak_tex_))
+        self.play(FadeIn(
+            arshak_seg_0.update_label_pos(),
+            diff_arshak_toy_seg.update_label_pos(),
+            arshak_tex_,
+            arshak_tex_in_equation,
+            arshak_equation[-2:].next_to(arshak_tex_in_equation, RIGHT, buff=0.15)
+        ))
         self.wait()
         
         self.play(Wiggle(toy_seg_0.label))
@@ -297,8 +303,7 @@ class Problem10382(Scene):
         self.wait()
         self.play(
             FadeIn(arshak_seg_1, levon_seg_1, diff_levon_arshak_toy_seg),
-            FadeIn(arshak_seg_1.update_label_pos(), levon_seg_1.update_label_pos(), diff_levon_arshak_toy_seg.update_label_pos()),
-            FadeIn(arshak_tex_in_equation, arshak_equation[-2:].next_to(arshak_tex_in_equation, RIGHT, buff=0.15))
+            FadeIn(arshak_seg_1.update_label_pos(), levon_seg_1.update_label_pos(), diff_levon_arshak_toy_seg.update_label_pos())
         )
         self.wait()
         arshak_levon_brace = Brace(VGroup(arshak_equation[-2:], levon_equation[-2:]), RIGHT)
