@@ -1,6 +1,5 @@
 import numpy as np
 
-from manim import DEFAULT_STROKE_WIDTH
 from manim import LEFT, RIGHT, SMALL_BUFF, DOWN
 from manim import WHITE, LIGHT_GRAY, GREEN
 from manim import Tex, MathTex
@@ -9,7 +8,7 @@ from manim import BraceLabel
 from manim import Write, ReplacementTransform
 from manim import Scene
 
-from constants import DEFAULT_ENDMARK_LENGTH
+from constants import DEFAULT_ENDMARK_LENGTH, DEFAULT_STROKE_WIDTH
 from constants import DEFAULT_EXTRA_SEGMENT_COLOR, DEFAULT_COUNTING_COLOR
 from constants import DEFAULT_SEGMENT_TEXT_POSITION
 from constants import DEFAULT_SEGMENT_LENGTH_FONT_SIZE
