@@ -1,4 +1,6 @@
-from manim import *
+from manim import Scene, Rectangle, MathTex, Line, FadeIn, Create, Write, GrowFromEdge, FadeOut, Transform, VGroup, Circumscribe, np, Brace
+from manim import LEFT, RIGHT, UP, DOWN, YELLOW, ORANGE, PI
+from manim import always_redraw
 from lib.qarakusiscene import TaskNumberBox
 from .text import *
 
