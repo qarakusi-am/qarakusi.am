@@ -10,6 +10,7 @@ class FormulaModifications(Scene):
 #  միգուցե էս ամենը տեղափոխել QarakusiScene (որտև մենակ միանդամների մեջ չի, որ պետք կգան)
     """
         new_sequence addresses each of formula's item to it's new position, including '$\cdot$', ' + '
+        new_sequence is a permutation of numbers form range(len(formula))
         to work properly, formula must be written in such a way that every item is in different apostrophes like so
         formula = Tex('a', '$\cdot$', 'b')
     """
@@ -25,8 +26,8 @@ class FormulaModifications(Scene):
                 in_line.append(i)
 
         self.play(
-            *[formula[i].animate.shift(0.5 * UP) for i in move_up]),
-            *[formula[i].animate.shift(0.5 * DOWN) for i in move_down])
+            *[formula[i].animate.shift(0.5 * UP) for i in move_up],
+            *[formula[i].animate.shift(0.5 * DOWN) for i in move_down]
         )
         self.play(
             *[formula[i].animate.move_to(new_formula[new_sequence.index(i)]).shift(0.5 * UP) for i in move_up],
