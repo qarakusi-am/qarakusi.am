@@ -1,6 +1,6 @@
-from manim import Write, GrowFromEdge, Tex, Transform, GrowFromCenter, Brace
-from manim import YELLOW, ORANGE, RED, WHITE
-from lib.aramanim import *
+from manim import Write, GrowFromEdge, Tex, Transform, GrowFromCenter, Brace, Scene, FadeIn, VGroup, FadeOut, MathTex
+from manim import YELLOW, ORANGE, RED, WHITE, RIGHT, UP, DOWN, LEFT, ORIGIN
+from lib.aramanim import Segment, CutIn, CutOut
 from lib.qarakusiscene import TaskNumberBox
 from objects import DScissors, Checkmark
 from .text import *
