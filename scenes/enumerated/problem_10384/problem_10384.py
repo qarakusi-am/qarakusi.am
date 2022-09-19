@@ -1,4 +1,5 @@
-from manim import *
+from manim import Write, GrowFromEdge, Tex, Transform, GrowFromCenter, Brace
+from manim import YELLOW, ORANGE, RED, WHITE
 from lib.aramanim import *
 from lib.qarakusiscene import TaskNumberBox
 from objects import DScissors, Checkmark
@@ -159,12 +160,12 @@ class Problem10384(Scene):
         self.wait(2)
         self.play(FadeOut(self.value_of_1_part_label, self.value_of_4_part_label, brace3_label1))
         self.wait()
-        first_rope_length_copy = MathTex("100").scale(.9).align_to(brace2_label2, LEFT+UP)
-        second_rope_length_copy = MathTex("280").scale(.9).align_to(brace3_label3, LEFT+UP)
+        first_rope_length_copy = MathTex(brace2_string2).scale(.9).align_to(brace2_label2, LEFT+UP)
+        second_rope_length_copy = MathTex(string4).scale(.9).align_to(brace3_label3, LEFT+UP)
         self.add(first_rope_length_copy, second_rope_length_copy)
         self.play(
             first_rope_length_copy.animate.to_edge(LEFT).to_edge(DOWN, buff=2.2),
-            second_rope_length_copy.animate.become(MathTex(string1).scale(.9).align_to(brace3_label3, LEFT+UP)).to_edge(LEFT, buff=1.17).to_edge(DOWN, buff=2.2),
+            second_rope_length_copy.animate.become(MathTex(string1).scale(.9).align_to(brace3_label3, LEFT+UP)).to_edge(LEFT, buff=1.5).to_edge(DOWN, buff=2.2),
             run_time=2
         )
         self.wait()
@@ -194,9 +195,9 @@ class Problem10384(Scene):
         brace3_label4 = brace3.get_tex(string3).scale(.9)
         self.play(Write(brace3_label4))
         self.wait()
-        brace2_label3_copy = brace2.get_tex("90").scale(.9).align_to(brace2_label3, RIGHT+UP).shift(LEFT*.3)
-        brace3_label4_copy = brace3.get_tex("270").scale(.9).align_to(brace3_label4, RIGHT+UP).shift(LEFT*.3)
-        brace2_label3_copy_new = brace3.get_tex(r"90 \cdot 3 = ").scale(.9).to_edge(LEFT).to_edge(DOWN, buff=1.6)
+        brace2_label3_copy = brace2.get_tex(string5).scale(.9).align_to(brace2_label3, RIGHT+UP).shift(LEFT*.3)
+        brace3_label4_copy = brace3.get_tex(string6).scale(.9).align_to(brace3_label4, RIGHT+UP).shift(LEFT*.3)
+        brace2_label3_copy_new = brace3.get_tex(string7).scale(.9).to_edge(LEFT).to_edge(DOWN, buff=1.6)
         self.play(
             brace2_label3_copy.animate.become(brace2_label3_copy_new),
             brace3_label4_copy.animate.next_to(brace2_label3_copy_new),
@@ -207,10 +208,10 @@ class Problem10384(Scene):
     def set_up(self):
         self.task_number = TaskNumberBox(task_number_string)
         self.condition1 = Tex(condition1_string).scale(.9*.9).shift(UP)
-        self.condition1[0][:1].set_color(ORANGE)
+        self.condition1[0][:8].set_color(ORANGE)
         self.condition2 = Tex(condition2_string).scale(.9*.9)
         self.condition2.next_to(self.condition1, DOWN, buff=1)
-        self.condition2[0][:1].set_color(ORANGE)
+        self.condition2[0][:8].set_color(ORANGE)
         self.first_rope_label = Tex(first_rope_string, font_size=50).set_color_by_gradient("#FF9673", "#E0B851").scale(.8)
         self.second_rope_label = Tex(second_rope_string, font_size=50).set_color_by_gradient("#CFC748", "#7FC381").scale(.8)
         self.first_rope_label.to_edge(LEFT).to_edge(UP, buff=1.5)
