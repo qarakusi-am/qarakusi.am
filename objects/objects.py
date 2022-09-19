@@ -765,4 +765,13 @@ class Stopwatch(VGroup):
             about_point=self.stopwatch.get_center()
         )
 
-
+class Train(VGroup):
+    def __init__(self, with_locomotive = True, passenger = True, number_of_rolling_cars = 2):
+        n = number_of_rolling_cars
+        path_to_cars = path_to_SVG / 'train' / 'passenger_car.svg' if passenger else path_to_SVG / 'train' / 'freight_car.svg'
+        path_to_locomotive = path_to_SVG / 'train' / 'locomotive.svg'
+        vmobjects = [SVGMobject(path_to_cars) for _ in range(n)]
+        if with_locomotive:
+            vmobjects.append(SVGMobject(path_to_locomotive))
+        super().__init__(*vmobjects)
+        self.arrange(RIGHT, aligned_edge=DOWN)
