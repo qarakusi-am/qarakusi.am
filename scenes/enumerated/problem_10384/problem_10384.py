@@ -117,8 +117,8 @@ class Problem10384(Scene):
         self.play(Write(self.value_of_1_part_label), run_time=4)
         self.wait()
         x4_value_of_1_part = [
-            Tex("$90$", font_size=50).scale(.9).next_to(self.first_rope, UP),
-            *[Tex("$90$", font_size=50).scale(.9).next_to(x, UP) for x in x3_segments]
+            Tex(string8, font_size=50).scale(.9).next_to(self.first_rope, UP),
+            *[Tex(string8, font_size=50).scale(.9).next_to(x, UP) for x in x3_segments]
         ]
         self.play(*[Write(x) for x in x4_value_of_1_part], run_time=3)
         self.wait()
