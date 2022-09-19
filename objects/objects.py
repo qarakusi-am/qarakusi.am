@@ -775,3 +775,4 @@ class Train(VGroup):
             vmobjects.append(SVGMobject(path_to_locomotive))
         super().__init__(*vmobjects)
         self.arrange(RIGHT, aligned_edge=DOWN)
+        
