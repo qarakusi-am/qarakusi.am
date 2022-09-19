@@ -25,8 +25,8 @@ class FormulaModifications(Scene):
                 in_line.append(i)
 
         self.play(
-            VGroup(*[formula[i] for i in move_up]).animate.shift(0.5 * UP),
-            VGroup(*[formula[i] for i in move_down]).animate.shift(0.5 * DOWN)
+            *[formula[i].animate.shift(0.5 * UP) for i in move_up]),
+            *[formula[i].animate.shift(0.5 * DOWN) for i in move_down])
         )
         self.play(
             *[formula[i].animate.move_to(new_formula[new_sequence.index(i)]).shift(0.5 * UP) for i in move_up],
