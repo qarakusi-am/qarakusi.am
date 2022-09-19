@@ -1,8 +1,7 @@
 from manim import Tex, MathTex
 from manim import UP, DOWN, LEFT, DL
-from manim import VGroup
 from manim import Scene
-from manim import ReplacementTransform
+from manim import ReplacementTransform, FadeOut, FadeIn
 
 class FormulaModifications(Scene):
 
@@ -15,19 +14,24 @@ class FormulaModifications(Scene):
         formula = Tex('a', '$\cdot$', 'b')
     """
 
-    def rearrange_formula(self, formula : Tex or MathTex, new_sequence : list, move_up : list, move_down : list):
+    def rearrange_formula(self,
+        formula : Tex or MathTex, new_sequence : list, 
+        move_up : list, move_down : list,
+        fade_out : list, fade_in : list
+    ):
         tex_string_list = [tex.get_tex_string() for tex in formula]
         new_tex_string_list = [tex_string_list[new_sequence[i]] for i in range(len(tex_string_list))]
         new_formula = Tex(*new_tex_string_list, font_size=formula[0].font_size, color=formula.color).move_to(formula)
 
         in_line = []
         for i in range(len(tex_string_list)):
-            if i not in move_up and i not in move_down:
+            if i not in move_up and i not in move_down: #and i not in fade_out: # i not in fade_in and
                 in_line.append(i)
 
         self.play(
             *[formula[i].animate.shift(0.5 * UP) for i in move_up],
-            *[formula[i].animate.shift(0.5 * DOWN) for i in move_down]
+            *[formula[i].animate.shift(0.5 * DOWN) for i in move_down],
+            *[formula[i].animate.set_opacity(0) for i in fade_out]
         )
         self.play(
             *[formula[i].animate.move_to(new_formula[new_sequence.index(i)]).shift(0.5 * UP) for i in move_up],
@@ -35,8 +39,9 @@ class FormulaModifications(Scene):
             *[formula[i].animate.move_to(new_formula[new_sequence.index(i)]) for i in in_line]
         )
         self.play(
-            VGroup(*[formula[i] for i in move_up]).animate.shift(0.5 * DOWN),
-            VGroup(*[formula[i] for i in move_down]).animate.shift(0.5 * UP)
+            *[formula[i].animate.shift(0.5 * DOWN) for i in move_up],
+            *[formula[i].animate.shift(0.5 * UP) for i in move_down],
+            *[FadeIn(new_formula[i]) for i in fade_in]
         )
         self.play(
             *[ReplacementTransform(formula[new_sequence[i]], new_formula[i], run_time=0.1) for i in range(len(formula))]
@@ -82,4 +87,3 @@ class FormulaModifications(Scene):
 
         formula.remove(*formula)
         formula.add(*new_formula)
-
