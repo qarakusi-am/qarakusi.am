@@ -31,7 +31,6 @@ class Problem11273(Scene):
         height_label = MathTex(r"6:2=3\text{"+cm+"}").next_to(nvazox_mas, DOWN).align_to(nvazox_mas, LEFT)
         width_plus_height = MathTex(r"24:2=12\text{"+cm+"}").next_to(sum_of_2_perimeters, buff=5.1)
         width_label = MathTex(r"12-3=9\text{"+cm+"}").next_to(width_plus_height, DOWN).align_to(width_plus_height, LEFT)
-
         self.play(FadeIn(task_number))
         self.wait()
         self.play(Create(rectangle1), run_time=1.5)
