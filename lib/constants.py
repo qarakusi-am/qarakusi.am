@@ -54,17 +54,10 @@ DEFAULT_PAPERS_BUFF = 0.125
 
 
 # Հայերեն գրելու համար tex_template (նույն բանն են)
-XELATEX_preamble = r"""
-\usepackage{tikz}
-\usepackage{fontspec}
-\setmainfont{DejaVu Serif}
-\usepackage{amsfonts,amssymb,amsthm,mathtools}
-\usepackage{amsmath}
-\usepackage{upgreek}
-\usepackage{mathrsfs}
-"""
-ARMTEX = TexTemplate('xelatex', '.pdf', preamble=XELATEX_preamble)
-ENGTEX = ARMTEX
+ENGTEX = TexTemplate()
+ARMTEX = TexTemplate()
+ARMTEX.add_to_preamble(r'\usepackage{armtex}')
+
 
 class LanguageConfig:
     language = 'armenian'
