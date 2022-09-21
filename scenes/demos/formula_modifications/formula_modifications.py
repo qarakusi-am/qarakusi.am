@@ -1,4 +1,5 @@
 from manim import *
+from hanrahashiv import FormulaModifications
 
 # FIXME import doesn't work
 class test(FormulaModifications):
