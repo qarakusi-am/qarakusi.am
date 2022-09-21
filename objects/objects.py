@@ -102,6 +102,10 @@ svg_defaults.add_default(
     {'scale': 1.5,
      'color': GOLD})
 svg_defaults.add_default(
+    'small_car',
+    {'scale': 0.2,
+     'color': RED})
+svg_defaults.add_default(
     'cage_bird',
     {'scale': 2,
      'color': GOLD})
