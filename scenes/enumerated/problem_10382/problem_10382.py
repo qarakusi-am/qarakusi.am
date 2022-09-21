@@ -5,7 +5,7 @@ from manim import Tex, MathTex,DashedLine, SurroundingRectangle, VGroup, Brace
 from manim import Write, Create, FadeIn, FadeOut, TransformMatchingShapes, Indicate, ReplacementTransform
 from manim import Scene
 from .text import arshak_str, levon_str, toy_str, missing_str
-from objects import Coin
+from objects import SimpleSVGMobject
 
 UNIT = 1/50
 POSITION = [-4.5, 2.25, 0]
@@ -19,7 +19,7 @@ class Problem10382(Scene):
         toy_price = 440
         arshaks_money = 140
         levons_money = 240
-        coins = VGroup(*[Coin().copy() for _ in range(5)])
+        coins = VGroup(*[SimpleSVGMobject('20dram').copy() for _ in range(5)])
         coins.arrange(RIGHT)
         missing_tex = Tex(missing_str).scale(0.7)
         prob_number = MathTex(r'\#10382').to_corner(LEFT+UP)
