@@ -30,19 +30,27 @@ class RoadScene(Scene):
         y = Tex('$y$', color=color_b)
 
     # ճանապարհի նկար
-        road = SVGMobject('../../../../objects/SVG_files/road').set_color(WHITE)
+        road = SVGMobject('objects/SVG_files/road').set_color(WHITE)
         road.scale(2).to_edge(UR).shift(DOWN)
         road.points = road.get_all_points()
 
         dot_prop = ValueTracker(0)
         moving_dot = always_redraw(lambda: Dot(road.point_from_proportion(dot_prop.get_value()), radius=DEFAULT_DOT_RADIUS / 10))
 
-        car = SVGMobject('../../../../objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15)
+        car = SVGMobject('objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15)
+        rotation = 0
+        def car_updater(mob):
+            nonlocal rotation
+            target_rotation = np.arctan2(
+                    (road.point_from_proportion(dot_prop.get_value() + 0.0001)[1] - road.point_from_proportion(dot_prop.get_value())[1]),
+                    (road.point_from_proportion(dot_prop.get_value() + 0.0001)[0] - road.point_from_proportion(dot_prop.get_value())[0])
+            )
+            ret = mob.rotate(target_rotation - rotation)
+            rotation = target_rotation
+            return ret
         car.add_updater(
-            lambda mob: mob.become(mob.move_to(moving_dot).rotate(
-                np.arcsin((road.point_from_proportion(dot_prop.get_value() + 0.01)[0] - road.point_from_proportion(dot_prop.get_value())[0]) / 
-                (road.point_from_proportion(dot_prop.get_value() + 0.01)[1] - road.point_from_proportion(dot_prop.get_value())[1]))
-            )))
+            lambda mob: mob.become(car_updater(mob.move_to(moving_dot)))
+        )
 
         segments_a = VGroup(*[VMobject(color=color_a, stroke_width=7) for _ in range(4)])
         segments_b = VGroup(*[VMobject(color=color_b, stroke_width=7) for _ in range(3)])
