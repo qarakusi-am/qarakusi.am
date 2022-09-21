@@ -1,4 +1,3 @@
-from cProfile import label
 from aramanim import Segment
 from manim import WHITE, GREEN, RED, BLACK
 from manim import ORIGIN, RIGHT, LEFT, UP, DOWN
