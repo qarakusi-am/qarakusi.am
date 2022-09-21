@@ -560,6 +560,13 @@ class ScaleStar(VMobject):
 
         self.add(star)
 
+class Checkmark(VMobject):
+    def __init__(self):
+        super().__init__()
+
+        checkmark = SVGMobject(path_to_SVG / 'check')
+
+        self.add(checkmark)
 
 class Scissors:
     def __init__(self, cut_coordinate=ORIGIN, style=1):
