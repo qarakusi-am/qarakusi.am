@@ -30,14 +30,14 @@ class RoadScene(Scene):
         y = Tex('$y$', color=color_b)
 
     # ճանապարհի նկար
-        road = SVGMobject('../../../../objects/SVG_files/road').set_color(WHITE)
+        road = SVGMobject('objects/SVG_files/road').set_color(WHITE)
         road.scale(2).to_edge(UR).shift(DOWN)
         road.points = road.get_all_points()
 
         dot_prop = ValueTracker(0)
         moving_dot = always_redraw(lambda: Dot(road.point_from_proportion(dot_prop.get_value()), radius=DEFAULT_DOT_RADIUS / 10))
 
-        car = SVGMobject('../../../../objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15).rotate(PI * 7 / 13)
+        car = SVGMobject('objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15).rotate(PI * 7 / 13)
         rotation = 0
         def car_updater(mob):
             nonlocal rotation
@@ -377,13 +377,14 @@ class FiveXPlusSixY(Scene):
         surr_rect_five_x = SurroundingRectangle(five_x_plus_six_y[0], color=BLUE, corner_radius=0.25)
         surr_rect_five_x.stretch(1.2, 1).align_to(surr_rect_six_y, UP)
 
-        bazmandam_arrow = Arrow(color=YELLOW).rotate(PI / 4).next_to(surr_rect_five_x_plus_six_y, UR, buff=0)
+        bazmandam_arrow = Arrow(color=YELLOW)
+        VGroup(bazmandam_arrow, bazmandam_arrow.tip).scale(0.75).rotate(PI / 2).next_to(surr_rect_five_x_plus_six_y, UP, buff=0)
         miandam_arrows = VGroup(
             Arrow(color=BLUE).rotate(- PI * 3 / 8).next_to(surr_rect_five_x, DOWN, buff=0).shift(0.2 * RIGHT),
             Arrow(color=BLUE).rotate(- PI * 5 / 8).next_to(surr_rect_six_y, DOWN, buff=0).shift(0.2 * LEFT)
         )
 
-        bazmandam = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow, UR)
+        bazmandam = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow, UP)
         miandam = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows, DOWN)
 
 
@@ -428,14 +429,15 @@ class FiveXPlusSixYPlusFourZ(Scene):
         surr_rect_five_x.stretch(1.2, 1).align_to(surr_rect_six_y, UP)
         surr_rect_four_z.stretch(1.2, 1).align_to(surr_rect_six_y, UP)
 
-        bazmandam_arrow = Arrow(color=YELLOW).rotate(PI / 4).next_to(surr_rect_five_x_plus_six_y_plus_4_z, UR, buff=0)
+        bazmandam_arrow = Arrow(color=YELLOW)
+        VGroup(bazmandam_arrow, bazmandam_arrow.tip).scale(0.75).rotate(PI / 2).next_to(surr_rect_five_x_plus_six_y_plus_4_z, UP, buff=0)
         miandam_arrows = VGroup(
             Arrow(color=BLUE).rotate(- PI * 3 / 8).next_to(surr_rect_five_x, DOWN, buff=0).shift(0.2 * RIGHT),
             Arrow(color=BLUE).rotate(- PI * 4 / 8).next_to(surr_rect_six_y, DOWN, buff=0),
             Arrow(color=BLUE).rotate(- PI * 5 / 8).next_to(surr_rect_four_z, DOWN, buff=0).shift(0.2 * LEFT),
         )
 
-        bazmandam = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow, UR, buff=0.2)
+        bazmandam = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow, UP, buff=0.2).shift(0.1 * LEFT)
         miandam = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows, DOWN)
 
 
@@ -514,7 +516,7 @@ class DefinitionExamples(Scene):
         not_miandam_2 = MathTex(r'\frac{5}{a}\cdot x')
 
         not_miandams = VGroup(not_miandam_1, not_miandam_2)
-        not_miandams.arrange(DOWN, buff=0.5).next_to(is_not_miandam, DOWN, buff=0.5)
+        not_miandams.arrange(DOWN, buff=0.5, aligned_edge=LEFT).next_to(is_not_miandam, DOWN, buff=0.5, aligned_edge=LEFT)
 
         surr_rects_miandam_4 = VGroup(
             SurroundingRectangle(miandams_4[0]),
@@ -525,11 +527,15 @@ class DefinitionExamples(Scene):
         surr_rect_not_miandam_2.move_to(not_miandam_2).shift([-0.35, -0.4, 0]).scale(0.11).stretch(1.75, 1)
         not_miandam_haytarar = MathTex(r'a', color=RED).move_to(not_miandam_2).shift([-0.35, -0.4, 0])
 
+        arka_e_gumarum = Tex('(առկա է գումարում)', tex_template=ARMTEX, font_size=37)
+        arka_e_gumarum.next_to(not_miandam_1)
+
 
 # ANIMATIONS
 
-        self.play(Write(sahmanum[0], run_time=2.5))
-        self.play(Write(sahmanum[1], run_time=1.5))
+        self.play(Write(sahmanum[0], run_time=2.5, rate_func=linear))
+        self.wait(0.1)
+        self.play(Write(sahmanum[1], run_time=1.5, rate_func=linear))
         self.play(Create(surr_rect_sahmanum))
         self.wait(0.25)
 
@@ -571,6 +577,8 @@ class DefinitionExamples(Scene):
         self.wait(0.25)
 
         self.play(Write(not_miandam_1))
+        self.wait()
+        self.play(Write(arka_e_gumarum))
         self.wait()
 
         self.play(Write(miandams_4))
