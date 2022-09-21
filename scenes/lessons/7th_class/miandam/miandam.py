@@ -15,19 +15,19 @@ class RoadScene(Scene):
 
 # INITS
 
-        aram_60 = Tex('Արամ',  ' - ',  '60', ' կմ/ժ', tex_template=ARMTEX, color=color_a)
+        aram_60 = Tex('Արամ',  ' - ',  '$60$', ' կմ/ժ', tex_template=ARMTEX, color=color_a)
         aram_60.to_edge(UL)
-        babken_70 = Tex('Բաբկեն',  ' - ',  '70', ' կմ/ժ', tex_template=ARMTEX, color=color_b)
+        babken_70 = Tex('Բաբկեն',  ' - ',  '$70$', ' կմ/ժ', tex_template=ARMTEX, color=color_b)
         babken_70.next_to(aram_60, DOWN, aligned_edge=LEFT)
 
         urish = Tex('Առաջին վարորդ', tex_template=ARMTEX, color=color_a).align_to(aram_60[0], DL)
         urish_urish = Tex('Երկրորդ վարորդ', tex_template=ARMTEX, color=color_b).align_to(babken_70[0], DL)
 
-        seventy = Tex('70', color=color_a)
-        ninty = Tex('90', color=color_b)
+        seventy = Tex('$70$', color=color_a)
+        ninty = Tex('$90$', color=color_b)
 
-        x = Tex('x', color=color_a)
-        y = Tex('y', color=color_b)
+        x = Tex('$x$', color=color_a)
+        y = Tex('$y$', color=color_b)
 
     # ճանապարհի նկար
         road = SVGMobject('../../../../objects/SVG_files/road').set_color(WHITE)
@@ -38,7 +38,11 @@ class RoadScene(Scene):
         moving_dot = always_redraw(lambda: Dot(road.point_from_proportion(dot_prop.get_value()), radius=DEFAULT_DOT_RADIUS / 10))
 
         car = SVGMobject('../../../../objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15)
-        car.add_updater(lambda mob: mob.become(mob.move_to(moving_dot)))
+        car.add_updater(
+            lambda mob: mob.become(mob.move_to(moving_dot).rotate(
+                np.arcsin((road.point_from_proportion(dot_prop.get_value() + 0.01)[0] - road.point_from_proportion(dot_prop.get_value())[0]) / 
+                (road.point_from_proportion(dot_prop.get_value() + 0.01)[1] - road.point_from_proportion(dot_prop.get_value())[1]))
+            )))
 
         segments_a = VGroup(*[VMobject(color=color_a, stroke_width=7) for _ in range(4)])
         segments_b = VGroup(*[VMobject(color=color_b, stroke_width=7) for _ in range(3)])
@@ -49,13 +53,13 @@ class RoadScene(Scene):
             seg.become(previous_seg)
     
     # արտահայտություններ
-        first_day_equation = Tex('60', ' + ', '70', ' + ', '60', ' + ', '70', ' + ', '60').to_edge(LEFT).shift(UP)
+        first_day_equation = Tex('$60$', ' $+$ ', '$70$', ' $+$ ', '$60$', ' $+$ ', '$70$', ' $+$ ', '$60$').to_edge(LEFT).shift(UP)
         VGroup(first_day_equation[0], first_day_equation[4], first_day_equation[8]).set_color(color_a)
         VGroup(first_day_equation[2], first_day_equation[6]).set_color(color_b)
 
         modified_equation = Tex(
-            '3', ' $\cdot$ ', '60', ' + ', '2', ' $\cdot$ ', '70',  ' + ', 
-            '2', ' $\cdot$ ', '60', ' + ', '4', ' $\cdot$ ', '70'
+            '$3$', ' $\cdot$ ', '$60$', ' $+$ ', '$2$', ' $\cdot$ ', '$70$',  ' $+$ ', 
+            '$2$', ' $\cdot$ ', '$60$', ' $+$ ', '$4$', ' $\cdot$ ', '$70$'
         )
         modified_equation.to_edge(LEFT)
         modified_equation[2].set_color(color_a)
@@ -72,30 +76,30 @@ class RoadScene(Scene):
             SurroundingRectangle(modified_equation[12:])
         )
 
-        final_equation = Tex('5', ' $\cdot$ ', '60', ' + ', '6', ' $\cdot$ ', '70')
+        final_equation = Tex('$5$', ' $\cdot$ ', '$60$', ' $+$ ', '$6$', ' $\cdot$ ', '$70$')
         final_equation.to_edge(LEFT).shift(DOWN)
         final_equation[2].set_color(color_a)
         final_equation[-1].set_color(color_b)
 
-        three_plus_two_times_60 = Tex('(', '3', ' + ', '2', ')', ' $\cdot$ ', '60')
+        three_plus_two_times_60 = Tex('$($', '$3$', ' $+$ ', '$2$', '$)$', ' $\cdot$ ', '$60$')
         three_plus_two_times_60.move_to(final_equation[0]).shift(RIGHT)
 
-        two_plus_four_times_70 = Tex('(', '2', ' + ', '4', ')', ' $\cdot$ ', '70')
+        two_plus_four_times_70 = Tex('$($', '$2$', ' $+$ ', '$4$', '$)$', ' $\cdot$ ', '$70$')
         two_plus_four_times_70.move_to(final_equation[-1]).shift(0.35 * RIGHT)
 
         sixties = VGroup(
             aram_60[2],
-            first_day_equation[0],
-            first_day_equation[4],
-            first_day_equation[8],
+            # first_day_equation[0],
+            # first_day_equation[4],
+            # first_day_equation[8],
             modified_equation[2],
             modified_equation[10],
             final_equation[2]
         )
         seventies = VGroup(
             babken_70[2],
-            first_day_equation[2],
-            first_day_equation[6],
+            # first_day_equation[2],
+            # first_day_equation[6],
             modified_equation[6],
             modified_equation[14],
             final_equation[6]
@@ -172,6 +176,8 @@ class RoadScene(Scene):
                     lag_ratio=0.5
                 )
             )
+            self.wait()
+            self.play(FadeOut(first_day_equation))
             self.wait()
 
         def anim_second_day(): # երկրորդ օրը 2 * 60 + 4 * 70
@@ -282,26 +288,29 @@ class RoadScene(Scene):
 
             self.remove(final_equation)
             self.play(
-                Transform(
-                    VGroup(final_equation[0], *final_equation[2:5], final_equation[-1]), 
-                    Tex('5', 'x', ' + ', '6', 'y', font_size=70)
-                ),
-                FadeOut(final_equation[1], final_equation[-2])
+                AnimationGroup(
+                    FadeOut(final_equation[1], final_equation[-2]),
+                    Transform(
+                        VGroup(final_equation[0], *final_equation[2:5], final_equation[-1]), 
+                        Tex('$5$', '$x$', ' $+$ ', '$6$', '$y$', font_size=70)
+                    ),
+                    lag_ratio=0.5, run_tim=1.5
+                )
             )
             self.wait()
 
-        anim_hamarotagrutyun()
-        anim_first_day()
-        anim_modify_equation()
-        anim_second_day()
-        anim_final_equation()
-        anim_adding_variables()
+        anim_hamarotagrutyun() # 0-7
+        anim_first_day() # 8-21
+        anim_modify_equation() # 22-31
+        anim_second_day() # 32-39
+        anim_final_equation() # 40-55
+        anim_adding_variables() # 56-71
+
 
 # վիդյոյի վերջում հետ ենք բերում էս էկրանը
-
     # inits
 
-        final_equation_copy = Tex('5', ' $\cdot$ ', 'x', ' + ', '6', ' $\cdot$ ', 'y')
+        final_equation_copy = Tex('$5$', ' $\cdot$ ', '$x$', ' $+$ ', '$6$', ' $\cdot$ ', '$y$')
         final_equation_copy.to_edge(LEFT).shift(DOWN)
         final_equation_copy[2].set_color(color_a)
         final_equation_copy[-1].set_color(color_b)
@@ -323,10 +332,9 @@ class RoadScene(Scene):
         def anim_nman_miandamner():
             self.remove(*self.mobjects)
             self.add(
-                aram_60, babken_70, first_day_equation,
-                modified_equation, moving_dot, road,
-                segments_a, segments_b, urish, urish_urish,
-                final_equation_copy, car
+                aram_60, babken_70, moving_dot, road,
+                modified_equation, final_equation_copy,
+                segments_a, segments_b, urish, urish_urish, car
             )
             self.wait()
 
@@ -346,7 +354,7 @@ class RoadScene(Scene):
 
             self.play(*[FadeOut(mob) for mob in self.mobjects])
 
-        anim_nman_miandamner()
+        anim_nman_miandamner() # 72-82
 
 
 class FiveXPlusSixY(Scene):
@@ -354,7 +362,7 @@ class FiveXPlusSixY(Scene):
 
 # INITS
 
-        five_x_plus_six_y = Tex('5x', ' + ', '6y', font_size=70)
+        five_x_plus_six_y = Tex('$5x$', ' $+$ ', '$6y$', font_size=70)
         surr_rect_five_x_plus_six_y = SurroundingRectangle(five_x_plus_six_y, buff=MED_SMALL_BUFF)
         surr_rect_six_y = SurroundingRectangle(five_x_plus_six_y[2], color=BLUE, corner_radius=0.25)
         surr_rect_five_x = SurroundingRectangle(five_x_plus_six_y[0], color=BLUE, corner_radius=0.25)
@@ -367,7 +375,7 @@ class FiveXPlusSixY(Scene):
         )
 
         bazmandam = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow, UR)
-        miandams = Tex('Միանդամներ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows, DOWN)
+        miandam = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows, DOWN)
 
 
 
@@ -385,7 +393,7 @@ class FiveXPlusSixY(Scene):
         self.wait()
 
         self.play(Create(miandam_arrows))
-        self.play(Write(miandams))
+        self.play(Write(miandam))
         self.wait()
 
         self.play(*[FadeOut(mob) for mob in self.mobjects])
@@ -396,7 +404,7 @@ class FiveXPlusSixYPlusFourZ(Scene):
 
 # INITS
 
-        five_x_plus_six_y_plus_4_z = Tex('5x', ' + ', '6y', ' + ', '4z', font_size=70).shift(0.5 * LEFT)
+        five_x_plus_six_y_plus_4_z = Tex('$5x$', ' $+$ ', '$6y$', ' $+$ ', '$4z$', font_size=70).shift(0.5 * LEFT)
         surr_rect_five_x_plus_six_y_plus_4_z = SurroundingRectangle(five_x_plus_six_y_plus_4_z, buff=MED_SMALL_BUFF)
         surr_rect_six_y = SurroundingRectangle(five_x_plus_six_y_plus_4_z[2], color=BLUE, corner_radius=0.25)
         surr_rect_five_x = SurroundingRectangle(five_x_plus_six_y_plus_4_z[0], color=BLUE, corner_radius=0.25)
@@ -412,7 +420,7 @@ class FiveXPlusSixYPlusFourZ(Scene):
         )
 
         bazmandam = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow, UR, buff=0.2)
-        miandams = Tex('Միանդամներ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows, DOWN)
+        miandam = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows, DOWN)
 
 
 
@@ -431,13 +439,78 @@ class FiveXPlusSixYPlusFourZ(Scene):
         self.wait()
 
         self.play(Create(miandam_arrows))
-        self.play(Write(miandams))
+        self.play(Write(miandam))
         self.wait()
 
         self.play(*[FadeOut(mob) for mob in self.mobjects])
 
 
-class SahmanumOrinakner(Scene):
+class DefiningPolynomialAndMonomial(Scene): # unfinished
+    def construct(self):
+
+# INITS
+
+    # 5x + 6y
+        five_x_plus_six_y = Tex('$5x$', ' $+$ ', '$6y$', font_size=70)
+        surr_rect_five_x_plus_six_y = SurroundingRectangle(five_x_plus_six_y, buff=MED_SMALL_BUFF)
+        surr_rect_six_y_1 = SurroundingRectangle(five_x_plus_six_y[2], color=BLUE, corner_radius=0.25)
+        surr_rect_five_x_1 = SurroundingRectangle(five_x_plus_six_y[0], color=BLUE, corner_radius=0.25)
+        surr_rect_five_x_1.stretch(1.2, 1).align_to(surr_rect_six_y_1, UP)
+
+        bazmandam_arrow_1 = Arrow(color=YELLOW).rotate(PI / 4).next_to(surr_rect_five_x_plus_six_y, UR, buff=0)
+        miandam_arrows_1 = VGroup(
+            Arrow(color=BLUE).rotate(- PI * 3 / 8).next_to(surr_rect_five_x_1, DOWN, buff=0).shift(0.2 * RIGHT),
+            Arrow(color=BLUE).rotate(- PI * 5 / 8).next_to(surr_rect_six_y_1, DOWN, buff=0).shift(0.2 * LEFT)
+        )
+
+        bazmandam_1 = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow_1, UR)
+        miandam_1 = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows_1, DOWN)
+
+
+    # 5x + 6y + 4z
+        five_x_plus_six_y_plus_4_z = Tex('$5x$', ' $+$ ', '$6y$', ' $+$ ', '$4z$', font_size=70).shift(0.5 * LEFT)
+        surr_rect_five_x_plus_six_y_plus_4_z = SurroundingRectangle(five_x_plus_six_y_plus_4_z, buff=MED_SMALL_BUFF)
+        surr_rect_six_y_2 = SurroundingRectangle(five_x_plus_six_y_plus_4_z[2], color=BLUE, corner_radius=0.25)
+        surr_rect_five_x_2 = SurroundingRectangle(five_x_plus_six_y_plus_4_z[0], color=BLUE, corner_radius=0.25)
+        surr_rect_four_z = SurroundingRectangle(five_x_plus_six_y_plus_4_z[4], color=BLUE, corner_radius=0.25)
+        surr_rect_five_x_2.stretch(1.2, 1).align_to(surr_rect_six_y_2, UP)
+        surr_rect_four_z.stretch(1.2, 1).align_to(surr_rect_six_y_2, UP)
+
+        bazmandam_arrow_2 = Arrow(color=YELLOW).rotate(PI / 4).next_to(surr_rect_five_x_plus_six_y_plus_4_z, UR, buff=0)
+        miandam_arrows_2 = VGroup(
+            Arrow(color=BLUE).rotate(- PI * 3 / 8).next_to(surr_rect_five_x_2, DOWN, buff=0).shift(0.2 * RIGHT),
+            Arrow(color=BLUE).rotate(- PI * 4 / 8).next_to(surr_rect_six_y_2, DOWN, buff=0),
+            Arrow(color=BLUE).rotate(- PI * 5 / 8).next_to(surr_rect_four_z, DOWN, buff=0).shift(0.2 * LEFT),
+        )
+
+        bazmandam_2 = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow_2, UR, buff=0.2)
+        miandam_2 = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows_2, DOWN)
+
+
+
+# ANIMATIONS
+
+        self.add(five_x_plus_six_y)
+        self.wait()
+
+        self.play(Create(surr_rect_five_x_1), Create(surr_rect_six_y_1))
+        self.wait()
+        self.play(Create(surr_rect_five_x_plus_six_y))
+        self.wait(0.25)
+        self.play(Create(bazmandam_arrow_1))
+        self.play(Write(bazmandam_1))
+        self.wait()
+
+        self.play(Create(miandam_arrows_1))
+        self.play(Write(miandam_1))
+        self.wait()
+
+        # self.play(FadeOut())
+
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+
+
+class DefinitionExamples(Scene):
     def construct(self):
 
 # INITS
@@ -574,5 +647,5 @@ class Miandam(Scene):
         RoadScene.construct(self)
         FiveXPlusSixY.construct(self)
         FiveXPlusSixYPlusFourZ.construct(self)
-        SahmanumOrinakner.construct(self)
+        DefinitionExamples.construct(self)
 
