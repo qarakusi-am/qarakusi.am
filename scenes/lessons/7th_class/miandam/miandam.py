@@ -30,14 +30,14 @@ class RoadScene(Scene):
         y = Tex('$y$', color=color_b)
 
     # ճանապարհի նկար
-        road = SVGMobject('objects/SVG_files/road').set_color(WHITE)
+        road = SVGMobject('../../../../objects/SVG_files/road').set_color(WHITE)
         road.scale(2).to_edge(UR).shift(DOWN)
         road.points = road.get_all_points()
 
         dot_prop = ValueTracker(0)
         moving_dot = always_redraw(lambda: Dot(road.point_from_proportion(dot_prop.get_value()), radius=DEFAULT_DOT_RADIUS / 10))
 
-        car = SVGMobject('objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15)
+        car = SVGMobject('../../../../objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15).rotate(PI * 7 / 13)
         rotation = 0
         def car_updater(mob):
             nonlocal rotation
@@ -115,7 +115,7 @@ class RoadScene(Scene):
 
 # ANIMATIONS
 
-        def anim_hamarotagrutyun(): # համառոտագրություն
+        def animate_hamarotagrutyun(): # համառոտագրություն
             self.play(Write(aram_60))
             self.wait()
             self.play(Write(babken_70))
@@ -128,7 +128,7 @@ class RoadScene(Scene):
             self.play(FadeIn(car))
             self.wait(0.5)
 
-        def anim_first_day(): # առաջին օրը 60 70 60 70 60
+        def animate_first_day(): # առաջին օրը 60 70 60 70 60
             for i in range(5):
                 if i % 2 == 0:
                     segments_a[int(i / 2)].set_points_as_corners([moving_dot.get_center(), moving_dot.get_center()])
@@ -153,15 +153,16 @@ class RoadScene(Scene):
                         self.play(dot_prop.animate(rate_func=linear).set_value(dot_prop.get_value() + prop_b))
                         self.wait(0.5)
                         self.play(Write(first_day_equation[2*i-1 : 2*i+1]))
+                        self.wait()
                     else:
                         self.play(
                             dot_prop.animate(rate_func=linear).set_value(dot_prop.get_value() + prop_b),
                             Write(first_day_equation[2*i-1 : 2*i+1])
                         )
+                        self.wait(0.25)
                     segments_b[int(i / 2)].clear_updaters()
-                    self.wait()
-    
-        def anim_modify_equation(): # արտահայտության ձևափոխում
+                    
+        def animate_modify_equation(): # արտահայտության ձևափոխում
             copy_60 = VGroup(first_day_equation[0], first_day_equation[4], first_day_equation[8]).copy() # init
             self.play(copy_60.animate.arrange(buff=0.5).move_to(modified_equation[2]))
             self.wait()
@@ -188,7 +189,7 @@ class RoadScene(Scene):
             self.play(FadeOut(first_day_equation))
             self.wait()
 
-        def anim_second_day(): # երկրորդ օրը 2 * 60 + 4 * 70
+        def animate_second_day(): # երկրորդ օրը 2 * 60 + 4 * 70
             segments_a[-1].set_points_as_corners([moving_dot.get_center(), moving_dot.get_center()])
             self.add(segments_a[-1], car)
             segments_a[-1].add_updater(update_seg)
@@ -201,13 +202,13 @@ class RoadScene(Scene):
             segments_b[-1].set_points_as_corners([moving_dot.get_center(), moving_dot.get_center()])
             self.add(segments_b[-1], car)
             segments_b[-1].add_updater(update_seg)
-            self.play(dot_prop.animate(rate_func=linear, run_time=3).set_value(dot_prop.get_value() + 4 * prop_b))
+            self.play(dot_prop.animate(rate_func=linear, run_time=3).set_value(dot_prop.get_value() + 4 * prop_b - 0.01))
             self.wait(0.25)
             self.play(Write(modified_equation[11:]))
             segments_b[-1].clear_updaters()
             self.wait()
 
-        def anim_final_equation(): # արտահայտության վերջնական տեսք
+        def animate_final_equation(): # արտահայտության վերջնական տեսք
             self.play(Create(surr_rects_60[0]))
             self.wait(0.25)
             self.play(Create(surr_rects_60[1]))
@@ -256,7 +257,7 @@ class RoadScene(Scene):
             self.play(FadeOut(surr_rects_70))
             self.wait()
 
-        def anim_adding_variables(): # Ուրիշ 2 հոգի, ուրիշ արագություններ
+        def animate_adding_variables(): # Ուրիշ 2 հոգի, ուրիշ արագություններ
             self.play(
                 ReplacementTransform(aram_60[0], urish),
                 aram_60[1:].animate.next_to(urish, buff=0.25),
@@ -288,7 +289,7 @@ class RoadScene(Scene):
             car.clear_updaters()
             moving_dot.clear_updaters()
             self.play(FadeOut(
-                aram_60, babken_70, first_day_equation,
+                aram_60, babken_70,
                 modified_equation, car, moving_dot, road,
                 segments_a, segments_b, urish, urish_urish
             ))
@@ -307,12 +308,12 @@ class RoadScene(Scene):
             )
             self.wait()
 
-        anim_hamarotagrutyun() # 0-7
-        anim_first_day() # 8-21
-        anim_modify_equation() # 22-31
-        anim_second_day() # 32-39
-        anim_final_equation() # 40-55
-        anim_adding_variables() # 56-71
+        animate_hamarotagrutyun() # 0-7
+        animate_first_day() # 8-21
+        animate_modify_equation() # 22-31
+        animate_second_day() # 32-39
+        animate_final_equation() # 40-55
+        animate_adding_variables() # 56-71
 
 
 # վիդյոյի վերջում հետ ենք բերում էս էկրանը
@@ -337,7 +338,7 @@ class RoadScene(Scene):
 
     # animations
 
-        def anim_nman_miandamner():
+        def animate_nman_miandamner():
             self.remove(*self.mobjects)
             self.add(
                 aram_60, babken_70, moving_dot, road,
@@ -362,7 +363,7 @@ class RoadScene(Scene):
 
             self.play(*[FadeOut(mob) for mob in self.mobjects])
 
-        anim_nman_miandamner() # 72-82
+        animate_nman_miandamner() # 72-82
 
 
 class FiveXPlusSixY(Scene):
@@ -404,15 +405,22 @@ class FiveXPlusSixY(Scene):
         self.play(Write(miandam))
         self.wait()
 
-        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.play(
+            FadeOut(
+                bazmandam, miandam, bazmandam_arrow, miandam_arrows, 
+                surr_rect_five_x, surr_rect_six_y, surr_rect_five_x_plus_six_y
+            ),
+            five_x_plus_six_y.animate.shift(0.75 * LEFT)
+        )
+        self.wait()
 
 
 class FiveXPlusSixYPlusFourZ(Scene):
     def construct(self):
 
 # INITS
-
-        five_x_plus_six_y_plus_4_z = Tex('$5x$', ' $+$ ', '$6y$', ' $+$ ', '$4z$', font_size=70).shift(0.5 * LEFT)
+        five_x_plus_six_y = Tex('$5x$', ' $+$ ', '$6y$', font_size=70).shift(0.75 * LEFT)
+        five_x_plus_six_y_plus_4_z = Tex('$5x$', ' $+$ ', '$6y$', ' $+$ ', '$4z$', font_size=70).align_to(five_x_plus_six_y, DL)
         surr_rect_five_x_plus_six_y_plus_4_z = SurroundingRectangle(five_x_plus_six_y_plus_4_z, buff=MED_SMALL_BUFF)
         surr_rect_six_y = SurroundingRectangle(five_x_plus_six_y_plus_4_z[2], color=BLUE, corner_radius=0.25)
         surr_rect_five_x = SurroundingRectangle(five_x_plus_six_y_plus_4_z[0], color=BLUE, corner_radius=0.25)
@@ -433,8 +441,10 @@ class FiveXPlusSixYPlusFourZ(Scene):
 
 
 # ANIMATIONS
-
-        self.play(Write(five_x_plus_six_y_plus_4_z))
+        
+        self.add(five_x_plus_six_y_plus_4_z[:3])
+        self.wait()
+        self.play(Write(five_x_plus_six_y_plus_4_z[3:]))
         self.wait()
 
         self.play(Create(surr_rect_five_x_plus_six_y_plus_4_z))
@@ -449,71 +459,6 @@ class FiveXPlusSixYPlusFourZ(Scene):
         self.play(Create(miandam_arrows))
         self.play(Write(miandam))
         self.wait()
-
-        self.play(*[FadeOut(mob) for mob in self.mobjects])
-
-
-class DefiningPolynomialAndMonomial(Scene): # unfinished
-    def construct(self):
-
-# INITS
-
-    # 5x + 6y
-        five_x_plus_six_y = Tex('$5x$', ' $+$ ', '$6y$', font_size=70)
-        surr_rect_five_x_plus_six_y = SurroundingRectangle(five_x_plus_six_y, buff=MED_SMALL_BUFF)
-        surr_rect_six_y_1 = SurroundingRectangle(five_x_plus_six_y[2], color=BLUE, corner_radius=0.25)
-        surr_rect_five_x_1 = SurroundingRectangle(five_x_plus_six_y[0], color=BLUE, corner_radius=0.25)
-        surr_rect_five_x_1.stretch(1.2, 1).align_to(surr_rect_six_y_1, UP)
-
-        bazmandam_arrow_1 = Arrow(color=YELLOW).rotate(PI / 4).next_to(surr_rect_five_x_plus_six_y, UR, buff=0)
-        miandam_arrows_1 = VGroup(
-            Arrow(color=BLUE).rotate(- PI * 3 / 8).next_to(surr_rect_five_x_1, DOWN, buff=0).shift(0.2 * RIGHT),
-            Arrow(color=BLUE).rotate(- PI * 5 / 8).next_to(surr_rect_six_y_1, DOWN, buff=0).shift(0.2 * LEFT)
-        )
-
-        bazmandam_1 = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow_1, UR)
-        miandam_1 = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows_1, DOWN)
-
-
-    # 5x + 6y + 4z
-        five_x_plus_six_y_plus_4_z = Tex('$5x$', ' $+$ ', '$6y$', ' $+$ ', '$4z$', font_size=70).shift(0.5 * LEFT)
-        surr_rect_five_x_plus_six_y_plus_4_z = SurroundingRectangle(five_x_plus_six_y_plus_4_z, buff=MED_SMALL_BUFF)
-        surr_rect_six_y_2 = SurroundingRectangle(five_x_plus_six_y_plus_4_z[2], color=BLUE, corner_radius=0.25)
-        surr_rect_five_x_2 = SurroundingRectangle(five_x_plus_six_y_plus_4_z[0], color=BLUE, corner_radius=0.25)
-        surr_rect_four_z = SurroundingRectangle(five_x_plus_six_y_plus_4_z[4], color=BLUE, corner_radius=0.25)
-        surr_rect_five_x_2.stretch(1.2, 1).align_to(surr_rect_six_y_2, UP)
-        surr_rect_four_z.stretch(1.2, 1).align_to(surr_rect_six_y_2, UP)
-
-        bazmandam_arrow_2 = Arrow(color=YELLOW).rotate(PI / 4).next_to(surr_rect_five_x_plus_six_y_plus_4_z, UR, buff=0)
-        miandam_arrows_2 = VGroup(
-            Arrow(color=BLUE).rotate(- PI * 3 / 8).next_to(surr_rect_five_x_2, DOWN, buff=0).shift(0.2 * RIGHT),
-            Arrow(color=BLUE).rotate(- PI * 4 / 8).next_to(surr_rect_six_y_2, DOWN, buff=0),
-            Arrow(color=BLUE).rotate(- PI * 5 / 8).next_to(surr_rect_four_z, DOWN, buff=0).shift(0.2 * LEFT),
-        )
-
-        bazmandam_2 = Tex('Բազմանդամ', tex_template=ARMTEX, font_size=60).next_to(bazmandam_arrow_2, UR, buff=0.2)
-        miandam_2 = Tex('Միանդամ', tex_template=ARMTEX, font_size=60).next_to(miandam_arrows_2, DOWN)
-
-
-
-# ANIMATIONS
-
-        self.add(five_x_plus_six_y)
-        self.wait()
-
-        self.play(Create(surr_rect_five_x_1), Create(surr_rect_six_y_1))
-        self.wait()
-        self.play(Create(surr_rect_five_x_plus_six_y))
-        self.wait(0.25)
-        self.play(Create(bazmandam_arrow_1))
-        self.play(Write(bazmandam_1))
-        self.wait()
-
-        self.play(Create(miandam_arrows_1))
-        self.play(Write(miandam_1))
-        self.wait()
-
-        # self.play(FadeOut())
 
         self.play(*[FadeOut(mob) for mob in self.mobjects])
 
@@ -559,9 +504,9 @@ class DefinitionExamples(Scene):
         miandams = VGroup(miandams_1, miandams_2, miandams_3, miandams_4)
         miandams.arrange(DOWN, 0.35, aligned_edge=LEFT).to_edge(LEFT).shift(DOWN + 0.5 * RIGHT)
 
-        is_miandam = Tex('Միանդամներ են', tex_template=ARMTEX)
+        is_miandam = Tex('Միանդամ են', tex_template=ARMTEX)
         is_miandam.next_to(miandams, UP, buff=0.5, aligned_edge=LEFT)
-        is_not_miandam = Tex('Միանդամներ չեն', tex_template=ARMTEX)
+        is_not_miandam = Tex('Միանդամ չեն', tex_template=ARMTEX)
         is_not_miandam.align_to(is_miandam, UP).shift(RIGHT * 3.5)
 
         not_miandam_1 = MathTex('a', ' + ', 'b')
