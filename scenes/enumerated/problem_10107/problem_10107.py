@@ -4,7 +4,7 @@ from manim import Tex, MathTex
 from manim import Create, FadeIn, FadeOut, Write, Flash, AnimationGroup, ReplacementTransform, ApplyWave, Indicate
 from manim import always_redraw
 from manim import Scene
-from objects import Woman, Girl
+from objects import SimpleSVGMobject
 from aramanim import Segment
 from .text import ani_string, mayrik_string, one_year_after_string, now_string, another_one_year_after_string, two_years_after_string, after_some_years_string, some_years_string
 UNIT = 0.27
@@ -213,9 +213,9 @@ class Problem10107(Scene):
 
     def set_up(self, add = False):
         self.time = ValueTracker(0)
-        daughter = self.daughter_svg = Girl(4)
+        daughter = self.daughter_svg = SimpleSVGMobject('girl_4')
         daughter.scale(1.4)
-        mother = self.mother_svg = Woman(1)
+        mother = self.mother_svg = SimpleSVGMobject('woman_1')
         mother.scale(1.9)
         mother_pos = self.mother_pos = [-5.5, -1, 0]
         daughter_pos = self.daughter_pos = [-5.5, 2.5, 0]
