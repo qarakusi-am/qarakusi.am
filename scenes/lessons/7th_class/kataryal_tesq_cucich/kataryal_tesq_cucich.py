@@ -1,8 +1,7 @@
+from re import S
 from manim import *
 from hanrahashiv import FormulaModifications
-
-ARMTEX = TexTemplate()
-ARMTEX.add_to_preamble(r'\usepackage{armtex}')
+from constants import ARMTEX
 
 class TwoSimpleExamples(FormulaModifications):
     def construct(self):
@@ -27,6 +26,12 @@ class TwoSimpleExamples(FormulaModifications):
         sec_ex_second_equation_right = Tex('$4$', ' $\cdot$ ', '$a$', ' $\cdot$ ', '$3$')
         sec_ex_second_equation_right.next_to(sec_ex_second_equality)
         VGroup(sec_ex_second_equation_left, sec_ex_second_equality, sec_ex_second_equation_right).move_to(DOWN)
+
+        sec_ex_arrows = VGroup(
+                Arrow().rotate(- PI / 20).next_to(sec_ex_first_equation_right[3]).shift(0.2 * DOWN),
+                Arrow().rotate(PI / 15).next_to(sec_ex_second_equation_right[3]).shift(0.2 * UP),
+            )
+        sec_are_the_same = Tex('Նույնն են', tex_template=ARMTEX).next_to(sec_ex_arrows)
 
 # ANIMATIONS
         def animate_first_example():
@@ -83,6 +88,10 @@ class TwoSimpleExamples(FormulaModifications):
             self.multiply_numbers_in_formula(sec_ex_second_equation_right, 3, 12)
             self.wait()
 
+            self.play(Create(sec_ex_arrows))
+            self.play(Write(sec_are_the_same))
+            self.wait()
+
         
         animate_first_example()
         animate_second_example()
@@ -129,16 +138,16 @@ class ThirdExample(FormulaModifications):
             right_parts[i].next_to(equalities[i])
         equalities.shift(0.05 * DOWN)
 
-        rule_1 = Tex('Թվերը տանել դիմացը և բազմապատկել', tex_template=ARMTEX).to_corner(UL)
-        check_1 = SVGMobject('../../../../objects/SVG_files/check').scale(0.25).next_to(rule_1)
+        rule_1 = Tex('Թվերը տանել առաջ և բազմապատկել', tex_template=ARMTEX).to_corner(UL)
+        check_1 = SVGMobject('objects/SVG_files/check').scale(0.25).next_to(rule_1)
 
         rule_2 = Tex('Տառերը խմբավորել և դասավորել այբբենական կարգով', tex_template=ARMTEX)
         rule_2.next_to(rule_1, DOWN, aligned_edge=LEFT, buff=0.5)
-        check_2 = SVGMobject('../../../../objects/SVG_files/check').scale(0.25).next_to(rule_2)
+        check_2 = SVGMobject('objects/SVG_files/check').scale(0.25).next_to(rule_2)
 
         rule_3 = Tex('Գրել աստիճանի տեսքով', tex_template=ARMTEX)
         rule_3.next_to(rule_2, DOWN, buff=0.5, aligned_edge=LEFT)
-        check_3 = SVGMobject('../../../../objects/SVG_files/check').scale(0.25).next_to(rule_3)
+        check_3 = SVGMobject('objects/SVG_files/check').scale(0.25).next_to(rule_3)
 
         surr_rect_a = SurroundingRectangle(first_right[2:11], buff=0.05).shift(0.045 * DOWN)
 
@@ -351,12 +360,13 @@ class DefiningExponent(FormulaModifications):
         quantity_product_n = MathTex('n', font_size=70).next_to(brace_product_n, DOWN)
 
         case_1 = Tex('$a^1 = a$', font_size=70).shift(0.75 * UP)
-        case_2 = Tex('$a^2$ - քառակուսի', font_size=70, tex_template=ARMTEX).shift(0.75 * DOWN)
-        case_3 = Tex('$a^3$ - խորանարդ', font_size=70, tex_template=ARMTEX).shift(2.75 * DOWN)
-        case_1.align_to(case_2, LEFT)
+        case_2 = Tex('$a^2 = a\cdot a$ - քառակուսի', font_size=70, tex_template=ARMTEX).shift(0.75 * DOWN)
+        case_3 = Tex('$a^3 = a\cdot a\cdot a$ - խորանարդ', font_size=70, tex_template=ARMTEX).shift(2.75 * DOWN)
+        case_1.align_to(case_3, LEFT)
+        case_2.align_to(case_3, LEFT)
 
-        square = SVGMobject('../../../../objects/SVG_files/square').scale(0.5).next_to(case_2, buff=0.5)
-        cube = SVGMobject('../../../../objects/SVG_files/cube').scale(0.58).next_to(case_3, buff=0.5)
+        square = SVGMobject('objects/SVG_files/square').scale(0.5).next_to(case_2, buff=0.5)
+        cube = SVGMobject('objects/SVG_files/cube').scale(0.58).next_to(case_3, buff=0.5)
         side_length_square = MathTex('a').next_to(square, RIGHT)
         side_length_cube = MathTex('a').next_to(cube, RIGHT).shift(0.1 * UP)
 
@@ -368,7 +378,7 @@ class DefiningExponent(FormulaModifications):
         surr_rect_exponent = SurroundingRectangle(product_a_n_hat[-1], buff=0.05, color=BLUE, corner_radius=0.1).shift([-1, 2.5, 0])
         arrow_exponent = Arrow(color=BLUE).rotate(PI / 8)
         VGroup(arrow_exponent, arrow_exponent.tip).scale(0.6).next_to(surr_rect_exponent, UR, buff=0.1)
-        exponent_1 = Tex('Ցուցիչ', tex_template=ARMTEX).next_to(arrow_exponent, RIGHT, buff=0.1).shift(0.25 * UP)
+        exponent_1 = Tex('Ցուցիչ,', tex_template=ARMTEX).next_to(arrow_exponent, RIGHT, buff=0.1).shift(0.25 * UP)
         exponent_2 = Tex('Աստիճանացույց', tex_template=ARMTEX).next_to(exponent_1, DOWN, buff=0.15, aligned_edge=LEFT)
         arrow_exponent.shift(0.1 * DOWN)
 
@@ -443,7 +453,7 @@ class DefiningExponent(FormulaModifications):
 
         self.play(
             FadeOut(square, cube, side_length_cube, side_length_square),
-            case_2.animate.next_to(case_3, UP, buff=0.5),
+            case_2.animate.next_to(case_3, UP, buff=0.5, aligned_edge=LEFT),
             case_1.animate.next_to(case_3, UP, buff=1 + case_2.height, aligned_edge=LEFT),
             *[mob.animate.shift([-1, -1, 0]) for mob in [product_a_n_hat, brace_product_n, quantity_product_n]]
         )
@@ -468,25 +478,34 @@ class FewNmanMiandamner(FormulaModifications):
     def construct(self):
 
 # INITS
+        nman_en = Tex('Նման են', tex_template=ARMTEX)
         nmanner = VGroup(
-            Tex('$3\cdot x^2\cdot y$'),
-            Tex('$8\cdot x^2\cdot y$'),
-            Tex('$3\cdot x^2\cdot y$'),
+            Tex('$4\cdot x^2\cdot y$'),
+            Tex('$9\cdot x^2\cdot y$'),
+            Tex('$4\cdot x\cdot y\cdot x$'),
             Tex('$x^2\cdot y$'),
         )
-        nmanner.arrange(DOWN, buff=0.5, aligned_edge=RIGHT).shift(2.5 * LEFT)
+        nmanner.arrange(DOWN, buff=0.5, aligned_edge=RIGHT).shift(3 * LEFT)
+        nman_en.next_to(nmanner, UP, buff=0.75)
 
+        nman_chen = Tex('Նման միանդամներ չկան', tex_template=ARMTEX)
         chnmanner = VGroup(
-            Tex('$3\cdot x^2\cdot y$'),
-            Tex('$8\cdot x^2\cdot y^3$'),
-            Tex('$3\cdot x^2\cdot y^2$'),
-            Tex('$8\cdot x\cdot y^2$'),
+            Tex('$2\cdot x^2\cdot y$'),
+            Tex('$7\cdot x^2\cdot y^3$'),
+            Tex('$2\cdot x^2\cdot y^2$'),
+            Tex('$7\cdot x\cdot y^2$'),
         )
-        chnmanner.arrange(DOWN, buff=0.5, aligned_edge=LEFT).shift(2.5 * RIGHT)
+        chnmanner.arrange(DOWN, buff=0.5, aligned_edge=LEFT).shift(3 * RIGHT)
+        nman_chen.next_to(chnmanner, UP, buff=0.75)
 
 # ANIMATIONS
+        self.play(Write(nman_en))
+        self.wait(0.1)
         self.play(FadeIn(nmanner))
         self.wait()
+
+        self.play(Write(nman_chen))
+        self.wait(0.1)
         self.play(FadeIn(chnmanner))
         self.wait()
 
