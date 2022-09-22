@@ -1,7 +1,7 @@
 from manim import *
+from objects import SimpleSVGMobject
+from constants import ENGTEX
 
-ARMTEX = TexTemplate()
-ARMTEX.add_to_preamble(r'\usepackage{armtex}')
 
 class TarayinArtahaytutyun(Scene):
     def construct(self):
@@ -10,13 +10,13 @@ class TarayinArtahaytutyun(Scene):
     # 
     
         paymanner = VGroup(
-            Tex('Ճանապարհ - ', '700', ' (կմ)', tex_template=ARMTEX, font_size=40),
-            Tex('Արագություն - ', '60', ' (կմ/ժ)', tex_template=ARMTEX, font_size=40),
+            Tex('Ճանապարհ - ', '700', ' (կմ)', font_size=40),
+            Tex('Արագություն - ', '60', ' (կմ/ժ)', font_size=40),
         )
 
         dashed_line = DashedLine().match_width(paymanner)
 
-        pahanj = Tex('Որքա՞ն ճանապարհ կմնա ', '4', ' (ժ) անց', tex_template=ARMTEX, font_size=40)
+        pahanj = Tex('Որքա՞ն ճանապարհ կմնա ', '4', ' (ժ) անց', font_size=40)
         pahanj.next_to(dashed_line, DOWN)
 
         line_hor = Line().match_width(pahanj).scale(1.1)
@@ -32,9 +32,9 @@ class TarayinArtahaytutyun(Scene):
         road_endpoint_right = Dot(road.get_right())
 
         brace_total = Brace(road, DOWN)
-        total_distance = Tex('700', tex_template=ARMTEX).next_to(brace_total, DOWN)
+        total_distance = Tex('700').next_to(brace_total, DOWN)
 
-        car = SVGMobject('../../../../objects/SVG_files/small_car').set_color(RED).scale(0.2).move_to(road_endpoint_left)
+        car = SimpleSVGMobject('small_car').move_to(road_endpoint_left)
         car_trace = always_redraw(lambda: Line(road_endpoint_left.get_center(), car.get_center(), color=GREEN, stroke_width=8))
 
         speed_vector = VGroup(Line().scale(0.25).rotate(PI/2).next_to(car, UP))
@@ -43,70 +43,70 @@ class TarayinArtahaytutyun(Scene):
         speed_vector.add(Tex('60', font_size=35).next_to(speed_vector[1], UP))
         
         brace_passed = BraceBetweenPoints(road_endpoint_left.get_center(), road_endpoint_left.get_center() + 1.72 * RIGHT, UP)
-        passed_distance = Tex('240', tex_template=ARMTEX).next_to(brace_passed, UP)
+        passed_distance = Tex('240').next_to(brace_passed, UP)
 
         brace_remaining = BraceBetweenPoints(road_endpoint_left.get_center() + 1.72 * RIGHT, road_endpoint_right.get_center(), UP)
-        harcakan = Tex('?').next_to(brace_remaining, UP)
-        remaining_distance = Tex('460', tex_template=ARMTEX).next_to(brace_remaining, UP)
+        harcakan = Tex('?', tex_template=ENGTEX).next_to(brace_remaining, UP)
+        remaining_distance = Tex('460').next_to(brace_remaining, UP)
 
     # լուծում
-        solution_first_step = Tex('1) ', '60', ' $\cdot$ ', '4', ' = ', '240', tex_template=ARMTEX)
+        solution_first_step = Tex('1) ', '60', ' $\cdot$ ', '4', ' = ', '240')
         solution_first_step.to_edge(LEFT).shift(DOWN)
 
-        solution_second_step = Tex('2) ', '700', ' - ', '240', ' = ', '460', tex_template=ARMTEX)
+        solution_second_step = Tex('2) ', '700', ' - ', '240', ' = ', '460')
         solution_second_step.to_edge(LEFT).shift(2 * DOWN)
     
     # լուծումն արտահայտությամբ ժամանակի տարբեր արժեքների դեպքում
-        solution_4 = Tex('700', ' - ', '60', ' $\cdot$ ', '4', ' = ', '460')
+        solution_4 = Tex('700', ' - ', '60', ' $\cdot$ ', '4', ' = ', '460', tex_template=ENGTEX)
         solution_4.next_to(VGroup(solution_first_step, solution_second_step), RIGHT).shift(2.5 * RIGHT)
 
-        solution_5_final = Tex('700', ' - ', '60', ' $\cdot$ ', '5', ' = ', '400')
+        solution_5_final = Tex('700', ' - ', '60', ' $\cdot$ ', '5', ' = ', '400', tex_template=ENGTEX)
         solution_5_final.move_to([0, -0.75, 0])
 
-        solution_5_initial = Tex('700', ' - ', '60', ' $\cdot$ ', '4')
+        solution_5_initial = Tex('700', ' - ', '60', ' $\cdot$ ', '4', tex_template=ENGTEX)
         solution_5_initial.move_to(solution_5_final)
         solution_5_initial.align_to(solution_5_final, LEFT)
 
-        solution_7_final = Tex('700', ' - ', '60', ' $\cdot$ ', '7', ' = ', '280')
+        solution_7_final = Tex('700', ' - ', '60', ' $\cdot$ ', '7', ' = ', '280', tex_template=ENGTEX)
         solution_7_final.move_to([0, -1.5, 0])
 
         solution_7_final_copy = solution_7_final.copy()
         case_t_is_7 = VGroup(
-            Tex('t = 7'),
-            Tex('դեպքում', tex_template=ARMTEX)
+            Tex('t = 7', tex_template=ENGTEX),
+            Tex('դեպքում')
         )
         case_t_is_7.arrange(buff=0.2, aligned_edge=UP).next_to(solution_7_final_copy, LEFT, buff= 0.5)
 
-        solution_7_initial = Tex('700', ' - ', '60', ' $\cdot$ ', '5')
+        solution_7_initial = Tex('700', ' - ', '60', ' $\cdot$ ', '5', tex_template=ENGTEX)
         solution_7_initial.move_to(solution_7_final)
         solution_7_initial.align_to(solution_7_final, LEFT)
 
-        final_solution = Tex('700', ' - ', '60', ' $\cdot$ ', 't')
+        final_solution = Tex('700', ' - ', '60', ' $\cdot$ ', 't', tex_template=ENGTEX)
         final_solution.move_to([0, -0.75, 0])
         final_solution.align_to(solution_5_final, LEFT)
         rect_over_t = SurroundingRectangle(final_solution[-1])
         
-        pahanj_5 = Tex('5', tex_template=ARMTEX, font_size=40).move_to(pahanj[1].get_center())
-        pahanj_7 = Tex('7', tex_template=ARMTEX, font_size=40).move_to(pahanj[1].get_center())
-        pahanj_t = Tex('t', font_size=40).move_to(pahanj[1].get_center())
+        pahanj_5 = Tex('5', font_size=40).move_to(pahanj[1].get_center())
+        pahanj_7 = Tex('7', font_size=40).move_to(pahanj[1].get_center())
+        pahanj_t = Tex('t', font_size=40, tex_template=ENGTEX).move_to(pahanj[1].get_center())
 
         arrow_t = Arrow()
         VGroup(arrow_t, arrow_t.tip).scale(0.5)
         arrow_t.tip.scale(1.5)
         arrow_t.rotate(3/16 * PI).next_to(final_solution[-1], UR, buff=0.1)
 
-        time_zhamanak = VGroup(Tex('time = ', font_size=35), Tex('ժամանակ', font_size=35, tex_template=ARMTEX))
+        time_zhamanak = VGroup(Tex('time = ', font_size=35, tex_template=ENGTEX), Tex('ժամանակ', font_size=35))
         time_zhamanak.arrange(buff=0.1, aligned_edge=UP)
         time_zhamanak.next_to(arrow_t, UR, buff=0.1).shift([0.1, -0.05, 0])
 
-        solution_with_v = Tex('700', ' - ', 'V', ' $\cdot$ ', '7')
+        solution_with_v = Tex('700', ' - ', 'V', ' $\cdot$ ', '7', tex_template=ENGTEX)
         solution_with_v.move_to([0, -2, 0]).align_to(final_solution, LEFT)
 
-        solution_v_60 = Tex('700', ' - ', '60', ' $\cdot$ ', '7', ' = ', '280')
+        solution_v_60 = Tex('700', ' - ', '60', ' $\cdot$ ', '7', ' = ', '280', tex_template=ENGTEX)
         solution_v_60.move_to([0, -2.75, 0]).align_to(solution_with_v, LEFT)
         case_v_is_60 = VGroup(
-            Tex('V = 60'),
-            Tex('դեպքում', tex_template=ARMTEX)
+            Tex('V = 60', tex_template=ENGTEX),
+            Tex('դեպքում')
         )
         case_v_is_60.arrange(buff=0.2, aligned_edge=UP).next_to(solution_v_60, LEFT, buff= 0.5)
 
@@ -203,7 +203,7 @@ class TarayinArtahaytutyun(Scene):
     # add updaters to braces and values
         brace_remaining.add_updater(lambda mob: mob.become(BraceBetweenPoints(car.get_center(), road_endpoint_right.get_center(), UP)))
         remaining_distance.add_updater(lambda mob: 
-            mob.become(Tex(f'{int(700 * (road.get_right()[0] - car.get_center()[0]) / road_length)}')).next_to(brace_remaining, UP)
+            mob.become(Tex(f'{int(700 * (road.get_right()[0] - car.get_center()[0]) / road_length)}', tex_template=ENGTEX)).next_to(brace_remaining, UP)
         )
 
     # 4-ը դարձնել 5
