@@ -207,11 +207,11 @@ class Problem10384(Scene):
     
     def set_up(self):
         self.task_number = TaskNumberBox(task_number_string)
-        self.condition1 = Tex(condition1_string).scale(.9*.9).shift(UP)
-        self.condition1[0][:8].set_color(ORANGE)
-        self.condition2 = Tex(condition2_string).scale(.9*.9)
-        self.condition2.next_to(self.condition1, DOWN, buff=1)
-        self.condition2[0][:8].set_color(ORANGE)
+        self.condition1 = Tex(*condition1_string).scale(.9).to_edge(LEFT).shift(UP)
+        self.condition1[0].set_color(ORANGE)
+        self.condition2 = Tex(*condition2_string).scale(.9)
+        self.condition2.next_to(self.condition1, DOWN, buff=1).align_to(self.condition1, LEFT)
+        self.condition2[0].set_color(ORANGE)
         self.first_rope_label = Tex(first_rope_string, font_size=50).set_color_by_gradient("#FF9673", "#E0B851").scale(.8)
         self.second_rope_label = Tex(second_rope_string, font_size=50).set_color_by_gradient("#CFC748", "#7FC381").scale(.8)
         self.first_rope_label.to_edge(LEFT).to_edge(UP, buff=1.5)
