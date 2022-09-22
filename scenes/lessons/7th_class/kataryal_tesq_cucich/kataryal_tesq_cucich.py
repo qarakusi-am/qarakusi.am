@@ -1,4 +1,3 @@
-from re import S
 from manim import *
 from hanrahashiv import FormulaModifications
 from constants import ARMTEX
@@ -8,24 +7,28 @@ class TwoSimpleExamples(FormulaModifications):
 
 # INITS
     # first example    x•2 = 2•x
-        first_example_equation = Tex('$x$', ' $\cdot$ ', '$2$', ' = ', '$x$', ' $\cdot$ ', '$2$').shift(UP)
+        first_example_equation = Tex('$x$', ' $\cdot$ ', '$2$', ' = ', '$x$', ' $\cdot$ ', '$2$').shift(UP).shift(LEFT)
         x_times_two = first_example_equation[:3]
         two_times_x_1 = first_example_equation[4:]
-        two_times_x_2 = Tex('$2$', ' $\cdot$ ', '$x$').next_to(x_times_two, DOWN, buff=0.5)
-        first_example_surr_rect = SurroundingRectangle(VGroup(x_times_two, two_times_x_2))
+        two_times_x_2 = Tex('$2$', ' $\cdot$ ', '$x$').next_to(first_example_equation, RIGHT, buff=1)
+        first_ex_arrows = VGroup(
+            Arrow().rotate(- 3/14 * PI).next_to(x_times_two, DOWN).shift(0.75 * RIGHT),
+            Arrow().rotate(- 11/14 * PI).next_to(two_times_x_2, DOWN).shift(0.75 * LEFT)
+        )
+        first_are_the_same = Tex('Նույնն են', tex_template=ARMTEX).next_to(first_ex_arrows, DOWN)
 
     # second example    3•2•x•2 = 4•a•3
         sec_ex_first_equation_left = Tex('$3$', ' $\cdot$ ', '$2$', ' $\cdot$ ', '$a$', ' $\cdot$ ', '$2$') # 3•2•a•2
         sec_ex_first_equality = Tex(' $=$ ').next_to(sec_ex_first_equation_left)
         sec_ex_first_equation_right = Tex('$3$', ' $\cdot$ ', '$2$', ' $\cdot$ ', '$a$', ' $\cdot$ ', '$2$')
         sec_ex_first_equation_right.next_to(sec_ex_first_equality)
-        VGroup(sec_ex_first_equation_left, sec_ex_first_equality, sec_ex_first_equation_right).move_to(ORIGIN)
+        VGroup(sec_ex_first_equation_left, sec_ex_first_equality, sec_ex_first_equation_right).move_to([0, -0.5, 0])
 
         sec_ex_second_equation_left = Tex('$4$', ' $\cdot$ ', '$a$', ' $\cdot$ ', '$3$') # 4•a•3
         sec_ex_second_equality = Tex(' $=$ ').next_to(sec_ex_second_equation_left)
         sec_ex_second_equation_right = Tex('$4$', ' $\cdot$ ', '$a$', ' $\cdot$ ', '$3$')
         sec_ex_second_equation_right.next_to(sec_ex_second_equality)
-        VGroup(sec_ex_second_equation_left, sec_ex_second_equality, sec_ex_second_equation_right).move_to(DOWN)
+        VGroup(sec_ex_second_equation_left, sec_ex_second_equality, sec_ex_second_equation_right).move_to(1.5 * DOWN)
 
         sec_ex_arrows = VGroup(
                 Arrow().rotate(- PI / 20).next_to(sec_ex_first_equation_right[3]).shift(0.2 * DOWN),
@@ -47,16 +50,16 @@ class TwoSimpleExamples(FormulaModifications):
             self.rearrange_formula(two_times_x_1, [2, 1, 0], [0], [2], run_time=2)
             self.wait()
 
-            self.play(Create(first_example_surr_rect))
-            self.wait()
-            self.play(FadeOut(first_example_surr_rect))
+            self.play(Create(first_ex_arrows))
+            self.wait(0.1)
+            self.play(Write(first_are_the_same))
             self.wait()
 
-            self.play(
-                *[
-                    mob.animate.shift(2 * UP) 
-                    for mob in [x_times_two, two_times_x_1, two_times_x_2, first_example_equation[3]]
-                ]
+            self.play( 
+                    VGroup(
+                        x_times_two, two_times_x_1, two_times_x_2, 
+                        first_example_equation[3], first_ex_arrows, first_are_the_same
+                    ).animate.scale(0.75).shift(2 * UP)
             )
             self.wait()
         
@@ -137,6 +140,8 @@ class ThirdExample(FormulaModifications):
         for i in range(len(right_parts)):
             right_parts[i].next_to(equalities[i])
         equalities.shift(0.05 * DOWN)
+        indices = VGroup(Tex('1) '), Tex('2) '), Tex('3) '), Tex('4)' ))
+        [indices[i].next_to(left_parts[i], LEFT) for i in range(len(indices))]
 
         rule_1 = Tex('Թվերը տանել առաջ և բազմապատկել', tex_template=ARMTEX).to_corner(UL)
         check_1 = SVGMobject('objects/SVG_files/check').scale(0.25).next_to(rule_1)
@@ -150,6 +155,14 @@ class ThirdExample(FormulaModifications):
         check_3 = SVGMobject('objects/SVG_files/check').scale(0.25).next_to(rule_3)
 
         surr_rect_a = SurroundingRectangle(first_right[2:11], buff=0.05).shift(0.045 * DOWN)
+
+        first_two_are_the_same = Tex('Նույնն են', tex_template=ARMTEX)
+
+        first_two_are_equal = Tex('Հավասար են', tex_template=ARMTEX)
+        brace_first_two = Brace(VGroup(first_right, second_right), RIGHT, 0.2, 1).scale(0.75)
+
+        different_3 = Tex(' - հավասար չէ ոչ մեկին', tex_template=ARMTEX, font_size=35)
+        different_4 = Tex(' - հավասար չէ ոչ մեկին', tex_template=ARMTEX, font_size=35)
 
 
 # ANIMATIONS
@@ -262,17 +275,35 @@ class ThirdExample(FormulaModifications):
             self.play(Create(check_2))
             self.wait()
 
+            self.play(
+                AnimationGroup(
+                    FadeIn(Brace(VGroup(first_right, second_right), RIGHT, 0.1, 1), rate_func=there_and_back_with_pause, run_time=3),
+                    Write(first_two_are_the_same.next_to(first_right, DR).shift(0.5 * RIGHT)),
+                    lag_ratio=0.4
+                )
+            )
+            self.wait(0.5)
+
+            self.play(
+                Create(SurroundingRectangle(third_right[-1]), rate_func=there_and_back_with_pause, run_time=1.5)
+            )
+            self.wait(0.5)
+            self.play(
+                Create(SurroundingRectangle(fourth_right[0]), rate_func=there_and_back_with_pause, run_time=1.5)
+            )
+            self.wait(0.5)
+
             self.play(Create(surr_rect_a))
             self.wait()
-            self.play(FadeOut(surr_rect_a))
+            self.play(FadeOut(surr_rect_a, first_two_are_the_same))
             self.wait()
 
         def animate_using_exponents():
             self.play(
-            *[mob.animate.shift(0.1 * UP) for mob in [fourth, equalities[3], right_parts[3]]],
-            *[mob.animate.shift(0.3 * DOWN) for mob in [third, equalities[2], right_parts[2]]],
-            *[mob.animate.shift(0.7 * DOWN) for mob in [second, equalities[1], right_parts[1]]],
-            *[mob.animate.shift(1.1 * DOWN) for mob in [first, equalities[0], right_parts[0]]],
+            *[mob.animate.shift(0.1 * UP) for mob in [fourth, equalities[3], right_parts[3], indices[3]]],
+            *[mob.animate.shift(0.3 * DOWN) for mob in [third, equalities[2], right_parts[2], indices[2]]],
+            *[mob.animate.shift(0.7 * DOWN) for mob in [second, equalities[1], right_parts[1], indices[1]]],
+            *[mob.animate.shift(1.1 * DOWN) for mob in [first, equalities[0], right_parts[0], indices[0]]],
         )
             self.wait()
             self.play(Write(rule_3))
@@ -305,22 +336,20 @@ class ThirdExample(FormulaModifications):
             self.wait()
 
         def animate_havasar_nman_miandamner():
-            self.play(
-                Circumscribe(first_right, fade_out=True, run_time=2),
-                Circumscribe(second_right, fade_out=True, run_time=2)
-            )
+            self.play(Write(brace_first_two.next_to(VGroup(first_right, second_right))))
+            self.play(Write(first_two_are_equal.next_to(brace_first_two, RIGHT)))
             self.wait(0.25)
-            self.play(
-                Circumscribe(third_right, fade_out=True, run_time=2),
-                Circumscribe(fourth_right, fade_out=True, run_time=2)
-            )
+
+            self.play(Write(different_3.next_to(third_right), run_time=0.75))
+            self.wait(0.1)
+            self.play(Write(different_4.next_to(fourth_right), run_time=0.75))
             self.wait()
 
             self.play(
-                Circumscribe(first_right[0], fade_out=True, run_time=2),
-                Circumscribe(second_right[0], fade_out=True, run_time=2),
-                Circumscribe(third_right[0], fade_out=True, run_time=2),
-                Circumscribe(fourth_right[0], fade_out=True, run_time=2),
+                Circumscribe(first_right[0], fade_out=True, run_time=2.5),
+                Circumscribe(second_right[0], fade_out=True, run_time=2.5),
+                Circumscribe(third_right[0], fade_out=True, run_time=2.5),
+                Circumscribe(fourth_right[0], fade_out=True, run_time=2.5),
             )
             self.wait()
 
@@ -332,19 +361,19 @@ class ThirdExample(FormulaModifications):
             self.wait()
         
 
-        self.play(FadeIn(left_parts))
+        self.play(FadeIn(left_parts, indices))
         self.wait()
-        animate_rearrange_and_multiply_numbers()
-        animate_group_letters()
-        animate_using_exponents()
-        animate_havasar_nman_miandamner()
+        animate_rearrange_and_multiply_numbers() # 2,39
+        animate_group_letters() # 40,78
+        animate_using_exponents() # 79,99
+        animate_havasar_nman_miandamner() # 100,110
         self.play(*[FadeOut(mob) for mob in self.mobjects])
         self.wait()
 
 
 class DefiningExponent(FormulaModifications):
     def construct(self):
-    
+
 # INITS
         sum_a = Tex('$a+a+a+a+a$', ' $=$ ', '$5$', '$\cdot$', '$a$', font_size=70).shift(UP)
         brace_sum = Brace(sum_a[0], DOWN)
@@ -352,12 +381,12 @@ class DefiningExponent(FormulaModifications):
 
         product_a_5_hat = Tex('$a \cdot a \cdot a \cdot a \cdot a$', ' $=$ ', '$a$', '$^5$', font_size=70).shift(DOWN)
         brace_product_5 = Brace(product_a_5_hat[0], DOWN)
-        quantity_product_5 = MathTex('5', font_size=70).next_to(brace_product_5, DOWN)
+        quantity_product_5 = Tex('$5$', font_size=70).next_to(brace_product_5, DOWN)
         quantity_product_5_copy = quantity_product_5.copy()
 
-        product_a_n_hat = MathTex('a \cdot a \cdot a \cdot ... \cdot a \cdot a', '=', 'a', '^n', font_size=70).shift(0.5 * DOWN)
+        product_a_n_hat = Tex('$a \cdot a \cdot a \cdot ... \cdot a \cdot a$', '$=$', '$a$', '$^n$', font_size=70).shift(0.5 * DOWN)
         brace_product_n = Brace(product_a_n_hat[0], DOWN)
-        quantity_product_n = MathTex('n', font_size=70).next_to(brace_product_n, DOWN)
+        quantity_product_n = Tex('$n$', font_size=70).next_to(brace_product_n, DOWN)
 
         case_1 = Tex('$a^1 = a$', font_size=70).shift(0.75 * UP)
         case_2 = Tex('$a^2 = a\cdot a$ - քառակուսի', font_size=70, tex_template=ARMTEX).shift(0.75 * DOWN)
