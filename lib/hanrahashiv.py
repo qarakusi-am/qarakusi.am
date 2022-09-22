@@ -95,7 +95,7 @@ class FormulaModifications(Scene):
             formula_type = Tex
         tex_string_list = [tex.get_tex_string() for tex in formula]
         new_formula = formula_type(
-            *tex_string_list[:first_item_index], base+f'$^{exponent}$', *tex_string_list[last_item_index + 1:],
+            *tex_string_list[:first_item_index], f'${base}$'+f'$^{exponent}$', *tex_string_list[last_item_index + 1:],
             font_size=formula[0].font_size, color=formula.color
         )
         new_formula.move_to(formula).align_to(formula, DL)
