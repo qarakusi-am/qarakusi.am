@@ -303,7 +303,6 @@ class ChessFigures(VMobject):
                                    chess_figures_stroke_width)
 
 
-<<<<<<< HEAD
 class Man(VMobject):
     def __init__(self, svg_index=1):
         super().__init__()
@@ -410,8 +409,6 @@ class ClosedScissors(VMobject):
 
         self.add(closed_scissors)
 
-=======
->>>>>>> c99eaea20b7df56a149b957095cf7e0bec540794
 class DScissors(VGroup):
     def __init__(self, cut_point, **kwargs):
         self.scissor_1 = SVGMobject(
@@ -660,7 +657,6 @@ class BagOfMandarins(VMobject):
         self.add(bag_of_mandarins)
 
 
-<<<<<<< HEAD
 class EmptyBag(VMobject):
     def __init__(self, svg_index=1):
         super().__init__()
@@ -776,8 +772,6 @@ class Mandarins(VMobject):
         self.add(mandarins)
 
 
-=======
->>>>>>> c99eaea20b7df56a149b957095cf7e0bec540794
 class ScaleStar(VMobject):
     def __init__(self):
         super().__init__()
