@@ -24,7 +24,7 @@ from manim import *
 
 
 from constants import DEFAULT_SEGMENT_TEXT_POSITION
-from .text import youngest, second, third, fourth, fifth, fifth_2, oldest
+from .text import youngest, second, third, fourth, fifth, fifth_2
 
 from segment import Segment
 
@@ -156,8 +156,6 @@ class Problem11334(Scene):
         seg_5_extra_3 = Segment(seg_5_extra_2.line.get_right(), seg_5_extra_2.line.get_right() + np.array([1.5, 0, 0]), ORANGE, text=MathTex('3'))
         seg_5_extra_4 = Segment(seg_5_extra_3.line.get_right(), seg_5_extra_3.line.get_right() + np.array([1.5, 0, 0]), ORANGE, text=MathTex('3'))
 
-        oldest.next_to(seg_5, 2 * LEFT)
-
         final_length_5 = ValueTracker(2)
         seg_5_final = always_redraw(lambda: 
             Segment(seg_5.line.get_left(), seg_5.line.get_left() + np.array([final_length_5.get_value(), 0, 0]))
@@ -209,7 +207,7 @@ class Problem11334(Scene):
         self.wait(0.25)
 
     # seg_2
-        self.play(ReplacementTransform(second, seg_2_init))
+        self.play(ReplacementTransform(second[1], seg_2_init))
         self.wait(0.25)
 
         self.play(seg_2_black.animate.shift(DOWN))
@@ -224,7 +222,7 @@ class Problem11334(Scene):
         self.remove(seg_2_black, seg_2_init)
 
     # seg_3
-        self.play(ReplacementTransform(third, seg_3_init))
+        self.play(ReplacementTransform(third[1], seg_3_init))
         self.wait(0.25)
 
         self.play(seg_3_black.animate.shift(DOWN))
@@ -241,7 +239,7 @@ class Problem11334(Scene):
         self.remove(seg_3_black, seg_3_init)
 
     # seg_4
-        self.play(ReplacementTransform(fourth, seg_4_init))
+        self.play(ReplacementTransform(fourth[1], seg_4_init))
         self.wait(0.25)
 
         self.play(seg_4_black.animate.shift(DOWN))
@@ -258,12 +256,7 @@ class Problem11334(Scene):
         self.remove(seg_4_black, seg_4_init)
     
     # seg_5
-        self.play(
-            fifth[0].animate.move_to(oldest),
-            ReplacementTransform(fifth[1], seg_5_init)
-        )
-        self.add(oldest)
-        self.remove(fifth[0])
+        self.play(ReplacementTransform(fifth[1], seg_5_init))
         self.wait(0.25)
         
         self.play(seg_5_black.animate.shift(DOWN))
@@ -333,9 +326,7 @@ class Problem11334(Scene):
 
     # seg_5 by four parts
         self.play(
-            ReplacementTransform(fifth_2[1], seg_5_part_1),
-            fifth_2[0].animate.align_to(oldest, LEFT)
-        )
+            ReplacementTransform(fifth_2[1], seg_5_part_1))
         self.wait(0.25)
         self.play(Create(seg_5_part_2))
         self.wait(0.25)
@@ -345,7 +336,7 @@ class Problem11334(Scene):
         self.wait()
 
         self.play(
-            oldest.animate.next_to(brace_seg_5, LEFT),
+            fifth[0].animate.next_to(brace_seg_5, LEFT),
             fifth_2[0].animate.next_to(brace_seg_5, LEFT)
         )
         self.wait(0.25)
@@ -354,9 +345,11 @@ class Problem11334(Scene):
         self.wait()
 
     # change size of unit segment (1 part)
-        self.play(part_length.animate.set_value(1), run_time=5)
+        self.play(part_length.animate.set_value(1), rate_func=linear, run_time=3)
         self.wait()
-        self.play(part_length.animate.set_value(2), rate_func=linear, run_time=3)
+        self.play(Circumscribe(VGroup(seg_5_part_1, seg_5_part_2, seg_5_part_3, seg_5_part_4), time_width=2, fade_out=True))
+        self.wait()
+        self.play(part_length.animate.set_value(2), rate_func=linear, run_time=4)
         self.wait()
 
 # INIT
@@ -493,9 +486,3 @@ class Problem11334(Scene):
 
         self.play(ReplacementTransform(fifth_length, ans_5))
         self.wait()
-
-
-
-       
-
-        
