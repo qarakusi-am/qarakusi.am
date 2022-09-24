@@ -5,7 +5,7 @@ from manim import ShowPassingFlash, Wiggle, Create, Circumscribe, FadeIn, FadeOu
 from manim import Scene
 from manim import always_redraw
 from aramanim import Segment
-from objects import Apple, Locust, Boy, Girl, Thinking
+from objects import SimpleSVGMobject
 from .text import coordinate_text, number_line_text, step_number_text, left_ruler_text, rigth_ruler_text
 import numpy as np
 
@@ -22,8 +22,14 @@ def jump_to(mob, point, run_time = 0.5, hight = 3):
 
 class Addition(Scene):
     def construct(self):
+        green_apple = SimpleSVGMobject('green_apple')
+        red_apple = SimpleSVGMobject('red_apple')
+        locust_svg = SimpleSVGMobject('locust')
+        boy_ = SimpleSVGMobject('boy_2')
+        girl_ = SimpleSVGMobject('girl_2')
+        thinking = SimpleSVGMobject('thinking_boy_outlines')
         shift_vector = 2*UP
-        apples = VGroup(*[Apple() for _ in range(7)])
+        apples = VGroup(*[green_apple.copy() for _ in range(7)])
         apples.scale(2.5)
         def set_apples(i = 2):
             apples[-i:].set_opacity(0)
@@ -129,10 +135,10 @@ class Addition(Scene):
             )
         )
         #some apples scene (start)
-        boy = Boy(2)
+        boy = boy_.copy()
         boy.scale(2)
         boy.move_to([-4, -1, 0])
-        girl = Girl(3)
+        girl = girl_.copy()
         girl.scale(2)
         girl.move_to([4, -1, 0])
         self.wait()
@@ -152,9 +158,9 @@ class Addition(Scene):
                 mob.scale(2*alpha*(1-alpha) + 1)
                 mob.set_opacity(1-((2*alpha-1)**4))
             return alfa_func
-        apple_1 = Apple().set_opacity(0)
-        apple_2 = Apple(color = RED).set_opacity(0)
-        apple_3 = Apple().set_opacity(0)
+        apple_1 = green_apple.copy().set_opacity(0)
+        apple_2 = red_apple.copy().set_opacity(0)
+        apple_3 = green_apple.copy().set_opacity(0)
         apple_1.scale(1.5)
         apple_2.scale(1.5)
         apple_3.scale(1.5)        
@@ -202,7 +208,7 @@ class Addition(Scene):
         line = Line(8*LEFT, 8*RIGHT).align_to(DOWN, UP)
         self.play(Create(line))
         self.wait()
-        locust = Locust()
+        locust = locust_svg.copy()
         locust.scale(0.5)
         locust.set_z_index(1)
         locust.move_to(DOWN)
@@ -246,7 +252,7 @@ class Addition(Scene):
         self.wait()
         self.play(Indicate(equation_5_2_7))
         self.wait()
-        apples.become(VGroup(*[Apple() for _ in range(7)]).scale(2.5))
+        apples.become(VGroup(*[green_apple.copy() for _ in range(7)]).scale(2.5))
         set_apples()
         self.play(
             AnimationGroup(
@@ -334,8 +340,8 @@ class Addition(Scene):
         )
         nl_7_3_4 = nl_5_2_7.copy()
         VGroup(nl_5_2_7, nl_7_3_4).arrange(RIGHT, buff = 2.5).shift(1.5*UP)
-        locust_5_2_7 = Locust().scale(0.2)
-        locust_7_3_4 = Locust().scale(0.2).flip()
+        locust_5_2_7 = locust_svg.copy().scale(0.2)
+        locust_7_3_4 = locust_svg.copy().scale(0.2).flip()
         def jumping_updater(p_1, p_2, vel = 1):
             def updater(mob, dt, start = p_1, end = p_2, v = vel):
                 displacement = end - start
@@ -409,7 +415,7 @@ class Addition(Scene):
         self.play(jump_to(locust, nl_left.n2p(-1)))
         self.play(jump_to(locust, nl_left.n2p(-2)), FadeOut(min))
         self.wait(3)
-        th = Thinking()
+        th = thinking.copy()
         self.play(FadeIn(th))
         self.wait(2)
         self.play(FadeOut(equation_4_6__2))
@@ -619,8 +625,8 @@ class Addition(Scene):
             include_ticks=True
         )
         VGroup(nl_6__9__3, nl__4__5__9).arrange(RIGHT, buff=2.75).shift(2*DOWN)
-        locust__4__5__9 = Locust().scale(0.2).flip()
-        locust_6__9__3 = Locust().scale(0.2).flip()
+        locust__4__5__9 = locust_svg.copy().scale(0.2).flip()
+        locust_6__9__3 = locust_svg.copy().scale(0.2).flip()
         locust_6__9__3.move_to(nl_6__9__3.n2p(6))
         locust__4__5__9.move_to(nl__4__5__9.n2p(-4))
         locust_6__9__3.add_updater(jumping_updater(nl_6__9__3.n2p(6), nl_6__9__3.n2p(-3)))
