@@ -9,7 +9,7 @@ class FormulaModifications(Scene):
 #  միգուցե էս ամենը տեղափոխել QarakusiScene (որտև մենակ միանդամների մեջ չի, որ պետք կգան)
     """
         new_sequence addresses each of formula's item to it's new position, including '$\cdot$', ' + '
-        new_sequence is a permutation of numbers form range(len(formula))
+        new_sequence is a permutation of range(len(formula))
         to work properly, formula must be written in such a way that every item is in different apostrophes like so
         formula = Tex('a', '$\cdot$', 'b')
     """
@@ -20,13 +20,20 @@ class FormulaModifications(Scene):
         fade_out : list = [], fade_in : list = [],
         run_time=3
     ):
-        if str(type(formula))[-6] == 'h':
-            formula_type = MathTex
-        else:
-            formula_type = Tex
+        """
+            Rearranges formula with new_sequence 
+            new_sequence is a permutation of range(len(formula))
+            move_up, move_down, fade_out are list in which numbers represent the indices in the formula
+            fade_in is a list in which numbers represent the indices in new formula (with new sequence)
+            move_up is to move some variables (members of formula) up and into new positions
+            fade_out and fade_in are mainly used for multiplication signs
+            move_down is like move up, but it's just in case. You don't really need it in most of the cases
+
+        """
         tex_string_list = [tex.get_tex_string() for tex in formula]
         new_tex_string_list = [tex_string_list[new_sequence[i]] for i in range(len(tex_string_list))]
-        new_formula = formula_type(*new_tex_string_list, font_size=formula[0].font_size, color=formula.color).move_to(formula)
+        new_formula = type(formula)(*new_tex_string_list, font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template)
+        new_formula.move_to(formula)
 
         in_line = []
         for i in range(len(tex_string_list)):
@@ -63,14 +70,16 @@ class FormulaModifications(Scene):
         formula : MathTex, number_of_multiplying_items : int, 
         resulting_number : int, run_time=1
     ):
-        if str(type(formula))[-6] == 'h':
-            formula_type = MathTex
-        else:
-            formula_type = Tex
+        """
+            Multiplies the numbers in the beginning of the formula 
+            number_of_multiplying_items is the number of members in the beginning of the formula
+            (including multiplication sign) that need to be transformed into one number
+            resulting_number is the product that must be written
+        """
         tex_string_list = [tex.get_tex_string() for tex in formula]
-        new_formula = formula_type(
+        new_formula = type(formula)(
             f'{resulting_number}', *tex_string_list[number_of_multiplying_items:],
-            font_size=formula[0].font_size, color=formula.color
+            font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
         )
         new_formula.move_to(formula).align_to(formula, LEFT)
 
@@ -89,14 +98,15 @@ class FormulaModifications(Scene):
         last_item_index : int, base : str, exponent : int,
         run_time=1
     ):
-        if str(type(formula))[-6] == 'h':
-            formula_type = MathTex
-        else:
-            formula_type = Tex
+        """
+            Combines adjacent same letters and writes in form of exponent
+            takes indices of items to be combined, base and exponent and
+            formula[first_item_index : last_item_index + 1] transforms into base^exponent
+        """
         tex_string_list = [tex.get_tex_string() for tex in formula]
-        new_formula = formula_type(
+        new_formula = type(formula)(
             *tex_string_list[:first_item_index], f'${base}$'+f'$^{exponent}$', *tex_string_list[last_item_index + 1:],
-            font_size=formula[0].font_size, color=formula.color
+            font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
         )
         new_formula.move_to(formula).align_to(formula, DL)
 
