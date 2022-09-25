@@ -1,21 +1,15 @@
+from pickle import TRUE
 from manim import Tex, MathTex
 from manim import UP, DOWN, LEFT, DL
 from manim import Scene
 from manim import ReplacementTransform, FadeOut, FadeIn
 
-class FormulaModifications(Scene):
+class FormulaModificationsScene(Scene):
 
-# FIXME մարդավարի docstring գրել ամեն ֆունկցիայի համար
 #  միգուցե էս ամենը տեղափոխել QarakusiScene (որտև մենակ միանդամների մեջ չի, որ պետք կգան)
-    """
-        new_sequence addresses each of formula's item to it's new position, including '$\cdot$', ' + '
-        new_sequence is a permutation of range(len(formula))
-        to work properly, formula must be written in such a way that every item is in different apostrophes like so
-        formula = Tex('a', '$\cdot$', 'b')
-    """
 
     def rearrange_formula(self,
-        formula : MathTex or Tex, new_sequence : list, 
+        formula : Tex or MathTex, new_sequence : list, 
         move_up : list = [], move_down : list = [],
         fade_out : list = [], fade_in : list = [],
         run_time=3
@@ -67,7 +61,7 @@ class FormulaModifications(Scene):
 
 
     def multiply_numbers_in_formula(self,
-        formula : MathTex, number_of_multiplying_items : int, 
+        formula : Tex  or MathTex, number_of_multiplying_items : int, 
         resulting_number : int, run_time=1
     ):
         """
@@ -93,8 +87,8 @@ class FormulaModifications(Scene):
         formula.add(*new_formula)
 
 
-    def write_exponents_in_formula(self,
-        formula : MathTex, first_item_index : int, 
+    def write_exponent_in_formula(self,
+        formula : Tex  or MathTex, first_item_index : int, 
         last_item_index : int, base : str, exponent : int,
         run_time=1
     ):
@@ -104,8 +98,15 @@ class FormulaModifications(Scene):
             formula[first_item_index : last_item_index + 1] transforms into base^exponent
         """
         tex_string_list = [tex.get_tex_string() for tex in formula]
+        
+
+        if type(formula) == Tex:
+            new_item = f'${base}^{exponent}$'
+        elif type(formula) == MathTex:
+            new_item = f'{base}^{exponent}'
+        
         new_formula = type(formula)(
-            *tex_string_list[:first_item_index], f'${base}$'+f'$^{exponent}$', *tex_string_list[last_item_index + 1:],
+            *tex_string_list[:first_item_index], new_item, *tex_string_list[last_item_index + 1:],
             font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
         )
         new_formula.move_to(formula).align_to(formula, DL)
@@ -114,6 +115,58 @@ class FormulaModifications(Scene):
             ReplacementTransform(formula[:first_item_index], new_formula[:first_item_index]),
             ReplacementTransform(formula[first_item_index : last_item_index + 1], new_formula[first_item_index]),
             ReplacementTransform(formula[last_item_index + 1:], new_formula[first_item_index + 1:]),
+            run_time=run_time
+        )
+
+        formula.remove(*formula)
+        formula.add(*new_formula)
+
+
+    def extract_exponent_in_formula(self,
+        formula : Tex  or MathTex, item_index : int,
+        base : str, exponent : int, add_multiplication_signs_in_between=False,
+        run_time=1
+    ):
+        """
+            Extracts an item that is written in form of exponent (ex. a^3 -> aaa)
+            Takes index of that item (a^3), base('a'), exponent(3)
+            Depending on value of add_multiplication_signs_in_between it can write aaa or a•a•a
+        """
+        tex_string_list = [tex.get_tex_string() for tex in formula]
+
+        if type(formula) == Tex:
+            if add_multiplication_signs_in_between:
+                new_items = [f'${base}$', '$\cdot$'] * exponent
+                new_items.pop()
+            else:
+                new_items = [f'${base}$'] * exponent
+
+        elif type(formula) == MathTex:
+            if add_multiplication_signs_in_between:
+                new_items = [f'{base}', '\cdot'] * exponent
+                new_items.pop()
+            else:
+                new_items = [f'{base}'] * exponent
+
+        new_formula = type(formula)(
+            *tex_string_list[:item_index], *new_items, *tex_string_list[item_index + 1:],
+            font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+        )
+        new_formula.move_to(formula).align_to(formula, DL)
+
+        self.play(
+            ReplacementTransform(
+                formula[:item_index],
+                new_formula[:item_index],
+            ),
+            ReplacementTransform(
+                formula[item_index], 
+                new_formula[item_index : item_index + len(new_items)]
+            ),
+            ReplacementTransform(
+                formula[item_index + 1:], 
+                new_formula[item_index + len(new_items):],
+            ),
             run_time=run_time
         )
 
