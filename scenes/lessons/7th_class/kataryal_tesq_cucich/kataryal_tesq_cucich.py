@@ -1,15 +1,16 @@
 from manim import *
-from hanrahashiv import FormulaModifications
+from hanrahashiv import FormulaModificationsScene
 from constants import ARMTEX
 
-class TwoSimpleExamples(FormulaModifications):
+class TwoSimpleExamples(FormulaModificationsScene):
     def construct(self):
 
 # INITS
     # first example    x•2 = 2•x
-        first_example_equation = Tex('$x$', ' $\cdot$ ', '$2$', ' = ', '$x$', ' $\cdot$ ', '$2$').shift(UP).shift(LEFT)
-        x_times_two = first_example_equation[:3]
-        two_times_x_1 = first_example_equation[4:]
+        first_example_equation = Tex('$x$', ' $\cdot$ ', '$2$', ' $=$ ', '$x$', ' $\cdot$ ', '$2$').shift(UP).shift(LEFT)
+        x_times_two = Tex('$x$', ' $\cdot$ ', '$2$').move_to(first_example_equation[:3])
+        two_times_x_1 = Tex('$x$', ' $\cdot$ ', '$2$').move_to(first_example_equation[4:])
+        first_equality = Tex(' $=$ ').move_to(first_example_equation[3])
         two_times_x_2 = Tex('$2$', ' $\cdot$ ', '$x$').next_to(first_example_equation, RIGHT, buff=1)
         first_ex_arrows = VGroup(
             Arrow().rotate(- 3/14 * PI).next_to(x_times_two, DOWN).shift(0.75 * RIGHT),
@@ -44,7 +45,7 @@ class TwoSimpleExamples(FormulaModifications):
             self.wait()
 
             self.play(ReplacementTransform(x_times_two.copy(), two_times_x_1))
-            self.play(Write(first_example_equation[3]))
+            self.play(Write(first_equality))
             self.wait()
 
             self.rearrange_formula(two_times_x_1, [2, 1, 0], [0], [2], run_time=2)
@@ -58,7 +59,7 @@ class TwoSimpleExamples(FormulaModifications):
             self.play( 
                     VGroup(
                         x_times_two, two_times_x_1, two_times_x_2, 
-                        first_example_equation[3], first_ex_arrows, first_are_the_same
+                        first_equality, first_ex_arrows, first_are_the_same
                     ).animate.scale(0.75).shift(2 * UP)
             )
             self.wait()
@@ -102,7 +103,7 @@ class TwoSimpleExamples(FormulaModifications):
         self.wait()
 
 
-class ThirdExample(FormulaModifications):
+class ThirdExample(FormulaModificationsScene):
     def construct(self):
 
 # INITS
@@ -309,27 +310,27 @@ class ThirdExample(FormulaModifications):
             self.play(Write(rule_3))
 
         # first
-            self.write_exponents_in_formula(first_right, 2, 10, 'a', 5) # 6•a^5•b•b•b
+            self.write_exponent_in_formula(first_right, 2, 10, 'a', 5) # 6•a^5•b•b•b
             self.wait(0.5)
-            self.write_exponents_in_formula(first_right, 4, 8, 'b', 3) # 6•a^5•b•b•b
+            self.write_exponent_in_formula(first_right, 4, 8, 'b', 3) # 6•a^5•b•b•b
             self.wait(0.5)
 
         # second  
-            self.write_exponents_in_formula(second_right, 2, 10, 'a', 5) # 6•a^5•b•b•b
+            self.write_exponent_in_formula(second_right, 2, 10, 'a', 5) # 6•a^5•b•b•b
             self.wait(0.25)
-            self.write_exponents_in_formula(second_right, 4, 8, 'b', 3) # 6•a^5•b^3
+            self.write_exponent_in_formula(second_right, 4, 8, 'b', 3) # 6•a^5•b^3
             self.wait(0.25)
         
         # third
-            self.write_exponents_in_formula(third_right, 2, 10, 'a', 5) # 6•a^5•b•b•b•b
+            self.write_exponent_in_formula(third_right, 2, 10, 'a', 5) # 6•a^5•b•b•b•b
             self.wait(0.25)
-            self.write_exponents_in_formula(third_right, 4, 10, 'b', 4) # 6•a^5•b^4
+            self.write_exponent_in_formula(third_right, 4, 10, 'b', 4) # 6•a^5•b^4
             self.wait(0.25)
 
         # fourth
-            self.write_exponents_in_formula(fourth_right, 2, 10, 'a', 5) # 4•a^5•b•b•b
+            self.write_exponent_in_formula(fourth_right, 2, 10, 'a', 5) # 4•a^5•b•b•b
             self.wait(0.25)
-            self.write_exponents_in_formula(fourth_right, 4, 8, 'b', 3) # 4•a^5•b^3
+            self.write_exponent_in_formula(fourth_right, 4, 8, 'b', 3) # 4•a^5•b^3
             self.wait(0.25)
         
             self.play(Create(check_3))
@@ -371,7 +372,7 @@ class ThirdExample(FormulaModifications):
         self.wait()
 
 
-class DefiningExponent(FormulaModifications):
+class DefiningExponent(FormulaModificationsScene):
     def construct(self):
 
 # INITS
@@ -503,7 +504,7 @@ class DefiningExponent(FormulaModifications):
         self.wait()
 
 
-class FewNmanMiandamner(FormulaModifications):
+class FewNmanMiandamner(FormulaModificationsScene):
     def construct(self):
 
 # INITS
@@ -542,7 +543,7 @@ class FewNmanMiandamner(FormulaModifications):
         self.wait()
 
 
-class PerfectFormExponent(FormulaModifications):
+class PerfectFormExponent(FormulaModificationsScene):
     def construct(self):
         TwoSimpleExamples.construct(self)
         ThirdExample.construct(self)
