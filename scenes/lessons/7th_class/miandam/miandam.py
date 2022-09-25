@@ -1,7 +1,7 @@
 from manim import *
 
-ARMTEX = TexTemplate()
-ARMTEX.add_to_preamble(r'\usepackage{armtex}')
+from constants import ARMTEX, ENGTEX
+from objects import SimpleSVGMobject
 
 prop_a = 60 / 720 / 2
 prop_b = 70 / 720 / 2
@@ -30,14 +30,15 @@ class RoadScene(Scene):
         y = Tex('$y$', color=color_b)
 
     # ճանապարհի նկար
-        road = SVGMobject('objects/SVG_files/road').set_color(WHITE)
-        road.scale(2).to_edge(UR).shift(DOWN)
+        road = SimpleSVGMobject('road', scale=2, color=WHITE)
+        road.to_edge(UR).shift(DOWN)
         road.points = road.get_all_points()
 
         dot_prop = ValueTracker(0)
         moving_dot = always_redraw(lambda: Dot(road.point_from_proportion(dot_prop.get_value()), radius=DEFAULT_DOT_RADIUS / 10))
 
-        car = SVGMobject('objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15).rotate(PI * 7 / 13)
+        # car = SVGMobject('objects/SVG_files/small_car').set_color(PURE_RED).scale(0.15).rotate(PI * 7 / 13)
+        car = SimpleSVGMobject('small_car', scale=0.15, rotate=PI * 7 / 13, color=PURE_RED)
         rotation = 0
         def car_updater(mob):
             nonlocal rotation
@@ -62,7 +63,7 @@ class RoadScene(Scene):
     
     # արտահայտություններ
         first_day_equation = Tex('$60$', ' $+$ ', '$70$', ' $+$ ', '$60$', ' $+$ ', '$70$', ' $+$ ', '$60$').to_edge(LEFT).shift(UP)
-        VGroup(first_day_equation[0], first_day_equation[4], first_day_equation[8]).set_color(color_a)
+        [mob.set_color(color_a) for mob in[first_day_equation[0], first_day_equation[4], first_day_equation[8]]]
         VGroup(first_day_equation[2], first_day_equation[6]).set_color(color_b)
 
         modified_equation = Tex(
@@ -131,9 +132,9 @@ class RoadScene(Scene):
         def animate_first_day(): # առաջին օրը 60 70 60 70 60
             for i in range(5):
                 if i % 2 == 0:
-                    segments_a[int(i / 2)].set_points_as_corners([moving_dot.get_center(), moving_dot.get_center()])
-                    self.add(segments_a[int(i / 2)], car)
-                    segments_a[int(i / 2)].add_updater(update_seg)
+                    segments_a[i // 2].set_points_as_corners([moving_dot.get_center(), moving_dot.get_center()])
+                    self.add(segments_a[i // 2], car)
+                    segments_a[i // 2].add_updater(update_seg)
                     if i == 0:
                         self.play(dot_prop.animate(rate_func=linear).set_value(dot_prop.get_value() + prop_a))
                         self.wait(0.5)
@@ -143,12 +144,12 @@ class RoadScene(Scene):
                             dot_prop.animate(rate_func=linear).set_value(dot_prop.get_value() + prop_a),
                             Write(first_day_equation[2*i-1 : 2*i+1])
                         )
-                    segments_a[int(i / 2)].clear_updaters()
+                    segments_a[i // 2].clear_updaters()
                     self.wait()
                 else:
-                    segments_b[int(i / 2)].set_points_as_corners([moving_dot.get_center(), moving_dot.get_center()])
-                    self.add(segments_b[int(i / 2)], car)
-                    segments_b[int(i / 2)].add_updater(update_seg)
+                    segments_b[i // 2].set_points_as_corners([moving_dot.get_center(), moving_dot.get_center()])
+                    self.add(segments_b[i // 2], car)
+                    segments_b[i // 2].add_updater(update_seg)
                     if i == 1:
                         self.play(dot_prop.animate(rate_func=linear).set_value(dot_prop.get_value() + prop_b))
                         self.wait(0.5)
@@ -160,7 +161,7 @@ class RoadScene(Scene):
                             Write(first_day_equation[2*i-1 : 2*i+1])
                         )
                         self.wait(0.25)
-                    segments_b[int(i / 2)].clear_updaters()
+                    segments_b[i // 2].clear_updaters()
                     
         def animate_modify_equation(): # արտահայտության ձևափոխում
             copy_60 = VGroup(first_day_equation[0], first_day_equation[4], first_day_equation[8]).copy() # init
@@ -489,11 +490,8 @@ class DefinitionExamples(Scene):
             Tex(','),
             MathTex('9\cdot z\cdot 9\cdot z')
         ).arrange()
-        VGroup(
-            miandams_1[1],
-            miandams_2[1],
-            miandams_2[3],
-        ).shift(0.25 * DOWN)
+        
+        [mob.shift(0.25 * DOWN) for mob in [miandams_1[1], miandams_2[1], miandams_2[3]]]
 
         miandams_3 = VGroup(
             MathTex('0\cdot a\cdot 7'),
@@ -601,12 +599,3 @@ class DefinitionExamples(Scene):
         self.wait()
 
         self.remove(*self.mobjects)
-
-
-class Miandam(Scene):
-    def construct(self):
-        RoadScene.construct(self)
-        FiveXPlusSixY.construct(self)
-        FiveXPlusSixYPlusFourZ.construct(self)
-        DefinitionExamples.construct(self)
-
