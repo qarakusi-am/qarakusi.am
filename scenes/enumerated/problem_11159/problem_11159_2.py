@@ -2,7 +2,7 @@ from manim import UP, DOWN, RIGHT, LEFT, UL, UR, GREEN, ORANGE
 from manim import VGroup, MathTex, Tex
 from manim import Write, Create, FadeIn, FadeOut, Transform, ReplacementTransform, Circumscribe
 from manim import SurroundingRectangle, Circle
-from objects import Goose, Duck, Weight, Scales
+from objects import SimpleSVGMobject, Weight, Scales
 from .text import goose_weight, duck_weight
 from scales import ScalesScene
 import numpy as np
@@ -33,8 +33,8 @@ class Problem11159_2Solution(ScalesScene):
 # INIT
     # scales 1 
         
-        goose = Goose().scale(0.8)
-        duck = Duck().scale(0.8)
+        goose = SimpleSVGMobject('goose').scale(0.8)
+        duck = SimpleSVGMobject('duck').scale(0.8)
         sc_1 = Scales(2.15).scale(0.8).shift(UP)
 
         sc_1_left_mobs = VGroup(duck.copy(), duck.copy(), goose.copy(), goose.copy(), goose.copy())
