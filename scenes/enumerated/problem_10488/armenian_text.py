@@ -1,8 +1,0 @@
-ani_string = "Անի"
-mayrik_string  = "Մայրիկ"
-one_year_after_string = "$1$ տարի անց"
-now_string = "Այժմ"
-another_one_year_after_string = "ևս $1$ տարի անց"
-two_years_after_string = "$2$ տարի անց"
-after_some_years_string = "Մի քանի տարի հետո"
-some_years_string = "տարի անց"
