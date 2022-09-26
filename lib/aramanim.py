@@ -33,7 +33,7 @@ class Segment(VGroup):
             edge_hight = kwargs['edge_hight']
             del kwargs['edge_hight']
         else:
-            edge_hight = DEFAULT_EDGE_HEIGHT        
+            edge_hight = DEFAULT_EDGE_HEIGHT
         self.line = Line(start, end, buff=0, **kwargs)
         self.left_edge = always_redraw(
             lambda: Line(
