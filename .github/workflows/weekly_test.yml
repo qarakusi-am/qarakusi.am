@@ -1,12 +1,8 @@
 name: Check existing videos
 
 on:
-  push:
-    paths:
-      - 'lib/**'
-      - 'objects/**'
-    branches:
-      - master
+  schedule:
+    - cron: '0 0 * * 0'
 
 jobs:
   test:
@@ -24,4 +20,4 @@ jobs:
         with:
           path: "requirements.txt"
       - name: Rendering Scenes
-        run: PYTHONPATH=lib:objects python manim_test.py --last-screen
+        run: PYTHONPATH=lib:objects python manim_test.py
