@@ -1,9 +1,10 @@
-from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform
+from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform, always_redraw
 from manim import WHITE, RIGHT, ORIGIN, LEFT, DOWN, UP, YELLOW, GREEN
 from manim import linear
-from aramanim import Segment, CutIn, CutOut
-from objects import SimpleSVGMobject, DScissors, Train
+from aramanim import Reset, Segment, CutIn, CutOut, Run
+from objects import SimpleSVGMobject, DScissors, Train, Stopwatch
 from qarakusiscene import TaskNumberBox
+from math import floor
 from .text import *
 
 scale = .02
@@ -27,12 +28,10 @@ class Problem10320(Scene):
         self.play(Write(road_length))
         self.wait()
         
-        city = SimpleSVGMobject("city").next_to(road.right_edge, UP, buff=1)#.align_to(road, RIGHT)
-        # city = Tex(city_string).scale(.6).next_to(road, UP, buff=1).align_to(road, RIGHT)
+        city = SimpleSVGMobject("city").next_to(road.right_edge, UP, buff=1)
         self.play(FadeIn(city))
         self.wait()
         
-        # train = Tex(train_string).scale(.8).next_to(road, UP).align_to(road, LEFT)
         train = Train(number_of_rolling_cars=1).scale(.2).next_to(road.left_edge, UP).scale(.8)
         self.play(FadeIn(train))
         self.wait()
@@ -41,13 +40,28 @@ class Problem10320(Scene):
         self.play(FadeOut(Arsen))
 
         first_part_of_road = self.get_part(value=320).scale(scale).align_to(road.line, LEFT+UP)
-        self.play(train.animate.next_to(first_part_of_road.right_edge, UP), run_time=2.5, rate_func=linear)
+        stopwatch = Stopwatch()
+        stopwatch.scale(.5).to_edge(UP+RIGHT).shift(LEFT)
+        timer = always_redraw(lambda: MathTex("{}".format(floor(stopwatch.time.get_value()/240*4))).next_to(stopwatch, DOWN))
+        self.add(timer)
+        self.play(
+            train.animate.next_to(first_part_of_road.right_edge, UP),
+            Run(stopwatch, speed=60, run_time=4),
+            run_time=4,
+            rate_func=linear
+        )
         self.play(FadeIn(first_part_of_road))
         first_part_of_road_time = MathTex(first_part_of_road_time_string).next_to(first_part_of_road, UP, buff=.5)
         self.play(Write(first_part_of_road_time))
         self.wait()
         second_part_of_road = self.get_part(value=285).scale(scale).next_to(first_part_of_road, buff=0)
-        self.play(train.animate.next_to(second_part_of_road.right_edge, UP), run_time=1.5, rate_func=linear)
+        self.play(Reset(stopwatch))
+        self.play(
+            train.animate.next_to(second_part_of_road.right_edge, UP),
+            Run(stopwatch, speed=60, run_time=3),
+            run_time=3,
+            rate_func=linear
+        )
         self.add(second_part_of_road)
         second_part_of_road_time = MathTex(second_part_of_road_time_string).next_to(second_part_of_road, UP, buff=.5)
         self.play(Write(second_part_of_road_time))
@@ -63,7 +77,8 @@ class Problem10320(Scene):
                 road_length,
                 train,
                 city
-            ).animate.to_edge(DOWN, buff=.8)
+            ).animate.to_edge(DOWN, buff=.8),
+            FadeOut(stopwatch, timer)
         )
         self.play(FadeOut(train, city))
         self.wait()
