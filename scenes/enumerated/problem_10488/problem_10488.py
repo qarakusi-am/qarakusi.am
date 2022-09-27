@@ -1,4 +1,11 @@
-from manim import *
+from manim import Scene
+from manim import ORIGIN, RIGHT, LEFT, UP, DOWN, rate_functions
+from manim import YELLOW, GREEN, RED, BLUE
+from manim import (
+    Wait, AnimationGroup, Create, Write,
+    ReplacementTransform, TransformMatchingShapes,
+    FadeIn, FadeOut, Indicate, Wiggle)
+from manim import VGroup, MathTex, Tex, Brace
 from aramanim import Segment, CutIn, CutOut
 from objects import SimpleSVGMobject, Checkmark, DScissors
 from .text import (
@@ -62,6 +69,14 @@ class Problem10488(Scene):
             cond_2,
             checkmark_2))
         self.wait()
+        self.play(Wiggle(figure_1[0]))
+        self.wait()
+        self.play(
+            AnimationGroup(                
+                Wiggle(figure_1[0]),
+                *[Wiggle(figure_2[i]) for i in range(3)],
+                lag_ratio=0.5), run_time = 4)
+        self.wait()
         self.play(
             AnimationGroup(
                 CutIn(scissors_1),
@@ -100,7 +115,7 @@ class Problem10488(Scene):
                         figure_2[i].animate(rate_func = rate_functions.there_and_back_with_pause).shift(0.5*UP),
                         count[i+1].animate(rate_func = rate_functions.there_and_back_with_pause).set_opacity(1))
                         for i in range(3)],
-                lag_ratio=0.5), run_time = 6)
+                lag_ratio=0.5), run_time = 4)
         self.remove(count)
         self.wait()
         self.play(
