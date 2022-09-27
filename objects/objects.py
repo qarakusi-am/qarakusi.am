@@ -196,7 +196,12 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'thinking_boy_outlines',
     {'folder': path_to_SVG / 'people' / 'thinking'})
-
+svg_defaults.add_default(
+    'big_pool',
+    {'folder': path_to_SVG / 'pool'})
+svg_defaults.add_default(
+    'small_pool',
+    {'folder': path_to_SVG / 'pool'})
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
