@@ -1,6 +1,6 @@
-from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform, always_redraw
+from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform
 from manim import WHITE, RIGHT, ORIGIN, LEFT, DOWN, UP, YELLOW, GREEN
-from manim import linear
+from manim import linear, always_redraw
 from aramanim import Reset, Segment, CutIn, CutOut, Run
 from objects import SimpleSVGMobject, DScissors, Train, Stopwatch
 from qarakusiscene import TaskNumberBox
