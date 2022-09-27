@@ -116,6 +116,46 @@ class Problem10488(Scene):
                 *[FadeIn(figure_2[i].update_label_pos()) for i in range(3)],
                 lag_ratio=0.25))
         self.wait()
+        self.play(
+            VGroup(formula_one_units, formula_total_units).animate.shift(4*LEFT),
+            figure_1[-1].animate.next_to(figure_1[:-1], RIGHT, buff=0),
+            figure_2[-1].animate.next_to(figure_2[:-1], RIGHT, buff=0))
+        self.wait()
+        self.play(
+            AnimationGroup(
+                Write(formula_total_1[0]),
+                Wiggle(figure_1[0]), lag_ratio=0.75))
+        self.play(
+            AnimationGroup(
+                Write(formula_total_1[1]),
+                TransformMatchingShapes(figure_1[1].label.copy(), formula_total_1[2]),
+                Wait(),
+                Write(formula_total_1[3:]),
+                lag_ratio=0.75))
+        self.wait()
+        self.play(
+            AnimationGroup(
+                FadeIn(segment_1),
+                FadeOut(figure_1),
+                ReplacementTransform(VGroup(*[s.label for s in figure_1]), segment_1.update_label_pos()),
+                lag_ratio=0.75))
+        self.wait()
+        self.play(
+            AnimationGroup(
+                TransformMatchingShapes(brace[1].copy(), formula_total_2[0]),
+                Write(formula_total_2[1]),
+                TransformMatchingShapes(segment_1.label.copy(), formula_total_2[2]),
+                Wait(),
+                Write(formula_total_2[3:]),
+                lag_ratio=0.75))
+        self.wait()
+        self.play(
+            AnimationGroup(
+                FadeIn(segment_2),
+                FadeOut(figure_2),
+                ReplacementTransform(VGroup(*[s.label for s in figure_2]), segment_2.update_label_pos()),
+                lag_ratio=0.75))
+        self.wait(2)
 
     def set_up(self):
         #segments set up
@@ -178,7 +218,7 @@ class Problem10488(Scene):
         formula_one_units = MathTex(r"500", r":", r"4", r"=", r"125")
         VGroup(formula_total_units, formula_one_units).arrange(DOWN, aligned_edge=LEFT, buff=0.5).shift(2.5*DOWN)
         formula_total_1 = MathTex(r"125", r"+", r"60", r"=", r"185")
-        formula_total_2 = MathTex(r"600", r"+", r"185", r"=", r"415") 
+        formula_total_2 = MathTex(r"600", r"-", r"185", r"=", r"415") 
         VGroup(formula_total_1, formula_total_2).arrange(DOWN, aligned_edge=LEFT, buff=0.5).shift(2.5*DOWN + 4*RIGHT)
         #self.
         self.figure_1 = figure_1
