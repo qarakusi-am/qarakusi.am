@@ -316,10 +316,8 @@ class DScissors(VGroup):
         self.arrange(RIGHT, buff=-1.1)
         self.add(self.dot)
         self.scale(0.5)
-        
         self.scissor_1.shift(0.08 * DOWN).rotate(angle=-0.03, about_point=self.dot.get_center())
-        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())
-        
+        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())   
         self.cut_point = np.array(cut_point)
         shift_vector = np.array([0, -0.35, 0])
         p_end = self.cut_point + shift_vector
