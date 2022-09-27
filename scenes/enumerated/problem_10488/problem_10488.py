@@ -1,6 +1,6 @@
 from manim import *
 from aramanim import Segment
-from objects import Checkmark, DScissors
+from objects import SimpleSVGMobject, Checkmark, DScissors
 from .text import (
         condition_1_string,
         condition_2_string,
@@ -9,7 +9,24 @@ from .text import (
 
 class Problem10488(Scene):
     def construct(self):
-        pass
+        self.set_up()
+        figure_1 = self.figure_1
+        figure_2 = self.figure_2
+        cond_1 = self.cond_1
+        cond_2 = self.cond_2
+        checkmark_1 = self.checkmark_1
+        checkmark_2 = self.checkmark_2
+        scissors_1 = self.scissors_1
+        scissors_2 = self.scissors_2
+        small_pool = self.small_pool
+        big_pool = self.big_pool
+        self.wait()
+        self.play(
+            AnimationGroup(
+                Create(small_pool),
+                Create(big_pool),
+                lag_ratio = 0.8))
+        self.wait()
 
     def set_up(self):
         #segments set up
@@ -43,11 +60,23 @@ class Problem10488(Scene):
         scissors_1 = DScissors(figure_1.get_right())
         scissors_2 = DScissors(figure_2.get_right())
         #pool SVG set up
+        small_pool = SimpleSVGMobject('small_pool')
+        big_pool = SimpleSVGMobject('big_pool')
+        small_pool.scale(0.5)
+        small_pool.next_to(figure_1, LEFT)
+        big_pool.scale(0.8)
+        big_pool.next_to(figure_2, LEFT)
         #self.
         self.figure_1 = figure_1
         self.figure_2 = figure_2
         self.cond_1 = cond_1
         self.cond_2 = cond_2
+        self.checkmark_1 = checkmark_1
+        self.checkmark_2 = checkmark_2
+        self.scissors_1 = scissors_1
+        self.scissors_2 = scissors_2
+        self.small_pool = small_pool
+        self.big_pool = big_pool
 
     def get_segment(self, value = 125, color = RED):
         return Segment(ORIGIN, (value/100)*RIGHT, label = "{:,}".format(value), color=color)
