@@ -184,10 +184,6 @@ class Problem10488(Scene):
         figure_2.next_to(figure_1, DOWN, buff=2.5, aligned_edge=LEFT)
         segment_1 = self.get_segment(185, BLUE).align_to(figure_1, UP + LEFT)
         segment_2 = self.get_segment(415, BLUE).align_to(figure_2, UP + LEFT)
-        for s in figure_1:
-            s.add_label_updater()
-        for s in figure_2:
-            s.add_label_updater()
         segment_1.add_label_updater()
         segment_2.add_label_updater()
         #text set up
@@ -256,4 +252,6 @@ class Problem10488(Scene):
         self.formula_total_2 = formula_total_2
 
     def get_segment(self, value = 125, color = RED):
-        return Segment(ORIGIN, (value/56)*RIGHT, label = "{:,}".format(value), color=color, stroke_width = 8)
+        s = Segment(ORIGIN, (value/56)*RIGHT, label = "{:,}".format(value), color=color, stroke_width = 8)
+        s.add_label_updater()
+        return s 
