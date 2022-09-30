@@ -1,6 +1,7 @@
-from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform
+from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform, TransformFromCopy
 from manim import WHITE, RIGHT, ORIGIN, LEFT, DOWN, UP, YELLOW, GREEN
 from manim import linear, always_redraw
+from more_itertools import one
 from aramanim import Reset, Segment, CutIn, CutOut, Run
 from objects import SimpleSVGMobject, DScissors, Train, Stopwatch
 from qarakusiscene import TaskNumberBox
@@ -42,7 +43,7 @@ class Problem10320(Scene):
         first_part_of_road = self.get_part(value=320).scale(scale).align_to(road.line, LEFT+UP)
         stopwatch = Stopwatch()
         stopwatch.scale(.5).to_edge(UP+RIGHT).shift(LEFT)
-        timer = always_redraw(lambda: MathTex("{}".format(floor(stopwatch.time.get_value()/240*4))).next_to(stopwatch, DOWN))
+        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60))).next_to(stopwatch, DOWN))
         self.add(timer)
         self.play(
             train.animate.next_to(first_part_of_road.right_edge, UP),
@@ -77,19 +78,19 @@ class Problem10320(Scene):
                 road_length,
                 train,
                 city
-            ).animate.to_edge(DOWN, buff=.8),
+            ).animate.to_edge(DOWN, buff=1.2),
             FadeOut(stopwatch, timer)
         )
         self.play(FadeOut(train, city))
         self.wait()
         
-        one_part = self.get_part(value=80, color=GREEN).scale(scale).to_edge(LEFT).to_edge(UP, buff=1.7)
+        one_part = self.get_part(value=80, color=GREEN).scale(scale).to_edge(LEFT).to_edge(UP, buff=2.6)
         self.play(GrowFromEdge(one_part, LEFT))
         self.wait()
         
         one_part_copy = one_part.copy()
         self.play(FadeIn(one_part_copy))
-        self.play(one_part_copy.animate.shift(DOWN*1.5))
+        self.play(one_part_copy.animate.next_to(one_part, buff=1))
         self.wait()
         segment_15 = self.get_part(15, color=YELLOW).scale(scale).next_to(one_part_copy, buff=0)
         segment_15.set_label(MathTex(segment_15_string))
@@ -100,13 +101,13 @@ class Problem10320(Scene):
         )
         self.wait()
 
-        x4_one_part = [*[one_part.copy() for i in range(4)]]
+        x4_one_part = [one_part.copy() for i in range(4)]
         road_animation_part1 = AnimationGroup(*[x4_one_part[i].animate.next_to(first_part_of_road.left_edge, buff=i*80*scale) for i in range(4)], lag_ratio=1.8)
         self.play(road_animation_part1)
         first_part_of_road_brace = Brace(first_part_of_road, UP, buff=.08)
         self.play(FadeIn(first_part_of_road_brace))
         self.wait()
-        x3_one_part_and_15 = [*[VGroup(one_part_copy.copy(), segment_15.copy()) for i in range(3)]]
+        x3_one_part_and_15 = [VGroup(one_part_copy.copy(), segment_15.copy()) for i in range(3)]
         road_animation_part2 = AnimationGroup(*[x3_one_part_and_15[i].animate.next_to(second_part_of_road.left_edge, buff=i*95*scale) for i in range(3)], lag_ratio=1.8)
         self.play(road_animation_part2)
         second_part_of_road_brace = Brace(second_part_of_road, UP, buff=.08)
@@ -139,12 +140,20 @@ class Problem10320(Scene):
         self.play(*[CutIn(scissors[i+3]) for i in range(len(scissors)-3)])
         self.play(*[CutOut(scissors[i+3]) for i in range(len(scissors)-3)])
         self.play(*[x3_one_part_and_15[i][1].animate.shift(UP*.5) for i in range(len(x3_one_part_and_15))])
+        for i in range(len(x3_one_part_and_15)):
+            x3_one_part_and_15[i][1].set_label(MathTex("15"))
+        self.play(AnimationGroup(*[TransformFromCopy(segment_15_label, x3_one_part_and_15[i][1].update_label_pos()) for i in range(len(x3_one_part_and_15))], lag_ratio=1))
         self.wait()
 
-        x7_part_value = MathTex(r"605-3\cdot15=560").to_edge(RIGHT, buff=5).to_edge(UP, buff=1.5)
+        x7_part_value = MathTex(r"605-3\cdot15=560").to_edge(RIGHT, buff=3.5).to_edge(UP, buff=1.5)
         self.play(Write(x7_part_value))
         self.wait()
-        self.play(FadeOut(*[x3_one_part_and_15[i][1] for i in range(len(x3_one_part_and_15))]))
+        self.play(
+            FadeOut(
+                *[x3_one_part_and_15[i][1] for i in range(len(x3_one_part_and_15))],
+                *[x3_one_part_and_15[i][1].label for i in range(len(x3_one_part_and_15))]
+            )
+        )
         self.wait()
         x7_one_part = VGroup(
             *[one_part.copy() for i in range(7)]
