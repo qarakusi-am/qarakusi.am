@@ -15,18 +15,32 @@
 
 գծագիրը ուղղել
 
+12։3=4
+
+գտնել երեխաների տարիքը
 
 
 """
 
 
-from manim import *
+from manim import Scene
+from manim import ValueTracker
+from manim import always_redraw, linear, there_and_back
+from manim import UP, DOWN, LEFT, RIGHT
+from manim import MathTex, Tex, VGroup
+from manim import ORANGE, YELLOW
+from manim import DEFAULT_FONT_SIZE
+from manim import Brace, Dot, DashedLine
+from manim import Create, ReplacementTransform, FadeOut, FadeIn, Write
+from manim import Indicate, Circumscribe
 
 
 from constants import DEFAULT_SEGMENT_TEXT_POSITION
 from .text import youngest, second, third, fourth, fifth, fifth_2
 
 from segment import Segment
+
+import numpy as np
 
 class Problem11334(Scene):
     def construct(self):
