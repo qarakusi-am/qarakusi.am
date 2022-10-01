@@ -6,7 +6,7 @@ from manim import Scene
 from manim import always_redraw
 from aramanim import Segment
 from objects import SimpleSVGMobject
-from .text import coordinate_text, number_line_text, step_number_text, left_ruler_text, rigth_ruler_text
+from .text import method_1, method_2
 import numpy as np
 
 def jump_to(mob, point, run_time = 0.5, hight = 3):
@@ -22,9 +22,12 @@ def jump_to(mob, point, run_time = 0.5, hight = 3):
 
 class Division(Scene):
     def construct(self):
-        green_apple = SimpleSVGMobject('green_apple')
-        red_apple = SimpleSVGMobject('red_apple')
-        locust_svg = SimpleSVGMobject('locust')
-        boy_ = SimpleSVGMobject('boy_2')
-        girl_ = SimpleSVGMobject('girl_2')
+        apple = SimpleSVGMobject('green_apple')
+        apple.set_color(BLUE)
         thinking = SimpleSVGMobject('thinking_boy_outlines')
+        div_8_2 = MathTex('8:2=4')
+        tex_method_1 = Tex(method_1)
+        tex_method_2 = Tex(method_2)
+
+        VGroup()
+
