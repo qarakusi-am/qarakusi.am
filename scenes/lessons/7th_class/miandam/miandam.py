@@ -20,8 +20,8 @@ class RoadScene(Scene):
         babken_70 = Tex('Բաբկեն',  ' - ',  '$70$', ' կմ/ժ', tex_template=ARMTEX, color=color_b)
         babken_70.next_to(aram_60, DOWN, aligned_edge=LEFT)
 
-        urish = Tex('Առաջին վարորդ', tex_template=ARMTEX, color=color_a).align_to(aram_60[0], DL)
-        urish_urish = Tex('Երկրորդ վարորդ', tex_template=ARMTEX, color=color_b).align_to(babken_70[0], DL)
+        first_driver = Tex('Առաջին վարորդ', tex_template=ARMTEX, color=color_a).align_to(aram_60[0], DL)
+        second_driver = Tex('Երկրորդ վարորդ', tex_template=ARMTEX, color=color_b).align_to(babken_70[0], DL)
 
         seventy = Tex('$70$', color=color_a)
         ninty = Tex('$90$', color=color_b)
@@ -260,10 +260,10 @@ class RoadScene(Scene):
 
         def animate_adding_variables(): # Ուրիշ 2 հոգի, ուրիշ արագություններ
             self.play(
-                ReplacementTransform(aram_60[0], urish),
-                aram_60[1:].animate.next_to(urish, buff=0.25),
-                ReplacementTransform(babken_70[0], urish_urish),
-                babken_70[1:].animate.next_to(urish_urish, buff=0.25)
+                ReplacementTransform(aram_60[0], first_driver),
+                aram_60[1:].animate.next_to(first_driver, buff=0.25),
+                ReplacementTransform(babken_70[0], second_driver),
+                babken_70[1:].animate.next_to(second_driver, buff=0.25)
             )
             self.wait()
             
@@ -292,7 +292,7 @@ class RoadScene(Scene):
             self.play(FadeOut(
                 aram_60, babken_70,
                 modified_equation, car, moving_dot, road,
-                segments_a, segments_b, urish, urish_urish
+                segments_a, segments_b, first_driver, second_driver
             ))
             self.wait(0.5)
 
@@ -344,7 +344,7 @@ class RoadScene(Scene):
             self.add(
                 aram_60, babken_70, moving_dot, road,
                 modified_equation, final_equation_copy,
-                segments_a, segments_b, urish, urish_urish, car
+                segments_a, segments_b, first_driver, second_driver, car
             )
             self.wait()
 
