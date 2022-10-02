@@ -173,7 +173,7 @@ def MultiplyNumbersInFormula(
 
 
 def CombineTwoExponents(
-    formula : Tex or MathTex, bases_indices : list, exponents_indices : list, new_exponent : int, fade_out : list,
+    formula : Tex or MathTex, bases_indices : list, exponents_indices : list, new_exponent : str, fade_out : list,
     run_time=1
 ):
     """
@@ -182,12 +182,11 @@ def CombineTwoExponents(
     tex_string_list = [tex.get_tex_string() for tex in formula]
 
     if type(formula) == Tex:
-        new_item_exponent = f'$^{new_exponent}$'
+        new_item_exponent = f'$^' + '{' + new_exponent + '}' + '$'
     elif type(formula) == MathTex:
         new_item_exponent = f'^{new_exponent}'
 
     last_item_index = max(bases_indices + exponents_indices)
-    print(last_item_index)
 
     new_formula = type(formula)(
         *tex_string_list[:bases_indices[0] + 1], new_item_exponent, *tex_string_list[last_item_index + 1 :], 
