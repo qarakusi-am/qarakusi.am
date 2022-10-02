@@ -17,7 +17,7 @@ class test(FormulaModificationsScene):
         self.rearrange_formula(tex_1, [8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13], [8], [], [9], [1]) # 23abaab
         self.wait()
 
-        self.multiply_numbers_in_formula(tex_1, 3, 6) # 6•a•b•a•a•b
+        self.multiply_numbers_in_formula(tex_1, 3, '6') # 6•a•b•a•a•b
         self.wait()
 
         self.rearrange_formula(tex_1, [0, 1, 2, 5, 6, 7, 8, 9, 10, 3, 4], [4], [], [3], [-2]) # 6•a•a•a•b•b

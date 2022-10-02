@@ -1,4 +1,3 @@
-from cProfile import run
 from manim import Tex, MathTex
 from manim import UP, DOWN, LEFT, DL
 from manim import Scene
