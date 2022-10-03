@@ -1,4 +1,4 @@
-from lib.constants import LanguageConfig
+from constants import LanguageConfig
 
 if LanguageConfig.is_armenian():
     from .armenian_text import youngest, second, third, fourth, fifth, fifth_2
