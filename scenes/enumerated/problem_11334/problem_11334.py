@@ -46,7 +46,7 @@ class Problem11334(Scene):
     def construct(self):
 
 # INITS
-        left_boundary = -4.5
+        left_boundary = -3.75
         part_length = ValueTracker(2.5)
 
     # seg_1
@@ -186,19 +186,18 @@ class Problem11334(Scene):
         ans_5 = MathTex('16').next_to((seg_5_final.line.get_left() + seg_5_final_extra.line.get_right()) / 2, DEFAULT_SEGMENT_TEXT_POSITION)
 
     # seg_5 by four parts
+        def seg_by_parts(y):
+            x = always_redraw(lambda: 
+            Segment(y.get_right(), y.get_right() + np.array([part_length.get_value(), 0, 0]))
+            )
+            return x
+
         seg_5_part_1 = always_redraw(lambda: 
             Segment([left_boundary, -2, 0], np.array([left_boundary, -2, 0]) + np.array([part_length.get_value(), 0, 0]))
         )
-
-        seg_5_part_2 = always_redraw(lambda: 
-            Segment(seg_5_part_1.get_right(), seg_5_part_1.get_right() + np.array([part_length.get_value(), 0, 0]))
-        )
-        seg_5_part_3 = always_redraw(lambda: 
-            Segment(seg_5_part_2.get_right(), seg_5_part_2.get_right() + np.array([part_length.get_value(), 0, 0]))
-        )
-        seg_5_part_4 = always_redraw(lambda: 
-            Segment(seg_5_part_3.get_right(), seg_5_part_3.get_right() + np.array([part_length.get_value(), 0, 0]))
-        )
+        seg_5_part_2 = seg_by_parts(seg_5_part_1)
+        seg_5_part_3 = seg_by_parts(seg_5_part_2)
+        seg_5_part_4 = seg_by_parts(seg_5_part_3)
 
         brace_seg_5 = Brace(VGroup(seg_5, seg_5_part_1), LEFT, 0.2, 0.5)
 
