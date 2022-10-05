@@ -104,7 +104,7 @@ def RemoveItemsFromFormula(
 
 def WriteExponentInFormula(
     formula : Tex  or MathTex, first_item_index : int, 
-    last_item_index : int, base : str, exponent : int,
+    last_item_index : int, base : str, exponent : str,
     run_time=1
 ):
     """
@@ -403,7 +403,7 @@ class FormulaModificationsScene(Scene):
 
     def write_exponent_in_formula(self,
         formula : Tex  or MathTex, first_item_index : int, 
-        last_item_index : int, base : str, exponent : int,
+        last_item_index : int, base : str, exponent : str,
         run_time=1
     ):
         """
