@@ -196,7 +196,12 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'thinking_boy_outlines',
     {'folder': path_to_SVG / 'people' / 'thinking'})
-
+svg_defaults.add_default(
+    'big_pool',
+    {'folder': path_to_SVG / 'pool'})
+svg_defaults.add_default(
+    'small_pool',
+    {'folder': path_to_SVG / 'pool'})
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
@@ -322,10 +327,8 @@ class DScissors(VGroup):
         self.arrange(RIGHT, buff=-1.1)
         self.add(self.dot)
         self.scale(0.5)
-        
         self.scissor_1.shift(0.08 * DOWN).rotate(angle=-0.03, about_point=self.dot.get_center())
-        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())
-        
+        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())   
         self.cut_point = np.array(cut_point)
         shift_vector = np.array([0, -0.35, 0])
         p_end = self.cut_point + shift_vector
