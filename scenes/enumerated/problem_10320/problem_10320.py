@@ -1,4 +1,4 @@
-from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform, TransformFromCopy
+from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform, TransformFromCopy, ReplacementTransform, rate_functions
 from manim import WHITE, RIGHT, ORIGIN, LEFT, DOWN, UP, YELLOW, GREEN
 from manim import linear, always_redraw
 from more_itertools import one
@@ -42,8 +42,8 @@ class Problem10320(Scene):
 
         first_part_of_road = self.get_part(value=320).scale(scale).align_to(road.line, LEFT+UP)
         stopwatch = Stopwatch()
-        stopwatch.scale(.5).to_edge(UP+RIGHT).shift(LEFT)
-        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60))).next_to(stopwatch, DOWN))
+        stopwatch.scale(.5).to_edge(UP)
+        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60))+hour_string).next_to(stopwatch, DOWN))
         self.add(timer)
         self.play(
             train.animate.next_to(first_part_of_road.right_edge, UP),
@@ -53,10 +53,12 @@ class Problem10320(Scene):
         )
         self.play(FadeIn(first_part_of_road))
         first_part_of_road_time = MathTex(first_part_of_road_time_string).next_to(first_part_of_road, UP, buff=.5)
-        self.play(Write(first_part_of_road_time))
+        self.play(ReplacementTransform(timer, first_part_of_road_time))
         self.wait()
         second_part_of_road = self.get_part(value=285).scale(scale).next_to(first_part_of_road, buff=0)
         self.play(Reset(stopwatch))
+        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60))+hour_string).next_to(stopwatch, DOWN))
+        self.add(timer)
         self.play(
             train.animate.next_to(second_part_of_road.right_edge, UP),
             Run(stopwatch, speed=60, run_time=3),
@@ -65,7 +67,7 @@ class Problem10320(Scene):
         )
         self.add(second_part_of_road)
         second_part_of_road_time = MathTex(second_part_of_road_time_string).next_to(second_part_of_road, UP, buff=.5)
-        self.play(Write(second_part_of_road_time))
+        self.play(ReplacementTransform(timer, second_part_of_road_time))
         self.wait()
 
         self.play(
@@ -79,7 +81,7 @@ class Problem10320(Scene):
                 train,
                 city
             ).animate.to_edge(DOWN, buff=1.2),
-            FadeOut(stopwatch, timer)
+            FadeOut(stopwatch)
         )
         self.play(FadeOut(train, city))
         self.wait()
@@ -118,19 +120,37 @@ class Problem10320(Scene):
 
         self.play(*[Circumscribe(x3_one_part_and_15[i][1], fade_out=True) for i in range(3)])
         self.wait()
-
         self.play(
             FadeOut(
-                road,
-                first_part_of_road,
                 first_part_of_road_time,
-                second_part_of_road,
                 second_part_of_road_time,
                 road_length,
                 first_part_of_road_brace,
                 second_part_of_road_brace
             )
         )
+        self.remove(
+            road,
+            first_part_of_road,
+            second_part_of_road
+        )
+        self.wait()
+
+        count_x7_one_part_labels = [
+            *[Tex(str(i+1)).next_to(x4_one_part[i], UP) for i in range(4)],
+            *[Tex(str(i+5)).next_to(x3_one_part_and_15[i][0], UP) for i in range(3)]
+        ]
+        count_x7_one_part_animation = AnimationGroup(
+            *[Write(count_x7_one_part_labels[i]) for i in range(7)],
+            lag_ratio=.5
+        )
+        self.play(count_x7_one_part_animation)
+        self.wait()
+        self.play(
+            *[FadeOut(count_x7_one_part_labels[i]) for i in range(7)]
+        )
+        self.wait()
+
         scissors = [
             *[DScissors(x3_one_part_and_15[i][1].left_edge.get_center()) for i in range(len(x3_one_part_and_15))],
             *[DScissors(x3_one_part_and_15[i][1].right_edge.get_center()) for i in range(len(x3_one_part_and_15)-1)]
@@ -155,9 +175,7 @@ class Problem10320(Scene):
             )
         )
         self.wait()
-        x7_one_part = VGroup(
-            *[one_part.copy() for i in range(7)]
-        ).arrange(RIGHT, buff=0).move_to(road.get_center())
+        x7_one_part = VGroup(*[one_part.copy() for _ in range(7)]).arrange(RIGHT, buff=0).move_to(road.get_center())
         self.play(
             Transform(
                 VGroup(
@@ -196,10 +214,11 @@ class Problem10320(Scene):
         self.play(Write(one_part_and_15_value))
         self.wait()
         one_part_and_15_brace = Brace(VGroup(one_part_copy, segment_15), UP)
-        one_part_and_15_brace_label = one_part_and_15_brace.get_tex("95")
+        one_part_and_15_brace_label = one_part_and_15_brace.get_tex("95"+km)
         self.play(
             GrowFromCenter(one_part_and_15_brace),
-            Transform(VGroup(one_part_copy_label, segment_15_label), one_part_and_15_brace_label)
+            Transform(VGroup(one_part_copy_label, segment_15_label), one_part_and_15_brace_label),
+            one_part.label.animate.become(MathTex(rf"80\text{{{km}}}").next_to(one_part, UP, .05))
         )
 
         self.wait(2)
