@@ -1,4 +1,4 @@
-from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform, TransformFromCopy, ReplacementTransform, rate_functions
+from manim import Scene, FadeIn, GrowFromEdge, Tex, MathTex, Write, VGroup, AnimationGroup, Brace, FadeOut, Indicate, Circumscribe, GrowFromCenter, Transform, TransformFromCopy, ReplacementTransform
 from manim import WHITE, RIGHT, ORIGIN, LEFT, DOWN, UP, YELLOW, GREEN
 from manim import linear, always_redraw
 from aramanim import Reset, Segment, CutIn, CutOut, Run
