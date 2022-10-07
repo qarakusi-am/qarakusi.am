@@ -5,7 +5,7 @@ from manim import ShowPassingFlash, Wiggle, Create, Circumscribe, FadeIn, FadeOu
 from manim import Scene
 from manim import always_redraw
 from aramanim import Segment, CutOut, CutIn
-from objects import SimpleSVGMobject, DScissors
+from objects import SimpleSVGMobject, DScissors, AppleSLices
 from .text import method_1, method_2, quotient, remainder
 import numpy as np
 
@@ -232,16 +232,36 @@ class Division(Scene):
         self.play(Write(remainder_13_m2))
         self.wait(2)
         #comparing methods 1 and 2
+        apples_13_m1_12 = AppleSLices()
+        apples_13_m1_12.match_width(apples_13_m1[12])
+        apples_13_m1_12.align_to(apples_13_m1[12], DOWN + LEFT)
         self.play(Indicate(apples_13_m1[12]))
         cut_lines = DashedLine(ORIGIN, DOWN).add(DashedLine(0.5*(DOWN+LEFT), 0.5*(DOWN+RIGHT)))
         self.wait()
         self.play(Create(cut_lines.move_to(apples_13_m1[12])))
+        apples_13_m1[12].set_opacity(0.45)
+        self.play(
+            apples_13_m1_12.apple_ul.animate.shift(0.25*UP + LEFT),
+            apples_13_m1_12.apple_dl.animate.shift(0.25*DOWN + LEFT),
+            apples_13_m1_12.apple_ur.animate.shift(0.25*UP + RIGHT),
+            apples_13_m1_12.apple_dr.animate.shift(0.25*DOWN + RIGHT))
+        self.play(
+            apples_13_m1_12.apple_ul.animate.set_color(RED).next_to(apples_13_m1.target[:3]),
+            apples_13_m1_12.apple_dl.animate.set_color(BLUE).next_to(apples_13_m1.target[3:6]),
+            apples_13_m1_12.apple_ur.animate.set_color(YELLOW).next_to(apples_13_m1.target[6:9]),
+            apples_13_m1_12.apple_dr.animate.set_color(LIGHT_PINK).next_to(apples_13_m1.target[9:12]))
+        self.wait()
+        frac = MathTex(r'13:4 = 3\frac{1}{4}')
+        frac.scale(0.7)
+        frac.next_to(apples_13_m1_12)
+        frac.shift(0.1*RIGHT + 0.05*DOWN)
+        self.play(Write(frac))
         self.wait()
         self.play(Wiggle(apples_13_m2[12]))
         self.wait()
         #choosing method 2
         tex_method_2.add_background_rectangle()
-        m_1 = VGroup(rect_1, tex_method_1, apples_13_m1, count_3_m1, cut_lines, girl_1, girl_2, boy_1, boy_2)
+        m_1 = VGroup(rect_1, tex_method_1, apples_13_m1, count_3_m1, cut_lines, girl_1, girl_2, boy_1, boy_2, frac, apples_13_m1_12)
         m_2 = VGroup(rect_2, tex_method_2, apples_13_m2, surrect_13_m2, remainder_13_m2)
         self.play(
             ShowPassingFlash(rect_2.copy().set_stroke(RED, 9), time_width=0.2),
