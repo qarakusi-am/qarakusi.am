@@ -425,6 +425,39 @@ class ThinkingBubble(VMobject):
 
         self.add(thinking_bubble)
 
+class AppleSLices(VGroup):
+    def __init__(self, **kwargs):
+        self.apple_ul = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_1.svg').set_color(GREEN)
+        self.apple_dl = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_2.svg').set_color(GREEN)
+        self.apple_ur = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_3.svg').set_color(GREEN)
+        self.apple_dr = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_4.svg').set_color(GREEN)
+        self.apple_ur.match_width(self.apple_dr)
+        self.apple_dl.stretch_to_fit_width(self.apple_ul.width)
+        self.apple_dr.stretch_to_fit_height(self.apple_dl.height+0.03)
+        super().__init__(self.apple_ul, self.apple_dl, self.apple_ur, self.apple_dr, **kwargs)
+        self.arrange_in_grid(2, 2, buff=0, flow_order = "dr")
+        self.apple_ul.scale(1.01)
+        self.apple_ur.scale(1.1)
+        self.apple_ur.stretch_to_fit_height(1.1*self.apple_ur.height)
+        self.apple_ur.next_to(self.apple_dr, UP, buff=0, aligned_edge=RIGHT)
+        self.apple_ul.next_to(self.apple_dl, UP, buff=0, aligned_edge=RIGHT)
+
 
 class Papers(VMobject):
     def __init__(self, number_of_pages=1):
