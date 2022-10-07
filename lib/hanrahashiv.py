@@ -8,7 +8,7 @@ from manim import AnimationGroup
 
 def ExtractExponentInFormula(
     formula : Tex  or MathTex, item_index : int,
-    base : str, exponent : int, add_multiplication_signs_in_between=False, base_color=None,
+    base : str, exponent : str, add_multiplication_signs_in_between=False, base_color=None,
     run_time=1
 ):
     """
@@ -20,17 +20,17 @@ def ExtractExponentInFormula(
 
     if type(formula) == Tex:
         if add_multiplication_signs_in_between:
-            new_items = [f'${base}$', '$\cdot$'] * exponent
+            new_items = [f'${base}$', '$\cdot$'] * int(exponent)
             new_items.pop()
         else:
-            new_items = [f'${base}$'] * exponent
+            new_items = [f'${base}$'] * int(exponent)
 
     elif type(formula) == MathTex:
         if add_multiplication_signs_in_between:
-            new_items = [f'{base}', '\cdot'] * exponent
+            new_items = [f'{base}', '\cdot'] * int(exponent)
             new_items.pop()
         else:
-            new_items = [f'{base}'] * exponent
+            new_items = [f'{base}'] * int(exponent)
 
     new_formula = type(formula)(
         *tex_string_list[:item_index], *new_items, *tex_string_list[item_index + 2:],
@@ -45,10 +45,10 @@ def ExtractExponentInFormula(
         base_color = formula[item_index].color
 
     if add_multiplication_signs_in_between:
-        for i in range(item_index, item_index + 2 * exponent, 2):
+        for i in range(item_index, item_index + 2 * int(exponent), 2):
             new_formula[i].set_color(base_color)
     else:
-        for i in range(item_index, item_index + exponent):
+        for i in range(item_index, item_index + int(exponent)):
             new_formula[i].set_color(base_color)
     
     for i in range(-1, item_index - len(formula) + 1, -1):
@@ -186,7 +186,7 @@ def MultiplyNumbersInFormula(
     tex_string_list = [tex.get_tex_string() for tex in formula]
 
     if type(formula) == Tex:
-        new_item = '$' + resulting_number_str + '$' if resulting_number_str[0] != '$' else resulting_number_str
+        new_item = f'${resulting_number_str}$' if resulting_number_str[0] != '$' else resulting_number_str
     elif type(formula) == MathTex:
         new_item = resulting_number_str if resulting_number_str[0] != '$' else resulting_number_str[1:-1]
 
@@ -279,7 +279,7 @@ def AddItemsInFormula(
         tex_string_list = [tex.get_tex_string() for tex in formula]
 
         if type(formula) == Tex:
-            new_items = [item if item[0] == '$' else '$' + item + '$' for item in items_str_list]
+            new_items = [item if item[0] == '$' else  f'${item}$' for item in items_str_list]
 
         elif type(formula) == MathTex:
             new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
@@ -341,7 +341,7 @@ def ReplaceItemsInFormula(
     tex_string_list = [tex.get_tex_string() for tex in formula]
 
     if type(formula) == Tex:
-        new_items = [item if item[0] == '$' else '$' + item + '$' for item in items_str_list]
+        new_items = [item if item[0] == '$' else f'${item}$' for item in items_str_list]
 
     elif type(formula) == MathTex:
         new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
@@ -451,7 +451,7 @@ class FormulaModificationsScene(Scene):
         tex_string_list = [tex.get_tex_string() for tex in formula]
 
         if type(formula) == Tex:
-            new_item = '$' + resulting_number_str + '$' if resulting_number_str[0] != '$' else resulting_number_str
+            new_item = f'${resulting_number_str}$' if resulting_number_str[0] != '$' else resulting_number_str
         elif type(formula) == MathTex:
             new_item = resulting_number_str if resulting_number_str[0] != '$' else resulting_number_str[1:-1]
 
@@ -603,7 +603,7 @@ class FormulaModificationsScene(Scene):
         tex_string_list = [tex.get_tex_string() for tex in formula]
 
         if type(formula) == Tex:
-            new_items = [item if item[0] == '$' else '$' + item + '$' for item in items_str_list]
+            new_items = [item if item[0] == '$' else f'${item}$' for item in items_str_list]
 
         elif type(formula) == MathTex:
             new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
@@ -770,7 +770,7 @@ class FormulaModificationsScene(Scene):
         tex_string_list = [tex.get_tex_string() for tex in formula]
 
         if type(formula) == Tex:
-            new_items = [item if item[0] == '$' else '$' + item + '$' for item in items_str_list]
+            new_items = [item if item[0] == '$' else f'${item}$' for item in items_str_list]
 
         elif type(formula) == MathTex:
             new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
