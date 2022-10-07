@@ -194,7 +194,18 @@ svg_defaults.add_default(
     'tennis_ball',
     {'folder': path_to_SVG,
      'scale': 0.5})
-
+svg_defaults.add_default(
+    'locust',
+    {'folder': path_to_SVG / 'animals'})
+svg_defaults.add_default(
+    'thinking_boy_outlines',
+    {'folder': path_to_SVG / 'people' / 'thinking'})
+svg_defaults.add_default(
+    'big_pool',
+    {'folder': path_to_SVG / 'pool'})
+svg_defaults.add_default(
+    'small_pool',
+    {'folder': path_to_SVG / 'pool'})
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
@@ -320,10 +331,8 @@ class DScissors(VGroup):
         self.arrange(RIGHT, buff=-1.1)
         self.add(self.dot)
         self.scale(0.5)
-        
         self.scissor_1.shift(0.08 * DOWN).rotate(angle=-0.03, about_point=self.dot.get_center())
-        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())
-        
+        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())   
         self.cut_point = np.array(cut_point)
         shift_vector = np.array([0, -0.35, 0])
         p_end = self.cut_point + shift_vector
@@ -705,3 +714,14 @@ class Stopwatch(VGroup):
             axis=OUT,
             about_point=self.stopwatch.get_center()
         )
+
+class Train(VGroup):
+    def __init__(self, with_locomotive = True, passenger = True, number_of_rolling_cars = 2):
+        n = number_of_rolling_cars
+        path_to_cars = path_to_SVG / 'train' / 'passenger_car.svg' if passenger else path_to_SVG / 'train' / 'freight_car.svg'
+        path_to_locomotive = path_to_SVG / 'train' / 'locomotive.svg'
+        vmobjects = [SVGMobject(path_to_cars) for _ in range(n)]
+        if with_locomotive:
+            vmobjects.append(SVGMobject(path_to_locomotive))
+        super().__init__(*vmobjects)
+        self.arrange(RIGHT, aligned_edge=DOWN)
