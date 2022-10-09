@@ -30,14 +30,16 @@ class Division(Scene):
         boy_2 = SimpleSVGMobject('boy_2').scale(0.5)
         girl_1 = SimpleSVGMobject('girl_1').scale(0.5)
         girl_2 = SimpleSVGMobject('girl_3').scale(0.5)
-        #8 : 2 = 4
+    
+    #8 : 2 = 4
         div_8_2 = MathTex('8:2', '=', '4')
         div_8_2.scale(3)
         self.play(Write(div_8_2))
         self.wait()
         self.play(div_8_2.animate.to_corner(UP, buff=0.5).scale(0.5))
         self.wait()
-        # 2 methods
+    
+    # 2 methods
         rect_1 = RoundedRectangle(corner_radius=0.33, height=9/2.45, width=16/2.45)
         rect_2 = RoundedRectangle(corner_radius=0.33, height=9/2.45, width=16/2.45)
         VGroup(rect_1, rect_2).arrange(RIGHT, buff=1).to_corner(DOWN, buff=1.5)
@@ -57,7 +59,8 @@ class Division(Scene):
                     Create(rect_2)),
                 lag_ratio=0.75),
             run_time=2)
-        #8 : 2 = 4 in method 1
+    
+    #8 : 2 = 4 in method 1
         apples_m1 = VGroup(*[apple.copy().scale(1.3) for _ in range(8)])
         apples_m1.arrange(RIGHT, buff=0.15)
         apples_m1.move_to(rect_1)
@@ -87,7 +90,8 @@ class Division(Scene):
                 lag_ratio=0.25),
                 run_time = 1)
         self.wait(2)
-        #8 : 2 = 4 in method 2
+    
+    #8 : 2 = 4 in method 2
         apples_m2 = VGroup(*[apple.copy().scale(1.3) for _ in range(8)])
         apples_m2.arrange(RIGHT, buff=0.15)
         apples_m2.move_to(rect_2)
@@ -116,7 +120,8 @@ class Division(Scene):
         )
         self.play(AnimationGroup(*[Write(s) for s in surrect_4_m2], lag_ratio=0.25))
         self.wait()
-        #8 : 2 = 4 cleanup
+    
+    #8 : 2 = 4 cleanup
         self.play(
             AnimationGroup(
                 FadeOut(div_8_2),
@@ -124,7 +129,8 @@ class Division(Scene):
                 FadeOut(apples_m1, apples_m2, boy_1, girl_1),
                 lag_ratio=0.25))
         self.wait()
-        #13 : 4
+    
+    #13 : 4
         div_13_4 = MathTex('13:4')
         div_13_4.scale(3)
         div_13_4.to_corner(UP, buff=0.5)
@@ -132,7 +138,8 @@ class Division(Scene):
         self.wait()
         self.play(div_13_4.animate.to_corner(UP, buff=0.5).scale(0.5))
         self.wait()
-        #13 : 4  in method 1
+    
+    #13 : 4  in method 1
         apples_13_m1 = VGroup(*[apple.copy().scale(0.8) for _ in range(13)])
         apples_13_m1.arrange(RIGHT, buff=0.15)
         apples_13_m1.move_to(rect_1)
@@ -205,7 +212,8 @@ class Division(Scene):
             FadeOut(remainder_tex, quotient_tex),
             lag_ratio=0.05))
         self.wait(2)
-        #13 : 4  in method 2
+    
+    #13 : 4  in method 2
         apples_13_m2 = VGroup(*[apple.copy().scale(0.8) for _ in range(13)])
         apples_13_m2.arrange(RIGHT, buff=0.15)
         apples_13_m2.move_to(rect_2)
@@ -231,7 +239,8 @@ class Division(Scene):
         remainder_13_m2 = MathTex('1').scale(0.7).next_to(apples_13_m2[12], DOWN)
         self.play(Write(remainder_13_m2))
         self.wait(2)
-        #comparing methods 1 and 2
+    
+    #comparing methods 1 and 2
         apples_13_m1_12 = AppleSLices()
         apples_13_m1_12.match_width(apples_13_m1[12])
         apples_13_m1_12.align_to(apples_13_m1[12], DOWN + LEFT)
@@ -261,7 +270,8 @@ class Division(Scene):
         self.wait()
         self.play(Wiggle(apples_13_m2[12]))
         self.wait()
-        #choosing method 2
+    
+    #choosing method 2
         tex_method_2.add_background_rectangle()
         m_1 = VGroup(rect_1, tex_method_1, apples_13_m1, count_3_m1, cut_lines, girl_1, girl_2, boy_1, boy_2, frac, apples_13_m1_12)
         m_2 = VGroup(rect_2, tex_method_2, apples_13_m2, surrect_13_m2, remainder_13_m2)
@@ -275,30 +285,17 @@ class Division(Scene):
             m_2.animate.scale(2.4, about_point = rect_2.get_edge_center(RIGHT)).set_opacity(0),
             FadeOut(div_13_4))
         self.wait()
-        #numberline
+    
+    #numberline
         nl_13 = NumberLine(
             x_range=[0, 15, 1],
             length=13.5,
             include_tip=True)
         nl_13.shift(2*DOWN)
-        numbers = VGroup(
-            MathTex('0'),
-            MathTex('1'),
-            MathTex('2'),
-            MathTex('3'),
-            MathTex('4'),
-            MathTex('5'),
-            MathTex('6'),
-            MathTex('7'),
-            MathTex('8'),
-            MathTex('9'),
-            MathTex('10'),
-            MathTex('11'),
-            MathTex('12'),
-            MathTex('13'),
-            MathTex('14'),)
+        numbers = VGroup(*[MathTex(f'{i}') for i in range(15)])
         for i in range(15):
             numbers[i].next_to(nl_13.n2p(i), DOWN, buff=0.4)
+
         self.play(Write(div_13_4))
         self.wait()
         self.play(Write(nl_13))
@@ -404,7 +401,8 @@ class Division(Scene):
         self.play(FadeOut(remainder_tex))
         self.play(FadeOut(div_13_4, nl_13, parts, numbers))
         self.wait()
-        #27 : 5 
+    
+    #27 : 5 
         self.play
         div_27_5 = MathTex('27:5')
         div_27_5.scale(3)
@@ -418,36 +416,7 @@ class Division(Scene):
             length=13.5,
             include_tip=True)
         nl_13.shift(2*DOWN)
-        numbers_27 = VGroup(
-            MathTex('0').scale(0.7),
-            MathTex('1').scale(0.7),
-            MathTex('2').scale(0.7),
-            MathTex('3').scale(0.7),
-            MathTex('4').scale(0.7),
-            MathTex('5').scale(0.7),
-            MathTex('6').scale(0.7),
-            MathTex('7').scale(0.7),
-            MathTex('8').scale(0.7),
-            MathTex('9').scale(0.7),
-            MathTex('10').scale(0.7),
-            MathTex('11').scale(0.7),
-            MathTex('12').scale(0.7),
-            MathTex('13').scale(0.7),
-            MathTex('14').scale(0.7),
-            MathTex('15').scale(0.7),
-            MathTex('16').scale(0.7),
-            MathTex('17').scale(0.7),
-            MathTex('18').scale(0.7),
-            MathTex('19').scale(0.7),
-            MathTex('20').scale(0.7),
-            MathTex('21').scale(0.7),
-            MathTex('22').scale(0.7),
-            MathTex('23').scale(0.7),
-            MathTex('24').scale(0.7),
-            MathTex('25').scale(0.7),
-            MathTex('26').scale(0.7),
-            MathTex('27').scale(0.7),
-            MathTex('28').scale(0.7))
+        numbers_27 = VGroup(*[MathTex(f'{i}').scale(0.7) for i in range(29)])
         for i in range(29):
             numbers_27[i].next_to(nl_27.n2p(i), DOWN, buff=0.4)
         parts_27 = VGroup(
@@ -484,12 +453,7 @@ class Division(Scene):
             parts_27[3].animate.set_color(YELLOW),
             parts_27[4].animate.set_color(LIGHT_PINK),
             parts_27[5].animate.set_color(GREEN))
-        quotient_c = VGroup(
-            MathTex('1').scale(0.7),
-            MathTex('2').scale(0.7),
-            MathTex('3').scale(0.7),
-            MathTex('4').scale(0.7),
-            MathTex('5').scale(0.7))
+        quotient_c = VGroup(*[MathTex(f'{i}').scale(0.7) for i in range(1, 6)])
         remainder_c = MathTex('2').scale(0.7)
         self.play(
             FadeIn(quotient_tex.move_to(2*DOWN)),
