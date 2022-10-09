@@ -6,7 +6,7 @@ from manim import Scene
 from manim import always_redraw
 from aramanim import Segment, CutOut, CutIn
 from objects import SimpleSVGMobject, DScissors, AppleSLices
-from .text import method_1, method_2, quotient, remainder
+from .text import method_1, method_2, quotient, remainder, group
 import numpy as np
 
 def jump_to(mob, point, run_time = 0.5, hight = 3):
@@ -239,12 +239,14 @@ class Division(Scene):
         cut_lines = DashedLine(ORIGIN, DOWN).add(DashedLine(0.5*(DOWN+LEFT), 0.5*(DOWN+RIGHT)))
         self.wait()
         self.play(Create(cut_lines.move_to(apples_13_m1[12])))
-        apples_13_m1[12].set_opacity(0.45)
+        apples_13_m1[12].set_opacity(0)
         self.play(
             apples_13_m1_12.apple_ul.animate.shift(0.25*UP + LEFT),
             apples_13_m1_12.apple_dl.animate.shift(0.25*DOWN + LEFT),
             apples_13_m1_12.apple_ur.animate.shift(0.25*UP + RIGHT),
-            apples_13_m1_12.apple_dr.animate.shift(0.25*DOWN + RIGHT))
+            apples_13_m1_12.apple_dr.animate.shift(0.25*DOWN + RIGHT),
+            cut_lines.animate.set_opacity(0),
+            count_3_m1[-1].animate.set_opacity(0))
         self.play(
             apples_13_m1_12.apple_ul.animate.set_color(RED).next_to(apples_13_m1.target[:3]),
             apples_13_m1_12.apple_dl.animate.set_color(BLUE).next_to(apples_13_m1.target[3:6]),
@@ -254,7 +256,7 @@ class Division(Scene):
         frac = MathTex(r'13:4 = 3\frac{1}{4}')
         frac.scale(0.7)
         frac.next_to(apples_13_m1_12)
-        frac.shift(0.1*RIGHT + 0.05*DOWN)
+        frac.shift(0.1*RIGHT)
         self.play(Write(frac))
         self.wait()
         self.play(Wiggle(apples_13_m2[12]))
@@ -310,13 +312,13 @@ class Division(Scene):
             AnimationGroup(*[Indicate(apple) for apple in apples_13_nl], lag_ratio=0.05))
         self.wait()
         surrec_13_nl = VGroup(
-            SurroundingRectangle(apples_13_nl[0:4]).add(MathTex('1').next_to(apples_13_nl[0:4], UP, buff=0.25)),
-            SurroundingRectangle(apples_13_nl[4:8]).add(MathTex('2').next_to(apples_13_nl[4:8], UP, buff=0.25)),
-            SurroundingRectangle(apples_13_nl[8:12]).add(MathTex('3').next_to(apples_13_nl[8:12], UP, buff=0.25))) 
+            SurroundingRectangle(apples_13_nl[0:4]).add(Tex(group, '$1$').set_color(RED).next_to(apples_13_nl[0:4], UP, buff=0.25)),
+            SurroundingRectangle(apples_13_nl[4:8]).add(Tex(group, '$2$').set_color(BLUE).next_to(apples_13_nl[4:8], UP, buff=0.25)),
+            SurroundingRectangle(apples_13_nl[8:12]).add(Tex(group, '$3$').set_color(YELLOW).next_to(apples_13_nl[8:12], UP, buff=0.25))) 
         self.play(
             AnimationGroup(
                 *[AnimationGroup(
-                    apples_13_nl[i].animate.set_color(BLUE),
+                    apples_13_nl[i].animate.set_color(RED),
                     Indicate(numbers[i+1])) for i in range(4)],
                 Write(surrec_13_nl[0]),
                 lag_ratio=0.25))
@@ -324,7 +326,7 @@ class Division(Scene):
         self.play(
             AnimationGroup(
                 *[AnimationGroup(
-                    apples_13_nl[i].animate.set_color(RED),
+                    apples_13_nl[i].animate.set_color(BLUE),
                     Indicate(numbers[i+1])) for i in range(4, 8)],
                 Write(surrec_13_nl[1]),
                 lag_ratio=0.25))
@@ -339,7 +341,7 @@ class Division(Scene):
         self.wait()
         remainder_nl_13 = MathTex('1').next_to(apples_13_nl[12], UP)
         self.play(Wiggle(apples_13_nl[12]), Indicate(numbers[13]), Write(remainder_nl_13))
-        surrnl_13_quotient = SurroundingRectangle(surrec_13_nl[2][1], BLUE, buff=0.2, corner_radius=0.25)
+        surrnl_13_quotient = SurroundingRectangle(surrec_13_nl[2][1][1], BLUE, buff=0.2, corner_radius=0.25)
         surrnl_13_quotient.set_fill(BLACK, 0.75)
         surrec_13_nl[2][1].set_z_index(1)
         quotient_tex.move_to(1.5*UP)
