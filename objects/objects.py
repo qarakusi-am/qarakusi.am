@@ -454,7 +454,7 @@ class AppleSLices(VGroup):
         self.arrange_in_grid(2, 2, buff=0, flow_order = "dr")
         self.apple_ul.scale(1.01)
         self.apple_ur.scale(1.1)
-        self.apple_ur.stretch_to_fit_height(1.1*self.apple_ur.height)
+        self.apple_ur.stretch_to_fit_height(1.05*self.apple_ur.height)
         self.apple_ur.next_to(self.apple_dr, UP, buff=0, aligned_edge=RIGHT)
         self.apple_ul.next_to(self.apple_dl, UP, buff=0, aligned_edge=RIGHT)
 
