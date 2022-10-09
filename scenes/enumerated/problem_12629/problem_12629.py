@@ -1,20 +1,20 @@
+import numpy as np
 from manim import Scene, FadeIn, MathTex, Write, Tex, SurroundingRectangle, VGroup, Arrow, GrowArrow, FadeOut, Circumscribe
 from manim import WHITE, UL, UR, DOWN, LEFT
-import numpy as np
-from hanrahashiv import ReplaceItemsInFormula
+from hanrahashiv import *
 from qarakusiscene import TaskNumberBox
-from .text import *
+from text import *
 
 FONt_SIZE = 53
 
-class Problem12629(Scene):
+class Problem12629(FormulaModificationsScene):
     def construct(self):
         self.wait()
         taskNumber = TaskNumberBox(taskNumberString)
         self.play(FadeIn(taskNumber))
         self.wait()
 
-        task1 = MathTex("x", "^3", "\\cdot", "*", "=", "x", "^8", font_size=FONt_SIZE).to_edge(UL, buff=.7).shift(DOWN)
+        task1 = Tex("$x$", "$^3$", " $\cdot$ ", "$*$", " $=$ ", "$x$", "$^8$", font_size=FONt_SIZE).to_edge(UL, buff=.7).shift(DOWN)
         self.play(Write(task1))
         self.wait()
 
@@ -41,10 +41,12 @@ class Problem12629(Scene):
         self.play(new_property_1.animate.scale(FONt_SIZE/65).next_to(task1, DOWN, .8, LEFT))
 
         arrow1 = Arrow(start=task1[0], end=new_property_1[0])
-        self.play(GrowArrow(arrow1))
+        arrow4 = Arrow(start=task1[-2], end=new_property_1[-4])
+        self.play(GrowArrow(arrow1), GrowArrow(arrow4))
         self.wait()
-        self.play(ReplaceItemsInFormula(new_property_1, [0], [task1[0].get_tex_string()]))
-        self.play(FadeOut(arrow1))
+        self.play(ReplaceItemsInFormula(new_property_1, [0, 3, 6], ['x', 'x', 'x']))
+        self.play(FadeOut(arrow1), FadeOut(arrow4))
+        self.wait()
 
         arrow2 = Arrow(start=task1[1], end=new_property_1[1])
         arrow3 = Arrow(start=task1[1], end=new_property_1[8].get_center()+np.array([-0.3, .1, 0]), stroke_width=3, max_tip_length_to_length_ratio=0.1)
@@ -53,16 +55,8 @@ class Problem12629(Scene):
             GrowArrow(arrow3)
         )
         self.wait()
-        self.play(ReplaceItemsInFormula(new_property_1, [1], [task1[1].get_tex_string()]))
-        self.play(ReplaceItemsInFormula(new_property_1, [7], [task1[1].get_tex_string()]))
+        self.play(ReplaceItemsInFormula(new_property_1, [1, 7], ['^3', '^3']))
         self.play(FadeOut(arrow2, arrow3))
-        self.wait()
-
-        arrow4 = Arrow(start=task1[-2], end=new_property_1[-4])
-        self.play(GrowArrow(arrow4))
-        self.wait()
-        self.play(ReplaceItemsInFormula(new_property_1, [-4], [task1[-2].get_tex_string()]))
-        self.play(FadeOut(arrow4))
         self.wait()
 
         arrow5 = Arrow(start=task1[-1].get_center()+np.array([0, .1, 0]), end=new_property_1[-2], buff=0.3)
@@ -71,10 +65,9 @@ class Problem12629(Scene):
             Circumscribe(new_property_1[-3:], fade_out=True, run_time=2.5)
         )
         self.wait()
-        self.play(ReplaceItemsInFormula(new_property_1, [-1], ["$^5$"]))
+        self.play(ReplaceItemsInFormula(new_property_1, [9], ['^5']))
         self.play(FadeOut(arrow5))
         self.wait()
 
-        self.play(ReplaceItemsInFormula(new_property_1, [3, 4], ["$x$" ,"$^5$"]))
-        
+        self.play(ReplaceItemsInFormula(new_property_1, [4], ['^5']))
         self.wait(2)
