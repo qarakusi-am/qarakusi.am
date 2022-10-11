@@ -1,14 +1,386 @@
 from manim import Tex, MathTex
 from manim import UP, DOWN, LEFT, DL
 from manim import Scene
-from manim import ReplacementTransform, FadeOut, FadeIn
+from manim import ReplacementTransform, FadeOut, FadeIn, Write
+from manim import VGroup
+from manim import AnimationGroup
+
+
+def ExtractExponentInFormula(
+    formula : Tex  or MathTex, item_index : int,
+    base : str, exponent : str, add_multiplication_signs_in_between=False, base_color=None,
+    run_time=1
+):
+    """
+        Extracts an item that is written in form of exponent (ex. a^3 -> aaa)
+        Takes index of that first item ('a' '^3'), base('a'), exponent(3)
+        Depending on value of add_multiplication_signs_in_between it can write aaa or a•a•a
+    """
+    tex_string_list = [tex.get_tex_string() for tex in formula]
+
+    if type(formula) == Tex:
+        if add_multiplication_signs_in_between:
+            new_items = [f'${base}$', '$\cdot$'] * int(exponent)
+            new_items.pop()
+        else:
+            new_items = [f'${base}$'] * int(exponent)
+
+    elif type(formula) == MathTex:
+        if add_multiplication_signs_in_between:
+            new_items = [f'{base}', '\cdot'] * int(exponent)
+            new_items.pop()
+        else:
+            new_items = [f'{base}'] * int(exponent)
+
+    new_formula = type(formula)(
+        *tex_string_list[:item_index], *new_items, *tex_string_list[item_index + 2:],
+        font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+    )
+    new_formula.move_to(formula).align_to(formula, DL)
+
+    for i in range(item_index):
+        new_formula[i].set_color(formula[i].color)
+
+    if not base_color:
+        base_color = formula[item_index].color
+
+    if add_multiplication_signs_in_between:
+        for i in range(item_index, item_index + 2 * int(exponent), 2):
+            new_formula[i].set_color(base_color)
+    else:
+        for i in range(item_index, item_index + int(exponent)):
+            new_formula[i].set_color(base_color)
+    
+    for i in range(-1, item_index - len(formula) + 1, -1):
+        new_formula[i].set_color(formula[i].color)
+
+
+    animations = AnimationGroup(
+        ReplacementTransform(
+            formula[:item_index],
+            new_formula[:item_index],
+            run_time=run_time
+        ),
+        ReplacementTransform(
+            formula[item_index : item_index + 2], 
+            new_formula[item_index : item_index + len(new_items)],
+            run_time=run_time
+        ),
+        ReplacementTransform(
+            formula[item_index + 2:], 
+            new_formula[item_index + len(new_items):],
+            run_time=run_time
+        )
+    )
+
+    formula.remove(*formula)
+    formula.add(*new_formula)
+
+    return animations
+
+
+def RemoveItemsFromFormula(
+    formula : Tex or MathTex, items_indices : list,
+    run_time=1
+):
+    """
+        removes items by fading out
+    """
+    tex_string_list = [tex.get_tex_string() for tex in formula]
+
+    for i in range(len(items_indices)):
+        del tex_string_list[items_indices[i] - i]
+    
+    new_formula = type(formula)(
+        *tex_string_list, 
+        font_size=formula[0].font_size, tex_template=formula.tex_template
+    )
+    new_formula.move_to(formula).align_to(formula, DL)
+
+    j = 0
+    for i in range(len(formula)):
+        if i not in items_indices:
+            new_formula[j].set_color(formula[i].color)
+            j += 1
+
+    animations = [FadeOut(*[formula[i] for i in items_indices], run_time=run_time)]
+
+    animations += [
+        ReplacementTransform(formula[:items_indices[0]], new_formula[:items_indices[0]], run_time=run_time),
+        ReplacementTransform(formula[items_indices[-1] + 1:], new_formula[items_indices[-1] - len(items_indices) + 1:], run_time=run_time)
+    ]
+
+    for i in range(len(items_indices) - 1):
+        animations.append(
+            ReplacementTransform(
+                formula[items_indices[i] + 1 : items_indices[i + 1]],
+                new_formula[items_indices[i] - i: items_indices[i + 1] - i - 1],
+                run_time=run_time
+            )
+        )
+
+    formula.remove(*formula)
+    formula.add(*new_formula)
+
+    return AnimationGroup(*animations)
+
+
+def WriteExponentInFormula(
+    formula : Tex  or MathTex, first_item_index : int, 
+    last_item_index : int, base : str, exponent : str,
+    base_color=None, exponent_color=None,
+    run_time=1
+):
+    """
+        Combines adjacent same letters and writes in form of exponent
+        takes indices of items to be combined, base and exponent and
+        formula[first_item_index : last_item_index + 1] transforms into base^exponent
+    """
+    tex_string_list = [tex.get_tex_string() for tex in formula]
+
+    if type(formula) == Tex:
+        new_items = [f'${base}$', f'$^{exponent}$']
+    elif type(formula) == MathTex:
+        new_items = [f'{base}', f'^{exponent}']
+    
+    new_formula = type(formula)(
+        *tex_string_list[:first_item_index], *new_items, *tex_string_list[last_item_index + 1:],
+        font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+    )
+    new_formula.move_to(formula).align_to(formula, DL)
+
+    for i in range(first_item_index + 1):
+        new_formula[i].set_color(formula[i].color)
+    new_formula[first_item_index + 1].set_color(formula[first_item_index].color)
+    if base_color:
+        new_formula[first_item_index].set_color(base_color)
+        new_formula[first_item_index + 1].set_color(base_color)
+    if exponent_color:
+        new_formula[first_item_index + 1].set_color(exponent_color)
+    for i in range(last_item_index + 1, len(formula)):
+        new_formula[i - last_item_index + first_item_index + 1].set_color(formula[i].color)
+    
+
+    animations = AnimationGroup(
+        ReplacementTransform(formula[:first_item_index], new_formula[:first_item_index], run_time=run_time),
+        ReplacementTransform(formula[first_item_index : last_item_index + 1], new_formula[first_item_index : first_item_index + 2], run_time=run_time),
+        ReplacementTransform(formula[last_item_index + 1:], new_formula[first_item_index + 2:], run_time=run_time)
+    )
+
+    formula.remove(*formula)
+    formula.add(*new_formula)
+
+    return animations
+
+
+def MultiplyNumbersInFormula(
+    formula : Tex  or MathTex, number_of_multiplying_items : int, 
+    resulting_number_str : str, resulting_number_color=None, run_time=1
+):
+    """
+        Multiplies the numbers in the beginning of the formula 
+        number_of_multiplying_items is the number of members in the beginning of the formula
+        (including multiplication sign) that need to be transformed into one number
+        resulting_number_str is the product that must be written
+    """
+    tex_string_list = [tex.get_tex_string() for tex in formula]
+
+    if type(formula) == Tex:
+        new_item = f'${resulting_number_str}$' if resulting_number_str[0] != '$' else resulting_number_str
+    elif type(formula) == MathTex:
+        new_item = resulting_number_str if resulting_number_str[0] != '$' else resulting_number_str[1:-1]
+
+    new_formula = type(formula)(
+        new_item, *tex_string_list[number_of_multiplying_items:],
+        font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+    )
+    new_formula.move_to(formula).align_to(formula, LEFT)
+
+    if resulting_number_color:
+        new_formula[0].set_color(resulting_number_color)
+    else:
+        new_formula[0].set_color(formula[0].color)
+
+    for i in range(number_of_multiplying_items, len(formula)):
+        new_formula[i - number_of_multiplying_items + 1].set_color(formula[i].color)
+
+    animations = AnimationGroup(
+        ReplacementTransform(formula[:number_of_multiplying_items], new_formula[0], run_time=run_time),
+        ReplacementTransform(formula[number_of_multiplying_items:], new_formula[1:], run_time=run_time)
+    )
+
+    formula.remove(*formula)
+    formula.add(*new_formula)
+
+    return animations
+
+
+def CombineTwoExponents(
+    formula : Tex or MathTex, bases_indices : list, exponents_indices : list, new_exponent : str, 
+    fade_out : list = [], base_color=None, exponent_color=None,
+    run_time=1
+):
+    """
+        must be adjacent
+    """
+    tex_string_list = [tex.get_tex_string() for tex in formula]
+
+    if type(formula) == Tex:
+        new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
+    elif type(formula) == MathTex:
+        new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
+    print(new_item_exponent)
+
+    last_item_index = max(bases_indices + exponents_indices)
+
+    new_formula = type(formula)(
+        *tex_string_list[:bases_indices[0] + 1], new_item_exponent, *tex_string_list[last_item_index + 1 :], 
+        font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+    )
+    new_formula.move_to(formula).align_to(formula, DL)
+
+    for i in range(bases_indices[0]):
+        new_formula[i].set_color(formula[i].color)
+    if not base_color:
+        base_color = formula[bases_indices[0]].color
+    if not exponent_color:
+        exponent_color = formula[exponents_indices[0]].color
+    new_formula[bases_indices[0]].set_color(base_color)
+    new_formula[bases_indices[0] + 1].set_color(exponent_color)
+
+    j = exponents_indices[-1] + 1
+    for i in range(exponents_indices[0] + 1, len(new_formula)):
+        new_formula[i].set_color(formula[i].color)
+        j += 1
+
+    animations = [
+        ReplacementTransform(formula[:bases_indices[0]], new_formula[:bases_indices[0]], run_time=run_time),
+        ReplacementTransform(VGroup(*[formula[i] for i in exponents_indices]), new_formula[bases_indices[0] + 1], run_time=run_time),
+        ReplacementTransform(VGroup(*[formula[i] for i in bases_indices]), new_formula[bases_indices[0]], run_time=run_time),
+        ReplacementTransform(formula[last_item_index + 1 :], new_formula[bases_indices[0] + 2 :], run_time=run_time)
+    ]
+
+    if len(fade_out) > 0:
+        animations.append(FadeOut(*[formula[i] for i in fade_out], run_time=run_time))
+
+    formula.remove(*formula)
+    formula.add(*new_formula)
+
+    return AnimationGroup(*animations)
+
+
+def AddItemsInFormula(
+        formula : Tex or MathTex, after_items : list, items_str_list : list, colors : list = [],
+        run_time=1
+    ):
+        """
+            Adds items to the formula in after items by fading_in and shifting the rest to the right
+        """
+        tex_string_list = [tex.get_tex_string() for tex in formula]
+
+        if type(formula) == Tex:
+            new_items = [item if item[0] == '$' else  f'${item}$' for item in items_str_list]
+
+        elif type(formula) == MathTex:
+            new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
+
+        new_formula_tex_string_list = [*tex_string_list[:after_items[0] + 1]]
+        for i in range(len(new_items) - 1):
+            new_formula_tex_string_list.append(new_items[i])
+            new_formula_tex_string_list += tex_string_list[after_items[i] + 1 : after_items[i + 1] + 1]
+        new_formula_tex_string_list.append(new_items[-1])
+        new_formula_tex_string_list += tex_string_list[after_items[-1] + 1 :]
+        
+        new_formula = type(formula)(
+            *new_formula_tex_string_list,
+            font_size=formula[0].font_size, tex_template=formula.tex_template
+        )
+        new_formula.move_to(formula).align_to(formula, DL)
+
+        new_items_indices_in_new_formula = []
+        for i in range(len(after_items)):
+            new_items_indices_in_new_formula.append(after_items[i] + i + 1)
+
+        j = 0
+        if len(colors) > 0:
+            for i in new_items_indices_in_new_formula:
+                new_formula[i].set_color(colors[j])
+                j += 1
+        j = 0
+        for i in range(len(new_formula)):
+            if i not in new_items_indices_in_new_formula:
+                new_formula[i].set_color(formula[j].color)
+                j += 1
+
+        animations = [FadeIn(*[new_formula[i] for i in new_items_indices_in_new_formula], run_time=run_time)]
+
+        animations += [
+            ReplacementTransform(formula[:after_items[0] + 1], new_formula[:new_items_indices_in_new_formula[0]], run_time=run_time),
+            ReplacementTransform(formula[after_items[-1] + 1:], new_formula[new_items_indices_in_new_formula[-1] + 1:], run_time=run_time)
+        ]
+
+        for i in range(0, len(after_items) - 1):
+            animations.append(
+                ReplacementTransform(
+                    formula[after_items[i] + 1 : after_items[i + 1] + 1],
+                    new_formula[new_items_indices_in_new_formula[i] + 1 : new_items_indices_in_new_formula[i + 1]],
+                    run_time=run_time
+                )
+            )
+
+        formula.remove(*formula)
+        formula.add(*new_formula)
+
+        return AnimationGroup(*animations)
+
+
+def ReplaceItemsInFormula(
+    formula : Tex or MathTex, items_indices : list, items_str_list : list, colors : list = [],
+    run_time=1
+):
+    tex_string_list = [tex.get_tex_string() for tex in formula]
+
+    if type(formula) == Tex:
+        new_items = [item if item[0] == '$' else f'${item}$' for item in items_str_list]
+
+    elif type(formula) == MathTex:
+        new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
+    
+    new_formula_tex_string_list = [*tex_string_list[:items_indices[0]]]
+    for i in range(len(items_indices) - 1):
+        new_formula_tex_string_list.append(new_items[i])
+        new_formula_tex_string_list += tex_string_list[items_indices[i] + 1 : items_indices[i + 1]]
+    new_formula_tex_string_list.append(new_items[-1])
+    new_formula_tex_string_list += tex_string_list[items_indices[-1] + 1 :]
+
+    new_formula = type(formula)(
+        *new_formula_tex_string_list,
+        font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+    )
+    new_formula.move_to(formula).align_to(formula, DL)
+
+    for i in range(len(formula)):
+        new_formula[i].set_color(formula[i].color)
+    if len(colors) > 0:
+        for i in items_indices:
+            new_formula[i].set_color(formula[i])
+
+    animations = [ReplacementTransform(formula[i], new_formula[i], run_time=run_time) for i in range(len(formula))]
+
+    formula.remove(*formula)
+    formula.add(*new_formula)
+
+    return AnimationGroup(*animations)
+
+
+
+
+
 
 class FormulaModificationsScene(Scene):
 
-#  միգուցե էս ամենը տեղափոխել QarakusiScene (որտև մենակ միանդամների մեջ չի, որ պետք կգան)
-
     def rearrange_formula(self,
-        formula : Tex or MathTex, new_sequence : list, 
+        formula : Tex or MathTex, new_sequence : list,
         move_up : list = [], move_down : list = [],
         fade_out : list = [], fade_in : list = [],
         run_time=3
@@ -24,9 +396,16 @@ class FormulaModificationsScene(Scene):
 
         """
         tex_string_list = [tex.get_tex_string() for tex in formula]
+
         new_tex_string_list = [tex_string_list[new_sequence[i]] for i in range(len(tex_string_list))]
-        new_formula = type(formula)(*new_tex_string_list, font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template)
+        new_formula = type(formula)(
+            *new_tex_string_list, 
+            font_size=formula[0].font_size, tex_template=formula.tex_template
+        )
         new_formula.move_to(formula)
+
+        colors = [tex.color for tex in formula]
+        [new_formula[i].set_color(colors[new_sequence[i]]) for i in range(len(new_formula))]
 
         in_line = []
         for i in range(len(tex_string_list)):
@@ -37,19 +416,19 @@ class FormulaModificationsScene(Scene):
             *[formula[i].animate.shift(0.5 * UP) for i in move_up],
             *[formula[i].animate.shift(0.5 * DOWN) for i in move_down],
             *[formula[i].animate.set_opacity(0) for i in fade_out],
-            run_time=run_time / 3
+            run_time=run_time / 4
         )
         self.play(
             *[formula[i].animate.move_to(new_formula[new_sequence.index(i)]).shift(0.5 * UP) for i in move_up],
             *[formula[i].animate.move_to(new_formula[new_sequence.index(i)]).shift(0.5 * DOWN) for i in move_down],
             *[formula[i].animate.move_to(new_formula[new_sequence.index(i)]) for i in in_line],
-            run_time=run_time / 3
+            run_time=run_time / 4
         )
         self.play(
             *[formula[i].animate.shift(0.5 * DOWN) for i in move_up],
             *[formula[i].animate.shift(0.5 * UP) for i in move_down],
             *[FadeIn(new_formula[i]) for i in fade_in],
-            run_time=run_time / 3
+            run_time=run_time / 4
         )
         self.play(
             *[ReplacementTransform(formula[new_sequence[i]], new_formula[i], run_time=0.1) for i in range(len(formula))]
@@ -61,20 +440,34 @@ class FormulaModificationsScene(Scene):
 
     def multiply_numbers_in_formula(self,
         formula : Tex  or MathTex, number_of_multiplying_items : int, 
-        resulting_number : int, run_time=1
+        resulting_number_str : str, resulting_number_color=None, run_time=1
     ):
         """
             Multiplies the numbers in the beginning of the formula 
             number_of_multiplying_items is the number of members in the beginning of the formula
             (including multiplication sign) that need to be transformed into one number
-            resulting_number is the product that must be written
+            resulting_number_str is the product that must be written
         """
         tex_string_list = [tex.get_tex_string() for tex in formula]
+
+        if type(formula) == Tex:
+            new_item = f'${resulting_number_str}$' if resulting_number_str[0] != '$' else resulting_number_str
+        elif type(formula) == MathTex:
+            new_item = resulting_number_str if resulting_number_str[0] != '$' else resulting_number_str[1:-1]
+
         new_formula = type(formula)(
-            f'{resulting_number}', *tex_string_list[number_of_multiplying_items:],
+            new_item, *tex_string_list[number_of_multiplying_items:],
             font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
         )
         new_formula.move_to(formula).align_to(formula, LEFT)
+
+        if resulting_number_color:
+            new_formula[0].set_color(resulting_number_color)
+        else:
+            new_formula[0].set_color(formula[0].color)
+
+        for i in range(number_of_multiplying_items, len(formula)):
+            new_formula[i - number_of_multiplying_items + 1].set_color(formula[i].color)
 
         self.play(
             ReplacementTransform(formula[:number_of_multiplying_items], new_formula[0]),
@@ -88,7 +481,8 @@ class FormulaModificationsScene(Scene):
 
     def write_exponent_in_formula(self,
         formula : Tex  or MathTex, first_item_index : int, 
-        last_item_index : int, base : str, exponent : int,
+        last_item_index : int, base : str, exponent : str,
+        base_color=None, exponent_color=None,
         run_time=1
     ):
         """
@@ -97,23 +491,33 @@ class FormulaModificationsScene(Scene):
             formula[first_item_index : last_item_index + 1] transforms into base^exponent
         """
         tex_string_list = [tex.get_tex_string() for tex in formula]
-        
 
         if type(formula) == Tex:
-            new_item = f'${base}^{exponent}$'
+            new_items = [f'${base}$', f'$^{exponent}$']
         elif type(formula) == MathTex:
-            new_item = f'{base}^{exponent}'
+            new_items = [f'{base}', f'^{exponent}']
         
         new_formula = type(formula)(
-            *tex_string_list[:first_item_index], new_item, *tex_string_list[last_item_index + 1:],
+            *tex_string_list[:first_item_index], *new_items, *tex_string_list[last_item_index + 1:],
             font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
         )
         new_formula.move_to(formula).align_to(formula, DL)
 
+        for i in range(first_item_index + 1):
+            new_formula[i].set_color(formula[i].color)
+        new_formula[first_item_index + 1].set_color(formula[first_item_index].color)
+        if base_color:
+            new_formula[first_item_index].set_color(base_color)
+            new_formula[first_item_index + 1].set_color(base_color)
+        if exponent_color:
+            new_formula[first_item_index + 1].set_color(exponent_color)
+        for i in range(last_item_index + 1, len(formula)):
+            new_formula[i - last_item_index + first_item_index + 1].set_color(formula[i].color)
+
         self.play(
             ReplacementTransform(formula[:first_item_index], new_formula[:first_item_index]),
-            ReplacementTransform(formula[first_item_index : last_item_index + 1], new_formula[first_item_index]),
-            ReplacementTransform(formula[last_item_index + 1:], new_formula[first_item_index + 1:]),
+            ReplacementTransform(formula[first_item_index : last_item_index + 1], new_formula[first_item_index : first_item_index + 2]),
+            ReplacementTransform(formula[last_item_index + 1:], new_formula[first_item_index + 2:]),
             run_time=run_time
         )
 
@@ -123,12 +527,12 @@ class FormulaModificationsScene(Scene):
 
     def extract_exponent_in_formula(self,
         formula : Tex  or MathTex, item_index : int,
-        base : str, exponent : int, add_multiplication_signs_in_between=False,
+        base : str, exponent : int, add_multiplication_signs_in_between=False, base_color=None,
         run_time=1
     ):
         """
             Extracts an item that is written in form of exponent (ex. a^3 -> aaa)
-            Takes index of that item (a^3), base('a'), exponent(3)
+            Takes index of that first item ('a' '^3'), base('a'), exponent(3)
             Depending on value of add_multiplication_signs_in_between it can write aaa or a•a•a
         """
         tex_string_list = [tex.get_tex_string() for tex in formula]
@@ -148,10 +552,26 @@ class FormulaModificationsScene(Scene):
                 new_items = [f'{base}'] * exponent
 
         new_formula = type(formula)(
-            *tex_string_list[:item_index], *new_items, *tex_string_list[item_index + 1:],
+            *tex_string_list[:item_index], *new_items, *tex_string_list[item_index + 2:],
             font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
         )
         new_formula.move_to(formula).align_to(formula, DL)
+
+        for i in range(item_index):
+            new_formula[i].set_color(formula[i].color)
+
+        if not base_color:
+            base_color = formula[item_index].color
+
+        if add_multiplication_signs_in_between:
+            for i in range(item_index, item_index + 2 * exponent, 2):
+                new_formula[i].set_color(base_color)
+        else:
+            for i in range(item_index, item_index + exponent):
+                new_formula[i].set_color(base_color)
+        
+        for i in range(-1, item_index - len(formula) + 1, -1):
+            new_formula[i].set_color(formula[i].color)
 
         self.play(
             ReplacementTransform(
@@ -159,15 +579,224 @@ class FormulaModificationsScene(Scene):
                 new_formula[:item_index],
             ),
             ReplacementTransform(
-                formula[item_index], 
+                formula[item_index : item_index + 2], 
                 new_formula[item_index : item_index + len(new_items)]
             ),
             ReplacementTransform(
-                formula[item_index + 1:], 
+                formula[item_index + 2:], 
                 new_formula[item_index + len(new_items):],
             ),
             run_time=run_time
         )
+
+        formula.remove(*formula)
+        formula.add(*new_formula)
+
+
+    def add_items_in_formula(self,
+        formula : Tex or MathTex, after_items : list, items_str_list : list, colors : list = [],
+        run_time=1
+    ):
+        """
+            Adds items to the formula in after items by fading_in and shifting the rest to the right
+        """
+        tex_string_list = [tex.get_tex_string() for tex in formula]
+
+        if type(formula) == Tex:
+            new_items = [item if item[0] == '$' else f'${item}$' for item in items_str_list]
+
+        elif type(formula) == MathTex:
+            new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
+
+        new_formula_tex_string_list = [*tex_string_list[:after_items[0] + 1]]
+        for i in range(len(new_items) - 1):
+            new_formula_tex_string_list.append(new_items[i])
+            new_formula_tex_string_list += tex_string_list[after_items[i] + 1 : after_items[i + 1] + 1]
+        new_formula_tex_string_list.append(new_items[-1])
+        new_formula_tex_string_list += tex_string_list[after_items[-1] + 1 :]
+        
+        new_formula = type(formula)(
+            *new_formula_tex_string_list,
+            font_size=formula[0].font_size, tex_template=formula.tex_template
+        )
+        new_formula.move_to(formula).align_to(formula, DL)
+
+        new_items_indices_in_new_formula = []
+        for i in range(len(after_items)):
+            new_items_indices_in_new_formula.append(after_items[i] + i + 1)
+
+        j = 0
+        if len(colors) > 0:
+            for i in new_items_indices_in_new_formula:
+                new_formula[i].set_color(colors[j])
+                j += 1
+        j = 0
+        for i in range(len(new_formula)):
+            if i not in new_items_indices_in_new_formula:
+                new_formula[i].set_color(formula[j].color)
+                j += 1
+
+        animations = [FadeIn(*[new_formula[i] for i in new_items_indices_in_new_formula])]
+
+        animations += [
+            ReplacementTransform(formula[:after_items[0] + 1], new_formula[:new_items_indices_in_new_formula[0]]),
+            ReplacementTransform(formula[after_items[-1] + 1:], new_formula[new_items_indices_in_new_formula[-1] + 1:])
+        ]
+
+        for i in range(0, len(after_items) - 1):
+            animations.append(
+                ReplacementTransform(
+                    formula[after_items[i] + 1 : after_items[i + 1] + 1],
+                    new_formula[new_items_indices_in_new_formula[i] + 1 : new_items_indices_in_new_formula[i + 1]]
+                )
+            )
+
+        self.play(*animations, run_time=run_time)
+
+        formula.remove(*formula)
+        formula.add(*new_formula)
+
+
+    def remove_items_from_formula(self,
+        formula : Tex or MathTex, items_indices : list,
+        run_time=1
+    ):
+        """
+            removes items by fading out
+        """
+        tex_string_list = [tex.get_tex_string() for tex in formula]
+
+        for i in range(len(items_indices)):
+            del tex_string_list[items_indices[i] - i]
+        
+        new_formula = type(formula)(
+            *tex_string_list, 
+            font_size=formula[0].font_size, tex_template=formula.tex_template
+        )
+        new_formula.move_to(formula).align_to(formula, DL)
+
+        j = 0
+        for i in range(len(formula)):
+            if i not in items_indices:
+                new_formula[j].set_color(formula[i].color)
+                j += 1
+
+        animations = [FadeOut(*[formula[i] for i in items_indices])]
+
+        animations += [
+            ReplacementTransform(formula[:items_indices[0]], new_formula[:items_indices[0]]),
+            ReplacementTransform(formula[items_indices[-1] + 1:], new_formula[items_indices[-1] - len(items_indices) + 1:])
+        ]
+
+        for i in range(len(items_indices) - 1):
+            animations.append(
+                ReplacementTransform(
+                    formula[items_indices[i] + 1 : items_indices[i + 1]],
+                    new_formula[items_indices[i] - i: items_indices[i + 1] - i - 1]
+                )
+            )
+
+        self.play(*animations, run_time=run_time)
+
+        formula.remove(*formula)
+        formula.add(*new_formula)
+
+
+    def combine_two_exponents(self,
+        formula : Tex or MathTex, bases_indices : list, exponents_indices : list, new_exponent : str, 
+        fade_out : list = [], base_color=None, exponent_color=None,
+        run_time=1
+    ):
+        """
+            must be adjacent
+        """
+        tex_string_list = [tex.get_tex_string() for tex in formula]
+
+        if type(formula) == Tex:
+            new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
+        elif type(formula) == MathTex:
+            new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
+        print(new_item_exponent)
+
+        last_item_index = max(bases_indices + exponents_indices)
+
+        new_formula = type(formula)(
+            *tex_string_list[:bases_indices[0] + 1], new_item_exponent, *tex_string_list[last_item_index + 1 :], 
+            font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+        )
+        new_formula.move_to(formula).align_to(formula, DL)
+
+        for i in range(bases_indices[0]):
+            new_formula[i].set_color(formula[i].color)
+        if not base_color:
+            base_color = formula[bases_indices[0]].color
+        if not exponent_color:
+            exponent_color = formula[exponents_indices[0]].color
+        new_formula[bases_indices[0]].set_color(base_color)
+        new_formula[bases_indices[0] + 1].set_color(exponent_color)
+
+        j = exponents_indices[-1] + 1
+        for i in range(exponents_indices[0] + 1, len(new_formula)):
+            new_formula[i].set_color(formula[i].color)
+            j += 1
+
+        if len(fade_out > 0):
+            self.play(
+                ReplacementTransform(formula[:bases_indices[0]], new_formula[:bases_indices[0]]),
+                ReplacementTransform(VGroup(*[formula[i] for i in exponents_indices]), new_formula[bases_indices[0] + 1]),
+                ReplacementTransform(VGroup(*[formula[i] for i in bases_indices]), new_formula[bases_indices[0]]),
+                ReplacementTransform(formula[last_item_index + 1 :], new_formula[bases_indices[0] + 2 :]),
+                FadeOut(*[formula[i] for i in fade_out]),
+                run_time=run_time
+            )
+        else:
+            self.play(
+                ReplacementTransform(formula[:bases_indices[0]], new_formula[:bases_indices[0]]),
+                ReplacementTransform(VGroup(*[formula[i] for i in exponents_indices]), new_formula[bases_indices[0] + 1]),
+                ReplacementTransform(VGroup(*[formula[i] for i in bases_indices]), new_formula[bases_indices[0]]),
+                ReplacementTransform(formula[last_item_index + 1 :], new_formula[bases_indices[0] + 2 :]),
+                run_time=run_time
+            )
+
+
+        formula.remove(*formula)
+        formula.add(*new_formula)
+
+
+    def replace_items_in_formula(self,
+        formula : Tex or MathTex, items_indices : list, items_str_list : list, colors : list = [],
+        run_time=1
+    ):
+        tex_string_list = [tex.get_tex_string() for tex in formula]
+
+        if type(formula) == Tex:
+            new_items = [item if item[0] == '$' else f'${item}$' for item in items_str_list]
+
+        elif type(formula) == MathTex:
+            new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
+        
+        new_formula_tex_string_list = [*tex_string_list[:items_indices[0]]]
+        for i in range(len(items_indices) - 1):
+            new_formula_tex_string_list.append(new_items[i])
+            new_formula_tex_string_list += tex_string_list[items_indices[i] + 1 : items_indices[i + 1]]
+        new_formula_tex_string_list.append(new_items[-1])
+        new_formula_tex_string_list += tex_string_list[items_indices[-1] + 1 :]
+
+        new_formula = type(formula)(
+            *new_formula_tex_string_list,
+            font_size=formula[0].font_size, color=formula.color, tex_template=formula.tex_template
+        )
+        new_formula.move_to(formula).align_to(formula, DL)
+
+        for i in range(len(formula)):
+            new_formula[i].set_color(formula[i].color)
+        if len(colors) > 0:
+            for i in items_indices:
+                new_formula[i].set_color(formula[i])
+
+        animations = [ReplacementTransform(formula[i], new_formula[i], run_time=run_time) for i in range(len(formula))]
+
+        self.play(*animations)
 
         formula.remove(*formula)
         formula.add(*new_formula)

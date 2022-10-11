@@ -191,6 +191,10 @@ svg_defaults.add_prefix_default(
     'scissors_',
     {'folder': path_to_SVG / 'scissors'})
 svg_defaults.add_default(
+    'tennis_ball',
+    {'folder': path_to_SVG,
+     'scale': 0.5})
+svg_defaults.add_default(
     'locust',
     {'folder': path_to_SVG / 'animals'})
 svg_defaults.add_default(
