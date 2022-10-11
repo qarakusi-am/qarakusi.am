@@ -10,6 +10,7 @@ class test(FormulaModificationsScene):
             '$a$', '$\cdot$', '$2$', '$\cdot$', '$a$', '$\cdot$', '$b$',
             font_size=70, tex_template=ENGTEX
         ) # 3•a•b•a•2•a•b
+
         formula_1[0].set_color(ORANGE)
         formula_1[2].set_color(GREEN)
         formula_1[8].set_color(BLUE)
@@ -25,8 +26,10 @@ class test(FormulaModificationsScene):
         formula_2[8].set_color(BLUE)
         formula_2[4].set_color(RED)
 
-        def test_animations(formula):
+        def test_animations(formula : Tex):
+
             self.play(Write(formula)) # 3•a•b•a•2•a•b
+            self.fix_formula(formula)
             self.wait()
 
             self.rearrange_formula(formula, new_sequence=[8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13], move_up=[8], move_down=[], fade_out=[9], fade_in=[1]) # 2•3•a•b•a•a•b

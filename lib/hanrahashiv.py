@@ -2,7 +2,7 @@ from manim import Tex, MathTex
 from manim import UP, DOWN, LEFT, DL
 from manim import Scene
 from manim import ReplacementTransform, FadeOut, FadeIn, Write
-from manim import VGroup
+from manim import VGroup, VMobject
 from manim import AnimationGroup
 
 
@@ -334,10 +334,16 @@ def AddItemsInFormula(
         return AnimationGroup(*animations)
 
 
-def ReplaceItemsInFormula(
+def ReplaceItemsInFormula(self : Scene,
     formula : Tex or MathTex, items_indices : list, items_str_list : list, colors : list = [],
     run_time=1
 ):
+    # formula_temp = VMobject().add(*formula)
+    # self.remove(formula)
+    # self.add(formula_temp)
+    # formula.remove(*formula)
+    # formula.add(*formula_temp)
+
     tex_string_list = [tex.get_tex_string() for tex in formula]
 
     if type(formula) == Tex:
@@ -345,7 +351,7 @@ def ReplaceItemsInFormula(
 
     elif type(formula) == MathTex:
         new_items = [item[1:-1] if item[0] == '$' else item for item in items_str_list]
-    
+
     new_formula_tex_string_list = [*tex_string_list[:items_indices[0]]]
     for i in range(len(items_indices) - 1):
         new_formula_tex_string_list.append(new_items[i])
@@ -378,6 +384,18 @@ def ReplaceItemsInFormula(
 
 
 class FormulaModificationsScene(Scene):
+
+    def fix_formula(self, formula : Tex or MathTex):
+        """
+            fixes formula to work with functions
+            don't know why or how it works
+        """
+        temp_formula = VMobject().add(*formula)
+        self.remove(formula)
+        self.add(temp_formula)
+        formula.remove(*formula)
+        formula.add(*temp_formula)
+
 
     def rearrange_formula(self,
         formula : Tex or MathTex, new_sequence : list,
