@@ -201,6 +201,10 @@ svg_defaults.add_default(
     'thinking_boy_outlines',
     {'folder': path_to_SVG / 'people' / 'thinking'})
 svg_defaults.add_default(
+    'city',
+    {'scale': 0.4,
+     'color': WHITE})
+svg_defaults.add_default(
     'big_pool',
     {'folder': path_to_SVG / 'pool'})
 svg_defaults.add_default(
