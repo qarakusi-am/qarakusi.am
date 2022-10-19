@@ -27,6 +27,7 @@ class test(FormulaModificationsScene):
 
         def test_animations(formula):
             self.play(Write(formula)) # 3•a•b•a•2•a•b
+            self.fix_formula(formula)
             self.wait()
 
             self.rearrange_formula(formula, new_sequence=[8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13], move_up=[8], move_down=[], fade_out=[9], fade_in=[1]) # 2•3•a•b•a•a•b
