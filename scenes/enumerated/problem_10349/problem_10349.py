@@ -59,7 +59,7 @@ class Problem10349(Scene):
         # Սուրենի և Արշակի հանդիպման անիմացիա
         # souren_copy, arshak_copy = souren.copy(), arshak.copy()
         souren_car = SimpleSVGMobject('car_1').scale(0.2).align_to(souren_road, UL).shift(UP*0.5)
-        arshak_car = SimpleSVGMobject('car_2').scale(0.2).align_to(arshak_road, UR).shift(UP*0.5)
+        arshak_car = SimpleSVGMobject('car_2').scale(0.2).align_to(arshak_road, UR).shift(UP*0.5).flip()
         self.play(FadeIn(souren_car), FadeIn(arshak_car))
         souren_car_move = souren_car.animate(rate_func=linear, run_time=5).align_to(souren_road, UR).shift(UP*0.5 + LEFT*0.1)
         arshak_car_move = arshak_car.animate(rate_func=linear, run_time=3).align_to(arshak_road, UL).shift(UP*0.5 + RIGHT*0.1)
