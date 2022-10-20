@@ -65,8 +65,7 @@ class Defaults:
 svg_defaults = Defaults()
 svg_defaults.add_prefix_default(
     'car_',
-    {'folder': path_to_SVG / 'cars',
-     'color': WHITE})
+    {'folder': path_to_SVG / 'cars'})
 svg_defaults.add_prefix_default(
     'man_',
     {'folder': path_to_SVG / 'people' / 'men',
