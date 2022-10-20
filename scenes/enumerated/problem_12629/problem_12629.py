@@ -20,8 +20,8 @@ class Problem12629(FormulaModificationsScene):
         property_1 = Tex('$a$', '$^m$', '$\cdot$', '$a$', '$^n$', '$=$', '$a$', '$^m$', '$^+$', '$^n$', font_size=65)
         property_1_rect = SurroundingRectangle(property_1, color=WHITE).stretch(1.25, 1).stretch(1.15, 0)
         property_1_index = Tex('1.', font_size=35).next_to(property_1_rect, UL, buff=-0.3)
-        prop_1 = VGroup(property_1, property_1_rect, property_1_index).to_corner(UR, buff=0.11)
-        prop_1.shift(DOWN+LEFT*.2)
+        prop_1 = VGroup(property_1, property_1_rect, property_1_index).to_corner(UR, buff=0.1)
+        prop_1.shift(DOWN)
 
         property_2 = Tex('$($', '$a$', '$\cdot$', '$b$', '$)$', '$^n$', '$=$', '$a$', '$^n$', '$\cdot$', '$b$', '$^n$', font_size=65)
         property_2_rect = SurroundingRectangle(property_2, color=WHITE).match_height(property_1_rect).stretch(1.12, 0).match_width(property_1_rect)
@@ -36,12 +36,13 @@ class Problem12629(FormulaModificationsScene):
         self.play(FadeIn(prop_1, prop_2, prop_3))
         self.wait()
 
-        task1_number = Tex("$1.$", font_size=FONT_SIZE).to_edge(UL, buff=.4).shift(DOWN)
+        task1_number = Tex("$1.$", font_size=FONT_SIZE).to_edge(UL, buff=.35).shift(DOWN)
         task1 = Tex("$x$", "$^3$", " $\cdot$ ", "$*$", " $=$ ", "$x$", "$^8$", font_size=FONT_SIZE).next_to(task1_number, buff=.2, aligned_edge=DOWN)
         self.play(Write(VGroup(task1_number, task1)))
         self.fix_formula(task1)
         self.wait()
 
+        self.play(Indicate(prop_1))
         new_property_1 = property_1.copy()
         self.play(new_property_1.animate.next_to(task1, DOWN, .8, LEFT))
         self.fix_formula(new_property_1)
@@ -72,10 +73,10 @@ class Problem12629(FormulaModificationsScene):
         self.play(FadeOut(arrow1), FadeOut(arrow2))
         self.wait()
 
-        arrow4 = Arrow(start=task1[1], end=new_property_1[1].get_center(), buff=.2)
+        arrow3 = Arrow(start=task1[1], end=new_property_1[1].get_center(), buff=.2)
         arrow4 = Arrow(start=task1[1], end=new_property_1[7].get_center(), stroke_width=3.5, max_tip_length_to_length_ratio=0.1, buff=.2)
         self.play(
-            GrowArrow(arrow4),
+            GrowArrow(arrow3),
             GrowArrow(arrow4)
         )
         self.wait()
@@ -93,7 +94,7 @@ class Problem12629(FormulaModificationsScene):
         )
         self.wait()
         self.play(ReplaceItemsInFormula(new_property_1, [1, 7], ['^3', '^3']))
-        self.play(FadeOut(arrow4, arrow4))
+        self.play(FadeOut(arrow3, arrow4))
         self.wait()
 
         arrow5 = Arrow(start=task1[-1].get_center()+np.array([0, .1, 0]), end=new_property_1[-2], buff=0.3)
@@ -117,9 +118,7 @@ class Problem12629(FormulaModificationsScene):
         self.play(new_property_1[4].animate.set_color(YELLOW))
         self.play(ReplaceItemsInFormula(new_property_1, [4], ['^5']))
         self.wait()
-        # self.play(ReplaceItemsInFormula(task1, [3], ["$x$"], colors=[ORANGE]))
-        # self.play(AddItemsInFormula(task1, [3], ["$^5$"], colors=[YELLOW]))
-        answer1 = MathTex("*", "=", "x", "^5", font_size=FONT_SIZE).next_to(task1, aligned_edge=DOWN, buff=.5)
+        answer1 = MathTex("*", "=", "x", "^5", font_size=FONT_SIZE).next_to(task1, aligned_edge=DOWN, buff=1)
         answer1[2].set_color(ORANGE)
         answer1[3].set_color(YELLOW)
         self.play(Write(answer1))
@@ -129,7 +128,7 @@ class Problem12629(FormulaModificationsScene):
         self.wait()
 
         # 2-րդ վարժ.
-        task2_number = Tex("$2.$", font_size=FONT_SIZE).next_to(task1_number, DOWN, buff=1, aligned_edge=LEFT)
+        task2_number = Tex("$2.$", font_size=FONT_SIZE).next_to(task1_number, DOWN, buff=.7, aligned_edge=LEFT)
         task2 = Tex("$($", "$a$", "$^2$", "$)$", "$^4$", " $\\cdot$ ", "$($", "$a$", "$^3$", "$)$", "$^2$", " $=$ ", "$a$", "$^9$", " $\\cdot$ ", "$*$", font_size=FONT_SIZE).next_to(task2_number, buff=.2, aligned_edge=DOWN).shift(DOWN*.09)
         self.play(Write(VGroup(task2_number, task2)))
         self.fix_formula(task2)
@@ -191,50 +190,9 @@ class Problem12629(FormulaModificationsScene):
         self.play(Circumscribe(task2[6:11], fade_out=True))
         self.wait()
         new_property_3 = property_3.copy()
-        self.play(new_property_3.animate.next_to(task2[6], DOWN, buff=1, aligned_edge=LEFT))
-        self.fix_formula(new_property_3)
-        self.wait()
-        arrow1 = Arrow(start=task2[8], end=new_property_3[2].get_center())
-        arrow2 = Arrow(start=task2[8], end=new_property_3[7].get_center(), buff=.4)
-
-        self.wait()
-        self.play(
-            GrowArrow(arrow1),
-            GrowArrow(arrow2),
-            task2[8].animate.set_color(GREEN),
-            new_property_3[2].animate.set_color(GREEN),
-            new_property_3[7].animate.set_color(GREEN)
-        )
-        self.wait()
-        self.replace_items_in_formula(new_property_3, [2, 7], ["$^3$", "$^3$"])
-        self.play(FadeOut(arrow1, arrow2))
-        self.wait()
-
-        arrow3 = Arrow(start=task2[10], end=new_property_3[4].get_center())
-        arrow4 = Arrow(start=task2[10], end=new_property_3[9].get_center(), buff=.35)
-        self.play(
-            GrowArrow(arrow3),
-            GrowArrow(arrow4),
-            task2[10].animate.set_color(YELLOW),
-            new_property_3[4].animate.set_color(YELLOW),
-            new_property_3[9].animate.set_color(YELLOW)
-        )
-        self.wait()
-        self.replace_items_in_formula(new_property_3, [4, 9], ["$^2$", "$^2$"])
-        self.play(FadeOut(arrow3, arrow4))
-        self.wait()
-
-        self.replace_items_in_formula(new_property_3, [7, 8, 9], ["$^6$", " ", " "])
         
-        tex2 = Tex("$a$", "$^6$", font_size=FONT_SIZE).move_to(new_property_3, UR)
-        self.add(tex2)
-
-        self.play(
-            FadeOut(new_property_3),
-            task2[1].animate.set_color(WHITE)
-        )
-
-        self.play(tex2.animate.next_to(task2[7], DOWN, .3, LEFT))
+        tex2 = Tex("$a$", "$^6$", font_size=FONT_SIZE).next_to(task2[7], DOWN, .3, LEFT)
+        self.play(Write(tex2))
         self.wait()
 
         # a^8 * a^6
@@ -242,6 +200,7 @@ class Problem12629(FormulaModificationsScene):
         self.play(Write(cdot_tex))
 
         # a^8 * a^6 = a^14
+        self.play(Indicate(prop_1))
         new_property_1 = property_1.copy()
         self.play(new_property_1.animate.next_to(tex1, DOWN, buff=.7, aligned_edge=LEFT))
         self.fix_formula(new_property_1)
@@ -304,49 +263,93 @@ class Problem12629(FormulaModificationsScene):
 
         self.rearrange_formula(modified_task2, [3, 4, 5, 6, 2, 0, 1], [3, 4, 5, 6], [0, 1])
         self.wait()
-        self.play(Indicate(prop_1))
-        
-        new_property_1 = property_1.copy()
-        self.play(new_property_1.animate.next_to(modified_task2, DOWN, .8, LEFT))
-        self.fix_formula(new_property_1)
-        self.wait()
-        
-        arrow1 = Arrow(modified_task2[1].get_center(), new_property_1[1].get_center())
-        arrow2 = Arrow(modified_task2[1].get_center(), new_property_1[7].get_center())
-        self.play(GrowArrow(arrow1), GrowArrow(arrow2))
-        self.wait()
-        self.play(
-            modified_task2[1].animate.set_color(ORANGE),
-            new_property_1[1].animate.set_color(ORANGE),
-            new_property_1[7].animate.set_color(ORANGE)
-        )
-        self.play(
-            ReplaceItemsInFormula(new_property_1, [1, 7], ["$^9$", "$^9$"]),
-            FadeOut(arrow1, arrow2)
-        )
 
-        srr_rect = SurroundingRectangle(new_property_1[-3:], corner_radius=.2, color=BLUE)
-        arrow3 = Arrow(modified_task2[6].get_center(), srr_rect.get_center())
-        self.play(
-            GrowArrow(arrow3),
-            FadeIn(srr_rect)
-        )
-        self.wait()
-        
-        self.play(
-            ReplaceItemsInFormula(new_property_1, [4, 9], ["$^5$", "$^5$"]),
-            FadeOut(arrow3, srr_rect)
-        )
+        self.play(ReplaceItemsInFormula(modified_task2, [6], ["$^{9+5}$"]))
         self.wait()
         self.play(
             ReplaceItemsInFormula(modified_task2, [3], ["$a^5$"])
-            # ReplaceItemsInFormula(task2, [15], ["$a^5$"])
         )
         self.wait()
         
-        self.play(FadeOut(new_property_1, modified_task2))
-        answer2 = MathTex("*", "=", "a", "^5", font_size=FONT_SIZE).next_to(task2, DOWN, aligned_edge=LEFT)
+        self.play(FadeOut(modified_task2))
+        answer2 = MathTex("*", "=", "a", "^5", font_size=FONT_SIZE).next_to(task2, DOWN, buff=.2, aligned_edge=LEFT)
         self.play(Write(answer2))
         self.wait()
+
+        # 3-րդ վարժ.
+        task3_number = Tex("$3.$", font_size=FONT_SIZE).next_to(task2_number, DOWN, buff=1.35, aligned_edge=LEFT)
+        task3 = Tex("$($", "$*$", "$)$", "$^3$", " $=$ ", "$y$", "$^6$", font_size=FONT_SIZE).next_to(task3_number, buff=.2, aligned_edge=DOWN).shift(DOWN*.09)
+        self.play(
+            Write(task3_number),
+            Write(task3)
+        )
+        self.wait()
+
+        self.play(Indicate(prop_3))
+        new_property_3 = property_3.copy()
+        self.play(new_property_3.animate.next_to(task3, DOWN, 1, LEFT))
+        self.fix_formula(new_property_3)
+
+        arrow1 = Arrow(task3[3].get_center(), new_property_3[4].get_center())
+        arrow2 = Arrow(task3[3].get_center(), new_property_3[9].get_center())
+        self.play(
+            GrowArrow(arrow1),
+            GrowArrow(arrow2),
+            task3[3].animate.set_color(YELLOW),
+            new_property_3[4].animate.set_color(YELLOW),
+            new_property_3[9].animate.set_color(YELLOW)
+        )
+        self.wait()
+        self.play(
+            ReplaceItemsInFormula(new_property_3, [4, 9], ["$^3$", "$^3$"]),
+            FadeOut(arrow1, arrow2)
+        )
+        self.wait()
+
+        arrow3 = Arrow(task3[5].get_center(), new_property_3[1].get_center())
+        arrow4 = Arrow(task3[5].get_center(), new_property_3[6].get_center())
+        self.play(
+            GrowArrow(arrow3),
+            GrowArrow(arrow4),
+            task3[5].animate.set_color(ORANGE),
+            new_property_3[1].animate.set_color(ORANGE),
+            new_property_3[6].animate.set_color(ORANGE)
+        )
+        self.wait()
+        self.play(
+            ReplaceItemsInFormula(new_property_3, [1, 6], ["$y$", "$y$"]),
+            FadeOut(arrow3, arrow4)
+        )
+        self.wait()
+
+        srr_rect = SurroundingRectangle(new_property_3[7:], corner_radius=.2, color=BLUE)
+        arrow5 = Arrow(task3[6].get_center(), srr_rect.get_center())
+        self.play(
+            GrowArrow(arrow5),
+            FadeIn(srr_rect)
+        )
+        self.wait()
+        self.play(
+            ReplaceItemsInFormula(new_property_3, [2, 7], ["$^2$", "$^2$"]),
+            FadeOut(arrow5, srr_rect)
+        )
+        self.wait()
+
+        answer3 = Tex("$*$", " $=$ ", "$y$", "$^2$", font_size=FONT_SIZE).next_to(task3, buff=1.1)
+        answer3[2].set_color(ORANGE)
+        self.play(Write(answer3))
+        self.play(FadeOut(new_property_3))
+        self.wait()
+
+        # 4-րդ վարժ.
+        task4_number = Tex("$4.$", font_size=FONT_SIZE).next_to(task3_number, DOWN, buff=.7, aligned_edge=LEFT)
+        task4 = Tex("$($", "$*$", "$)$", "$^5$", " $\\cdot$ ", "$($", "$a$", "$^3$", "$)$", "$^4$", " $=$ ", "$($", "$a$", "$^4$", "$)$", "$^6$", " $\\cdot$ ", "$a$", "$^3$", " $\\cdot$ ", "$a$", "$^5$", font_size=FONT_SIZE).next_to(task4_number, buff=.2, aligned_edge=DOWN).shift(DOWN*.09)
+        self.play(
+            Write(task4_number),
+            Write(task4)
+        )
+        self.wait()
+
+
 
         self.wait(2)
