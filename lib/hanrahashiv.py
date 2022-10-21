@@ -303,7 +303,9 @@ def AddItemsInFormula(
             new_items_indices_in_new_formula.append(after_items[i] + i + 1)
 
         for i in range(len(colors)):
-            if colors[i]: new_formula[new_items_indices_in_new_formula[i]].set_color(colors[i])
+            if colors[i]:
+                new_formula[new_items_indices_in_new_formula[i]].set_color(colors[i])
+        
         j = 0
         for i in range(len(new_formula)):
             if i not in new_items_indices_in_new_formula:
@@ -363,7 +365,8 @@ def ReplaceItemsInFormula(
     for i in range(len(formula)):
         new_formula[i].set_color(formula[i].color)
     for i in range(len(colors)):
-        if colors[i]: new_formula[items_indices[i]].set_color(colors[i])
+        if colors[i]:
+            new_formula[items_indices[i]].set_color(colors[i])
 
     animations = [ReplacementTransform(formula[i], new_formula[i], run_time=run_time) for i in range(len(formula))]
 
@@ -803,7 +806,8 @@ class FormulaModificationsScene(Scene):
         for i in range(len(formula)):
             new_formula[i].set_color(formula[i].color)
         for i in range(len(colors)):
-            if colors[i]: new_formula[items_indices[i]].set_color(colors[i])
+            if colors[i]:
+                new_formula[items_indices[i]].set_color(colors[i])
 
         animations = [ReplacementTransform(formula[i], new_formula[i], run_time=run_time) for i in range(len(formula))]
 
