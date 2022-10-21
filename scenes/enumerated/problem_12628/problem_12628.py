@@ -1,4 +1,6 @@
-from manim import *
+from manim import MathTex, Tex, VGroup, SurroundingRectangle, Arrow, Brace
+from manim import rate_functions, DOWN, UP, RIGHT, LEFT, UR, UL, WHITE, BLUE, BLUE_D, GREEN_D, RED_D, YELLOW_D, TEAL_D, GOLD_D, MAROON_D, BLACK
+from manim import AnimationGroup, ReplacementTransform, Wiggle, Write, FadeIn, FadeOut, Indicate, Circumscribe
 from qarakusiscene import TaskNumberBox
 from hanrahashiv import (
     ExtractExponentInFormula,
@@ -16,7 +18,7 @@ def ChangeFormula(formula, *new_formula_string_list):
     new_formula.move_to(formula)
     return new_formula
 
-def replacement_transform(mob_1: Mobject, mob_2: Mobject, scale_factor = 1):
+def replacement_transform(mob_1, mob_2, scale_factor = 1):
     mob_1.match_height(mob_2)
     mob_1.move_to(mob_2)
     mob_1.scale(scale_factor)
@@ -293,4 +295,3 @@ class Problem12628(FormulaModificationsScene):
         self.play(Wiggle(formulas[3][5], 1.3))
         self.play(formulas[3][5].animate.set_color(GREEN_D))
         self.wait()
- 
