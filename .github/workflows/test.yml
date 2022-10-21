@@ -18,7 +18,7 @@ jobs:
         with:
           python-version: '3.8'
       - name: Update apt
-        run: sudo apt get update && sudo apt get upgrade
+        run: sudo apt update && sudo apt upgrade
       - name: Install dependencies
         run: sudo apt install libcairo2-dev libpango1.0-dev ffmpeg texlive-full
       - name: Install Python dependencies
