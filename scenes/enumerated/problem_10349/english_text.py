@@ -1,10 +1,9 @@
 task_number_string = "P. 10349"
 Arsen_string = "Arsen"
 Souren_string = "Souren"
-road_length = 430
-road_length_string = str(road_length) + r"\text{km}"
+road_len = 430
 first_part_of_road_time_string = r"4\text{h}"
 second_part_of_road_time_string = r"3\text{h}"
 segment_15_string = "15"
-hour_string = r"\text{h}"
-km = r"\text{km}"
+hour_string = r"\text{ h}"
+km = r"\text{ km}"
