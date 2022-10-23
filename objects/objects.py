@@ -62,6 +62,7 @@ class Defaults:
                 return defaults
         return defaults
 
+
 svg_defaults = Defaults()
 svg_defaults.add_prefix_default(
     'man_',
@@ -85,6 +86,10 @@ svg_defaults.add_default(
      'scale': 0.5,
      'color': WHITE})
 svg_defaults.add_default(
+    'hippo',
+    {'folder': path_to_SVG / 'animals',
+     'scale': 0.5})
+svg_defaults.add_default(
     'rabbit',
     {'folder': path_to_SVG / 'animals',
      'scale': 0.55,
@@ -92,7 +97,7 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'duck',
     {'folder': path_to_SVG / 'animals',
-     'scale': 0.5,})
+     'scale': 0.5, })
 svg_defaults.add_default(
     'goose',
     {'folder': path_to_SVG / 'animals',
@@ -210,6 +215,7 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'small_pool',
     {'folder': path_to_SVG / 'pool'})
+
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
@@ -336,16 +342,15 @@ class DScissors(VGroup):
         self.add(self.dot)
         self.scale(0.5)
         self.scissor_1.shift(0.08 * DOWN).rotate(angle=-0.03, about_point=self.dot.get_center())
-        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())   
+        self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())
         self.cut_point = np.array(cut_point)
         shift_vector = np.array([0, -0.35, 0])
         p_end = self.cut_point + shift_vector
-        self.move_to(p_end).shift(0.5*DOWN)
+        self.move_to(p_end).shift(0.5 * DOWN)
 
     def open(self, angle):
         self.scissor_1.rotate(angle=angle, about_point=self.dot.get_center())
         self.scissor_2.rotate(angle=-angle, about_point=self.dot.get_center())
-
 
 
 class ThinkingBubble(VMobject):
@@ -434,6 +439,40 @@ class ThinkingBubble(VMobject):
         self.add(thinking_bubble)
 
 
+class AppleSLices(VGroup):
+    def __init__(self, **kwargs):
+        self.apple_ul = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_1.svg').set_color(GREEN)
+        self.apple_dl = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_2.svg').set_color(GREEN)
+        self.apple_ur = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_3.svg').set_color(GREEN)
+        self.apple_dr = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_4.svg').set_color(GREEN)
+        self.apple_ur.match_width(self.apple_dr)
+        self.apple_dl.stretch_to_fit_width(self.apple_ul.width)
+        self.apple_dr.stretch_to_fit_height(self.apple_dl.height + 0.03)
+        super().__init__(self.apple_ul, self.apple_dl, self.apple_ur, self.apple_dr, **kwargs)
+        self.arrange_in_grid(2, 2, buff=0, flow_order="dr")
+        self.apple_ul.scale(1.01)
+        self.apple_ur.scale(1.1)
+        self.apple_ur.stretch_to_fit_height(1.05 * self.apple_ur.height)
+        self.apple_ur.next_to(self.apple_dr, UP, buff=0, aligned_edge=RIGHT)
+        self.apple_ul.next_to(self.apple_dl, UP, buff=0, aligned_edge=RIGHT)
+
+
 class Papers(VMobject):
     def __init__(self, number_of_pages=1):
         super().__init__()
@@ -480,8 +519,7 @@ class Scales(VMobject):
         self.plate_stretch_factor = plate_stretch_factor
 
         scales = SVGMobject(path_to_SVG / 'scales').scale(1.2)
-        
-        
+
         scales[0].set_color('#8c6239')
         scales[1].set_color('#764d26')
         scales[2].set_color('#603813')
@@ -505,7 +543,7 @@ class Scales(VMobject):
         self.fixed_part.set_z_index(self.rotating_part.get_z() + 1)
 
         self.body = VGroup(self.rotating_part, self.fixed_part)
-        
+
         self.left_plate.stretch(self.plate_stretch_factor, 0)
         self.right_plate.stretch(self.plate_stretch_factor, 0)
 
@@ -518,11 +556,12 @@ class Weight(VGroup):
 
         self.scale_factor = scale_factor
         self.weight_value = kg
-        
-    # Սա ընդամենը բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափսը՝ կախված դրա զանգվածի նիշերի քանակից
-    # (առավելագույնը 4 նիշանոց թվերի համար)
+
+        # Սա ընդամենը բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափսը՝ կախված դրա զանգվածի նիշերի քանակից
+        # (առավելագույնը 4 նիշանոց թվերի համար)
         x = len(str(kg))
-        polynomial = 20/6*(x-1)*(x-2)*(x-3)+25/(-2)*(x-1)*(x-2)*(x-4)+35/2*(x-1)*(x-3)*(x-4)+45/(-6)*(x-2)*(x-3)*(x-4)
+        polynomial = 20 / 6 * (x - 1) * (x - 2) * (x - 3) + 25 / (-2) * (x - 1) * (x - 2) * (x - 4) + 35 / 2 * (
+                    x - 1) * (x - 3) * (x - 4) + 45 / (-6) * (x - 2) * (x - 3) * (x - 4)
 
         self.weight = VGroup(
             SimpleSVGMobject('weight').scale(0.5),
@@ -577,6 +616,7 @@ class ScaleStar(VMobject):
 
         self.add(star)
 
+
 class Checkmark(VMobject):
     def __init__(self):
         super().__init__()
@@ -584,6 +624,7 @@ class Checkmark(VMobject):
         checkmark = SVGMobject(path_to_SVG / 'check')
 
         self.add(checkmark)
+
 
 class Scissors:
     def __init__(self, cut_coordinate=ORIGIN, style=1):
@@ -593,8 +634,8 @@ class Scissors:
             self.open_scissors = SimpleSVGMobject('open_scissors')
             self.closed_scissors = SimpleSVGMobject('closed_scissors')
             self.cut_coordinate = (
-                np.array(cut_coordinate)
-                - np.array([0.2, 0.4, 0])
+                    np.array(cut_coordinate)
+                    - np.array([0.2, 0.4, 0])
             )
             self.closed_scissors.move_to(self.cut_coordinate)
             self.open_scissors.move_to(
@@ -680,10 +721,11 @@ class Scissors:
                 angle = PI / 10 * dt
                 mobject.shift(dl)
                 point = mobject[2].get_center()
-                color = Color(hue=1, saturation=t/3, luminance=1 - t)
+                color = Color(hue=1, saturation=t / 3, luminance=1 - t)
                 mobject.set_color(color)
                 mobject[0].rotate(angle=angle, about_point=point)
                 mobject[1].rotate(angle=-angle, about_point=point)
+
             scene.play(
                 UpdateFromAlphaFunc(
                     self.siz,
@@ -700,27 +742,31 @@ class Stopwatch(VGroup):
         self.__speed = 1
         self.time = ValueTracker(0)
         self.stopwatch = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch.svg').set_color(WHITE).scale(1.8)
-        self.stopwatch_arrow = SVGMobject(path_to_SVG / 'stopwatch' /'stopwatch_arow.svg')
-        self.stopwatch_resetter = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_resetter.svg').set_color(WHITE).scale(0.3)
+        self.stopwatch_arrow = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_arow.svg')
+        self.stopwatch_resetter = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_resetter.svg').set_color(
+            WHITE).scale(0.3)
         self.__aligning()
         vmobjects = [self.stopwatch, self.stopwatch_arrow, self.stopwatch_resetter]
         super().__init__(*vmobjects, **kwargs)
-    
+
     def __aligning(self):
-        self.stopwatch_arrow.move_to(self.stopwatch.get_center()).shift(0.48*UP+0.01*RIGHT)
+        self.stopwatch_arrow.move_to(self.stopwatch.get_center()).shift(0.48 * UP + 0.01 * RIGHT)
         self.stopwatch_resetter.next_to(self.stopwatch, UP, buff=0.05)
-    def speedup(self, ratio:float):
+
+    def speedup(self, ratio: float):
         self.__speed *= ratio
-    def set_time(self, value = 0):
+
+    def set_time(self, value=0):
         self.time.set_value(value=value)
         self.stopwatch_arrow.rotate(
-            2 * value/60 * PI,
+            2 * value / 60 * PI,
             axis=OUT,
             about_point=self.stopwatch.get_center()
         )
 
+
 class Train(VGroup):
-    def __init__(self, with_locomotive = True, passenger = True, number_of_rolling_cars = 2):
+    def __init__(self, with_locomotive=True, passenger=True, number_of_rolling_cars=2):
         n = number_of_rolling_cars
         path_to_cars = path_to_SVG / 'train' / 'passenger_car.svg' if passenger else path_to_SVG / 'train' / 'freight_car.svg'
         path_to_locomotive = path_to_SVG / 'train' / 'locomotive.svg'
@@ -729,3 +775,20 @@ class Train(VGroup):
             vmobjects.append(SVGMobject(path_to_locomotive))
         super().__init__(*vmobjects)
         self.arrange(RIGHT, aligned_edge=DOWN)
+
+
+class Car(VGroup):
+    def __init__(self, index=True):
+        super().__init__()
+        stroke_prop = {
+            'car_6': {
+                'object_stokes': {16: 2}
+            }
+        }
+
+        path_to_car = path_to_SVG / 'cars' / f'{index}.svg'
+        car = SVGMobject(path_to_car)
+        if index in stroke_prop:
+            for obj_idx, stoke_width in stroke_prop[index]['object_stokes'].items():
+                car[obj_idx].set_stroke(width=stoke_width)
+        self.add(car)
