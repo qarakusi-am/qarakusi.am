@@ -7,7 +7,7 @@
    sodipodi:docname="car_3.svg"
    width="702.66614"
    height="236.40001"
-   inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
+   inkscape:version="1.2.1 (9c6d41e410, 2022-07-14, custom)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,13 +25,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="1.3892621"
-     inkscape:cx="409.21003"
-     inkscape:cy="197.94681"
+     inkscape:zoom="2.7785242"
+     inkscape:cx="443.2209"
+     inkscape:cy="130.64489"
      inkscape:window-width="1920"
-     inkscape:window-height="1007"
+     inkscape:window-height="1151"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="20"
      inkscape:window-maximized="1"
      inkscape:current-layer="Layer_1" />
   <defs
@@ -102,8 +102,8 @@
      style="fill:#d6d8d7" />
   <ellipse
      class="cls-8"
-     cx="609.32843"
-     cy="175.39"
+     cx="609.39423"
+     cy="175.9989"
      rx="26.950001"
      ry="25.219999"
      id="ellipse28"
