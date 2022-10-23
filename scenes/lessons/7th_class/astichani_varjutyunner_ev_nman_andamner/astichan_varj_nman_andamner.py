@@ -6,7 +6,7 @@ from hanrahashiv import *
 
 
 
-class Exercise_2_false(FormulaModificationsScene, MovingCameraScene):
+class Nman_andamner(FormulaModificationsScene, MovingCameraScene):
     def construct(self):
         property_font_size = 65
 
@@ -1103,5 +1103,33 @@ class Exercise_2_false(FormulaModificationsScene, MovingCameraScene):
         self.play(third_exercise.animate.set_color(WHITE))
         self.wait(0.5)
 
-    
+    # վերջապես նման անդամներ
+        self.play(
+            Circumscribe(second_exercise[8:], time_width=2),
+            Circumscribe(third_exercise[7:], time_width=2)
+        )
+        self.wait(0.5)
+
+        monom_1 = second_exercise[8:]
+        monom_2 = third_exercise[7:]
+
+        self.play(
+            FadeOut(prop_1, prop_2, prop_3),
+            FadeOut(first, first_exercise),
+            FadeOut(second, second_exercise[:8]),
+            FadeOut(third, third_exercise[:7]),
+            monom_1.animate.scale(1.5).move_to([-2, 0, 0]),
+            monom_2.animate.scale(1.5).move_to([2, 0, 0])
+        )
+        self.wait(0.5)
+
+        self.play(
+            Indicate(monom_1[1]),
+            Indicate(monom_2[1])
+        )
+        self.wait(0.5)
+
+
+
+
 
