@@ -22,7 +22,7 @@ souren_recap_v_string = r"V=50" + km_հ
 arshak_recap_v_string = r"V=60" + km_հ
 condition1_string = "Պայման $1$՝ ", "Ընդհանուր ճանապարհը $430$ կմ է։"
 condition2_string = "Պայման $2$՝ ", "Սուրենը շարժվել է $10։00$-ից մինչև $15։00$:"
-condition3_string = "Պայման $3$՝ ", "Սուրենը շարժվել է $12:00$-ից մինչև $15:00$:"
+condition3_string = "Պայման $3$՝ ", "Արշակը շարժվել է $12:00$-ից մինչև $15:00$:"
 condition4_string = "Պայման $4$՝ ", "Արշակը շարժվել է $10$ կմ/ժ–ով ավելի արագ։"
 segment_10_string = "10"
 question_mark_string = r"?"

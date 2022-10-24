@@ -73,6 +73,9 @@ svg_defaults.add_prefix_default(
     {'folder': path_to_SVG / 'people' / 'woman',
      'color': WHITE})
 svg_defaults.add_prefix_default(
+    'city_',
+    {'folder': path_to_SVG / 'cities'})
+svg_defaults.add_prefix_default(
     'boy_',
     {'folder': path_to_SVG / 'people' / 'children',
      'color': WHITE})
@@ -205,10 +208,6 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'thinking_boy_outlines',
     {'folder': path_to_SVG / 'people' / 'thinking'})
-svg_defaults.add_default(
-    'city',
-    {'scale': 0.4,
-     'color': WHITE})
 svg_defaults.add_default(
     'big_pool',
     {'folder': path_to_SVG / 'pool'})

@@ -13,19 +13,19 @@ from functools import reduce
 
 def flatten_list(lst):
     add = lambda x, y: x + y
-    joinedlist = reduce(add, lst)
-    return joinedlist
+    flattened_list = reduce(add, lst)
+    return flattened_list
 
 
 class Problem10349(Scene):
     def construct(self):
         self.wait()
-
+        colors = [BLUE, RED]
         task_number = TaskNumberBox(task_number_string)
         self.play(FadeIn(task_number))
 
-        souren, arshak = [self.get_boy(boy_name, f'boy_{idx + 1}', pos)
-                          for (idx, boy_name), pos in zip(enumerate([souren_string, arshak_string]), [LEFT, RIGHT])]
+        souren, arshak = [self.get_boy(boy_name, f'boy_{idx + 1}', pos, c)
+                          for (idx, boy_name), pos, c in zip(enumerate([souren_string, arshak_string]), [LEFT, RIGHT], colors)]
         boys = [souren, arshak]
 
         # # պայմաններ ###############################################################################
@@ -60,7 +60,7 @@ class Problem10349(Scene):
         self.play(GrowFromEdge(arshak_road, RIGHT))
 
         # Քաղաքի անիմացիա
-        city = SimpleSVGMobject("city_2", color=YELLOW_B).next_to(souren_road.get_edge_center(RIGHT), UP * 1.3, buff=1)
+        city = SimpleSVGMobject("city_1").next_to(souren_road.get_edge_center(RIGHT), UP * 1.3, buff=1).scale(0.7)
         meeting_t = MathTex(meeting_time_string, color=BLUE_B).next_to(city, 0.5 * DOWN, buff=.3)
         self.play(FadeIn(city))
         self.play(Write(meeting_t))
@@ -68,11 +68,13 @@ class Problem10349(Scene):
 
         # Սուրենի և Արշակի ժամերի համառոտագրություն
         time_strings = [souren_time_string, arshak_time_string]
+
         souren_t, arshak_t = [
-            MathTex(time_str, color=BLUE_B).next_to(boy, DOWN, buff=.3) for time_str, boy in zip(time_strings, boys)
+            MathTex(time_str, color=c).next_to(boy, DOWN, buff=.3)
+            for time_str, boy, c in zip(time_strings, boys, colors)
         ]
-        for t in [souren_t, arshak_t]:
-            self.play(Write(t))
+        for i, t in enumerate([souren_t, arshak_t]):
+            self.play(Write(t), Write(check_marks[i+1]), Write(conditions[i+1]))
             self.wait()
 
         # Սուրենի և Արշակի հանդիպման անիմացիա
@@ -104,6 +106,11 @@ class Problem10349(Scene):
         self.play(FadeOut(souren_car), FadeOut(arshak_car))
         self.wait()
 
+        self.play(Write(check_marks[3]), Write(conditions[3]))
+        self.wait(2)
+        self.play(Circumscribe(VGroup(check_marks[3], conditions[3])))
+        self.wait()
+
         # Մեկ մասի և հավելյալ մասի պատկերում
         one_part = self.get_part(value=50, color=GREEN).scale(scale).next_to(souren, UP, buff=0.3)
         self.play(GrowFromEdge(one_part, LEFT))
@@ -116,21 +123,22 @@ class Problem10349(Scene):
         segment_10_label = segment_10.update_label_pos(buff=.17)
         self.play(
             GrowFromEdge(segment_10, LEFT),
-            Write(segment_10_label)
+            Write(segment_10_label),
         )
         self.wait()
 
         # Սուրենի ժամերի ընդգծում
-        self.play(Write(check_marks[1]), Write(conditions[1]), Indicate(souren_t))
+        self.play(Indicate(souren_t))
         self.wait()
 
         # Սուրենի ժամացույցի անիմացիա
         stopwatch = Stopwatch()
-        stopwatch.scale(.3).next_to(condition3, DOWN, buff=0.5)
+        stopwatch.scale(.4).next_to(condition4, DOWN, buff=0.5)
         timer = always_redraw(
             lambda: MathTex(str(floor(stopwatch.time.get_value() // 60)), hour_string).next_to(
                 stopwatch, DOWN) if floor(stopwatch.time.get_value() // 60) != 0 else MathTex(""))
         self.add(timer)
+        self.play(FadeIn(stopwatch))
         timer_animation = Run(stopwatch, speed=60, run_time=souren_time_amount)
 
         # Սուրենի ճանապարհի մասերի պատկերում
@@ -145,25 +153,26 @@ class Problem10349(Scene):
 
         # Սուրենի ժամի ցուցադրում ճանապարհի վրա
         souren_road_brace = Brace(souren_road, UP, buff=.08)
-        souren_road_time = timer.copy().next_to(souren_road, UP, buff=.5)
+        souren_road_time = timer.copy().next_to(souren_road, UP, buff=.5).set_color(BLUE)
         self.play(FadeIn(souren_road_brace))
-        self.play(ReplacementTransform(timer, souren_road_time))
+        self.play(ReplacementTransform(timer, souren_road_time), FadeOut(stopwatch))
         self.wait()
         self.remove(stopwatch)
         self.remove(timer)
 
         # Արշակի ժամերի ընդգծում
-        self.play(Write(check_marks[2]), Write(conditions[2]), Indicate(arshak_t))
+        self.play(Indicate(arshak_t))
         self.wait()
 
         # Արշակի ժամացույցի անիմացիա
         stopwatch = Stopwatch()
-        stopwatch.scale(.3).next_to(condition3, DOWN, buff=0.5)
+        stopwatch.scale(.4).next_to(condition4, DOWN, buff=0.5)
         timer = always_redraw(
             lambda: MathTex(str(floor(stopwatch.time.get_value() // 60)), hour_string).next_to(
                 stopwatch, DOWN) if floor(stopwatch.time.get_value() // 60) != 0 else MathTex(""))
         self.add(timer)
         timer_animation = Run(stopwatch, speed=60, run_time=arshak_time_amount)
+        self.play(FadeIn(stopwatch))
         self.wait()
 
         # Արշակի ճանապարհի մասերի պատկերում
@@ -173,18 +182,15 @@ class Problem10349(Scene):
               range(arshak_time_amount)], run_time=arshak_time_amount, lag_ratio=1)
         self.play(road_animation_part2, timer_animation, rate_func=linear, run_time=arshak_time_amount)
         arshak_road_brace = Brace(arshak_road, UP, buff=.08)
-        arshak_road_time = timer.copy().next_to(arshak_road, UP, buff=.5)
+        arshak_road_time = timer.copy().next_to(arshak_road, UP, buff=.5).set_color(RED)
         self.play(FadeIn(arshak_road_brace))
         self.play(ReplacementTransform(timer, arshak_road_time), FadeOut(stopwatch))
-        
-        road_group = VGroup(souren_road, souren_road_brace, souren_road_time, 
-                            arshak_road, arshak_road_brace, arshak_road_time)
+
+        road_group = VGroup(souren_road, souren_road_time,
+                            arshak_road, arshak_road_time)
         road_group.save_state()
 
         self.wait()
-
-        self.play(Write(check_marks[3]), Write(conditions[3]))
-        self.wait(2)
 
         # Մեկ մասի հարցական նշանները
         question_mark_1 = MathTex(question_mark_string).next_to(one_part, UP, buff=.2)
@@ -198,24 +204,24 @@ class Problem10349(Scene):
         checks_and_conditions = [[FadeOut(check_marks[i]), FadeOut(conditions[i])] for i in range(len(conditions))]
         self.play(AnimationGroup(
             *flatten_list(checks_and_conditions),
-            lag_ratio=0.3
+            lag_ratio=0.3,
+            run_time=1
         ))
 
         # Դեղինով շրջապտույտ նդգծենք 10֊երի շուրջ
         self.play(*[Circumscribe(x3_one_part_and_10[i][1], fade_out=True) for i in range(3)])
+        road_new = VGroup(*[x5_one_part[i] for i in range(5)], *[x3_one_part_and_10[i] for i in reversed(range(3))])
         self.wait()
         self.play(
             FadeOut(
+                road, souren_road, arshak_road,
                 souren_road_time, arshak_road_time,
                 road_length, souren_t, arshak_t,
                 souren_road_brace, arshak_road_brace
-            )
+            ),
+            road_new.animate.align_to(souren_t, DOWN)
         )
         self.remove(road, souren_road, arshak_road)
-        self.wait()
-
-        road_new = VGroup(*[x5_one_part[i] for i in range(5)], *[x3_one_part_and_10[i] for i in reversed(range(3))])
-        self.play(road_new.animate.align_to(souren_t, DOWN))
         self.wait()
 
         # Հաշվենք 1-ից մինչև 8 մասերը
@@ -226,32 +232,35 @@ class Problem10349(Scene):
         count_x8_one_part_animation = AnimationGroup(
             *[Write(count_x8_one_part_labels[i]) for i in range(5)],
             *[Write(count_x8_one_part_labels[i + 5]) for i in reversed(range(3))],
-            lag_ratio=.5
+            lag_ratio=.5, run_time=2
         )
         self.play(count_x8_one_part_animation)
-        self.wait()
-
         self.play(
             *[FadeOut(count_x8_one_part_labels[i]) for i in range(8)]
         )
-        self.wait()
 
         # Մկրատով կտրենք 10-երը
         scissors = [
-            *[DScissors(x3_one_part_and_10[i][1].left_edge.get_center()) for i in range(len(x3_one_part_and_10))],
-            *[DScissors(x3_one_part_and_10[i][1].right_edge.get_center()) for i in range(len(x3_one_part_and_10) - 1)]
+            *[DScissors(x3_one_part_and_10[i][1].left_edge.get_center())
+              for i in range(len(x3_one_part_and_10))],
+            *[DScissors(x3_one_part_and_10[len(x3_one_part_and_10) - 1 - i][1].right_edge.get_center())
+              for i in range(len(x3_one_part_and_10) - 1)]
         ]
         self.play(*[CutIn(scissors[i]) for i in range(len(scissors) - 2)])
         self.play(*[CutOut(scissors[i]) for i in range(len(scissors) - 2)])
         self.play(*[CutIn(scissors[i + 3]) for i in range(len(scissors) - 3)])
         self.play(*[CutOut(scissors[i + 3]) for i in range(len(scissors) - 3)])
-        self.play(*[x3_one_part_and_10[i][1].animate.shift(UP * .5) for i in range(len(x3_one_part_and_10))])
+
         for i in range(len(x3_one_part_and_10)):
             x3_one_part_and_10[i][1].set_label(Tex(segment_10_string))
-        self.play(AnimationGroup(*[
-            TransformFromCopy(segment_10_label, x3_one_part_and_10[i][1].update_label_pos())
-            for i in range(len(x3_one_part_and_10))
-        ], lag_ratio=0))
+
+        segment_10_labels = [segment_10_label.copy() for _ in range(len(x3_one_part_and_10))]
+
+        self.play(AnimationGroup(
+            *[x3_one_part_and_10[i][1].animate.shift(UP * .5) for i in range(len(x3_one_part_and_10))],
+            *[segment_10_labels[i].animate.next_to(x3_one_part_and_10[i][1], UP, buff=0.7)
+              for i in range(len(x3_one_part_and_10))],
+            lag_ratio=0.2), run_time=1)
         self.wait()
 
         # Ձևավոր փակագծեր ամբողջ ճանապարհին
@@ -277,7 +286,7 @@ class Problem10349(Scene):
         self.play(
             FadeOut(
                 *[x3_one_part_and_10[i][1] for i in range(len(x3_one_part_and_10))],
-                *[x3_one_part_and_10[i][1].label for i in reversed(range(len(x3_one_part_and_10)))],
+                *[segment_10_labels[i] for i in reversed(range(len(x3_one_part_and_10)))],
             )
         )
 
@@ -313,8 +322,8 @@ class Problem10349(Scene):
         self.wait()
 
         # Մեկ մաս+10֊ը գտնելու հավասարումը
-        one_part_and_10_value = MathTex("50+10=").next_to(one_part_value, DOWN, buff=.4).align_to(one_part_value,
-                                                                                                  LEFT)
+        one_part_and_10_value = MathTex("50+10=").next_to(
+            one_part_value, DOWN, buff=.4).align_to(one_part_value, LEFT)
         sixty = MathTex("60").next_to(one_part_and_10_value, RIGHT, buff=0.15)
         one_part_and_10_label = sixty.copy()
         self.play(Write(one_part_and_10_value))
@@ -337,13 +346,11 @@ class Problem10349(Scene):
         self.play(FadeIn(road_group))
         self.wait()
 
-        souren_road_brace_2 = Brace(souren_road, DOWN, buff=.08)
-        souren_road_length = MathTex(r"5\cdot50=250" + km).next_to(souren_road, DOWN, buff=.5).scale(0.9)
-        self.play(FadeIn(souren_road_brace_2), Write(souren_road_length))
+        souren_road_length = MathTex(r"5\cdot50=250" + km, color=BLUE).next_to(souren_road, DOWN, buff=.5).scale(0.9)
+        self.play(Write(souren_road_length))
         self.wait()
-        arshak_road_brace_2 = Brace(arshak_road, DOWN, buff=.08)
-        arshak_road_length = MathTex(r"3\cdot60=180" + km).next_to(arshak_road, DOWN, buff=.5).scale(0.9)
-        self.play(FadeIn(arshak_road_brace_2), Write(arshak_road_length))
+        arshak_road_length = MathTex(r"3\cdot60=180" + km, color=RED).next_to(arshak_road, DOWN, buff=.5).scale(0.9)
+        self.play(Write(arshak_road_length))
 
         recap_souren_s = MathTex(souren_recap_s_string, color=BLUE).scale(0.7).align_to(souren_t, DL)
         recap_arshak_s = MathTex(arshak_recap_s_string, color=RED).scale(0.7).align_to(arshak_t, DL)
@@ -359,9 +366,9 @@ class Problem10349(Scene):
 
         self.wait(10)
 
-    def get_boy(self, name, svg_name, edge):
+    def get_boy(self, name, svg_name, edge, color=WHITE):
         boy_svg = SimpleSVGMobject(svg_name)
-        boy = VGroup(boy_svg, Tex(name).next_to(boy_svg, DOWN))
+        boy = VGroup(boy_svg, Tex(name).next_to(boy_svg, DOWN).set_color(color))
         boy.scale(.7).to_edge(edge, buff=1).shift(UP)
         return boy
 
