@@ -48,9 +48,11 @@ class Problem10349(Scene):
         # Ճանապարհի մասին տվյալների համառոտագրություն
         road = self.get_part(value=road_len).scale(scale).next_to(souren, DOWN * 1.7 + RIGHT, buff=1)
         road_length = Tex(road_length_string).next_to(road, DOWN, buff=0.3)
-        self.play(GrowFromEdge(road, LEFT))
-        self.play(Write(road_length), Write(check_marks[0]), Write(conditions[0]))
+        self.play(Write(conditions[0]))
         self.wait()
+        self.play(GrowFromEdge(road, LEFT), Write(road_length))
+        self.wait()
+        self.play(Write(check_marks[0]))
 
         # Սուրենի և Արշակի ճանապարհների մասերը
         souren_road = self.get_part(value=250, color=BLUE).scale(scale).next_to(road.left_edge, buff=0)
@@ -73,8 +75,8 @@ class Problem10349(Scene):
             MathTex(time_str, color=c).next_to(boy, DOWN, buff=.3)
             for time_str, boy, c in zip(time_strings, boys, colors)
         ]
-        for i, t in enumerate([souren_t, arshak_t]):
-            self.play(Write(t), Write(check_marks[i+1]), Write(conditions[i+1]))
+        for i, t in enumerate([souren_t, arshak_t], start=1):
+            self.play(Write(t), Write(conditions[i]))
             self.wait()
 
         # Սուրենի և Արշակի հանդիպման անիմացիա
@@ -91,6 +93,9 @@ class Problem10349(Scene):
         ]
         self.play(AnimationGroup(souren_car_move, arshak_car_move, lag_ratio=0.4))
         self.wait()
+        self.play(Write(check_marks[1]), Write(check_marks[2]))
+        self.wait()
+
         self.play(
             AnimationGroup(
                 VGroup(road, road_length, *roads, *cars).animate.to_edge(DOWN, buff=0.5),
@@ -106,8 +111,8 @@ class Problem10349(Scene):
         self.play(FadeOut(souren_car), FadeOut(arshak_car))
         self.wait()
 
-        self.play(Write(check_marks[3]), Write(conditions[3]))
-        self.wait(2)
+        self.play(Write(conditions[3]))
+        self.wait()
         self.play(Circumscribe(VGroup(check_marks[3], conditions[3])))
         self.wait()
 
@@ -125,6 +130,8 @@ class Problem10349(Scene):
             GrowFromEdge(segment_10, LEFT),
             Write(segment_10_label),
         )
+        self.wait()
+        self.play(Write(check_marks[3]))
         self.wait()
 
         # Սուրենի ժամերի ընդգծում
@@ -176,7 +183,9 @@ class Problem10349(Scene):
         self.wait()
 
         # Արշակի ճանապարհի մասերի պատկերում
-        x3_one_part_and_10 = [VGroup(one_part_copy.copy(), segment_10.copy()) for i in range(arshak_time_amount)]
+        x3_one_part_and_10 = [VGroup(one_part_copy.copy(), segment_10.copy()) for _ in range(arshak_time_amount)]
+        for obj in x3_one_part_and_10:
+            self.bring_to_front(obj)
         road_animation_part2 = AnimationGroup(
             *[x3_one_part_and_10[i].animate.next_to(arshak_road.right_edge, buff=-((i + 1) * 60 * scale)) for i in
               range(arshak_time_amount)], run_time=arshak_time_amount, lag_ratio=1)
@@ -210,7 +219,7 @@ class Problem10349(Scene):
 
         # Դեղինով շրջապտույտ նդգծենք 10֊երի շուրջ
         self.play(*[Circumscribe(x3_one_part_and_10[i][1], fade_out=True) for i in range(3)])
-        road_new = VGroup(*[x5_one_part[i] for i in range(5)], *[x3_one_part_and_10[i] for i in reversed(range(3))])
+        road_new = VGroup(*[x3_one_part_and_10[i] for i in reversed(range(3))], *[x5_one_part[i] for i in range(5)])
         self.wait()
         self.play(
             FadeOut(
@@ -364,7 +373,7 @@ class Problem10349(Scene):
             )
         )
 
-        self.wait(10)
+        self.wait(2)
 
     def get_boy(self, name, svg_name, edge, color=WHITE):
         boy_svg = SimpleSVGMobject(svg_name)
