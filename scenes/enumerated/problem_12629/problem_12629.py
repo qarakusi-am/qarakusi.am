@@ -278,7 +278,7 @@ class Problem12629(FormulaModificationsScene):
         tex3 = Tex("$a$", "$^{14}$", font_size=FONT_SIZE).move_to(new_property_1, UR)
         self.add(tex3)
         self.play(FadeOut(new_property_1, tex1, tex2, cdot_tex))
-        self.play(tex3.animate.next_to(task2, DOWN, buff=.8, aligned_edge=LEFT).shift(np.array([-.1, 0, 0])))
+        self.play(tex3.animate.next_to(task2[8], DOWN, buff=.8, aligned_edge=LEFT).shift(np.array([-.1, 0, 0])))
 
         modified_task2 = Tex("$a$", "$^{14}$", " $=$ ", "$a$", "$^9$", " $\\cdot$ ", "$*$", font_size=FONT_SIZE).move_to(tex3, UL) #.next_to(task2, DOWN, buff=.8, aligned_edge=LEFT)
         modified_task2[3:].set_opacity(0)
@@ -366,8 +366,6 @@ class Problem12629(FormulaModificationsScene):
             GrowArrow(arrow5),
             FadeIn(srr_rect)
         )
-        self.wait()
-        self.play(Indicate(prop_3))
         self.wait()
         self.play(
             ReplaceItemsInFormula(new_property_3, [2, 7], ["$^2$", "$^2$"]),
