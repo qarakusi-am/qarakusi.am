@@ -229,7 +229,6 @@ def CombineTwoExponents(
         new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
     elif type(formula) == MathTex:
         new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
-    print(new_item_exponent)
 
     last_item_index = max(bases_indices + exponents_indices)
 
@@ -503,7 +502,6 @@ def ModifyFormula(
             new_formula[replaced_items[i][j]].set_color(formula[replace_items[i][0]].color)
     for i in range(len(replace_items_colors)):
         for j in range(len(replace_items_colors[i])):
-            print(i, j, formula[replace_items[i][0]].color)
             if replace_items_colors[i][j]:
                 new_formula[replaced_items[i][j]].set_color(replace_items_colors[i][j])
 
@@ -890,7 +888,6 @@ class FormulaModificationsScene(Scene):
             new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
         elif type(formula) == MathTex:
             new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
-        print(new_item_exponent)
 
         last_item_index = max(bases_indices + exponents_indices)
 
