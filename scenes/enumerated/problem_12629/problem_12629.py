@@ -58,7 +58,6 @@ class Problem12629(FormulaModificationsScene):
         self.play(FadeIn(prop_1, prop_2, prop_3))
         self.wait()
 
-        # self.play(Write(VGroup(task1_number, task1)))
         self.fix_formula(task1)
         self.wait()
 
@@ -138,10 +137,6 @@ class Problem12629(FormulaModificationsScene):
         self.play(new_property_1[4].animate.set_color(YELLOW))
         self.play(ReplaceItemsInFormula(new_property_1, [4], ['^5']))
         self.wait()
-        # answer1 = MathTex("*", "=", "x", "^5", font_size=FONT_SIZE).next_to(task1, aligned_edge=DOWN, buff=1)
-        # answer1[2].set_color(ORANGE)
-        # answer1[3].set_color(YELLOW)
-        # self.play(Write(answer1))
         self.play(ModifyFormula(task1, replace_items=[[3]], replace_items_strs=[["$x^5$"]], replace_items_colors=[[BLUE]]))
         self.wait()
         self.play(
@@ -312,9 +307,6 @@ class Problem12629(FormulaModificationsScene):
             task2.animate.set_opacity(.6)
         )
         self.wait()
-        # answer2 = MathTex("*", "=", "a", "^5", font_size=FONT_SIZE).next_to(task2, DOWN, buff=.2, aligned_edge=LEFT)
-        # self.play(Write(answer2))
-        # self.wait()
 
         # 3-րդ վարժ.
         self.play(
@@ -373,9 +365,6 @@ class Problem12629(FormulaModificationsScene):
         )
         self.wait()
 
-        # answer3 = Tex("$*$", " $=$ ", "$y$", "$^2$", font_size=FONT_SIZE).next_to(task3, buff=1.1)
-        # answer3[2].set_color(ORANGE)
-        # self.play(Write(answer3))
         self.fix_formula(task3)
         self.play(ModifyFormula(task3, replace_items=[[1]], replace_items_strs=[["$y^2$"]], replace_items_colors=[[BLUE]]))
         self.wait()
@@ -458,9 +447,6 @@ class Problem12629(FormulaModificationsScene):
         self.play(VGroup(task4_number, task4).animate.set_opacity(.6))
 
         # 5-րդ վարժ.
-        # self.play(FadeOut(task1_number, task1, task2_number, task2, task3_number, task3, task4_number, task4))
-        # self.wait()
-
         task5_number = Tex("$5)$", font_size=FONT_SIZE).next_to(task4_number, DOWN, buff=.7, aligned_edge=LEFT)
         task5 = Tex("$(a^5)^4 \\cdot * = (a^2)^3 \\cdot a^4 \\cdot a^7$", font_size=FONT_SIZE).next_to(task5_number, buff=.2)
         self.play(
