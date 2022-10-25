@@ -22,7 +22,7 @@ class Problem12189(Scene):
         condition2[0].set_color(ORANGE)
         self.play(Write(condition2))
 
-        armen_label = Tex(armen_string).to_edge(LEFT, buff=0.6)#.shift(UP)
+        armen_label = Tex(armen_string).to_edge(LEFT, buff=0.6).shift(DOWN*.5)
         armen_label.set_color_by_gradient("#FF9673", "#E0B851")
         armen_one_part = self.get_part(9, color=YELLOW).next_to(armen_label, buff=1)
         self.play(Write(armen_label))
