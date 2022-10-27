@@ -396,34 +396,6 @@ def ModifyFormula(
         new_replace_items.append(replace_items[i].copy())
     new_colors = colors.copy()
 
-    if type(formula) == Tex:
-        for i in range(len(replace_items_strs)):
-            for j in range(len(replace_items_strs[i])):
-                if replace_items_strs[i][j][0] != '$':
-                    replace_items_strs[i][j] = '$' + replace_items_strs[i][j]
-                if replace_items_strs[i][j][-1] != '$':
-                    replace_items_strs[i][j] = replace_items_strs[i][j] + '$'
-        for i in range(len(add_items_strs)):
-            for j in range(len(add_items_strs[i])):
-                if add_items_strs[i][j][0] != '$':
-                    add_items_strs[i][j] = '$' + add_items_strs[i][j]
-                if add_items_strs[i][j][-1] != '$':
-                    add_items_strs[i][j] = add_items_strs[i][j] + '$'
-
-    elif type(formula) == MathTex:
-        for i in range(len(replace_items_strs)):
-            for j in range(len(replace_items_strs[i])):
-                if replace_items_strs[i][j][0] == '$':
-                    replace_items_strs[i][j] = replace_items_strs[i][j][1:]
-                if replace_items_strs[i][j][-1] == '$':
-                    replace_items_strs[i][j] = replace_items_strs[i][j][:-1]
-        for i in range(len(add_items_strs)):
-            for j in range(len(add_items_strs[i])):
-                if add_items_strs[i][j][0] == '$':
-                    add_items_strs[i][j] = add_items_strs[i][j][1:]
-                if add_items_strs[i][j][-1] == '$':
-                    add_items_strs[i][j] = add_items_strs[i][j][:-1]
-
     # remove items
     for i in range(len(remove_items)):
         del new_tex_string_list[remove_items[i] - i]
