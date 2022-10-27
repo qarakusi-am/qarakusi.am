@@ -559,8 +559,11 @@ class Weight(VGroup):
         # Սա ընդամենը բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափսը՝ կախված դրա զանգվածի նիշերի քանակից
         # (առավելագույնը 4 նիշանոց թվերի համար)
         x = len(str(kg))
-        polynomial = 20 / 6 * (x - 1) * (x - 2) * (x - 3) + 25 / (-2) * (x - 1) * (x - 2) * (x - 4) + 35 / 2 * (
-                    x - 1) * (x - 3) * (x - 4) + 45 / (-6) * (x - 2) * (x - 3) * (x - 4)
+        polynomial = (
+                20 / 6 * (x - 1) * (x - 2) * (x - 3) + 25 / (-2) *
+                (x - 1) * (x - 2) * (x - 4) + 35 / 2 * (x - 1) *
+                (x - 3) * (x - 4) + 45 / (-6) * (x - 2) * (x - 3) * (x - 4)
+        )
 
         self.weight = VGroup(
             SimpleSVGMobject('weight').scale(0.5),
@@ -633,8 +636,8 @@ class Scissors:
             self.open_scissors = SimpleSVGMobject('open_scissors')
             self.closed_scissors = SimpleSVGMobject('closed_scissors')
             self.cut_coordinate = (
-                    np.array(cut_coordinate)
-                    - np.array([0.2, 0.4, 0])
+                np.array(cut_coordinate)
+                - np.array([0.2, 0.4, 0])
             )
             self.closed_scissors.move_to(self.cut_coordinate)
             self.open_scissors.move_to(

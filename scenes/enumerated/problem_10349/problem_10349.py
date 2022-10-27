@@ -1,18 +1,23 @@
 from manim import *
 from math import floor
+from functools import reduce
 
 from aramanim import Segment, Run, Reset, CutIn, CutOut
 from qarakusiscene import TaskNumberBox
 from objects import SimpleSVGMobject, Stopwatch, DScissors, Car
-from .text import *
+from .text import km, souren_string, arshak_string, task_number_string, condition1_string, condition2_string, \
+    condition3_string, condition4_string, road_len, road_length_string, meeting_time_string, \
+    souren_time_string, arshak_time_string, souren_time_amount, arshak_time_amount, segment_10_string, \
+    hour_string, question_mark_string, cut_road_length_string, arshak_one_part_len_string, \
+    souren_recap_s_string, arshak_recap_s_string, souren_recap_v_string, arshak_recap_v_string, \
+    souren_one_part_len_string
 
 scale = .02
 
-from functools import reduce
 
 
 def flatten_list(lst):
-    return return sum(lst, [])
+    return sum(lst, [])
 
 
 class Problem10349(Scene):
@@ -73,9 +78,11 @@ class Problem10349(Scene):
             MathTex(time_str, color=c).next_to(boy, DOWN, buff=.3)
             for time_str, boy, c in zip(time_strings, boys, colors)
         ]
-        for i, t in enumerate([souren_t, arshak_t], start=1):
-            self.play(Write(t), Write(conditions[i]))
-            self.wait()
+
+        self.play(Write(souren_t), Write(conditions[1]))
+        self.wait()
+        self.play(Write(arshak_t), Write(conditions[2]))
+        self.wait()
 
         # Սուրենի և Արշակի հանդիպման անիմացիա
         souren_car = Car('car_1').scale(0.3).align_to(souren_road, UL).shift(UP * 0.5).shift(LEFT * 1.4)
