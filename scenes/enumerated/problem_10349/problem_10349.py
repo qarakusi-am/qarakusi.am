@@ -12,9 +12,7 @@ from functools import reduce
 
 
 def flatten_list(lst):
-    add = lambda x, y: x + y
-    flattened_list = reduce(add, lst)
-    return flattened_list
+    return return sum(lst, [])
 
 
 class Problem10349(Scene):
