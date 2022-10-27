@@ -300,7 +300,7 @@ class Problem10349(Scene):
         self.play(
             FadeOut(
                 *[x3_one_part_and_10[i][1] for i in range(len(x3_one_part_and_10))],
-                *[segment_10_labels[i] for i in reversed(range(len(x3_one_part_and_10)))],
+                *segment_10_labels[::-1]
             )
         )
 
