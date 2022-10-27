@@ -15,7 +15,6 @@ from .text import km, souren_string, arshak_string, task_number_string, conditio
 scale = .02
 
 
-
 def flatten_list(lst):
     return sum(lst, [])
 
@@ -28,7 +27,8 @@ class Problem10349(Scene):
         self.play(FadeIn(task_number))
 
         souren, arshak = [self.get_boy(boy_name, f'boy_{idx + 1}', pos, c)
-                          for (idx, boy_name), pos, c in zip(enumerate([souren_string, arshak_string]), [LEFT, RIGHT], colors)]
+                          for (idx, boy_name), pos, c in
+                          zip(enumerate([souren_string, arshak_string]), [LEFT, RIGHT], colors)]
         boys = [souren, arshak]
 
         # # պայմաններ ###############################################################################
@@ -223,8 +223,8 @@ class Problem10349(Scene):
         ))
 
         # Դեղինով շրջապտույտ նդգծենք 10֊երի շուրջ
-        self.play(*[Circumscribe(x3_one_part_and_10[i][1], fade_out=True) for i in range(3)])
-        road_new = VGroup(*[x3_one_part_and_10[i] for i in reversed(range(3))], *[x5_one_part[i] for i in range(5)])
+        self.play(*[Circumscribe(part[1], fade_out=True) for part in x3_one_part_and_10])
+        road_new = VGroup(*x3_one_part_and_10[::-1], *x5_one_part)
         self.wait()
         self.play(
             FadeOut(
@@ -240,8 +240,8 @@ class Problem10349(Scene):
 
         # Հաշվենք 1-ից մինչև 8 մասերը
         count_x8_one_part_labels = [
-            *[Tex(str(i + 1)).next_to(x5_one_part[i], UP) for i in range(5)],
-            *[Tex(str(8 - i)).next_to(x3_one_part_and_10[i][0], UP) for i in range(3)]
+            *[Tex(str(i + 1)).next_to(part, UP) for i, part in enumerate(x5_one_part)],
+            *[Tex(str(8 - i)).next_to(part[0], UP) for i, part in enumerate(x3_one_part_and_10)]
         ]
         count_x8_one_part_animation = AnimationGroup(
             *[Write(count_x8_one_part_labels[i]) for i in range(5)],
@@ -249,14 +249,11 @@ class Problem10349(Scene):
             lag_ratio=.5, run_time=2
         )
         self.play(count_x8_one_part_animation)
-        self.play(
-            *[FadeOut(count_x8_one_part_labels[i]) for i in range(8)]
-        )
+        self.play(FadeOut(*count_x8_one_part_labels))
 
         # Մկրատով կտրենք 10-երը
         scissors = [
-            *[DScissors(x3_one_part_and_10[i][1].left_edge.get_center())
-              for i in range(len(x3_one_part_and_10))],
+            *[DScissors(part[1].left_edge.get_center()) for part in x3_one_part_and_10],
             *[DScissors(x3_one_part_and_10[len(x3_one_part_and_10) - 1 - i][1].right_edge.get_center())
               for i in range(len(x3_one_part_and_10) - 1)]
         ]
@@ -280,7 +277,7 @@ class Problem10349(Scene):
         # Ձևավոր փակագծեր ամբողջ ճանապարհին
         entire_road = VGroup(
             *x5_one_part,
-            *[x3_one_part_and_10[i] for i in range(len(x3_one_part_and_10))],
+            *x3_one_part_and_10,
         )
 
         entire_road_brace = Brace(entire_road, DOWN)
@@ -297,22 +294,17 @@ class Problem10349(Scene):
             RIGHT, buff=3.5).to_edge(UP, buff=1)
         self.play(Write(x8_part_value))
         self.wait()
-        self.play(
-            FadeOut(
-                *[x3_one_part_and_10[i][1] for i in range(len(x3_one_part_and_10))],
-                *segment_10_labels[::-1]
-            )
-        )
+        self.play(FadeOut(*[part[1] for part in x3_one_part_and_10], *segment_10_labels[::-1]))
 
         # Ամբողջ ճանապարհից 10-երը հանելու ձևավոր փակագծերը
-        x8_one_part = VGroup(*[one_part.copy() for _ in range(8)]).arrange(RIGHT, buff=0).align_to(x5_one_part[0], LEFT+UP)
+        x8_one_part = VGroup(*[one_part.copy() for _ in range(8)]).arrange(RIGHT, buff=0).align_to(x5_one_part[0],
+                                                                                                   LEFT + UP)
         x8_one_part_brace = Brace(x8_one_part, DOWN)
         x8_one_part_brace_label = MathTex(cut_road_length_string).next_to(x8_one_part_brace, DOWN, buff=0.5)
         self.play(
             ReplacementTransform(
                 VGroup(
-                    *[x5_one_part[i] for i in range(len(x5_one_part))],
-                    *[x3_one_part_and_10[i][0] for i in reversed(range(len(x3_one_part_and_10)))]
+                    *x5_one_part, *[part[0] for part in x3_one_part_and_10[::-1]]
                 ),
                 x8_one_part
             ),
@@ -348,7 +340,8 @@ class Problem10349(Scene):
         self.play(
             ReplacementTransform(VGroup(one_part_copy_label, segment_10_label), one_part_and_10_brace),
             one_part_and_10_label.animate.next_to(one_part_and_10_brace, UP, buff=0.1),
-            one_part_and_10_label.animate.become(Tex(arshak_one_part_len_string).next_to(one_part_and_10_brace, UP, .05).set_color(RED)),
+            one_part_and_10_label.animate.become(
+                Tex(arshak_one_part_len_string).next_to(one_part_and_10_brace, UP, .05).set_color(RED)),
             one_part_label.animate.become(Tex(souren_one_part_len_string).next_to(one_part, UP, .05).set_color(BLUE))
         )
 
