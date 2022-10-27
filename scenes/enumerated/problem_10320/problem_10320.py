@@ -42,7 +42,7 @@ class Problem10320(Scene):
         first_part_of_road = self.get_part(value=320).scale(scale).align_to(road.line, LEFT+UP)
         stopwatch = Stopwatch()
         stopwatch.scale(.5).to_edge(UP)
-        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60))+hour_string).next_to(stopwatch, DOWN))
+        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60)), hour_string).next_to(stopwatch, DOWN) if floor(stopwatch.time.get_value()//60)!=0 else MathTex(""))
         self.add(timer)
         self.play(
             train.animate.next_to(first_part_of_road.right_edge, UP),
@@ -56,7 +56,7 @@ class Problem10320(Scene):
         self.wait()
         second_part_of_road = self.get_part(value=285).scale(scale).next_to(first_part_of_road, buff=0)
         self.play(Reset(stopwatch))
-        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60))+hour_string).next_to(stopwatch, DOWN))
+        timer = always_redraw(lambda: MathTex(str(floor(stopwatch.time.get_value()//60)), hour_string).next_to(stopwatch, DOWN) if floor(stopwatch.time.get_value()//60)!=0 else MathTex(""))
         self.add(timer)
         self.play(
             train.animate.next_to(second_part_of_road.right_edge, UP),
