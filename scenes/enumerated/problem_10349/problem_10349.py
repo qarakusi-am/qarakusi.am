@@ -279,7 +279,7 @@ class Problem10349(Scene):
 
         # Ձևավոր փակագծեր ամբողջ ճանապարհին
         entire_road = VGroup(
-            *[x5_one_part[i] for i in range(len(x5_one_part))],
+            *x5_one_part,
             *[x3_one_part_and_10[i] for i in range(len(x3_one_part_and_10))],
         )
 
