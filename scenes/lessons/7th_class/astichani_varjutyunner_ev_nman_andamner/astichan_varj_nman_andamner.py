@@ -2,6 +2,7 @@ from codecs import replace_errors
 from manim import *
 
 from hanrahashiv import *
+from objects import SimpleSVGMobject
 
 
 
@@ -1112,24 +1113,199 @@ class Nman_andamner(FormulaModificationsScene, MovingCameraScene):
 
         monom_1 = second_exercise[8:]
         monom_2 = third_exercise[7:]
-
+        
         self.play(
             FadeOut(prop_1, prop_2, prop_3),
             FadeOut(first, first_exercise),
             FadeOut(second, second_exercise[:8]),
             FadeOut(third, third_exercise[:7]),
-            monom_1.animate.scale(1.5).move_to([-2, 0, 0]),
-            monom_2.animate.scale(1.5).move_to([2, 0, 0])
+            monom_1.animate.scale(1.5).move_to([-2, 1, 0]),
+            monom_2.animate.scale(1.5).move_to([2, 1, 0])
+        )
+        self.wait(0.5)
+
+    # եկեք գումարենք
+        new_font_size = 1.5 * font_size
+        plus = Tex('$+$', font_size=new_font_size).move_to((monom_1.get_right() + monom_2.get_left())/2)
+
+        self.play(Write(plus))
+        self.wait(0.5)
+
+    # գետաձիեր
+        self.play(
+            Indicate(monom_1[1:3]),
+            Indicate(monom_2[1:3])
+        )
+        self.wait(0.5)
+
+        first_hippo = SimpleSVGMobject('hippo').align_to(monom_1, DR)
+        second_hippo = SimpleSVGMobject('hippo').next_to(monom_2[0], RIGHT, buff=0.2)
+
+        self.play(
+            ReplacementTransform(monom_1[1:], first_hippo),
+            ReplacementTransform(monom_2[1:], second_hippo),
+            monom_1[0].animate.next_to(first_hippo, LEFT, buff=0.2)
+            )
+        self.wait(0.5)
+
+        self.remove(monom_1[1:], monom_2[1:])
+
+        hippo = SimpleSVGMobject('hippo').scale(0.9)
+
+        hippo_group_1 = VGroup()
+        
+        for i in range(8):
+            if i == 0:
+                hippo_group_1 += hippo.copy().move_to([-5.5, -0.5, 0])
+            elif i == 1:
+                hippo_group_1 += hippo.copy().next_to(hippo_group_1[0], DOWN, buff=0.3)
+            else:
+                hippo_group_1 += hippo.copy().next_to(hippo_group_1[i-2], RIGHT, buff=0.2)
+
+        hippo_group_2 = VGroup()
+
+        for i in range(2):
+            if i == 0:
+                hippo_group_2 += hippo.copy().move_to([4, -0.5, 0])
+            else:
+                hippo_group_2 += hippo.copy().next_to(hippo_group_2[0], DOWN, buff=0.3)
+
+        z = hippo_group_2.copy().next_to(hippo_group_1, RIGHT, buff=0.2)
+
+        surrec_1 = SurroundingRectangle(hippo_group_1, corner_radius=0.3, color=ORANGE, stroke_width=6)
+        surrec_2 = SurroundingRectangle(hippo_group_2, corner_radius=0.3, color=ORANGE, stroke_width=6)
+
+        # surrec_all = always_redraw(lambda: 
+        #     SurroundingRectangle(
+        #         VGroup(hippo_group_1, hippo_group_2),
+        #         corner_radius=0.3,
+        #         color=ORANGE,
+        #         stroke_width=6
+        #     )
+        # )
+
+        surrec_all = SurroundingRectangle(VGroup(hippo_group_1, z), corner_radius=0.3, color=ORANGE, stroke_width=6)
+
+        x = VGroup()
+
+        for i in range(8):
+            if i == 0:
+                x += first_hippo
+            else:
+                x += first_hippo.copy()
+
+        y = VGroup()
+        
+
+        for i in range(2):
+            if i == 0:
+                y += second_hippo
+            else:
+                y += second_hippo.copy()
+
+    # գետաձիերի խմբեր
+        self.play(
+            ReplacementTransform(x, hippo_group_1),
+            Create(surrec_1),
+            monom_1[0].animate.next_to(surrec_1, UP),
+            ReplacementTransform(y, hippo_group_2),
+            Create(surrec_2),
+            monom_2[0].animate.next_to(surrec_2, UP),
+            plus.animate.move_to((surrec_1.get_right() + surrec_2.get_left())/2)
+        )
+        self.wait(0.5)
+
+        self.play(Indicate(VGroup(monom_1[0], surrec_1, hippo_group_1), color=None))
+        self.wait(0.25)
+
+        self.play(Indicate(plus, scale_factor=1.5))
+        self.wait(0.25)
+
+        self.play(Indicate(VGroup(monom_2[0], surrec_2, hippo_group_2), color=None))
+        self.wait(0.25)
+
+        self.add(surrec_all)
+        self.remove(surrec_all)
+
+        self.play(
+            hippo_group_2.animate.next_to(hippo_group_1, RIGHT, buff=0.2),
+            plus.animate.move_to(hippo_group_1[4].get_center()).align_to(monom_1[0], DOWN),
+            monom_1[0].animate.align_to(hippo_group_1[4].get_left(), RIGHT),
+            monom_2[0].animate.align_to(hippo_group_1[4].get_right(), LEFT),
+            ReplacementTransform(VGroup(surrec_1, surrec_2), surrec_all),
+            rate_func=linear
+        )
+        self.wait(0.5)
+
+        ten = Tex('$10$', font_size=new_font_size).move_to(plus)
+
+        self.play(ReplacementTransform(VGroup(monom_1[0], monom_2[0], plus), ten))
+        self.wait(0.5)
+        
+        expression_1 = MathTex('8', 'a', '^6', '+', '2', 'a', '^6', '=', '10', 'a', '^6', font_size=new_font_size).move_to([0, 2, 0])
+
+        self.play(Write(expression_1[:3]))
+        self.wait(0.25)
+
+        self.play(Write(expression_1[3]))
+        self.wait(0.25)
+
+        self.play(Write(expression_1[4:7]))
+        self.wait(0.25)
+
+        self.play(Write(expression_1[7]))
+        self.wait(0.25)
+
+        self.play(Write(expression_1[8:11]))
+        self.wait(0.5)
+
+        self.play(Indicate(expression_1[8:11], scake_factor=1.5))
+        self.wait(0.5)
+
+        self.play(
+            Indicate(expression_1[:3], scale_factor=1.5),
+            Indicate(expression_1[4:7], scale_factor=1.5)
+        )
+        self.wait()
+
+        self.play(
+            expression_1.animate.shift(UP).set_opacity(0.5),
+            FadeOut(hippo_group_1, hippo_group_2, surrec_all, ten)
+        )
+        self.wait(0.5)
+
+        expression_2 = MathTex('x', '+', '4', 'x', '+', '2', 'x', '=', '7', 'x', font_size=new_font_size)
+
+        self.play(
+            Write(expression_2[0]),
+            Write(expression_2[2:4]),
+            Write(expression_2[5:7])
         )
         self.wait(0.5)
 
         self.play(
-            Indicate(monom_1[1]),
-            Indicate(monom_2[1])
+            Write(expression_2[1]),
+            Write(expression_2[4])
         )
+        self.wait(0.25)
+
+        self.play(Write(expression_2[7:]))
         self.wait(0.5)
 
+        self.play(expression_2.animate.next_to(expression_1, DOWN).set_opacity(0.5))
+        self.wait(0.5)
 
+        expression_3 = MathTex('7b^2c', '-', '3b^2c', '=', '4b^2c', font_size=new_font_size)
 
+        self.play(Write(expression_3[:3]))
+        self.wait(0.5)
 
+        self.play(Write(expression_3[3:]))
+        self.wait(0.5)
 
+        self.play(
+            expression_3.animate.next_to(expression_2, DOWN),
+            expression_1.animate.set_opacity(1),
+            expression_2.animate.set_opacity(1)
+        )
+        self.wait()
