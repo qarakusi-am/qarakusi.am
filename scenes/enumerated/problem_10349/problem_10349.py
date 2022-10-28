@@ -2,7 +2,7 @@ from manim import *
 from math import floor
 from functools import reduce
 
-from aramanim import Segment, Run, Reset, CutIn, CutOut
+from aramanim import Segment, Run, Reset, CutIn, CutOut, get_segment_part
 from qarakusiscene import TaskNumberBox
 from objects import SimpleSVGMobject, Stopwatch, DScissors, Car
 from .text import km, souren_string, arshak_string, task_number_string, condition1_string, condition2_string, \
@@ -49,7 +49,7 @@ class Problem10349(Scene):
         self.wait()
 
         # Ճանապարհի մասին տվյալների համառոտագրություն
-        road = self.get_part(value=road_len).scale(scale).next_to(souren, DOWN * 1.7 + RIGHT, buff=1)
+        road = get_segment_part(length=road_len).scale(scale).next_to(souren, DOWN * 1.7 + RIGHT, buff=1)
         road_length = Tex(road_length_string).next_to(road, DOWN, buff=0.3)
         self.play(Write(conditions[0]))
         self.wait()
@@ -58,8 +58,8 @@ class Problem10349(Scene):
         self.play(Write(check_marks[0]))
 
         # Սուրենի և Արշակի ճանապարհների մասերը
-        souren_road = self.get_part(value=250, color=BLUE).scale(scale).next_to(road.left_edge, buff=0)
-        arshak_road = self.get_part(value=180, color=RED).scale(scale).next_to(road.right_edge, LEFT, buff=0)
+        souren_road = get_segment_part(length=250, color=BLUE).scale(scale).next_to(road.left_edge, buff=0)
+        arshak_road = get_segment_part(length=180, color=RED).scale(scale).next_to(road.right_edge, LEFT, buff=0)
         self.play(GrowFromEdge(souren_road, LEFT))
         self.play(GrowFromEdge(arshak_road, RIGHT))
 
@@ -104,7 +104,8 @@ class Problem10349(Scene):
 
         self.play(
             AnimationGroup(
-                VGroup(road, road_length, souren_road, arshak_road, souren_car, arshak_car).animate.to_edge(DOWN, buff=0.5),
+                VGroup(road, road_length, souren_road, arshak_road, souren_car, arshak_car).animate.to_edge(DOWN,
+                                                                                                            buff=0.5),
                 FadeOut(city),
                 FadeOut(meeting_t),
                 lag_ratio=0.2
@@ -123,13 +124,13 @@ class Problem10349(Scene):
         self.wait()
 
         # Մեկ մասի և հավելյալ մասի պատկերում
-        one_part = self.get_part(value=50, color=GREEN).scale(scale).next_to(souren, UP, buff=0.3)
+        one_part = get_segment_part(length=50, color=GREEN).scale(scale).next_to(souren, UP, buff=0.3)
         self.play(GrowFromEdge(one_part, LEFT))
         one_part_copy = one_part.copy()
         self.play(FadeIn(one_part_copy))
         self.play(one_part_copy.animate.next_to(arshak, UP).align_to(one_part, UP))
         self.wait()
-        segment_10 = self.get_part(int(segment_10_string), color=YELLOW).scale(scale).next_to(one_part_copy, buff=0)
+        segment_10 = get_segment_part(int(segment_10_string), color=YELLOW).scale(scale).next_to(one_part_copy, buff=0)
         segment_10.set_label(MathTex(segment_10_string))
         segment_10_label = segment_10.update_label_pos(buff=.17)
         self.play(
@@ -365,14 +366,3 @@ class Problem10349(Scene):
         boy = VGroup(boy_svg, Tex(name).next_to(boy_svg, DOWN).set_color(color))
         boy.scale(.7).to_edge(edge, buff=1).shift(UP)
         return boy
-
-    def get_part(self, value, label=None, color=WHITE, **kwargs):
-        seg = Segment(
-            ORIGIN,
-            value * RIGHT,
-            label,
-            stroke_width=6,
-            color=color,
-            **kwargs
-        )
-        return seg
