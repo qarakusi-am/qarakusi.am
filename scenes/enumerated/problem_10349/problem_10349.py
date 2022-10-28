@@ -1,6 +1,5 @@
 from manim import *
 from math import floor
-from functools import reduce
 
 from aramanim import Segment, Run, Reset, CutIn, CutOut, get_segment_part
 from qarakusiscene import TaskNumberBox
