@@ -1,11 +1,9 @@
 from manim import Scene, Tex, Write, GrowFromEdge, AnimationGroup, FadeIn, Circumscribe, VGroup, MathTex, Brace, FadeOut, GrowFromCenter
-from manim import LEFT, DOWN, UP, YELLOW, ORANGE, WHITE, ORIGIN, RIGHT, GREEN, UL, UR
-from aramanim import CutIn, CutOut, Segment
+from manim import LEFT, DOWN, UP, YELLOW, ORANGE, RIGHT, GREEN, UL, UR
+from aramanim import CutIn, CutOut, get_part
 from objects import DScissors, Checkmark
 from qarakusiscene import TaskNumberBox
 from .text import *
-
-UNIT = .3
 
 class Problem12189(Scene):
     def construct(self):
@@ -24,7 +22,7 @@ class Problem12189(Scene):
 
         armen_label = Tex(armen_string).to_edge(LEFT, buff=0.6).shift(DOWN*.5)
         armen_label.set_color_by_gradient("#FF9673", "#E0B851")
-        armen_one_part = self.get_part(9, color=YELLOW).next_to(armen_label, buff=1)
+        armen_one_part = get_part(9*.3, color=YELLOW).next_to(armen_label, buff=1)
         self.play(Write(armen_label))
         self.play(GrowFromEdge(armen_one_part, LEFT))
         self.wait()
@@ -35,7 +33,7 @@ class Problem12189(Scene):
         self.play(Write(vazgen_label))
         self.play(vazgen_one_part.animate.next_to(vazgen_label, buff=1))
         self.wait()
-        vazgen_segment_13 = self.get_part(13, color=GREEN, label=13).next_to(vazgen_one_part, buff=0)
+        vazgen_segment_13 = get_part(13*.3, color=GREEN, label=13).next_to(vazgen_one_part, buff=0)
         vazgen_segment_13_label = vazgen_segment_13.update_label_pos()
         self.play(
             GrowFromEdge(vazgen_segment_13, LEFT),
@@ -46,7 +44,7 @@ class Problem12189(Scene):
         self.play(FadeIn(checkmark1))
         self.wait()
 
-        segment_5 = self.get_part(5, color=ORANGE, label=5).set_opacity(.5).next_to(vazgen_segment_13, buff=0)
+        segment_5 = get_part(5*.3, color=ORANGE, label=5).set_opacity(.5).next_to(vazgen_segment_13, buff=0)
         segment_5_label = segment_5.update_label_pos().set_opacity(.5)
         self.play(
             GrowFromEdge(segment_5, LEFT),
@@ -131,7 +129,7 @@ class Problem12189(Scene):
             FadeOut(
                 segment_5,
                 segment_5_label,
-                *[one_part for one_part in x3_one_part],
+                *x3_one_part,
                 one_part_label,
                 one_part_label_copy,
                 x2_one_part_value_brace_tex, x2_one_part_value_brace
@@ -158,13 +156,3 @@ class Problem12189(Scene):
         )
 
         self.wait(2)
-
-    def get_part(self, value, label = None, color = WHITE):
-        seg = Segment(
-            ORIGIN,
-            UNIT * value * RIGHT,
-            label,
-            stroke_width = 6,
-            color = color
-        )
-        return seg
