@@ -22,14 +22,14 @@ def flatten_list(lst):
 class Problem10349(Scene):
     def construct(self):
         self.wait()
-        colors = [BLUE, RED]
         task_number = TaskNumberBox(task_number_string)
         self.play(FadeIn(task_number))
 
+        souren_color, arshak_color = BLUE, RED
+
         souren, arshak = [self.get_boy(boy_name, f'boy_{idx + 1}', pos, c)
                           for (idx, boy_name), pos, c in
-                          zip(enumerate([souren_string, arshak_string]), [LEFT, RIGHT], colors)]
-        boys = [souren, arshak]
+                          zip(enumerate([souren_string, arshak_string]), [LEFT, RIGHT], [souren_color, arshak_color])]
 
         # # պայմաններ ###############################################################################
         condition1 = Tex(*condition1_string).scale(.7).to_edge(UP, buff=0.8).shift(LEFT * 0.6)
@@ -60,7 +60,6 @@ class Problem10349(Scene):
         # Սուրենի և Արշակի ճանապարհների մասերը
         souren_road = self.get_part(value=250, color=BLUE).scale(scale).next_to(road.left_edge, buff=0)
         arshak_road = self.get_part(value=180, color=RED).scale(scale).next_to(road.right_edge, LEFT, buff=0)
-        roads = [souren_road, arshak_road]
         self.play(GrowFromEdge(souren_road, LEFT))
         self.play(GrowFromEdge(arshak_road, RIGHT))
 
@@ -72,11 +71,11 @@ class Problem10349(Scene):
         self.wait()
 
         # Սուրենի և Արշակի ժամերի համառոտագրություն
-        time_strings = [souren_time_string, arshak_time_string]
 
         souren_t, arshak_t = [
             MathTex(time_str, color=c).next_to(boy, DOWN, buff=.3)
-            for time_str, boy, c in zip(time_strings, boys, colors)
+            for time_str, boy, c
+            in zip([souren_time_string, arshak_time_string], [souren, arshak], [souren_color, arshak_color])
         ]
 
         self.play(Write(souren_t), Write(conditions[1]))
@@ -87,13 +86,15 @@ class Problem10349(Scene):
         # Սուրենի և Արշակի հանդիպման անիմացիա
         souren_car = Car('car_1').scale(0.3).align_to(souren_road, UL).shift(UP * 0.5).shift(LEFT * 1.4)
         arshak_car = Car('car_2').scale(0.3).align_to(arshak_road, UR).shift(UP * 0.6).shift(RIGHT * 1.8).flip()
-        cars = [souren_car, arshak_car]
-        self.play(*[FadeIn(car) for car in cars])
+        self.play(FadeIn(souren_car), FadeIn(arshak_car))
 
         souren_car_move, arshak_car_move = [
             car.animate(rate_func=linear, run_time=run_time).align_to(road, align_pos).shift(UP * 0.5 + shift_pos * 0.1)
             for car, run_time, road, align_pos, shift_pos in zip(
-                cars, [souren_time_amount, arshak_time_amount], roads, [UR, UL], [LEFT, RIGHT]
+                [souren_car, arshak_car],
+                [souren_time_amount, arshak_time_amount],
+                [souren_road, arshak_road],
+                [UR, UL], [LEFT, RIGHT]
             )
         ]
         self.play(AnimationGroup(souren_car_move, arshak_car_move, lag_ratio=0.4))
@@ -103,7 +104,7 @@ class Problem10349(Scene):
 
         self.play(
             AnimationGroup(
-                VGroup(road, road_length, *roads, *cars).animate.to_edge(DOWN, buff=0.5),
+                VGroup(road, road_length, souren_road, arshak_road, souren_car, arshak_car).animate.to_edge(DOWN, buff=0.5),
                 FadeOut(city),
                 FadeOut(meeting_t),
                 lag_ratio=0.2
@@ -200,8 +201,7 @@ class Problem10349(Scene):
         self.play(FadeIn(arshak_road_brace))
         self.play(ReplacementTransform(timer, arshak_road_time), FadeOut(stopwatch))
 
-        road_group = VGroup(souren_road, souren_road_time,
-                            arshak_road, arshak_road_time)
+        road_group = VGroup(souren_road, souren_road_time, arshak_road, arshak_road_time)
         road_group.save_state()
 
         self.wait()
@@ -216,11 +216,7 @@ class Problem10349(Scene):
 
         # Հեռցնենք պայմանները
         checks_and_conditions = [[FadeOut(check_marks[i]), FadeOut(conditions[i])] for i in range(len(conditions))]
-        self.play(AnimationGroup(
-            *flatten_list(checks_and_conditions),
-            lag_ratio=0.3,
-            run_time=1
-        ))
+        self.play(AnimationGroup(*flatten_list(checks_and_conditions), lag_ratio=0.3, run_time=1))
 
         # Դեղինով շրջապտույտ նդգծենք 10֊երի շուրջ
         self.play(*[Circumscribe(part[1], fade_out=True) for part in x3_one_part_and_10])
@@ -275,17 +271,11 @@ class Problem10349(Scene):
         self.wait()
 
         # Ձևավոր փակագծեր ամբողջ ճանապարհին
-        entire_road = VGroup(
-            *x5_one_part,
-            *x3_one_part_and_10,
-        )
+        entire_road = VGroup(*x5_one_part, *x3_one_part_and_10)
 
         entire_road_brace = Brace(entire_road, DOWN)
         entire_road_brace_label = Tex(road_length_string).next_to(entire_road_brace, DOWN, buff=0.5)
-        self.play(
-            GrowFromCenter(entire_road_brace),
-            Write(entire_road_brace_label)
-        )
+        self.play(GrowFromCenter(entire_road_brace), Write(entire_road_brace_label))
         self.wait()
 
         # Ամբողջ ճանապարհից 10-երը հանելու հավասարումը
@@ -303,9 +293,7 @@ class Problem10349(Scene):
         x8_one_part_brace_label = MathTex(cut_road_length_string).next_to(x8_one_part_brace, DOWN, buff=0.5)
         self.play(
             ReplacementTransform(
-                VGroup(
-                    *x5_one_part, *[part[0] for part in x3_one_part_and_10[::-1]]
-                ),
+                VGroup(*x5_one_part, *[part[0] for part in x3_one_part_and_10[::-1]]),
                 x8_one_part
             ),
             ReplacementTransform(entire_road_brace, x8_one_part_brace),
