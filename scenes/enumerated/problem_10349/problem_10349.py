@@ -265,8 +265,7 @@ class Problem10349(Scene):
 
         self.play(AnimationGroup(
             *[part[1].animate.shift(UP * .5) for part in x3_one_part_and_10],
-            *[segment_10_labels[i].animate.next_to(x3_one_part_and_10[i][1], UP, buff=0.7)
-              for i in range(len(x3_one_part_and_10))],
+            *[segment_10_labels[i].animate.next_to(part[1], UP, buff=0.7) for i, part in enumerate(x3_one_part_and_10)],
             lag_ratio=0.2), run_time=1)
         self.wait()
 
