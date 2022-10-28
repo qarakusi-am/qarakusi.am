@@ -1,6 +1,6 @@
-from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH, WHITE
 from manim import VMobject, VGroup, Line
-from manim import TexTemplate, MathTex
+from manim import MathTex
 from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
 import numpy as np
@@ -65,6 +65,17 @@ class Segment(VGroup):
 
     def add_label_updater(self, buff = 0.05, direction = UP):
         self.label.add_updater(lambda mob: mob.next_to(self, direction, buff))
+
+
+def get_part(value, label = None, color = WHITE):
+        seg = Segment(
+            ORIGIN,
+            value * RIGHT,
+            label,
+            stroke_width = 6,
+            color = color
+        )
+        return seg
 
 
 ### մկրատի անիմացիաներ (DScissors) ###
