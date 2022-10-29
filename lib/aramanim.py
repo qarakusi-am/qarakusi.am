@@ -67,10 +67,6 @@ class Segment(VGroup):
         self.label.add_updater(lambda mob: mob.next_to(self, direction, buff))
 
 
-def get_segment_part(length, label=None, color=WHITE, **kwargs):
-    return Segment(ORIGIN, length * RIGHT, label, stroke_width=6, color=color, **kwargs)
-
-
 ### մկրատի անիմացիաներ (DScissors) ###
 class CutIn(FadeIn):
     def __init__(self, mobject: DScissors, **kwargs):
