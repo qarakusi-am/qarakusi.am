@@ -783,9 +783,22 @@ class Car(VGroup):
     def __init__(self, index=True):
         super().__init__()
         stroke_prop = {
+
+            'car_1': {
+                'object_stokes': {16: 2, 17: 2},
+            },
+            'car_2': {
+                'object_stokes': {k: 2 for k in range(0, 15)},
+            },
+            'car_3': {
+                'object_stokes': {50: 2},
+            },
+            'car_4': {
+                'object_stokes': {k: 2 for k in range(0, 71)},
+            },
             'car_6': {
                 'object_stokes': {16: 2}
-            }
+            },
         }
 
         path_to_car = path_to_SVG / 'cars' / f'{index}.svg'
