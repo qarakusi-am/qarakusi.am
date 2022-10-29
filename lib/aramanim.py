@@ -200,3 +200,7 @@ class Reset(Animation):
         self.mobject.time.set_value(0)
 
 ### ժամացույցի անիմացիա  END ###
+
+
+def get_segment_part(length, label=None, color=WHITE, **kwargs):
+    return Segment(ORIGIN, length * RIGHT, label, stroke_width=6, color=color, **kwargs)
