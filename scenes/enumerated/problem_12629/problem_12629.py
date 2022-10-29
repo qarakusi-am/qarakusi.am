@@ -1,5 +1,5 @@
 import numpy as np
-from manim import FadeIn, Write, Tex, SurroundingRectangle, VGroup, Arrow, GrowArrow, FadeOut, rate_functions, Indicate, Circumscribe
+from manim import FadeIn, Write, Tex, SurroundingRectangle, VGroup, Arrow, GrowArrow, FadeOut, rate_functions, Indicate, Circumscribe, Line
 from manim import WHITE, UL, UR, DOWN, LEFT, BLUE, ORANGE, YELLOW, GREEN, PURPLE_A, RIGHT, UP
 from hanrahashiv import ModifyFormula, ReplaceItemsInFormula
 from hanrahashiv import FormulaModificationsScene
@@ -34,30 +34,43 @@ class Problem12629(FormulaModificationsScene):
         self.play(FadeOut(task2_number, task2, task3_number, task3, task4_number, task4))
         self.wait()
 
-        # 1-ին վարժ․
+        # հատկություններ
         property_1 = Tex('$a$', '$^m$', '$\cdot$', '$a$', '$^n$', '$=$', '$a$', '$^m$', '$^+$', '$^n$', font_size=65)
-        property_1_rect = SurroundingRectangle(property_1, color=WHITE).stretch(1.25, 1).stretch(1.07, 0)
-        property_1_index = Tex('1.', font_size=35).next_to(property_1_rect, UL, buff=-0.35)
-        property_1.shift(0.1 * RIGHT)
-        prop_1 = VGroup(property_1, property_1_rect, property_1_index)
-        
-        property_2 = Tex('$($', '$a$', '$\cdot$', '$b$', '$)$', '$^n$', '$=$', '$a$', '$^n$', '$\cdot$', '$b$', '$^n$', font_size=65)
-        property_2_rect = SurroundingRectangle(property_2, color=WHITE).match_width(property_1_rect)
-        property_2_index = Tex('2.', font_size=35).next_to(property_2_rect, UL, buff=-0.35)
-        property_2.shift(0.15 * RIGHT)
-        prop_2 = VGroup(property_2, property_2_rect, property_2_index)
-        
-        property_3 = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', '$=$', '$a$', '$^m$', '$^\cdot$', '$^n$', font_size=65)
-        property_3_rect = SurroundingRectangle(property_3, color=WHITE).match_width(property_1_rect)
-        property_3_index = Tex('3.', font_size=35).next_to(property_3_rect, UL, buff=-0.35)
-        property_3.shift(0.15 * RIGHT)
-        prop_3 = VGroup(property_3, property_3_rect, property_3_index)
+        property_1_rect = VGroup()
+        vertices = [[-0.2, 1, 0], [-4.4, 1, 0], [-4.4, 0, 0], [0, 0, 0], [0, 0.8, 0]]
+        for i in range(4):
+            property_1_rect += Line(vertices[i], vertices[i+1], color=GREEN)
+        property_1_index = Tex('1', font_size=45, color=ORANGE).move_to([-0.05, 1, 0])
+        property_1_design = VGroup(property_1_rect, property_1_index)
+        property_1_design.move_to(property_1).shift(0.05 * UP)
+        prop_1 = VGroup(property_1, property_1_design)
 
-        VGroup(prop_1, prop_2, prop_3).arrange(DOWN, 1).to_edge(RIGHT, buff=0.1).align_to(task1_number, UP)
+        property_2 = Tex('$($', '$a$', '$\cdot$', '$b$', '$)$', '$^n$', '$=$', '$a$', '$^n$', '$\cdot$', '$b$', '$^n$', font_size=65)
+        property_2_rect = VGroup()
+        vertices = [[-0.2, 1, 0], [-4.4, 1, 0], [-4.4, 0, 0], [0, 0, 0], [0, 0.8, 0]]
+        for i in range(4):
+            property_2_rect += Line(vertices[i], vertices[i+1], color=GREEN)
+        property_2_index = Tex('2', font_size=45, color=ORANGE).move_to([-0.05, 1, 0])
+        property_2_design = VGroup(property_2_rect, property_2_index)
+        property_2_design.move_to(property_2).shift(0.05 * UP)
+        prop_2 = VGroup(property_2, property_2_design)
+
+        property_3 = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', '$=$', '$a$', '$^m$', '$^\cdot$', '$^n$', font_size=65)
+        property_3_rect = VGroup()
+        vertices = [[-0.2, 1, 0], [-4.4, 1, 0], [-4.4, 0, 0], [0, 0, 0], [0, 0.8, 0]]
+        for i in range(4):
+            property_3_rect += Line(vertices[i], vertices[i+1], color=GREEN)
+        property_3_index = Tex('3', font_size=45, color=ORANGE).move_to([-0.05, 1, 0])
+        property_3_design = VGroup(property_3_rect, property_3_index)
+        property_3_design.move_to(property_3).shift(0.05 * UP)
+        prop_3 = VGroup(property_3, property_3_design)
+        
+        VGroup(prop_1, prop_2, prop_3).arrange(DOWN, 1).to_edge(RIGHT, buff=0.2).shift(DOWN*.1)
 
         self.play(FadeIn(prop_1, prop_2, prop_3))
         self.wait()
-
+        
+        # 1-ին վարժ․
         self.fix_formula(task1)
         self.wait()
 
@@ -424,7 +437,7 @@ class Problem12629(FormulaModificationsScene):
 
         self.play(Indicate(prop_3))
         self.wait()
-        self.play(ModifyFormula(left_side, [5, 8, 9], replace_items=[[7]], replace_items_strs=[["^{12}"]]))
+        self.play(ModifyFormula(left_side, [5, 8, 9], replace_items=[[7]], replace_items_strs=[["$^{12}$"]]))
         self.wait()
 
         self.play(ModifyFormula(right_side, replace_items=[[1]], replace_items_strs=[["$^{20+12}$"]]))
