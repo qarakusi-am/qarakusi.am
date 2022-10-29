@@ -1,6 +1,6 @@
 from manim import Scene, Tex, Write, GrowFromEdge, AnimationGroup, FadeIn, Circumscribe, VGroup, MathTex, Brace, FadeOut, GrowFromCenter
 from manim import LEFT, DOWN, UP, YELLOW, ORANGE, RIGHT, GREEN, UL, UR
-from aramanim import CutIn, CutOut, get_part
+from aramanim import CutIn, CutOut, get_segment_part
 from objects import DScissors, Checkmark
 from qarakusiscene import TaskNumberBox
 from .text import *
@@ -22,7 +22,7 @@ class Problem12189(Scene):
 
         armen_label = Tex(armen_string).to_edge(LEFT, buff=0.6).shift(DOWN*.5)
         armen_label.set_color_by_gradient("#FF9673", "#E0B851")
-        armen_one_part = get_part(9*.3, color=YELLOW).next_to(armen_label, buff=1)
+        armen_one_part = get_segment_part(9*.3, color=YELLOW).next_to(armen_label, buff=1)
         self.play(Write(armen_label))
         self.play(GrowFromEdge(armen_one_part, LEFT))
         self.wait()
@@ -33,7 +33,7 @@ class Problem12189(Scene):
         self.play(Write(vazgen_label))
         self.play(vazgen_one_part.animate.next_to(vazgen_label, buff=1))
         self.wait()
-        vazgen_segment_13 = get_part(13*.3, color=GREEN, label=13).next_to(vazgen_one_part, buff=0)
+        vazgen_segment_13 = get_segment_part(13*.3, color=GREEN, label=13).next_to(vazgen_one_part, buff=0)
         vazgen_segment_13_label = vazgen_segment_13.update_label_pos()
         self.play(
             GrowFromEdge(vazgen_segment_13, LEFT),
@@ -44,7 +44,7 @@ class Problem12189(Scene):
         self.play(FadeIn(checkmark1))
         self.wait()
 
-        segment_5 = get_part(5*.3, color=ORANGE, label=5).set_opacity(.5).next_to(vazgen_segment_13, buff=0)
+        segment_5 = get_segment_part(5*.3, color=ORANGE, label=5).set_opacity(.5).next_to(vazgen_segment_13, buff=0)
         segment_5_label = segment_5.update_label_pos().set_opacity(.5)
         self.play(
             GrowFromEdge(segment_5, LEFT),
