@@ -497,18 +497,6 @@ def ModifyFormula(
     return AnimationGroup(AnimationGroup(*animations), AnimationGroup(*animations_add_items), lag_ratio=add_lag_ratio)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class FormulaModificationsScene(Scene):
 
     def fix_formula(self, formula : Tex or MathTex):
