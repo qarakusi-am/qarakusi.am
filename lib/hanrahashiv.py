@@ -230,7 +230,6 @@ def CombineTwoExponents(
         new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
     elif type(formula) == MathTex:
         new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
-    print(new_item_exponent)
 
     last_item_index = max(bases_indices + exponents_indices)
 
@@ -376,8 +375,126 @@ def ReplaceItemsInFormula(
     return AnimationGroup(*animations)
 
 
+def ModifyFormula(
+    formula : Tex or MathTex,
+    remove_items : list = [],
+    add_after_items : list =[], add_items_strs : list[list] =[], add_items_colors : list[list] = [],
+    replace_items : list[list] = [], replace_items_strs  : list[list] = [], replace_items_colors : list[list] = [],
+    new_formula_alignment=DL, add_items_animation_style = FadeIn, add_lag_ratio = 0.3
+):
+    """
+        All indices must be indices of original formula
+        In each list and sublist indices must be in increasing order
+    """
+    tex_string_list = [tex.get_tex_string() for tex in formula]
+    colors = [item.color for item in formula]
 
+    new_tex_string_list = tex_string_list.copy()
+    new_add_after_items = add_after_items.copy()
+    new_replace_items = []
+    for i in range(len(replace_items)):
+        new_replace_items.append(replace_items[i].copy())
+    new_colors = colors.copy()
 
+    # remove items
+    for i in range(len(remove_items)):
+        del new_tex_string_list[remove_items[i] - i]
+        del new_colors[remove_items[i] - i]
+
+    # fix indices of add_after_items
+    for i in range(len(new_add_after_items)):
+        new_add_after_items[i] -= sum(k < new_add_after_items[i] for k in remove_items)
+
+    # fix indices of replace_items
+    for i in range(len(new_replace_items)):
+        for j in range(len(new_replace_items[i])):
+            new_replace_items[i][j] -= sum(k < new_replace_items[i][j] for k in remove_items)
+
+    # insert items
+    added_items = []
+    for i in range(len(new_add_after_items)):
+        subgroup_added_items = []
+        for j in range(len(add_items_strs[i])):
+            new_tex_string_list.insert(new_add_after_items[i] + 1 + j, add_items_strs[i][j])
+            subgroup_added_items.append(new_add_after_items[i] + 1 + j)
+        added_items.append(subgroup_added_items)
+        for j in range(i + 1, len(new_add_after_items)):
+            new_add_after_items[j] += len(add_items_strs[i])
+        for j in range(len(new_replace_items)):
+            for k in range(len(new_replace_items[j])):
+                if new_add_after_items[i] < new_replace_items[j][k]:
+                    new_replace_items[j][k] += len(add_items_strs[i])
+
+    # replace items
+    replaced_items = []
+    for i in range(len(new_replace_items)):
+        item_index = new_replace_items[i][0]
+        for j in range(len(new_replace_items[i])):
+            del new_tex_string_list[item_index]
+        for j in range(len(replace_items_strs[i]) - 1, -1, -1):
+            new_tex_string_list.insert(item_index, replace_items_strs[i][j])
+        for j in range(i, len(new_replace_items)):
+            for k in range(len(new_replace_items[j])):
+                new_replace_items[j][k] += len(replace_items_strs[i]) - len(new_replace_items[i])
+        for j in range(len(added_items)):
+            for k in range(len(added_items[j])):
+                if added_items[j][k] > item_index:
+                    added_items[j][k] += len(replace_items_strs[i]) - len(new_replace_items[i])
+        replaced_items.append(list(range(item_index, item_index + len(replace_items_strs[i]))))
+
+    flattened_replaced_items = [item for sublist in replaced_items for item in sublist]
+    flattened_added_items = [item for sublist in added_items for item in sublist]
+    flattened_replace_items = [item for sublist in replace_items for item in sublist]
+
+    # find indices of fixed item to transformed later
+    fixed_items_old = []
+    for i in range(len(tex_string_list)):
+        if i not in remove_items and i not in flattened_replace_items:
+            fixed_items_old.append(i)
+    fixed_items_new = []
+    for i in range(len(new_tex_string_list)):
+        if i not in flattened_added_items and i not in flattened_replaced_items:
+            fixed_items_new.append(i)
+
+    new_formula = type(formula)(
+        *new_tex_string_list,
+        font_size=formula[0].font_size, tex_template=formula.tex_template
+    )
+    new_formula.move_to(formula).align_to(formula, new_formula_alignment)
+
+    # fix colors
+    for i in range(len(fixed_items_old)):
+        new_formula[fixed_items_new[i]].set_color(formula[fixed_items_old[i]].color)
+    for i in range(len(add_items_colors)):
+        for j in range(len(add_items_colors[i])):
+            if add_items_colors[i][j]:
+                new_formula[added_items[i][j]].set_color(add_items_colors[i][j])
+    for i in range(len(replace_items_strs)):
+        for j in range(len(replace_items_strs[i])):
+            new_formula[replaced_items[i][j]].set_color(formula[replace_items[i][0]].color)
+    for i in range(len(replace_items_colors)):
+        for j in range(len(replace_items_colors[i])):
+            if replace_items_colors[i][j]:
+                new_formula[replaced_items[i][j]].set_color(replace_items_colors[i][j])
+
+    # animation groups
+    animations = []
+    animations += [FadeOut(formula[i]) for i in remove_items]
+    animations += [
+        ReplacementTransform(formula[replace_items[i][0] : replace_items[i][-1] + 1],
+        new_formula[replaced_items[i][0] : replaced_items[i][-1] + 1])
+        for i in range(len(replace_items))
+    ]
+    animations += [
+        ReplacementTransform(formula[fixed_items_old[i]], new_formula[fixed_items_new[i]])
+        for i in range(len(fixed_items_new))
+    ]
+    animations_add_items = [add_items_animation_style(new_formula[i]) for i in flattened_added_items]
+
+    formula.remove(*formula)
+    formula.add(*new_formula)
+
+    return AnimationGroup(AnimationGroup(*animations), AnimationGroup(*animations_add_items), lag_ratio=add_lag_ratio)
 
 
 class FormulaModificationsScene(Scene):
@@ -731,7 +848,6 @@ class FormulaModificationsScene(Scene):
             new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
         elif type(formula) == MathTex:
             new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
-        print(new_item_exponent)
 
         last_item_index = max(bases_indices + exponents_indices)
 
