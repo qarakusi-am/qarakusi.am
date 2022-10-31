@@ -461,7 +461,7 @@ class Problem12629(FormulaModificationsScene):
 
         # 5-րդ վարժ.
         task5_number = Tex("$5)$", font_size=FONT_SIZE).next_to(task4_number, DOWN, buff=.7, aligned_edge=LEFT)
-        task5 = Tex("$(a^5)^4 \\cdot * = (a^2)^3 \\cdot a^4 \\cdot a^7$", font_size=FONT_SIZE).next_to(task5_number, buff=.2)
+        task5 = Tex("$(a^3)^3 \\cdot * = (a^5)^2 \\cdot a^7$", font_size=FONT_SIZE).next_to(task5_number, buff=.2)
         self.play(
             Write(task5),
             Write(task5_number)
