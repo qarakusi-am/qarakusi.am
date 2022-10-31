@@ -104,7 +104,7 @@ class Problem12628(FormulaModificationsScene):
         arrow_0_1 = Arrow(start=formula_0[1].get_center(), end=property_1_c0[0], buff=0.3)
         arrow_0_2 = Arrow(start=formula_0[3].get_center(), end=property_1_c0[3], buff=0.3)
         arrow_0_3_1 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[1], buff=0.3)
-        arrow_0_3_2 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[7], buff=0.55)
+        arrow_0_3_2 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[7], buff=0.55) #??#
         self.play(
             property_1_c0[0].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),            
             property_1_c0[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),
@@ -115,25 +115,25 @@ class Problem12628(FormulaModificationsScene):
         self.play(ReplaceItemsInFormula(property_1_c0, [0, 3, 6], ['x', 'x', 'x',]), FadeOut(arrow_0_1, arrow_0_2), run_time = 2)
         self.wait()
         self.play(
-            FadeIn(arrow_0_3_1, arrow_0_3_2),
+            FadeIn(arrow_0_3_1),
             property_1_c0[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),            
             property_1_c0[7].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),
             formula_0[2].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D), run_time = 2)
         self.play(
             ReplaceItemsInFormula(property_1_c0, [1, 7], ['^3', '^3']),
-            FadeOut(arrow_0_3_1, arrow_0_3_2),
+            FadeOut(arrow_0_3_1),
             run_time = 2)
         self.wait()
         arrow_0_4_1 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[4], buff=0.3)
-        arrow_0_4_2 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[9], buff=0.55)
+        arrow_0_4_2 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[9], buff=0.55) #??#
         self.play(
-            FadeIn(arrow_0_4_1, arrow_0_4_2),
+            FadeIn(arrow_0_4_1),
             property_1_c0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),            
             property_1_c0[9].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),
             formula_0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D), run_time = 2)
         self.play(
             ReplaceItemsInFormula(property_1_c0, [4, 9], ['^3', '^3']),
-            FadeOut(arrow_0_4_1, arrow_0_4_2),
+            FadeOut(arrow_0_4_1),
             run_time = 2)
         self.wait()
         self.play(ReplaceItemsInFormula(property_1_c0, [7, 8, 9], ['^6', ' ', ' ',], [RED_D, BLACK, BLACK]))
@@ -217,19 +217,17 @@ class Problem12628(FormulaModificationsScene):
         self.play(FadeOut(formula_1_c0))
         self.wait()
         ##formula 2 modification##
-        formula_2 = formulas[2].copy()
+        formula_2 = MathTex(r'\ast', r'\cdot', '(', 'x', 'y', ')', '^2').scale(1.15).next_to(6.5*LEFT, buff=0.2)
         self.play(
             formulas[1].animate.set_opacity(0.3),
             numbers[1].animate.set_opacity(0.3),
             formulas[2].animate.set_opacity(1),
             numbers[2].animate.set_opacity(1))
-        formula_2[7:].set_color(BLACK)
-        formula_2[7:].set_opacity(0)
         self.play(formula_2.set_opacity(0.5).animate.shift(1.25*DOWN).set_opacity(1))
         self.fix_formula(formula_2)
         self.wait()
         property_2_c0 = property_2.copy()                                                                                                   # a ^m  •  a ^n  = a ^m ^+ ^n 
-        self.play(property_2_c0.animate.next_to(formula_2, DOWN, buff = 1))
+        self.play(property_2_c0.animate.next_to(formula_2, DOWN, buff = 1, aligned_edge = LEFT))
         property_2_c1 = Tex('$($', '$a$', r'$\cdot$', '$b$', '$)$', '$^n$', '$=$', '$a$', '$^n$', r'$\cdot$', '$b$', '$^n$', font_size=65)
         property_2_c1.match_width(property_2_c0)
         property_2_c1.move_to(property_2_c0)
@@ -268,7 +266,16 @@ class Problem12628(FormulaModificationsScene):
         self.play(ReplaceItemsInFormula(formula_2, [2, 4, 6], [' ', '^2', ' ']), run_time = 2)
         self.play(FadeOut(property_2_c1))
         self.wait()
-        self.play(formula_2.animate.set_color(WHITE).set_opacity(1))
+        self.play(AddItemsInFormula(formula_2, [7], ['='], [BLACK]), run_time = 1/10)
+        self.play(AddItemsInFormula(formula_2, [8], ['4'], [BLACK]), run_time = 1/10)
+        self.play(AddItemsInFormula(formula_2, [9], ['x'], [BLACK]), run_time = 1/10)
+        self.play(AddItemsInFormula(formula_2, [10], ['^3'], [BLACK]), run_time = 1/10)
+        self.play(AddItemsInFormula(formula_2, [11], ['y'], [BLACK]), run_time = 1/10)
+        self.play(AddItemsInFormula(formula_2, [12], ['^2'], [BLACK]), run_time = 1/10)
+        formula_2_c0 = formulas[2][7:].copy()
+        self.play(formula_2_c0.animate.move_to(formula_2[7:]))
+        formula_2.set_color(WHITE)
+        self.remove(formula_2_c0)
         self.wait()
         self.play(formula_2[12:].animate.set_color(GREEN_D), formula_2[5:8].animate.set_color(GREEN_D))
         self.wait()
