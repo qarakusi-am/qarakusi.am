@@ -1,5 +1,5 @@
-from manim import MathTex, Tex, VGroup, SurroundingRectangle, Arrow, Brace
-from manim import rate_functions, DOWN, UP, RIGHT, LEFT, UR, UL, WHITE, BLUE, BLUE_D, GREEN_D, RED_D, YELLOW_D, TEAL_D, GOLD_D, MAROON_D, BLACK
+from manim import MathTex, Tex, VGroup, SurroundingRectangle, Arrow, Brace, Line
+from manim import rate_functions, DOWN, UP, RIGHT, LEFT, UL, WHITE, BLUE, ORANGE, GREEN, BLUE_D, GREEN_D, RED_D, YELLOW_D, TEAL_D, GOLD_D, MAROON_D, BLACK
 from manim import AnimationGroup, ReplacementTransform, Wiggle, Write, FadeIn, FadeOut, Indicate, Circumscribe, MoveToTarget
 from qarakusiscene import TaskNumberBox
 from hanrahashiv import (
@@ -50,24 +50,36 @@ class Problem12628(FormulaModificationsScene):
         ##properties##
         #p1
         property_1 = Tex('$a$', '$^m$', '$\cdot$', '$a$', '$^n$', '$=$', '$a$', '$^m$', '$^+$', '$^n$', font_size=65)
-        property_1_rect = SurroundingRectangle(property_1, color=WHITE).stretch(1.25, 1).stretch(1.07, 0)
-        property_1_index = Tex('1.', font_size=35).next_to(property_1_rect, UL, buff=-0.35)
-        property_1.shift(0.1 * RIGHT)
-        prop_1 = VGroup(property_1, property_1_rect, property_1_index)
+        property_1_rect = VGroup()
+        vertices = [[-0.2, 1, 0], [-4.4, 1, 0], [-4.4, 0, 0], [0, 0, 0], [0, 0.8, 0]]
+        for i in range(4):
+            property_1_rect += Line(vertices[i], vertices[i+1], color=GREEN)
+        property_1_index = Tex('1', font_size=45, color=ORANGE).move_to([-0.05, 1, 0])
+        property_1_design = VGroup(property_1_rect, property_1_index)
+        property_1_design.move_to(property_1).shift(0.05 * UP)
+        prop_1 = VGroup(property_1, property_1_design)
         #p2
         property_2 = Tex('$($', '$a$', '$\cdot$', '$b$', '$)$', '$^n$', '$=$', '$a$', '$^n$', '$\cdot$', '$b$', '$^n$', font_size=65)
-        property_2_rect = SurroundingRectangle(property_2, color=WHITE).match_width(property_1_rect)
-        property_2_index = Tex('2.', font_size=35).next_to(property_2_rect, UL, buff=-0.35)
-        property_2.shift(0.15 * RIGHT)
-        prop_2 = VGroup(property_2, property_2_rect, property_2_index)
+        property_2_rect = VGroup()
+        vertices = [[-0.2, 1, 0], [-4.4, 1, 0], [-4.4, 0, 0], [0, 0, 0], [0, 0.8, 0]]
+        for i in range(4):
+            property_2_rect += Line(vertices[i], vertices[i+1], color=GREEN)
+        property_2_index = Tex('2', font_size=45, color=ORANGE).move_to([-0.05, 1, 0])
+        property_2_design = VGroup(property_2_rect, property_2_index)
+        property_2_design.move_to(property_2).shift(0.05 * UP)
+        prop_2 = VGroup(property_2, property_2_design)
         #p3
         property_3 = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', '$=$', '$a$', '$^m$', '$^\cdot$', '$^n$', font_size=65)
-        property_3_rect = SurroundingRectangle(property_3, color=WHITE).match_width(property_1_rect)
-        property_3_index = Tex('3.', font_size=35).next_to(property_3_rect, UL, buff=-0.35)
-        property_3.shift(0.15 * RIGHT)
-        prop_3 = VGroup(property_3, property_3_rect, property_3_index)
+        property_3_rect = VGroup()
+        vertices = [[-0.2, 1, 0], [-4.4, 1, 0], [-4.4, 0, 0], [0, 0, 0], [0, 0.8, 0]]
+        for i in range(4):
+            property_3_rect += Line(vertices[i], vertices[i+1], color=GREEN)
+        property_3_index = Tex('3', font_size=45, color=ORANGE).move_to([-0.05, 1, 0])
+        property_3_design = VGroup(property_3_rect, property_3_index)
+        property_3_design.move_to(property_3).shift(0.05 * UP)
+        prop_3 = VGroup(property_3, property_3_design)
         #p1_p2_p3
-        VGroup(prop_1, prop_2, prop_3).arrange(DOWN, 1).to_edge(RIGHT, buff=0.1)
+        VGroup(prop_1, prop_2, prop_3).arrange(DOWN, 1).to_edge(RIGHT, buff=0.2)
         #animation
         self.play(AnimationGroup(FadeIn(prop_1), FadeIn(prop_2), FadeIn(prop_3), lag_ratio=0.33), run_time = 2)
         self.wait()
@@ -91,6 +103,8 @@ class Problem12628(FormulaModificationsScene):
         self.fix_formula(property_1_c0)
         arrow_0_1 = Arrow(start=formula_0[1].get_center(), end=property_1_c0[0], buff=0.3)
         arrow_0_2 = Arrow(start=formula_0[3].get_center(), end=property_1_c0[3], buff=0.3)
+        arrow_0_3_1 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[1], buff=0.3)
+        arrow_0_3_2 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[7], buff=0.55)
         self.play(
             property_1_c0[0].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),            
             property_1_c0[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),
@@ -101,16 +115,26 @@ class Problem12628(FormulaModificationsScene):
         self.play(ReplaceItemsInFormula(property_1_c0, [0, 3, 6], ['x', 'x', 'x',]), FadeOut(arrow_0_1, arrow_0_2), run_time = 2)
         self.wait()
         self.play(
+            FadeIn(arrow_0_3_1, arrow_0_3_2),
             property_1_c0[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),            
             property_1_c0[7].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),
             formula_0[2].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D), run_time = 2)
-        self.play(ReplaceItemsInFormula(property_1_c0, [1, 7], ['^3', '^3']), run_time = 2)
-        self.wait()
         self.play(
+            ReplaceItemsInFormula(property_1_c0, [1, 7], ['^3', '^3']),
+            FadeOut(arrow_0_3_1, arrow_0_3_2),
+            run_time = 2)
+        self.wait()
+        arrow_0_4_1 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[4], buff=0.3)
+        arrow_0_4_2 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[9], buff=0.55)
+        self.play(
+            FadeIn(arrow_0_4_1, arrow_0_4_2),
             property_1_c0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),            
             property_1_c0[9].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),
             formula_0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D), run_time = 2)
-        self.play(ReplaceItemsInFormula(property_1_c0, [4, 9], ['^3', '^3']), run_time = 2)
+        self.play(
+            ReplaceItemsInFormula(property_1_c0, [4, 9], ['^3', '^3']),
+            FadeOut(arrow_0_4_1, arrow_0_4_2),
+            run_time = 2)
         self.wait()
         self.play(ReplaceItemsInFormula(property_1_c0, [7, 8, 9], ['^6', ' ', ' ',], [RED_D, BLACK, BLACK]))
         self.wait()
@@ -121,9 +145,8 @@ class Problem12628(FormulaModificationsScene):
         self.play(
             ReplaceItemsInFormula(formulas[0], [8], ['9x^6'], [BLUE_D]),
             formula_0.animate.set_color(BLUE_D),
-            FadeOut(property_1_c0))
+            FadeOut(property_1_c0, formula_0))
         self.wait()
-        self.play(FadeOut(formula_0))
         self.play(
             Circumscribe(formulas[0][0], fade_in=True),
             Circumscribe(formulas[0][4], fade_in=True))
@@ -200,6 +223,8 @@ class Problem12628(FormulaModificationsScene):
             numbers[1].animate.set_opacity(0.3),
             formulas[2].animate.set_opacity(1),
             numbers[2].animate.set_opacity(1))
+        formula_2[7:].set_color(BLACK)
+        formula_2[7:].set_opacity(0)
         self.play(formula_2.set_opacity(0.5).animate.shift(1.25*DOWN).set_opacity(1))
         self.fix_formula(formula_2)
         self.wait()
@@ -240,8 +265,10 @@ class Problem12628(FormulaModificationsScene):
         self.play(ReplaceItemsInFormula(property_2_c1, [5, 8, 11], ['$^2$', '$^2$', '$^2$']), FadeOut(arrow_2_3), run_time = 2)
         formula_2.set_color(WHITE)
         self.play(AddItemsInFormula(formula_2, [3], [' ']))
-        self.play(ReplaceItemsInFormula(formula_2, [2, 4, 6], [' ', '^2', ' '], [WHITE, WHITE, WHITE]), run_time = 2)
+        self.play(ReplaceItemsInFormula(formula_2, [2, 4, 6], [' ', '^2', ' ']), run_time = 2)
         self.play(FadeOut(property_2_c1))
+        self.wait()
+        self.play(formula_2.animate.set_color(WHITE).set_opacity(1))
         self.wait()
         self.play(formula_2[12:].animate.set_color(GREEN_D), formula_2[5:8].animate.set_color(GREEN_D))
         self.wait()
