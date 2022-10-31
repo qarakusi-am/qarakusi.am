@@ -1,6 +1,6 @@
 from manim import MathTex, Tex, VGroup, SurroundingRectangle, Arrow, Brace
 from manim import rate_functions, DOWN, UP, RIGHT, LEFT, UR, UL, WHITE, BLUE, BLUE_D, GREEN_D, RED_D, YELLOW_D, TEAL_D, GOLD_D, MAROON_D, BLACK
-from manim import AnimationGroup, ReplacementTransform, Wiggle, Write, FadeIn, FadeOut, Indicate, Circumscribe
+from manim import AnimationGroup, ReplacementTransform, Wiggle, Write, FadeIn, FadeOut, Indicate, Circumscribe, MoveToTarget
 from qarakusiscene import TaskNumberBox
 from hanrahashiv import (
     ExtractExponentInFormula,
@@ -33,10 +33,10 @@ class Problem12628(FormulaModificationsScene):
         self.wait()
         ##formulas##
         formulas = VGroup(
-            MathTex('3', 'x', '^3', r'\cdot', '3', 'x', '^3', '=',  r'\star').scale(1.1).next_to(2*UP + 6.5*LEFT, buff=0.2),
-            MathTex('3', 'x', '^2', r'\cdot', r'\star', '=', '6', 'x', '^6', 'y', '^2').scale(1.1).next_to(1*UP + 6.5*LEFT, buff=0.2),
-            MathTex(r'\star', r'\cdot', '(', 'm', 'n', ')', '^2', '=', '4', 'm', '^3', 'n', '^2').scale(1.1).next_to(6.5*LEFT, buff=0.2),
-            MathTex('5', 'a', '^2', 'b', r'\cdot', r'\star', '=', '5', 'a', '^3', 'b', '^2', 'c').scale(1.1).next_to(DOWN + 6.5*LEFT, buff=0.2))
+            MathTex('3', 'x', '^3', r'\cdot', '3', 'x', '^3', '=',  r'\ast').scale(1.15).next_to(2*UP + 6.5*LEFT, buff=0.2),
+            MathTex('3', 'x', '^2', r'\cdot', r'\ast', '=', '6', 'x', '^6', 'y', '^2').scale(1.15).next_to(1*UP + 6.5*LEFT, buff=0.2),
+            MathTex(r'\ast', r'\cdot', '(', 'x', 'y', ')', '^2', '=', '4', 'x', '^3', 'y', '^2').scale(1.15).next_to(6.5*LEFT, buff=0.2),
+            MathTex('5', 'a', '^2', 'b', r'\cdot', r'\ast', '=', '5', 'a', '^3', 'b', '^2', 'c').scale(1.15).next_to(DOWN + 6.5*LEFT, buff=0.2))
         numbers = VGroup(*[MathTex(f'{i+1})').next_to(formulas[i], LEFT, buff=0.2) for i in range(4)]).align_to(taskNumber, LEFT)
         self.play(AnimationGroup(*[AnimationGroup(Write(formulas[i]), Write(numbers[i])) for i in range(4)], lag_ratio=0.5), run_time = 4)
         self.wait()
@@ -50,26 +50,29 @@ class Problem12628(FormulaModificationsScene):
         ##properties##
         #p1
         property_1 = Tex('$a$', '$^m$', '$\cdot$', '$a$', '$^n$', '$=$', '$a$', '$^m$', '$^+$', '$^n$', font_size=65)
-        property_1_rect = SurroundingRectangle(property_1, color=WHITE).stretch(1.25, 1).stretch(1.15, 0)
-        property_1_index = Tex('1.', font_size=35).next_to(property_1_rect, UL, buff=-0.3)
-        prop_1 = VGroup(property_1, property_1_rect, property_1_index).to_corner(UR, buff=0.11)
-        prop_1.to_edge(RIGHT).align_to(formulas[0], UP)
+        property_1_rect = SurroundingRectangle(property_1, color=WHITE).stretch(1.25, 1).stretch(1.07, 0)
+        property_1_index = Tex('1.', font_size=35).next_to(property_1_rect, UL, buff=-0.35)
+        property_1.shift(0.1 * RIGHT)
+        prop_1 = VGroup(property_1, property_1_rect, property_1_index)
         #p2
         property_2 = Tex('$($', '$a$', '$\cdot$', '$b$', '$)$', '$^n$', '$=$', '$a$', '$^n$', '$\cdot$', '$b$', '$^n$', font_size=65)
-        property_2_rect = SurroundingRectangle(property_2, color=WHITE).match_height(property_1_rect).stretch(1.12, 0).match_width(property_1_rect)
-        property_2_index = Tex('2.', font_size=35).next_to(property_2_rect, UL, buff=-0.3)
-        prop_2 = VGroup(property_2, property_2_rect, property_2_index).next_to(prop_1, DOWN, 0.5, LEFT)
+        property_2_rect = SurroundingRectangle(property_2, color=WHITE).match_width(property_1_rect)
+        property_2_index = Tex('2.', font_size=35).next_to(property_2_rect, UL, buff=-0.35)
+        property_2.shift(0.15 * RIGHT)
+        prop_2 = VGroup(property_2, property_2_rect, property_2_index)
         #p3
         property_3 = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', '$=$', '$a$', '$^m$', '$^\cdot$', '$^n$', font_size=65)
-        property_3_rect = SurroundingRectangle(property_3, color=WHITE).match_height(property_1_rect).stretch(1.12, 0).match_width(property_1_rect)
-        property_3_index = Tex('3.', font_size=35).next_to(property_3_rect, UL, buff=-0.3)
-        prop_3 = VGroup(property_3, property_3_rect, property_3_index).next_to(prop_2, DOWN, 0.5, LEFT)
-        VGroup(prop_1, prop_2, prop_3).scale_to_fit_height(formulas.height).to_edge(RIGHT).align_to(formulas[0], UP)
+        property_3_rect = SurroundingRectangle(property_3, color=WHITE).match_width(property_1_rect)
+        property_3_index = Tex('3.', font_size=35).next_to(property_3_rect, UL, buff=-0.35)
+        property_3.shift(0.15 * RIGHT)
+        prop_3 = VGroup(property_3, property_3_rect, property_3_index)
+        #p1_p2_p3
+        VGroup(prop_1, prop_2, prop_3).arrange(DOWN, 1).to_edge(RIGHT, buff=0.1)
         #animation
         self.play(AnimationGroup(FadeIn(prop_1), FadeIn(prop_2), FadeIn(prop_3), lag_ratio=0.33), run_time = 2)
         self.wait()
         ##formula 0 modification##
-        formula_0 = formulas[0].copy()
+        formula_0 = MathTex('3', 'x', '^3', r'\cdot', '3', 'x', '^3').scale(1.15).next_to(2*UP + 6.5*LEFT, buff=0.2)
         self.play(VGroup(numbers[1:], formulas[1:]).animate.set_opacity(0))
         self.play(formula_0.animate.shift(1.25*DOWN))
         self.fix_formula(formula_0)                                                                                                         # 3  x ^3  •  3  x ^3  =  *
@@ -83,7 +86,7 @@ class Problem12628(FormulaModificationsScene):
         self.play(MultiplyNumbersInFormula(formula_0, 3, '9'))
         self.wait()
         property_1_c0 = property_1.copy()                                                                                                   # a ^m  •  a ^n  = a ^m ^+ ^n 
-        self.play(property_1_c0.animate.next_to(formula_0, DOWN, buff = 1))
+        self.play(property_1_c0.animate.next_to(formula_0, DOWN, buff = 1, aligned_edge=LEFT))
         self.wait()
         self.fix_formula(property_1_c0)
         arrow_0_1 = Arrow(start=formula_0[1].get_center(), end=property_1_c0[0], buff=0.3)
@@ -116,10 +119,11 @@ class Problem12628(FormulaModificationsScene):
         self.wait()
         self.fix_formula(formulas[0]) 
         self.play(
-            ReplaceItemsInFormula(formulas[0], [8], ['9x^6'], [RED_D]),
-            formula_0.animate.set_color(RED_D))
+            ReplaceItemsInFormula(formulas[0], [8], ['9x^6'], [BLUE_D]),
+            formula_0.animate.set_color(BLUE_D),
+            FadeOut(property_1_c0))
         self.wait()
-        self.play(FadeOut(formula_0, property_1_c0))
+        self.play(FadeOut(formula_0))
         self.play(
             Circumscribe(formulas[0][0], fade_in=True),
             Circumscribe(formulas[0][4], fade_in=True))
@@ -137,15 +141,15 @@ class Problem12628(FormulaModificationsScene):
         ##formula 1 modification##
         formula_1 = formulas[1].copy()
         self.play(
-            formula_1.animate.shift(1.25*DOWN).set_opacity(1),
             formulas[0].animate.set_opacity(0.3),
             numbers[0].animate.set_opacity(0.3),
             formulas[1].animate.set_opacity(1),
             numbers[1].animate.set_opacity(1))
+        self.play(formula_1.set_opacity(0.5).animate.shift(1.25*DOWN).set_opacity(1))
         self.fix_formula(formula_1)
         self.wait()
         self.play(ReplaceItemsInFormula(formula_1, items_indices = [6], items_str_list=[r'2 \cdot 3']))                                     # 3  x ^2  •  *  = {2•3} x ^6  y ^2
-        formula_1_c0 = ChangeFormula(formula_1, '3', 'x', '^2', r'\cdot', r'\star', '=', '2', r'\cdot', '3', 'x', '^6', 'y', '^2')          # 3  x ^2  •  *  =  2  •  3  x ^6  y ^2
+        formula_1_c0 = ChangeFormula(formula_1, '3', 'x', '^2', r'\cdot', r'\ast', '=', '2', r'\cdot', '3', 'x', '^6', 'y', '^2')          # 3  x ^2  •  *  =  2  •  3  x ^6  y ^2
         self.add(formula_1_c0)
         self.remove(*formula_1)
         self.fix_formula(formula_1_c0)
@@ -158,18 +162,24 @@ class Problem12628(FormulaModificationsScene):
         self.wait()
         self.play(ExtractExponentInFormula(formula_1_c0, 1, 'x', '2', add_multiplication_signs_in_between=True))                            # 3  x  •  x  •  *  =  2  •  3  x ^6  y ^2
         self.play(ExtractExponentInFormula(formula_1_c0, 10, 'x', '6', add_multiplication_signs_in_between=True))                           # 3  x  •  x  •  *  =  2  •  3  x  •  x  •  x  •  x  •  x  •  x  y ^2
-        self.play(FadeOut( Brace(formula_1_c0[10: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[10: -2], DOWN, buff=0.5))), run_time=2)
+        brace_down = Brace(formula_1_c0[10: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[10: -2], DOWN, buff=0.5))
+        self.play(FadeIn(brace_down), run_time=2)
+        brace_down.generate_target()
         self.wait()
-        self.play(RemoveItemsFromFormula(formula_1_c0, [2, 11, 13, 15, 17, 19]))                                                            # 3  x  x  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
+        anim_remove = RemoveItemsFromFormula(formula_1_c0, [2, 11, 13, 15, 17, 19])
+        brace_down.target.become(Brace(formula_1_c0[9: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[9: -2], DOWN, buff=0.5)))
+        self.play(anim_remove, MoveToTarget(brace_down))                                                                                    # 3  x  x  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
         self.wait()
         self.play(formula_1_c0[1:3].animate.set_color(RED_D), formula_1_c0[9:11].animate.set_color(RED_D))
         self.wait()
-        self.play(WriteExponentInFormula(formula_1_c0, 1, 2, 'x', '2'))                                                                     # 3  x ^2  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
-        self.play(WriteExponentInFormula(formula_1_c0, 9, 10, 'x', '2'))                                                                    # 3  x ^2  •  *  =  2  •  3  x ^2  x  x  x  x  y ^2
+        self.play(WriteExponentInFormula(formula_1_c0, 1, 2, 'x', '2'))
+        anim_wrtexp = WriteExponentInFormula(formula_1_c0, 9, 10, 'x', '2')
+        brace_down.target.become(Brace(formula_1_c0[11: -2], DOWN).add(MathTex('4').next_to(formula_1_c0[11: -2], DOWN, buff=0.5)))           # 3  x ^2  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
+        self.play(anim_wrtexp, MoveToTarget(brace_down))                                                                                              # 3  x ^2  •  *  =  2  •  3  x ^2  x  x  x  x  y ^2
         self.play(formula_1_c0[1:3].animate.set_color(RED_D), formula_1_c0[9:11].animate.set_color(RED_D))
         self.wait()
         self.play(AnimationGroup(*[Indicate(i) for i in formula_1_c0[11:15]], lag_ratio=0.1))                                               # 3  x ^2  •  *  =  2  •  3  x ^2  x  x  x  x  y ^2
-        self.play(WriteExponentInFormula(formula_1_c0, 11, 14, 'x', '4'))                                                                   # 3  x ^2  •  *  =  2  •  3  x ^2  x ^4  y ^2
+        self.play(WriteExponentInFormula(formula_1_c0, 11, 14, 'x', '4'), FadeOut(brace_down))                                                                   # 3  x ^2  •  *  =  2  •  3  x ^2  x ^4  y ^2
         self.wait()                                                                                                                         # 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 
         self.rearrange_formula(
             formula_1_c0, [0, 1, 2, 3, 4, 5, 8, 9, 10, 7, 6, 11, 12, 13, 14],
@@ -186,11 +196,11 @@ class Problem12628(FormulaModificationsScene):
         ##formula 2 modification##
         formula_2 = formulas[2].copy()
         self.play(
-            formula_2.animate.shift(1.25*DOWN).set_opacity(1),
             formulas[1].animate.set_opacity(0.3),
             numbers[1].animate.set_opacity(0.3),
             formulas[2].animate.set_opacity(1),
             numbers[2].animate.set_opacity(1))
+        self.play(formula_2.set_opacity(0.5).animate.shift(1.25*DOWN).set_opacity(1))
         self.fix_formula(formula_2)
         self.wait()
         property_2_c0 = property_2.copy()                                                                                                   # a ^m  •  a ^n  = a ^m ^+ ^n 
@@ -210,7 +220,7 @@ class Problem12628(FormulaModificationsScene):
             formula_2[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),
             FadeIn(arrow_2_1))
         self.wait()
-        self.play(ReplaceItemsInFormula(property_2_c1, [1, 7], ['$m$', '$m$']), FadeOut(arrow_2_1))
+        self.play(ReplaceItemsInFormula(property_2_c1, [1, 7], ['$x$', '$x$']), FadeOut(arrow_2_1))
         arrow_2_2 = Arrow(start=formula_2[4].get_center(), end=property_2_c1[3], buff=0.3)        
         self.play(
             property_2_c1[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),            
@@ -218,7 +228,7 @@ class Problem12628(FormulaModificationsScene):
             formula_2[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),
             FadeIn(arrow_2_2))
         self.wait()
-        self.play(ReplaceItemsInFormula(property_2_c1, [3, 10], ['$n$', '$n$']), FadeOut(arrow_2_2))
+        self.play(ReplaceItemsInFormula(property_2_c1, [3, 10], ['$y$', '$y$']), FadeOut(arrow_2_2))
         arrow_2_3 = Arrow(start=formula_2[6].get_center(), end=property_2_c1[5], buff=0.3)
         self.play(
             property_2_c1[5].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),            
@@ -249,7 +259,7 @@ class Problem12628(FormulaModificationsScene):
             formula_2[10].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),
             FadeIn(arrow_2_4))
         self.wait()
-        self.play(ReplaceItemsInFormula(property_1_c1, [0, 3, 6], ['$m$', '$m$', '$m$']), FadeOut(arrow_2_4,))
+        self.play(ReplaceItemsInFormula(property_1_c1, [0, 3, 6], ['$x$', '$x$', '$x$']), FadeOut(arrow_2_4,))
         arrow_2_5 = Arrow(start=formula_2[11][0].get_center(), end=property_1_c1[7], buff=0.3)
         self.play(
             property_1_c1[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),            
@@ -269,7 +279,7 @@ class Problem12628(FormulaModificationsScene):
         self.play(ReplaceItemsInFormula(property_1_c1, [4, 9], ['$^2$', '$^2$']), FadeOut(arrow_2_6))
         self.wait(0.5)
         self.play(AddItemsInFormula(formula_2, [11], [' ']), run_time = 0.5)
-        self.play(ReplaceItemsInFormula(formula_2, [11, 12], ['^1', 'm^2']))
+        self.play(ReplaceItemsInFormula(formula_2, [11, 12], ['^1', 'x^2']))
         self.wait()
         self.play(ReplaceItemsInFormula(formula_2, [11], [r'\cdot']))
         self.play(FadeOut(property_1_c1))
@@ -278,9 +288,9 @@ class Problem12628(FormulaModificationsScene):
         self.wait()
         self.fix_formula(formulas[2])
         self.play(
-            ReplaceItemsInFormula(formulas[2], [0], ['4m'], [YELLOW_D]),
-            formula_2[0].animate.set_color(YELLOW_D),
-            formula_2[9:11].animate.set_color(YELLOW_D), 
+            ReplaceItemsInFormula(formulas[2], [0], ['4x'], [BLUE_D]),
+            formula_2[0].animate.set_color(BLUE_D),
+            formula_2[9:11].animate.set_color(BLUE_D), 
         )
         self.wait()
         self.play(FadeOut(formula_2))
@@ -293,5 +303,5 @@ class Problem12628(FormulaModificationsScene):
             numbers[3].animate.set_opacity(1))
         self.wait()
         self.play(Wiggle(formulas[3][5], 1.3))
-        self.play(formulas[3][5].animate.set_color(GREEN_D))
+        self.play(formulas[3][5].animate.set_color(RED_D))
         self.wait()
