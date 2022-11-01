@@ -219,7 +219,7 @@ class Problem12629(FormulaModificationsScene):
             task2[4].animate.set_color(WHITE)
         )
 
-        self.play(tex1.animate.next_to(task2[1], DOWN, .3, LEFT))
+        self.play(tex1.animate.next_to(task2[1], DOWN, .3, LEFT).shift(RIGHT*.1))
         
         self.wait()
 
@@ -233,7 +233,7 @@ class Problem12629(FormulaModificationsScene):
         self.wait()
 
         # a^8 * a^6
-        cdot_tex = Tex("$\\cdot$", font_size=FONT_SIZE).move_to(VGroup(tex1[0], tex2[0]))
+        cdot_tex = Tex("$\\cdot$", font_size=FONT_SIZE).move_to(VGroup(tex1[0], tex2[0]).get_center()).align_to(task2[5], LEFT)
         self.play(Write(cdot_tex))
 
         # a^8 * a^6 = a^14
