@@ -1,5 +1,5 @@
-from manim import MathTex, Tex, VGroup, SurroundingRectangle, Arrow, Brace, Line
-from manim import rate_functions, DOWN, UP, RIGHT, LEFT, UL, WHITE, BLUE, ORANGE, GREEN, BLUE_D, GREEN_D, RED_D, YELLOW_D, TEAL_D, GOLD_D, MAROON_D, BLACK
+from manim import MathTex, Tex, VGroup, Arrow, Brace, Line
+from manim import rate_functions, DOWN, UP, RIGHT, LEFT, WHITE, BLUE, ORANGE, GREEN, BLUE_D, GREEN_D, RED_D, YELLOW_D, TEAL_D, GOLD_D, MAROON_D, BLACK
 from manim import AnimationGroup, ReplacementTransform, Wiggle, Write, FadeIn, FadeOut, Indicate, Circumscribe, MoveToTarget
 from qarakusiscene import TaskNumberBox
 from hanrahashiv import (
@@ -11,6 +11,8 @@ from hanrahashiv import (
     MultiplyNumbersInFormula,
     AddItemsInFormula)
 from .text import taskNumberString
+
+FONT_SIZE = 65
 
 def ChangeFormula(formula, *new_formula_string_list):
     new_formula = MathTex(*new_formula_string_list)
@@ -33,11 +35,11 @@ class Problem12628(FormulaModificationsScene):
         self.wait()
         ##formulas##
         formulas = VGroup(
-            MathTex('3', 'x', '^3', r'\cdot', '3', 'x', '^3', '=',  r'\ast').scale(1.15).next_to(2*UP + 6.5*LEFT, buff=0.2),
-            MathTex('3', 'x', '^2', r'\cdot', r'\ast', '=', '6', 'x', '^6', 'y', '^2').scale(1.15).next_to(1*UP + 6.5*LEFT, buff=0.2),
-            MathTex(r'\ast', r'\cdot', '(', 'x', 'y', ')', '^2', '=', '4', 'x', '^3', 'y', '^2').scale(1.15).next_to(6.5*LEFT, buff=0.2),
-            MathTex('5', 'a', '^2', 'b', r'\cdot', r'\ast', '=', '5', 'a', '^3', 'b', '^2', 'c').scale(1.15).next_to(DOWN + 6.5*LEFT, buff=0.2))
-        numbers = VGroup(*[MathTex(f'{i+1})').next_to(formulas[i], LEFT, buff=0.2) for i in range(4)]).align_to(taskNumber, LEFT)
+            MathTex('3', 'x', '^3', r'\cdot', '3', 'x', '^3', '=',  r'\ast', font_size=FONT_SIZE).next_to(2*UP + 6.5*LEFT, buff=0.2),
+            MathTex('3', 'x', '^2', r'\cdot', r'\ast', '=', '6', 'x', '^6', 'y', '^2', font_size=FONT_SIZE).next_to(1*UP + 6.5*LEFT, buff=0.2),
+            MathTex(r'\ast', r'\cdot', '(', 'x', 'y', ')', '^2', '=', '4', 'x', '^3', 'y', '^2', font_size=FONT_SIZE).next_to(6.5*LEFT, buff=0.2),
+            MathTex('5', 'a', '^2', 'b', r'\cdot', r'\ast', '=', '5', 'a', '^3', 'b', '^2', 'c', font_size=FONT_SIZE).next_to(DOWN + 6.5*LEFT, buff=0.2))
+        numbers = VGroup(*[MathTex(f'{i+1})', font_size=FONT_SIZE-5).next_to(formulas[i], LEFT, buff=0.25) for i in range(4)]).align_to(taskNumber, LEFT)
         self.play(AnimationGroup(*[AnimationGroup(Write(formulas[i]), Write(numbers[i])) for i in range(4)], lag_ratio=0.5), run_time = 4)
         self.wait()
         self.play(
@@ -84,7 +86,7 @@ class Problem12628(FormulaModificationsScene):
         self.play(AnimationGroup(FadeIn(prop_1), FadeIn(prop_2), FadeIn(prop_3), lag_ratio=0.33), run_time = 2)
         self.wait()
         ##formula 0 modification##
-        formula_0 = MathTex('3', 'x', '^3', r'\cdot', '3', 'x', '^3').scale(1.15).next_to(2*UP + 6.5*LEFT, buff=0.2)
+        formula_0 = MathTex('3', 'x', '^3', r'\cdot', '3', 'x', '^3', font_size=FONT_SIZE).next_to(2*UP + 6.5*LEFT, buff=0.2)
         self.play(VGroup(numbers[1:], formulas[1:]).animate.set_opacity(0))
         self.play(formula_0.animate.shift(1.25*DOWN))
         self.fix_formula(formula_0)                                                                                                         # 3  x ^3  •  3  x ^3  =  *
@@ -104,7 +106,7 @@ class Problem12628(FormulaModificationsScene):
         arrow_0_1 = Arrow(start=formula_0[1].get_center(), end=property_1_c0[0], buff=0.3)
         arrow_0_2 = Arrow(start=formula_0[3].get_center(), end=property_1_c0[3], buff=0.3)
         arrow_0_3_1 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[1], buff=0.3)
-        arrow_0_3_2 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[7], buff=0.55) #??#
+        arrow_0_3_2 = Arrow(start=formula_0[2].get_center(), end=property_1_c0[7].get_center(), buff=0.55).shift(0.1*(property_1_c0[7].get_center() - formula_0[2].get_center()))
         self.play(
             property_1_c0[0].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),            
             property_1_c0[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),
@@ -115,25 +117,25 @@ class Problem12628(FormulaModificationsScene):
         self.play(ReplaceItemsInFormula(property_1_c0, [0, 3, 6], ['x', 'x', 'x',]), FadeOut(arrow_0_1, arrow_0_2), run_time = 2)
         self.wait()
         self.play(
-            FadeIn(arrow_0_3_1),
+            FadeIn(arrow_0_3_1, arrow_0_3_2),
             property_1_c0[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),            
             property_1_c0[7].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),
             formula_0[2].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D), run_time = 2)
         self.play(
             ReplaceItemsInFormula(property_1_c0, [1, 7], ['^3', '^3']),
-            FadeOut(arrow_0_3_1),
+            FadeOut(arrow_0_3_1, arrow_0_3_2),
             run_time = 2)
         self.wait()
         arrow_0_4_1 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[4], buff=0.3)
-        arrow_0_4_2 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[9], buff=0.55) #??#
+        arrow_0_4_2 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[9], buff=0.55)  # shift(0.1*(property_1_c0[9].get_center() - formula_0[4].get_center()))
         self.play(
-            FadeIn(arrow_0_4_1),
+            FadeIn(arrow_0_4_1, arrow_0_4_2),
             property_1_c0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),            
             property_1_c0[9].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),
             formula_0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D), run_time = 2)
         self.play(
             ReplaceItemsInFormula(property_1_c0, [4, 9], ['^3', '^3']),
-            FadeOut(arrow_0_4_1),
+            FadeOut(arrow_0_4_1, arrow_0_4_2),
             run_time = 2)
         self.wait()
         self.play(ReplaceItemsInFormula(property_1_c0, [7, 8, 9], ['^6', ' ', ' ',], [RED_D, BLACK, BLACK]))
@@ -183,15 +185,15 @@ class Problem12628(FormulaModificationsScene):
             Indicate(formula_1_c0[10]),
             lag_ratio=1), run_time = 2)                                                                                                     # 3  x ^2  •  *  =  2  •  3  x  ^6  y ^2
         self.wait()
-        self.play(ExtractExponentInFormula(formula_1_c0, 1, 'x', '2', add_multiplication_signs_in_between=True))                            # 3  x  •  x  •  *  =  2  •  3  x ^6  y ^2
-        self.play(ExtractExponentInFormula(formula_1_c0, 10, 'x', '6', add_multiplication_signs_in_between=True))                           # 3  x  •  x  •  *  =  2  •  3  x  •  x  •  x  •  x  •  x  •  x  y ^2
-        brace_down = Brace(formula_1_c0[10: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[10: -2], DOWN, buff=0.5))
+        self.play(ExtractExponentInFormula(formula_1_c0, 1, 'x', '2', add_multiplication_signs_in_between=False))                            # 3  x  •  x  •  *  =  2  •  3  x ^6  y ^2
+        self.play(ExtractExponentInFormula(formula_1_c0, 10, 'x', '6', add_multiplication_signs_in_between=False))                           # 3  x  •  x  •  *  =  2  •  3  x  •  x  •  x  •  x  •  x  •  x  y ^2
+        brace_down = Brace(formula_1_c0[9: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[9: -2], DOWN, buff=0.5))
         self.play(FadeIn(brace_down), run_time=2)
         brace_down.generate_target()
-        self.wait()
-        anim_remove = RemoveItemsFromFormula(formula_1_c0, [2, 11, 13, 15, 17, 19])
-        brace_down.target.become(Brace(formula_1_c0[9: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[9: -2], DOWN, buff=0.5)))
-        self.play(anim_remove, MoveToTarget(brace_down))                                                                                    # 3  x  x  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
+        #self.wait()
+        #anim_remove = RemoveItemsFromFormula(formula_1_c0, [2, 11, 13, 15, 17, 19])
+        #brace_down.target.become(Brace(formula_1_c0[9: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[9: -2], DOWN, buff=0.5)))
+        #self.play(anim_remove, MoveToTarget(brace_down))                                                                                    # 3  x  x  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
         self.wait()
         self.play(formula_1_c0[1:3].animate.set_color(RED_D), formula_1_c0[9:11].animate.set_color(RED_D))
         self.wait()
@@ -217,7 +219,7 @@ class Problem12628(FormulaModificationsScene):
         self.play(FadeOut(formula_1_c0))
         self.wait()
         ##formula 2 modification##
-        formula_2 = MathTex(r'\ast', r'\cdot', '(', 'x', 'y', ')', '^2').scale(1.15).next_to(6.5*LEFT, buff=0.2)
+        formula_2 = MathTex(r'\ast', r'\cdot', '(', 'x', 'y', ')', '^2', font_size=FONT_SIZE).next_to(6.5*LEFT, buff=0.2)
         self.play(
             formulas[1].animate.set_opacity(0.3),
             numbers[1].animate.set_opacity(0.3),
@@ -235,7 +237,9 @@ class Problem12628(FormulaModificationsScene):
         self.remove(property_2_c0)
         self.wait()
         self.fix_formula(property_2_c1)
-        arrow_2_1 = Arrow(start=formula_2[3].get_center(), end=property_2_c1[1], buff=0.3)
+        arrow_2_1_0 = Arrow(start=formula_2[3].get_center(), end=property_2_c1[1], buff=0.3)
+        arrow_2_1_1 = Arrow(start=formula_2[3].get_center(), end=property_2_c1[7], buff=0.4)
+        arrow_2_1 = VGroup(arrow_2_1_0, arrow_2_1_1)
         self.fix_formula(property_2_c1)
         self.play(
             property_2_c1[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),            
@@ -244,7 +248,9 @@ class Problem12628(FormulaModificationsScene):
             FadeIn(arrow_2_1))
         self.wait()
         self.play(ReplaceItemsInFormula(property_2_c1, [1, 7], ['$x$', '$x$']), FadeOut(arrow_2_1))
-        arrow_2_2 = Arrow(start=formula_2[4].get_center(), end=property_2_c1[3], buff=0.3)        
+        arrow_2_2_0 = Arrow(start=formula_2[4].get_center(), end=property_2_c1[3], buff=0.3)
+        arrow_2_2_1 = Arrow(start=formula_2[4].get_center(), end=property_2_c1[10], buff=0.4) 
+        arrow_2_2 = VGroup(arrow_2_2_0, arrow_2_2_1)          
         self.play(
             property_2_c1[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),            
             property_2_c1[10].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),
@@ -252,7 +258,10 @@ class Problem12628(FormulaModificationsScene):
             FadeIn(arrow_2_2))
         self.wait()
         self.play(ReplaceItemsInFormula(property_2_c1, [3, 10], ['$y$', '$y$']), FadeOut(arrow_2_2))
-        arrow_2_3 = Arrow(start=formula_2[6].get_center(), end=property_2_c1[5], buff=0.3)
+        arrow_2_3_0 = Arrow(start=formula_2[6].get_center(), end=property_2_c1[5], buff=0.3)
+        arrow_2_3_1 = Arrow(start=formula_2[6].get_center(), end=property_2_c1[8], buff=0.3)
+        arrow_2_3_2 = Arrow(start=formula_2[6].get_center(), end=property_2_c1[11], buff=0.4)
+        arrow_2_3 = VGroup(arrow_2_3_0, arrow_2_3_1, arrow_2_3_2) 
         self.play(
             property_2_c1[5].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),            
             property_2_c1[8].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),
@@ -273,7 +282,7 @@ class Problem12628(FormulaModificationsScene):
         self.play(AddItemsInFormula(formula_2, [11], ['y'], [BLACK]), run_time = 1/10)
         self.play(AddItemsInFormula(formula_2, [12], ['^2'], [BLACK]), run_time = 1/10)
         formula_2_c0 = formulas[2][7:].copy()
-        self.play(formula_2_c0.animate.move_to(formula_2[7:]))
+        self.play(formula_2_c0.animate.move_to(formula_2[8:]))
         formula_2.set_color(WHITE)
         self.remove(formula_2_c0)
         self.wait()
@@ -283,7 +292,10 @@ class Problem12628(FormulaModificationsScene):
         self.play(ReplaceItemsInFormula(formula_2, [11], [r'^{1 + 2}']), run_time = 2)
         property_1_c1 = property_1.copy()
         self.play(property_1_c1.animate.next_to(formula_2, DOWN, buff = 1))
-        arrow_2_4 = Arrow(start=formula_2[10].get_center(), end=property_1_c1[6], buff=0.3)
+        arrow_2_4_0 = Arrow(start=formula_2[10].get_center(), end=property_1_c1[6], buff=0.3)
+        arrow_2_4_1 = Arrow(start=formula_2[10].get_center(), end=property_1_c1[3], buff=0.4)
+        arrow_2_4_2 = Arrow(start=formula_2[10].get_center(), end=property_1_c1[0], buff=0.5)
+        arrow_2_4 = VGroup(arrow_2_4_0, arrow_2_4_1, arrow_2_4_2)
         self.wait()
         self.fix_formula(property_1_c1)
         self.play(
@@ -294,7 +306,9 @@ class Problem12628(FormulaModificationsScene):
             FadeIn(arrow_2_4))
         self.wait()
         self.play(ReplaceItemsInFormula(property_1_c1, [0, 3, 6], ['$x$', '$x$', '$x$']), FadeOut(arrow_2_4,))
-        arrow_2_5 = Arrow(start=formula_2[11][0].get_center(), end=property_1_c1[7], buff=0.3)
+        arrow_2_5_0 = Arrow(start=formula_2[11][0].get_center(), end=property_1_c1[7], buff=0.3)
+        arrow_2_5_1 = Arrow(start=formula_2[11][0].get_center(), end=property_1_c1[1], buff=0.5).shift(0.1*(property_1_c1[1].get_center() - formula_2[11][0].get_center()))
+        arrow_2_5 = VGroup(arrow_2_5_0, arrow_2_5_1)
         self.play(
             property_1_c1[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),            
             property_1_c1[7].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),
@@ -302,7 +316,9 @@ class Problem12628(FormulaModificationsScene):
             FadeIn(arrow_2_5))
         self.wait()
         self.play(ReplaceItemsInFormula(property_1_c1, [1, 7], ['$^1$', '$^1$']), FadeOut(arrow_2_5))
-        arrow_2_6 = Arrow(start=formula_2[11][2].get_center(), end=property_1_c1[9].get_center(), buff=0.3)
+        arrow_2_6_0 = Arrow(start=formula_2[11][2].get_center(), end=property_1_c1[9].get_center(), buff=0.3)
+        arrow_2_6_1 = Arrow(start=formula_2[11][2].get_center(), end=property_1_c1[4], buff=0.4).shift(0.1*(property_1_c1[4].get_center() - formula_2[11][2].get_center()))
+        arrow_2_6 = VGroup(arrow_2_6_0, arrow_2_6_1)
         self.play(
             property_1_c1[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),            
             property_1_c1[9].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),
