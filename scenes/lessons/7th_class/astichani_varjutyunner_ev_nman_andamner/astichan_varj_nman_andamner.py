@@ -103,17 +103,9 @@ class Nman_andamner(FormulaModificationsScene):
     
     # a = y^2
         self.play(
-            VGroup(first_exercise[1:3], property_2_copy[1], property_2_copy[7]).animate.set_color(ORANGE),
-            # VGroup(first_exercise[3:5], property_2_copy[3], property_2_copy[10]).animate.set_color(GREEN)
+            VGroup(first_exercise[1:3], property_2_copy[1], property_2_copy[7]).animate.set_color(ORANGE)
         )
         self.wait(0.5)
-
-        exp = Tex('$($', '$y$', '$^2$', '$\cdot$', '$b$', '$)$', '$^n$', '$=$',
-        '$($', '$y$', '$^2$', '$)$', '$^n$', '$\cdot$', '$b$', '$^n$', font_size=property_font_size).align_to(property_2_copy, DL)
-        exp[1:3].set_color(ORANGE)
-        exp[9:11].set_color(ORANGE)
-        exp[4].set_color(GREEN)
-        exp[14].set_color(GREEN)
 
         self.play(
             first_exercise[1:3].animate.scale(1.5),
@@ -122,20 +114,14 @@ class Nman_andamner(FormulaModificationsScene):
         )
         self.wait(0.5)
 
-        # self.play(
-        #     ReplacementTransform(property_2_copy[0], exp[0]),
-        #     ReplacementTransform(property_2_copy[1], exp[1:3]),
-        #     ReplacementTransform(property_2_copy[2:7], exp[3:8]),
-        #     ReplacementTransform(property_2_copy[7], exp[8:12]),
-        #     ReplacementTransform(property_2_copy[8:], exp[12:]),
-        #     first_exercise[1:3].animate.scale(1/1.5)
-        # )
         self.play(
             ModifyFormula(
                 property_2_copy,
                 replace_items=[[1], [7]],
-                replace_items_strs=[['$y$', '$^2$'], ['$y$', '$^2$']]
-            )
+                replace_items_strs=[['$y$', '$^2$'], ['$($', '$y$', '$^2$', '$)$']],
+                replace_items_colors=[[ORANGE, ORANGE], [WHITE, ORANGE, ORANGE, WHITE]]
+            ),
+            first_exercise[1:3].animate.scale(1/1.5)
         )
         self.fix_formula(property_2_copy)
         self.wait()
@@ -162,49 +148,39 @@ class Nman_andamner(FormulaModificationsScene):
         )
         self.wait(0.5)
 
-
-        # self.play(
-        #     ReplacementTransform(property_2_copy[:4], exp[:4]),
-        #     ReplacementTransform(property_2_copy[4], exp[4:6]),
-        #     ReplacementTransform(property_2_copy[5:14], exp[6:15]),
-        #     ReplacementTransform(property_2_copy[14], exp[15:19]),
-        #     ReplacementTransform(property_2_copy[15], exp[19]),
-        #     first_exercise[3:5].animate.scale(1/1.5)
-        # )
-        
+        self.play(
+            ModifyFormula(
+                property_2_copy,
+                replace_items=[[4], [14]],
+                replace_items_strs=[['$x$', '$^3$'], ['$($', '$x$', '$^3$', '$)$']],
+                replace_items_colors=[[GREEN, GREEN], [WHITE, GREEN, GREEN, WHITE]]
+            ),
+            first_exercise[3:5].animate.scale(1/1.5)
+        )
+        self.fix_formula(property_2_copy)
         self.wait()
-        property_2_copy = exp
+        # property_2_copy = exp
 
     # n = 4
         self.play(
-            first_exercise[6].animate.set_color(YELLOW),
-            property_2_copy[7].animate.set_color(YELLOW),
-            property_2_copy[13].animate.set_color(YELLOW),
-            property_2_copy[19].animate.set_color(YELLOW),
-            first_exercise[6].animate.scale(1.5),
-            property_2_copy[7].animate.scale(1.5),
-            property_2_copy[13].animate.scale(1.5),
-            property_2_copy[19].animate.scale(1.5)
+            first_exercise[6].animate.set_color(YELLOW).scale(1.5),
+            property_2_copy[7].animate.set_color(YELLOW).scale(1.5),
+            property_2_copy[13].animate.set_color(YELLOW).scale(1.5),
+            property_2_copy[19].animate.set_color(YELLOW).scale(1.5)
         )
         self.wait(0.5)
-
-        exp = Tex('$($', '$y$', '$^2$', '$\cdot$', '$x$', '$^3$', '$)$', '$^4$', '$=$', # [0:9]
-        '$($', '$y$', '$^2$', '$)$', '$^4$', '$\cdot$', '$($', '$x$', '$^3$', '$)$', '$^4$', # [9:20]
-        font_size=property_font_size).align_to(property_2_copy, DL)
-        exp[1:3].set_color(ORANGE)
-        exp[10:12].set_color(ORANGE)
-        exp[4:6].set_color(GREEN)
-        exp[16:18].set_color(GREEN)
-        exp[7].set_color(YELLOW)
-        exp[13].set_color(YELLOW)
-        exp[19].set_color(YELLOW)
-
+        
         self.play(
-            ReplacementTransform(property_2_copy, exp),
+            ModifyFormula(
+                property_2_copy,
+                replace_items=[[7], [13], [19]],
+                replace_items_strs=[['$^4$'], ['$^4$'], ['$^4$']]
+            ),
             first_exercise[6].animate.scale(1/1.5)
         )
+        self.fix_formula(property_2_copy)
         self.wait()
-        property_2_copy = exp
+        # property_2_copy = exp
 
         self.play(Write(first_exercise[7]))
         self.wait(0.5)
@@ -230,118 +206,142 @@ class Nman_andamner(FormulaModificationsScene):
         ex = first_exercise[8:13]
 
         self.play(
-            ex.animate.scale(property_font_size/font_size),
+            # ex.animate.scale(property_font_size/font_size),
+            Indicate(first_exercise[8:13]),
             first_exercise[13:19].animate.set_opacity(0.5)
         )
 
         self.play(Indicate(prop_3))
         self.wait()
 
-        property_3_copy = property_3.copy()
+        property_3_copy = first_exercise[8:13].copy()
 
-        self.play(property_3_copy.animate.next_to(ex, 2 * DOWN).align_to(ex, LEFT))
+        self.play(property_3_copy.animate.shift(DOWN))
         self.wait()
 
-    # a = y
-        exp = Tex('$($', '$y$', '$^m$', '$)$', '$^n$', '$=$', '$y$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)
+        for i in range(len(property_3_copy)):
+            print(property_3_copy[i], i)
 
         self.play(
-            ex[1].animate.scale(1.5).set_color(GREEN),
-            property_3_copy[1].animate.scale(1.5).set_color(GREEN),
-            property_3_copy[6].animate.scale(1.5).set_color(GREEN)
+            ModifyFormula(
+                property_3_copy,
+                remove_items=[0, 3],
+                replace_items=[[2], [4]],
+                replace_items_strs=[['$^2$'], ['$^4$']],
+                add_after_items=[2],
+                add_items_strs=[['$^\\cdot$']]
+            )
         )
-        self.wait(0.5)
-
-        self.play(
-            ex[1].animate.scale(1/1.5),
-            ReplacementTransform(property_3_copy, exp)
-        )
-        self.wait()
-        property_3_copy = exp
-
-    # m = 2
-        exp = Tex('$($', '$y$', '$^2$', '$)$', '$^n$', '$=$', '$y$', '$^2$', '$^\cdot$', '$^n$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)       
-        VGroup(exp[2], exp[7]).set_color(RED)
-
-        self.play(
-            ex[2].animate.scale(1.5).set_color(RED),
-            property_3_copy[2].animate.scale(1.5).set_color(RED),
-            property_3_copy[7].animate.scale(1.5).set_color(RED)
-        )
-        self.wait(0.5)
-
-        self.play(
-            ex[2].animate.scale(1/1.5),
-            ReplacementTransform(property_3_copy, exp)
-        )
-        self.wait()
-        property_3_copy = exp
-
-    # n = 4
-        exp = Tex('$($', '$y$', '$^2$', '$)$', '$^4$', '$=$', '$y$', '$^2$', '$^\cdot$', '$^4$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)       
-        VGroup(exp[2], exp[7]).set_color(RED)
-        VGroup(exp[4], exp[9]).set_color(YELLOW)
-
-        self.play(
-            ex[4].animate.scale(1.5).set_color(YELLOW),
-            property_3_copy[4].animate.scale(1.5).set_color(YELLOW),
-            property_3_copy[9].animate.scale(1.5).set_color(YELLOW)
-        )
-        self.wait(0.5)
-
-        self.play(
-            ex[4].animate.scale(1/1.5),
-            ReplacementTransform(property_3_copy, exp)
-        )
-        self.wait()
-        property_3_copy = exp
-
-    # 2 * 4 = 8
-        exp = Tex('$($', '$y$', '$^2$', '$)$', '$^4$', '$=$', '$y$', '$^8$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)       
-        exp[2].set_color(RED)
-        exp[4].set_color(YELLOW)
-        exp[7].set_color(ORANGE)
-
-        self.play(
-            ReplacementTransform(property_3_copy[:7], exp[:7]),
-            ReplacementTransform(property_3_copy[7:], exp[7])
-        )
-        self.wait()
-        property_3_copy = exp
-
-        self.play(Write(first_exercise[19]))
+        self.fix_formula(property_3_copy)
         self.wait()
 
-        self.play(
-            ReplacementTransform(property_3_copy[6:].copy(), first_exercise[20:22]),
-            first_exercise[8:13].animate.scale(font_size/property_font_size).set_color(WHITE)
-        )
-        self.wait()
+        # self.play(property_3_copy.animate.next_to(ex, 2 * DOWN).align_to(ex, LEFT))
+        # self.wait()
 
-        self.play(Write(first_exercise[22]))
-        self.wait()
 
-        exp = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', '$=$', '$a$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
 
-        self.play(
-            first_exercise[8:14].animate.set_opacity(0.5),
-            first_exercise[14:19].animate.scale(property_font_size/font_size).set_opacity(1),
-            ReplacementTransform(property_3_copy, exp),
-            first_exercise[20:23].animate.set_opacity(0.5)
-        )
-        self.wait()
+    # # a = y
+    #     exp = Tex('$($', '$y$', '$^m$', '$)$', '$^n$', '$=$', '$y$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
+    #     exp.align_to(property_3_copy, DL)
+    #     VGroup(exp[1], exp[6]).set_color(GREEN)
 
-        ex = first_exercise[14:19]
-        property_3_copy = exp
+    #     self.play(
+    #         ex[1].animate.scale(1.5).set_color(GREEN),
+    #         property_3_copy[1].animate.scale(1.5).set_color(GREEN),
+    #         property_3_copy[6].animate.scale(1.5).set_color(GREEN)
+    #     )
+    #     self.wait(0.5)
+
+    #     self.play(
+    #         ex[1].animate.scale(1/1.5),
+    #         ReplacementTransform(property_3_copy, exp)
+    #     )
+    #     self.wait()
+    #     property_3_copy = exp
+
+    # # m = 2
+    #     exp = Tex('$($', '$y$', '$^2$', '$)$', '$^n$', '$=$', '$y$', '$^2$', '$^\cdot$', '$^n$', font_size=property_font_size)
+    #     exp.align_to(property_3_copy, DL)
+    #     VGroup(exp[1], exp[6]).set_color(GREEN)       
+    #     VGroup(exp[2], exp[7]).set_color(RED)
+
+    #     self.play(
+    #         ex[2].animate.scale(1.5).set_color(RED),
+    #         property_3_copy[2].animate.scale(1.5).set_color(RED),
+    #         property_3_copy[7].animate.scale(1.5).set_color(RED)
+    #     )
+    #     self.wait(0.5)
+
+    #     self.play(
+    #         ex[2].animate.scale(1/1.5),
+    #         ReplacementTransform(property_3_copy, exp)
+    #     )
+    #     self.wait()
+    #     property_3_copy = exp
+
+    # # n = 4
+    #     exp = Tex('$($', '$y$', '$^2$', '$)$', '$^4$', '$=$', '$y$', '$^2$', '$^\cdot$', '$^4$', font_size=property_font_size)
+    #     exp.align_to(property_3_copy, DL)
+    #     VGroup(exp[1], exp[6]).set_color(GREEN)       
+    #     VGroup(exp[2], exp[7]).set_color(RED)
+    #     VGroup(exp[4], exp[9]).set_color(YELLOW)
+
+    #     self.play(
+    #         ex[4].animate.scale(1.5).set_color(YELLOW),
+    #         property_3_copy[4].animate.scale(1.5).set_color(YELLOW),
+    #         property_3_copy[9].animate.scale(1.5).set_color(YELLOW)
+    #     )
+    #     self.wait(0.5)
+
+    #     self.play(
+    #         ex[4].animate.scale(1/1.5),
+    #         ReplacementTransform(property_3_copy, exp)
+    #     )
+    #     self.wait()
+    #     property_3_copy = exp
+
+    # # 2 * 4 = 8
+    #     exp = Tex('$($', '$y$', '$^2$', '$)$', '$^4$', '$=$', '$y$', '$^8$', font_size=property_font_size)
+    #     exp.align_to(property_3_copy, DL)
+    #     VGroup(exp[1], exp[6]).set_color(GREEN)       
+    #     exp[2].set_color(RED)
+    #     exp[4].set_color(YELLOW)
+    #     exp[7].set_color(ORANGE)
+
+    #     self.play(
+    #         ReplacementTransform(property_3_copy[:7], exp[:7]),
+    #         ReplacementTransform(property_3_copy[7:], exp[7])
+    #     )
+    #     self.wait()
+    #     property_3_copy = exp
+
+    #     self.play(Write(first_exercise[19]))
+    #     self.wait()
+
+    #     self.play(
+    #         ReplacementTransform(property_3_copy[6:].copy(), first_exercise[20:22]),
+    #         first_exercise[8:13].animate.scale(font_size/property_font_size).set_color(WHITE)
+    #     )
+    #     self.wait()
+
+    #     self.play(Write(first_exercise[22]))
+    #     self.wait()
+
+    #     exp = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', '$=$', '$a$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
+    #     exp.align_to(property_3_copy, DL)
+
+    #     self.play(
+    #         first_exercise[8:14].animate.set_opacity(0.5),
+    #         first_exercise[14:19].animate.scale(property_font_size/font_size).set_opacity(1),
+    #         ReplacementTransform(property_3_copy, exp),
+    #         first_exercise[20:23].animate.set_opacity(0.5)
+    #     )
+    #     self.wait()
+
+    #     ex = first_exercise[14:19]
+    #     property_3_copy = exp
+
+        
 
     # a = x
         exp = Tex('$($', '$x$', '$^m$', '$)$', '$^n$', '$=$', '$x$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
