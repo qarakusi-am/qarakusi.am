@@ -1,12 +1,11 @@
 from manim import MathTex, Tex, VGroup, Arrow, Brace, Line
 from manim import rate_functions, DOWN, UP, RIGHT, LEFT, WHITE, BLUE, ORANGE, GREEN, BLUE_D, GREEN_D, RED_D, YELLOW_D, TEAL_D, GOLD_D, MAROON_D, BLACK
-from manim import AnimationGroup, ReplacementTransform, Wiggle, Write, FadeIn, FadeOut, Indicate, Circumscribe, MoveToTarget
+from manim import AnimationGroup, ReplacementTransform, Wiggle, Write, GrowArrow, FadeIn, FadeOut, Indicate, Circumscribe, MoveToTarget
 from qarakusiscene import TaskNumberBox
 from hanrahashiv import (
     ExtractExponentInFormula,
     ReplaceItemsInFormula,
     FormulaModificationsScene,
-    RemoveItemsFromFormula,
     WriteExponentInFormula,
     MultiplyNumbersInFormula,
     AddItemsInFormula)
@@ -39,7 +38,7 @@ class Problem12628(FormulaModificationsScene):
             MathTex('3', 'x', '^2', r'\cdot', r'\ast', '=', '6', 'x', '^6', 'y', '^2', font_size=FONT_SIZE).next_to(1*UP + 6.5*LEFT, buff=0.2),
             MathTex(r'\ast', r'\cdot', '(', 'x', 'y', ')', '^2', '=', '4', 'x', '^3', 'y', '^2', font_size=FONT_SIZE).next_to(6.5*LEFT, buff=0.2),
             MathTex('5', 'a', '^2', 'b', r'\cdot', r'\ast', '=', '5', 'a', '^3', 'b', '^2', 'c', font_size=FONT_SIZE).next_to(DOWN + 6.5*LEFT, buff=0.2))
-        numbers = VGroup(*[MathTex(f'{i+1})', font_size=FONT_SIZE-5).next_to(formulas[i], LEFT, buff=0.25) for i in range(4)]).align_to(taskNumber, LEFT)
+        numbers = VGroup(*[MathTex(f'{i+1})', font_size=FONT_SIZE-7).next_to(formulas[i], LEFT, buff=0.3).shift(0.1*DOWN) for i in range(4)]).align_to(taskNumber, LEFT)
         self.play(AnimationGroup(*[AnimationGroup(Write(formulas[i]), Write(numbers[i])) for i in range(4)], lag_ratio=0.5), run_time = 4)
         self.wait()
         self.play(
@@ -113,11 +112,11 @@ class Problem12628(FormulaModificationsScene):
             property_1_c0[6].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),
             formula_0[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),            
             formula_0[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(BLUE_D),
-            FadeIn(arrow_0_1, arrow_0_2), run_time = 2)
+            GrowArrow(arrow_0_1), GrowArrow(arrow_0_2), run_time = 2)
         self.play(ReplaceItemsInFormula(property_1_c0, [0, 3, 6], ['x', 'x', 'x',]), FadeOut(arrow_0_1, arrow_0_2), run_time = 2)
         self.wait()
         self.play(
-            FadeIn(arrow_0_3_1, arrow_0_3_2),
+            GrowArrow(arrow_0_3_1), GrowArrow(arrow_0_3_2),
             property_1_c0[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),            
             property_1_c0[7].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D),
             formula_0[2].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GREEN_D), run_time = 2)
@@ -129,7 +128,7 @@ class Problem12628(FormulaModificationsScene):
         arrow_0_4_1 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[4], buff=0.3)
         arrow_0_4_2 = Arrow(start=formula_0[4].get_center(), end=property_1_c0[9], buff=0.55)  # shift(0.1*(property_1_c0[9].get_center() - formula_0[4].get_center()))
         self.play(
-            FadeIn(arrow_0_4_1, arrow_0_4_2),
+            GrowArrow(arrow_0_4_1), GrowArrow(arrow_0_4_2),
             property_1_c0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),            
             property_1_c0[9].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D),
             formula_0[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(YELLOW_D), run_time = 2)
@@ -186,14 +185,10 @@ class Problem12628(FormulaModificationsScene):
             lag_ratio=1), run_time = 2)                                                                                                     # 3  x ^2  •  *  =  2  •  3  x  ^6  y ^2
         self.wait()
         self.play(ExtractExponentInFormula(formula_1_c0, 1, 'x', '2', add_multiplication_signs_in_between=False))                            # 3  x  •  x  •  *  =  2  •  3  x ^6  y ^2
-        self.play(ExtractExponentInFormula(formula_1_c0, 10, 'x', '6', add_multiplication_signs_in_between=False))                           # 3  x  •  x  •  *  =  2  •  3  x  •  x  •  x  •  x  •  x  •  x  y ^2
+        self.play(ExtractExponentInFormula(formula_1_c0, 9, 'x', '6', add_multiplication_signs_in_between=False))                           # 3  x  •  x  •  *  =  2  •  3  x  • (formula_1_c0, 10, replace_ite x  •  x  •  x  •  x  •  x  y ^2
         brace_down = Brace(formula_1_c0[9: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[9: -2], DOWN, buff=0.5))
         self.play(FadeIn(brace_down), run_time=2)
-        brace_down.generate_target()
-        #self.wait()
-        #anim_remove = RemoveItemsFromFormula(formula_1_c0, [2, 11, 13, 15, 17, 19])
-        #brace_down.target.become(Brace(formula_1_c0[9: -2], DOWN).add(MathTex('6').next_to(formula_1_c0[9: -2], DOWN, buff=0.5)))
-        #self.play(anim_remove, MoveToTarget(brace_down))                                                                                    # 3  x  x  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
+        brace_down.generate_target()                                                                             # 3  x  x  •  *  =  2  •  3  x  x  x  x  x  x  y ^2
         self.wait()
         self.play(formula_1_c0[1:3].animate.set_color(RED_D), formula_1_c0[9:11].animate.set_color(RED_D))
         self.wait()
@@ -245,7 +240,7 @@ class Problem12628(FormulaModificationsScene):
             property_2_c1[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),            
             property_2_c1[7].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),
             formula_2[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),
-            FadeIn(arrow_2_1))
+            GrowArrow(arrow_2_1_0), GrowArrow(arrow_2_1_1))
         self.wait()
         self.play(ReplaceItemsInFormula(property_2_c1, [1, 7], ['$x$', '$x$']), FadeOut(arrow_2_1))
         arrow_2_2_0 = Arrow(start=formula_2[4].get_center(), end=property_2_c1[3], buff=0.3)
@@ -255,7 +250,7 @@ class Problem12628(FormulaModificationsScene):
             property_2_c1[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),            
             property_2_c1[10].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),
             formula_2[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),
-            FadeIn(arrow_2_2))
+            GrowArrow(arrow_2_2_0), GrowArrow(arrow_2_2_1))
         self.wait()
         self.play(ReplaceItemsInFormula(property_2_c1, [3, 10], ['$y$', '$y$']), FadeOut(arrow_2_2))
         arrow_2_3_0 = Arrow(start=formula_2[6].get_center(), end=property_2_c1[5], buff=0.3)
@@ -267,7 +262,7 @@ class Problem12628(FormulaModificationsScene):
             property_2_c1[8].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),
             property_2_c1[11].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),
             formula_2[6].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),
-            FadeIn(arrow_2_3))
+            GrowArrow(arrow_2_3_0), GrowArrow(arrow_2_3_1), GrowArrow(arrow_2_3_2))
         self.wait()
         self.play(ReplaceItemsInFormula(property_2_c1, [5, 8, 11], ['$^2$', '$^2$', '$^2$']), FadeOut(arrow_2_3), run_time = 2)
         formula_2.set_color(WHITE)
@@ -303,7 +298,7 @@ class Problem12628(FormulaModificationsScene):
             property_1_c1[3].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),
             property_1_c1[6].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),
             formula_2[10].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(TEAL_D),
-            FadeIn(arrow_2_4))
+            GrowArrow(arrow_2_4_0), GrowArrow(arrow_2_4_1), GrowArrow(arrow_2_4_2))
         self.wait()
         self.play(ReplaceItemsInFormula(property_1_c1, [0, 3, 6], ['$x$', '$x$', '$x$']), FadeOut(arrow_2_4,))
         arrow_2_5_0 = Arrow(start=formula_2[11][0].get_center(), end=property_1_c1[7], buff=0.3)
@@ -313,7 +308,7 @@ class Problem12628(FormulaModificationsScene):
             property_1_c1[1].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),            
             property_1_c1[7].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),
             formula_2[11][0].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(GOLD_D),
-            FadeIn(arrow_2_5))
+            GrowArrow(arrow_2_5_0), GrowArrow(arrow_2_5_1))
         self.wait()
         self.play(ReplaceItemsInFormula(property_1_c1, [1, 7], ['$^1$', '$^1$']), FadeOut(arrow_2_5))
         arrow_2_6_0 = Arrow(start=formula_2[11][2].get_center(), end=property_1_c1[9].get_center(), buff=0.3)
@@ -323,7 +318,7 @@ class Problem12628(FormulaModificationsScene):
             property_1_c1[4].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),            
             property_1_c1[9].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),
             formula_2[11][2].animate(rate_func = rate_functions.there_and_back_with_pause).set_color(MAROON_D),
-            FadeIn(arrow_2_6))
+            GrowArrow(arrow_2_6_0), GrowArrow(arrow_2_6_1))
         self.wait()
         formula_2[8:-2].set_color(WHITE)
         self.play(ReplaceItemsInFormula(property_1_c1, [4, 9], ['$^2$', '$^2$']), FadeOut(arrow_2_6))
