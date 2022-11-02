@@ -1,4 +1,4 @@
-from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH, WHITE
 from manim import VMobject, VGroup, Line
 from manim import TexTemplate, MathTex
 from manim import FadeIn, FadeOut, Animation, Scene
@@ -189,3 +189,7 @@ class Reset(Animation):
         self.mobject.time.set_value(0)
 
 ### ժամացույցի անիմացիա  END ###
+
+
+def get_segment_part(length, label=None, color=WHITE, **kwargs):
+    return Segment(ORIGIN, length * RIGHT, label, stroke_width=6, color=color, **kwargs)

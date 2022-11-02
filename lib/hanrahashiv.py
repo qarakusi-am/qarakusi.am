@@ -229,7 +229,6 @@ def CombineTwoExponents(
         new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
     elif type(formula) == MathTex:
         new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
-    print(new_item_exponent)
 
     last_item_index = max(bases_indices + exponents_indices)
 
@@ -397,34 +396,6 @@ def ModifyFormula(
         new_replace_items.append(replace_items[i].copy())
     new_colors = colors.copy()
 
-    if type(formula) == Tex:
-        for i in range(len(replace_items_strs)):
-            for j in range(len(replace_items_strs[i])):
-                if replace_items_strs[i][j][0] != '$':
-                    replace_items_strs[i][j] = '$' + replace_items_strs[i][j]
-                if replace_items_strs[i][j][-1] != '$':
-                    replace_items_strs[i][j] = replace_items_strs[i][j] + '$'
-        for i in range(len(add_items_strs)):
-            for j in range(len(add_items_strs[i])):
-                if add_items_strs[i][j][0] != '$':
-                    add_items_strs[i][j] = '$' + add_items_strs[i][j]
-                if add_items_strs[i][j][-1] != '$':
-                    add_items_strs[i][j] = add_items_strs[i][j] + '$'
-
-    elif type(formula) == MathTex:
-        for i in range(len(replace_items_strs)):
-            for j in range(len(replace_items_strs[i])):
-                if replace_items_strs[i][j][0] == '$':
-                    replace_items_strs[i][j] = replace_items_strs[i][j][1:]
-                if replace_items_strs[i][j][-1] == '$':
-                    replace_items_strs[i][j] = replace_items_strs[i][j][:-1]
-        for i in range(len(add_items_strs)):
-            for j in range(len(add_items_strs[i])):
-                if add_items_strs[i][j][0] == '$':
-                    add_items_strs[i][j] = add_items_strs[i][j][1:]
-                if add_items_strs[i][j][-1] == '$':
-                    add_items_strs[i][j] = add_items_strs[i][j][:-1]
-
     # remove items
     for i in range(len(remove_items)):
         del new_tex_string_list[remove_items[i] - i]
@@ -503,7 +474,6 @@ def ModifyFormula(
             new_formula[replaced_items[i][j]].set_color(formula[replace_items[i][0]].color)
     for i in range(len(replace_items_colors)):
         for j in range(len(replace_items_colors[i])):
-            print(i, j, formula[replace_items[i][0]].color)
             if replace_items_colors[i][j]:
                 new_formula[replaced_items[i][j]].set_color(replace_items_colors[i][j])
 
@@ -525,18 +495,6 @@ def ModifyFormula(
     formula.add(*new_formula)
 
     return AnimationGroup(AnimationGroup(*animations), AnimationGroup(*animations_add_items), lag_ratio=add_lag_ratio)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class FormulaModificationsScene(Scene):
@@ -890,7 +848,6 @@ class FormulaModificationsScene(Scene):
             new_item_exponent = f'$^{new_exponent[1:-1]}$' if new_exponent[0] == '$' else f'$^{new_exponent}$'
         elif type(formula) == MathTex:
             new_item_exponent = f'^{new_exponent[1:-1]}' if new_exponent[0] == '$' else f'^{new_exponent}'
-        print(new_item_exponent)
 
         last_item_index = max(bases_indices + exponents_indices)
 

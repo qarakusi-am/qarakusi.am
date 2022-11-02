@@ -73,6 +73,9 @@ svg_defaults.add_prefix_default(
     {'folder': path_to_SVG / 'people' / 'woman',
      'color': WHITE})
 svg_defaults.add_prefix_default(
+    'city_',
+    {'folder': path_to_SVG / 'cities'})
+svg_defaults.add_prefix_default(
     'boy_',
     {'folder': path_to_SVG / 'people' / 'children',
      'color': WHITE})
@@ -205,10 +208,6 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'thinking_boy_outlines',
     {'folder': path_to_SVG / 'people' / 'thinking'})
-svg_defaults.add_default(
-    'city',
-    {'scale': 0.4,
-     'color': WHITE})
 svg_defaults.add_default(
     'big_pool',
     {'folder': path_to_SVG / 'pool'})
@@ -560,8 +559,11 @@ class Weight(VGroup):
         # Սա ընդամենը բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափսը՝ կախված դրա զանգվածի նիշերի քանակից
         # (առավելագույնը 4 նիշանոց թվերի համար)
         x = len(str(kg))
-        polynomial = 20 / 6 * (x - 1) * (x - 2) * (x - 3) + 25 / (-2) * (x - 1) * (x - 2) * (x - 4) + 35 / 2 * (
-                    x - 1) * (x - 3) * (x - 4) + 45 / (-6) * (x - 2) * (x - 3) * (x - 4)
+        polynomial = (
+                20 / 6 * (x - 1) * (x - 2) * (x - 3) + 25 / (-2) *
+                (x - 1) * (x - 2) * (x - 4) + 35 / 2 * (x - 1) *
+                (x - 3) * (x - 4) + 45 / (-6) * (x - 2) * (x - 3) * (x - 4)
+        )
 
         self.weight = VGroup(
             SimpleSVGMobject('weight').scale(0.5),
@@ -781,9 +783,22 @@ class Car(VGroup):
     def __init__(self, index=True):
         super().__init__()
         stroke_prop = {
+
+            'car_1': {
+                'object_stokes': {16: 2, 17: 2},
+            },
+            'car_2': {
+                'object_stokes': {k: 2 for k in range(0, 15)},
+            },
+            'car_3': {
+                'object_stokes': {50: 2},
+            },
+            'car_4': {
+                'object_stokes': {k: 2 for k in range(0, 71)},
+            },
             'car_6': {
                 'object_stokes': {16: 2}
-            }
+            },
         }
 
         path_to_car = path_to_SVG / 'cars' / f'{index}.svg'
