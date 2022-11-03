@@ -214,218 +214,95 @@ class Nman_andamner(FormulaModificationsScene):
         self.play(Indicate(prop_3))
         self.wait()
 
+        clone = Tex('$($', '$y$', '$^2$', '$)$', '$^4$', font_size=font_size).align_to(first_exercise[8], DL)
+        self.add(clone)
+
         property_3_copy = first_exercise[8:13].copy()
 
-        self.play(property_3_copy.animate.shift(DOWN))
+        self.play(clone.animate.shift(DOWN))
         self.wait()
 
-        for i in range(len(property_3_copy)):
-            print(property_3_copy[i], i)
+        self.fix_formula(clone)
 
         self.play(
             ModifyFormula(
-                property_3_copy,
+                clone,
                 remove_items=[0, 3],
-                replace_items=[[2], [4]],
-                replace_items_strs=[['$^2$'], ['$^4$']],
                 add_after_items=[2],
                 add_items_strs=[['$^\\cdot$']]
             )
         )
-        self.fix_formula(property_3_copy)
+        self.fix_formula(clone)
         self.wait()
 
-        # self.play(property_3_copy.animate.next_to(ex, 2 * DOWN).align_to(ex, LEFT))
-        # self.wait()
+        self.play(
+            ModifyFormula(
+                clone,
+                replace_items=[[1, 2, 3]],
+                replace_items_strs=[['$^8$']]
+            )
+        )
+        self.fix_formula(clone)
+        self.wait()
 
+        self.play(
+            Indicate(first_exercise[9]),
+            Indicate(first_exercise[11])
+        )
+        self.wait()
 
+        self.play(Write(first_exercise[19]))
+        self.wait()
 
-    # # a = y
-    #     exp = Tex('$($', '$y$', '$^m$', '$)$', '$^n$', '$=$', '$y$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
-    #     exp.align_to(property_3_copy, DL)
-    #     VGroup(exp[1], exp[6]).set_color(GREEN)
+        self.play(ReplacementTransform(clone, first_exercise[20:22]))
+        self.wait()
 
-    #     self.play(
-    #         ex[1].animate.scale(1.5).set_color(GREEN),
-    #         property_3_copy[1].animate.scale(1.5).set_color(GREEN),
-    #         property_3_copy[6].animate.scale(1.5).set_color(GREEN)
-    #     )
-    #     self.wait(0.5)
-
-    #     self.play(
-    #         ex[1].animate.scale(1/1.5),
-    #         ReplacementTransform(property_3_copy, exp)
-    #     )
-    #     self.wait()
-    #     property_3_copy = exp
-
-    # # m = 2
-    #     exp = Tex('$($', '$y$', '$^2$', '$)$', '$^n$', '$=$', '$y$', '$^2$', '$^\cdot$', '$^n$', font_size=property_font_size)
-    #     exp.align_to(property_3_copy, DL)
-    #     VGroup(exp[1], exp[6]).set_color(GREEN)       
-    #     VGroup(exp[2], exp[7]).set_color(RED)
-
-    #     self.play(
-    #         ex[2].animate.scale(1.5).set_color(RED),
-    #         property_3_copy[2].animate.scale(1.5).set_color(RED),
-    #         property_3_copy[7].animate.scale(1.5).set_color(RED)
-    #     )
-    #     self.wait(0.5)
-
-    #     self.play(
-    #         ex[2].animate.scale(1/1.5),
-    #         ReplacementTransform(property_3_copy, exp)
-    #     )
-    #     self.wait()
-    #     property_3_copy = exp
-
-    # # n = 4
-    #     exp = Tex('$($', '$y$', '$^2$', '$)$', '$^4$', '$=$', '$y$', '$^2$', '$^\cdot$', '$^4$', font_size=property_font_size)
-    #     exp.align_to(property_3_copy, DL)
-    #     VGroup(exp[1], exp[6]).set_color(GREEN)       
-    #     VGroup(exp[2], exp[7]).set_color(RED)
-    #     VGroup(exp[4], exp[9]).set_color(YELLOW)
-
-    #     self.play(
-    #         ex[4].animate.scale(1.5).set_color(YELLOW),
-    #         property_3_copy[4].animate.scale(1.5).set_color(YELLOW),
-    #         property_3_copy[9].animate.scale(1.5).set_color(YELLOW)
-    #     )
-    #     self.wait(0.5)
-
-    #     self.play(
-    #         ex[4].animate.scale(1/1.5),
-    #         ReplacementTransform(property_3_copy, exp)
-    #     )
-    #     self.wait()
-    #     property_3_copy = exp
-
-    # # 2 * 4 = 8
-    #     exp = Tex('$($', '$y$', '$^2$', '$)$', '$^4$', '$=$', '$y$', '$^8$', font_size=property_font_size)
-    #     exp.align_to(property_3_copy, DL)
-    #     VGroup(exp[1], exp[6]).set_color(GREEN)       
-    #     exp[2].set_color(RED)
-    #     exp[4].set_color(YELLOW)
-    #     exp[7].set_color(ORANGE)
-
-    #     self.play(
-    #         ReplacementTransform(property_3_copy[:7], exp[:7]),
-    #         ReplacementTransform(property_3_copy[7:], exp[7])
-    #     )
-    #     self.wait()
-    #     property_3_copy = exp
-
-    #     self.play(Write(first_exercise[19]))
-    #     self.wait()
-
-    #     self.play(
-    #         ReplacementTransform(property_3_copy[6:].copy(), first_exercise[20:22]),
-    #         first_exercise[8:13].animate.scale(font_size/property_font_size).set_color(WHITE)
-    #     )
-    #     self.wait()
-
-    #     self.play(Write(first_exercise[22]))
-    #     self.wait()
-
-    #     exp = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', '$=$', '$a$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
-    #     exp.align_to(property_3_copy, DL)
-
-    #     self.play(
-    #         first_exercise[8:14].animate.set_opacity(0.5),
-    #         first_exercise[14:19].animate.scale(property_font_size/font_size).set_opacity(1),
-    #         ReplacementTransform(property_3_copy, exp),
-    #         first_exercise[20:23].animate.set_opacity(0.5)
-    #     )
-    #     self.wait()
-
-    #     ex = first_exercise[14:19]
-    #     property_3_copy = exp
+        self.play(Write(first_exercise[22]))
+        self.wait()
 
         
-
-    # a = x
-        exp = Tex('$($', '$x$', '$^m$', '$)$', '$^n$', '$=$', '$x$', '$^m$', '$^\cdot$', '$^n$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)
-
         self.play(
-            ex[1].animate.scale(1.5).set_color(GREEN),
-            property_3_copy[1].animate.scale(1.5).set_color(GREEN),
-            property_3_copy[6].animate.scale(1.5).set_color(GREEN)
-        )
-        self.wait(0.5)
-
-        self.play(
-            ex[1].animate.scale(1/1.5),
-            ReplacementTransform(property_3_copy, exp)
-        )
-        self.wait()
-        property_3_copy = exp
-
-    # m = 3
-        exp = Tex('$($', '$x$', '$^3$', '$)$', '$^n$', '$=$', '$x$', '$^3$', '$^\cdot$', '$^n$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)       
-        VGroup(exp[2], exp[7]).set_color(RED)
-
-        self.play(
-            ex[2].animate.scale(1.5).set_color(RED),
-            property_3_copy[2].animate.scale(1.5).set_color(RED),
-            property_3_copy[7].animate.scale(1.5).set_color(RED)
-        )
-        self.wait(0.5)
-
-        self.play(
-            ex[2].animate.scale(1/1.5),
-            ReplacementTransform(property_3_copy, exp)
-        )
-        self.wait()
-        property_3_copy = exp
-
-    # n = 4
-        exp = Tex('$($', '$x$', '$^3$', '$)$', '$^4$', '$=$', '$x$', '$^3$', '$^\cdot$', '$^4$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)       
-        VGroup(exp[2], exp[7]).set_color(RED)
-        VGroup(exp[4], exp[9]).set_color(YELLOW)
-
-        self.play(
-            ex[4].animate.scale(1.5).set_color(YELLOW),
-            property_3_copy[4].animate.scale(1.5).set_color(YELLOW),
-            property_3_copy[9].animate.scale(1.5).set_color(YELLOW)
-        )
-        self.wait(0.5)
-
-        self.play(
-            ex[4].animate.scale(1/1.5),
-            ReplacementTransform(property_3_copy, exp)
-        )
-        self.wait()
-        property_3_copy = exp
-
-    # 3 * 4 = 12
-        exp = Tex('$($', '$x$', '$^3$', '$)$', '$^4$', '$=$', '$x$', '$^{12}$', font_size=property_font_size)
-        exp.align_to(property_3_copy, DL)
-        VGroup(exp[1], exp[6]).set_color(GREEN)       
-        exp[2].set_color(RED)
-        exp[4].set_color(YELLOW)
-        exp[7].set_color(ORANGE)
-
-        self.play(
-            ReplacementTransform(property_3_copy[:7], exp[:7]),
-            ReplacementTransform(property_3_copy[7:], exp[7])
-        )
-        self.wait()
-        property_3_copy = exp
-
-        self.play(
-            ReplacementTransform(property_3_copy[6:].copy(), first_exercise[23:25]),
-            first_exercise[14:19].animate.scale(font_size/property_font_size).set_color(WHITE),
-            FadeOut(property_3_copy)
+            first_exercise[8:14].animate.set_opacity(0.5),
+            first_exercise[20:23].animate.set_opacity(0.5),
+            first_exercise[14:19].animate.set_opacity(1)
         )
         self.wait()
 
+        self.play(Indicate(first_exercise[14:19]))
+        self.wait()
+
+        clone = Tex('$($', '$x$', '$^3$', '$)$', '$^4$', font_size=font_size).align_to(first_exercise[14], DL)
+        self.add(clone)
+
+        self.play(clone.animate.shift(DOWN))
+        self.wait()
+
+        self.fix_formula(clone)
+
         self.play(
+            ModifyFormula(
+                clone,
+                remove_items=[0, 3],
+                add_after_items=[2],
+                add_items_strs=[['$^\\cdot$']]
+            )
+        )
+        self.fix_formula(clone)
+        self.wait()
+
+        self.play(
+            ModifyFormula(
+                clone,
+                replace_items=[[1, 2, 3]],
+                replace_items_strs=[['$^{12}$']]
+            )
+        )
+        self.fix_formula(clone)
+        self.wait()
+        
+
+        self.play(
+            ReplacementTransform(clone, first_exercise[23:25]),
             first_exercise[8:14].animate.set_opacity(1),
             first_exercise[20:23].animate.set_opacity(1)
         )
@@ -465,13 +342,7 @@ class Nman_andamner(FormulaModificationsScene):
         second_exercise = Tex('$($', '$2$', '$\cdot$', '$a$', '$^2$', '$)$', '$^3$', # [:7]
         '$=$', # [7]
         '$2$', '$^3$', '$\cdot$', '$($', '$a$', '$^2$', '$)$', '$^3$', # [8:16]
-        # '$=$', # [16]
-        # '$8$', '$\cdot$', '$$', '$$', '$$',
         font_size=font_size).next_to(second, RIGHT)
-        second_exercise[8].set_color(ORANGE)
-        second_exercise[12:14].set_color(GREEN)
-        VGroup(second_exercise[9], second_exercise[15]).set_color(YELLOW)
-
 
         self.play(Write(second))
         self.wait()
@@ -485,78 +356,31 @@ class Nman_andamner(FormulaModificationsScene):
 
         property_2_copy = property_2.copy()
 
-        self.play(property_2_copy.animate.next_to(second_exercise, 2 * DOWN).align_to(second_exercise, LEFT))
+        
+        clone = Tex('$($', '$2$', '$\\cdot$', '$a$', '$^2$', '$)$', '$^3$', font_size=font_size).align_to(second_exercise[0], DL)
+        self.add(clone)
+
+        self.play(clone.animate.shift(DOWN))
         self.wait()
 
-        self.play(
-            second_exercise[1].animate.set_color(ORANGE),
-            VGroup(property_2_copy[1], property_2_copy[7]).animate.set_color(ORANGE),
-            second_exercise[3:5].animate.set_color(GREEN),
-            VGroup(property_2_copy[3], property_2_copy[10]).animate.set_color(GREEN)
-        )
-        self.wait()
-    
-    # a = 2
-        self.play(
-            second_exercise[1].animate.scale(1.5),
-            property_2_copy[1].animate.scale(1.5),
-            property_2_copy[7].animate.scale(1.5)
-        )
-        self.wait()
-
-        self.play(
-            ModifyFormula(property_2_copy, replace_items=[[1], [7]], replace_items_strs=[['$2$'], ['$2$']]),
-            second_exercise[1].animate.scale(1/1.5)
-        )
-        self.wait()
-
-    # b = a^2
-        self.play(
-            second_exercise[3:5].animate.scale(1.5),
-            property_2_copy[3].animate.scale(1.5),
-            property_2_copy[10].animate.scale(1.5)
-        )
-        self.wait()
+        self.fix_formula(clone)
 
         self.play(
             ModifyFormula(
-                property_2_copy, replace_items=[[3], [10]],
-                replace_items_strs=[['$a$', '$^2$'], ['$($', '$a$', '$^2$', '$)$']],
-                replace_items_colors=[[], [WHITE, GREEN, GREEN, WHITE]]
-            ),
-            second_exercise[3:5].animate.scale(1/1.5)
+                clone,
+                remove_items=[0],
+                add_after_items=[1, 2],
+                add_items_strs=[['$^3$'], ['$($']]
+            )
         )
-        self.wait()
-
-    # n = 3
-        self.play(
-            second_exercise[6].animate.scale(1.5).set_color(YELLOW),
-            property_2_copy[6].animate.scale(1.5).set_color(YELLOW),
-            property_2_copy[9].animate.scale(1.5).set_color(YELLOW),
-            property_2_copy[15].animate.scale(1.5).set_color(YELLOW)
-        )
-        self.wait()
-
-        self.play(
-            ModifyFormula(
-                property_2_copy, replace_items=[[6], [9], [15]],
-                replace_items_strs=[['$^3$'], ['$^3$'], ['$^3$']]
-            ),
-            second_exercise[6].animate.scale(1/1.5)
-        )
+        self.fix_formula(clone)
         self.wait()
 
     # հավասարության 2-րդ մասը
         self.play(Write(second_exercise[7]))
         self.wait()
 
-        self.play(
-            ReplacementTransform(property_2_copy[8:16], second_exercise[8:16]),
-            FadeOut(property_2_copy[:8])
-        )
-        self.wait()
-
-        self.play(second_exercise.animate.set_color(WHITE))
+        self.play(ReplacementTransform(clone, second_exercise[8:16]))
         self.wait()
         
     # 2^3 = 2 * 2 * 2 = 8
@@ -583,108 +407,67 @@ class Nman_andamner(FormulaModificationsScene):
         self.play(second_exercise[8].animate.set_color(WHITE))
 
     # (a^2)^3 = a^6
-      # a = a 
-        self.play(Indicate(prop_3))
-        self.wait()
-
-        property_3_copy = property_3.copy()
-
-        self.play(property_3_copy.animate.next_to(second_exercise, DOWN, buff=0.5).align_to(second_exercise[10], LEFT))
-        self.wait()
-
         self.play(
-            second_exercise[11].animate.scale(1.5).set_color(RED),
-            property_3_copy[1].animate.scale(1.5).set_color(RED),
-            property_3_copy[6].animate.scale(1.5).set_color(RED)
-        )
-        self.wait(0.5)
-
-        self.play(
-            second_exercise[11].animate.scale(1/1.5),
-            property_3_copy[1].animate.scale(1/1.5),
-            property_3_copy[6].animate.scale(1/1.5)
+            Indicate(prop_3),
+            Indicate(second_exercise[10:])
         )
         self.wait()
 
-      # m = 2
-        self.play(
-            second_exercise[12].animate.scale(1.5).set_color(BLUE),
-            property_3_copy[2].animate.scale(1.5).set_color(BLUE),
-            property_3_copy[7].animate.scale(1.5).set_color(BLUE)
-        )
-        self.wait(0.5)
+        clone = Tex('$($', '$a$', '$^2$', '$)$', '$^3$', font_size=font_size).align_to(second_exercise[10], DL)
+        self.add(clone)
 
-        self.fix_formula(property_3_copy)
+        self.play(clone.animate.shift(DOWN))
+        self.wait()
+
+        self.fix_formula(clone)
 
         self.play(
-            second_exercise[12].animate.scale(1/1.5),
             ModifyFormula(
-                property_3_copy,
-                replace_items=[[2], [7]],
-                replace_items_strs=[['$^2$'], ['$^2$']]
-            )
-        )
-        self.wait()
-      
-      # n = 3
-        self.play(
-            second_exercise[14].animate.scale(1.5).set_color(ORANGE),
-            property_3_copy[4].animate.scale(1.5).set_color(ORANGE),
-            property_3_copy[9].animate.scale(1.5).set_color(ORANGE)
-        )
-        self.wait(0.5)
-
-        self.play(
-            second_exercise[14].animate.scale(1/1.5),
-            ModifyFormula(
-                property_3_copy,
-                replace_items=[[4], [9]],
-                replace_items_strs=[['$^3$'], ['$^3$']]
+                clone,
+                remove_items=[0, 3],
+                add_after_items=[2],
+                add_items_strs=[['$^\\cdot$']]
             )
         )
         self.wait()
 
-        self.fix_formula(property_3_copy)
+        # self.fix_formula(clone)
+        # self.play(
+        #     ModifyFormula(
+        #         clone,
+        #         replace_items=[[1, 2, 3]],
+        #         replace_items_strs=[['$^6$']]
+        #     )
+        # )
+        # self.wait()
 
-      # 2*3=6
+        
+
+
+        self.fix_formula(second_exercise)
         self.play(
             ModifyFormula(
-                property_3_copy,
-                replace_items=[[7, 8, 9]],
-                replace_items_strs=[['$^6$']],
-                replace_items_colors=[[GREEN]]
-            )
+                second_exercise,
+                replace_items=[[10, 11, 12, 13, 14]],
+                replace_items_strs=[['$a$', '$^2$', '$^\\cdot$', '$^3$']]
+            ),
+            FadeOut(clone)
         )
         self.wait()
+
+        self.fix_formula(second_exercise)
+
+
 
     # ավարտում ենք երկրորդ վարժը
         self.play(
             ModifyFormula(
                 second_exercise,
-                replace_items=[[9, 10, 11, 12, 13, 14]],
-                replace_items_strs=[['$a$', '$^6$']],
-                replace_items_colors=[[RED, GREEN]]
+                replace_items=[[9, 10, 11, 12, 13]],
+                replace_items_strs=[['$a$', '$^6$']]
             )
         )
-        self.play(FadeOut(property_3_copy))
         self.wait()
-        
-        self.play(second_exercise[9:11].animate.set_color(WHITE))
-        self.wait()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     # Երկրորդի սխալ լուծում 
         first_2 = Tex('$1.$', font_size=property_font_size).align_to(left_boundary, LEFT).next_to(second, DOWN, buff=1)
@@ -695,12 +478,13 @@ class Nman_andamner(FormulaModificationsScene):
 
         second_exercise_2 = Tex('$($', '$2$', '$\cdot$', '$a$', '$^2$', '$)$', '$^3$', # [0:7]
         '$=$', #[7]
-        '$2$', '$\cdot$', '$3$', '$\cdot$', '$a$', '$^2$', '$^\cdot$', '$^3$', # [8:16]
+        '$2$', '$\cdot$', '$3$', # [8:11] 
         font_size=font_size).next_to(first_exercise_2, DOWN, buff=1).align_to(first_exercise_2, LEFT)
         second_exercise_2[8].set_color(ORANGE)
         second_exercise_2[10].set_color(YELLOW)
-        second_exercise_2[13].set_color(GREEN)
-        second_exercise_2[15].set_color(YELLOW)
+        second_exercise_2_tail = Tex('$\cdot$', '$a$', '$^2$', '$^\cdot$', '$^3$', font_size=font_size)
+        second_exercise_2_tail[2].set_color(GREEN)
+        second_exercise_2_tail[4].set_color(YELLOW)
 
         self.play(
             ReplacementTransform(second_exercise[:8].copy(), second_exercise_2[:8]),
@@ -747,6 +531,7 @@ class Nman_andamner(FormulaModificationsScene):
         self.play(second_exercise_2[1].animate.set_color(ORANGE))
         self.wait(0.5)
 
+        
         self.play(ReplacementTransform(second_exercise_2[1].copy(), second_exercise_2[8]))
         self.wait()
 
@@ -759,33 +544,49 @@ class Nman_andamner(FormulaModificationsScene):
         self.play(ReplacementTransform(second_exercise_2[6].copy(), second_exercise_2[10]))
         self.wait()
 
-        self.play(Write(second_exercise_2[11:13]))
-        self.wait()
-
-        self.play(second_exercise_2[4].animate.set_color(GREEN))
-        self.wait(0.5)
-        
-        self.play(ReplacementTransform(second_exercise_2[4].copy(), second_exercise_2[13]))
-        self.wait()
-
-        self.play(Write(second_exercise_2[14]))
-        self.wait()
-
-        self.play(ReplacementTransform(second_exercise_2[6].copy(), second_exercise_2[15]))
-        self.wait()
-
         self.play(
             ModifyFormula(
                 second_exercise_2,
-                replace_items=[[8, 9, 10], [13, 14, 15]],
-                replace_items_strs=[['$6$'], ['$^6$']],
-                replace_items_colors=[[ORANGE], [GREEN]],
-                remove_items=[11]
+                replace_items=[[8, 9, 10]],
+                replace_items_colors=[[RED]],
+                replace_items_strs=[['$6$']]
             )
         )
         self.wait()
 
-        self.play(second_exercise_2.animate.set_color(WHITE))
+        second_exercise_2_tail.next_to(second_exercise_2, RIGHT, buff=0.06).align_to(second_exercise_2[8], DOWN)
+
+        self.play(Write(second_exercise_2_tail[:2]))
+        self.wait(0.5)
+
+        self.play(second_exercise_2[4].animate.set_color(GREEN))
+        self.wait(0.5)
+        
+        self.play(ReplacementTransform(second_exercise_2[4].copy(), second_exercise_2_tail[2]))
+        self.wait()
+
+        self.play(Write(second_exercise_2_tail[3]))
+        self.wait()
+
+        self.play(ReplacementTransform(second_exercise_2[6].copy(), second_exercise_2_tail[4]))
+        self.wait()
+
+        self.fix_formula(second_exercise_2_tail)
+        self.play(
+            ModifyFormula(
+                second_exercise_2_tail,
+                replace_items=[[2, 3, 4]],
+                replace_items_strs=[['$^6$']],
+                replace_items_colors=[[GREEN]],
+                remove_items=[0]
+            )
+        )
+        self.wait()
+
+        self.play(
+            second_exercise_2.animate.set_color(WHITE),
+            second_exercise_2_tail.animate.set_color(WHITE)
+        )
         self.wait()
 
         self.play(
@@ -917,11 +718,33 @@ class Nman_andamner(FormulaModificationsScene):
         )
         self.wait()
 
+    # զզվելի պահ
+        print(' զզվելի պահ')
+        # self.play(
+        #     Indicate(second_exercise_2),
+        #     Indicate(second_exercise_2_tail)
+        # )
+        # self.wait()
+
+        self.fix_formula(second_exercise_2)
+
+        second_exercise_2_clone = Tex('$($', '$2$', '$\cdot$', '$a$', '$^2$', '$)$', '$^3$', # [0:7]
+        '$=$', #[7]
+        '$6$', '$a$', '$^6$', # [8:11] '$\cdot$', '$a$', '$^2$', '$^\cdot$', '$^3$', # [8:16]
+        font_size=font_size).next_to(first_exercise_2, DOWN, buff=1).align_to(first_exercise_2, LEFT)
+        second_exercise_2_clone[8].set_color(RED)
+        
+        self.add(second_exercise_2_clone)
+        self.fix_formula(second_exercise_2)
+        self.play(second_exercise_2.animate.set_opacity(0))
+        self.remove(second_exercise_2_tail)
+
+        second_exercise_2 = second_exercise_2_clone
+
         self.play(Indicate(second_exercise_2))
         self.wait()
 
         self.fix_formula(second_exercise_2)
-
         self.play(
             ModifyFormula(
                 second_exercise_2,
@@ -942,7 +765,7 @@ class Nman_andamner(FormulaModificationsScene):
         self.wait()
 
         self.fix_formula(second_exercise_2)
-
+        
         self.play(
             ModifyFormula(
                 second_exercise_2,
@@ -953,11 +776,15 @@ class Nman_andamner(FormulaModificationsScene):
         )
         self.wait()
 
+        for i in range(len(second_exercise_2)):
+            print(second_exercise_2[i], i)
+
+        self.fix_formula(second_exercise_2)
         self.play(
             ModifyFormula(
                 second_exercise_2,
                 replace_items=[[10, 11, 12]],
-                replace_items_strs=[['^3']],
+                replace_items_strs=[['$^3$']],
                 replace_items_colors=[[WHITE]]
             )
         )
@@ -990,13 +817,12 @@ class Nman_andamner(FormulaModificationsScene):
         self.wait()
 
     # Երրորդ վարժություն
+        print('Երրորդ վարժություն')
         third = Tex('$3$', '$)$', font_size=property_font_size).align_to(second, LEFT).next_to(second, DOWN, buff=1)
         third_exercise = Tex('$2$', '$($', '$a$', '$^2$', '$)$', '$^3$', # [0:6]
         '$=$', # [6]
         '$2$', '$a$', '$^6$', # [7:10]
         font_size=font_size).next_to(third, RIGHT)
-        third_exercise[8].set_color(RED)
-        third_exercise[9].set_color(GREEN)
 
         self.play(Write(third))
         self.wait()
@@ -1027,76 +853,31 @@ class Nman_andamner(FormulaModificationsScene):
         self.wait()
 
     # (a^2)^3 = a^6
-      # a = a 
         self.play(Indicate(prop_3))
         self.wait()
 
-        property_3_copy = property_3.copy()
+        clone = Tex('$($', '$a$', '$^2$', '$)$', '$^3$', font_size=font_size).align_to(third_exercise[1], DL)
 
-        self.play(property_3_copy.animate.next_to(third_exercise, DOWN, buff=0.5).align_to(third_exercise[1], LEFT))
+        self.play(clone.animate.shift(DOWN))
         self.wait()
 
+        self.fix_formula(clone)
         self.play(
-            third_exercise[2].animate.scale(1.5).set_color(RED),
-            property_3_copy[1].animate.scale(1.5).set_color(RED),
-            property_3_copy[6].animate.scale(1.5).set_color(RED)
-        )
-        self.wait(0.5)
-
-        self.play(
-            third_exercise[2].animate.scale(1/1.5),
-            property_3_copy[1].animate.scale(1/1.5),
-            property_3_copy[6].animate.scale(1/1.5)
-        )
-        self.wait()
-
-      # m = 2
-        self.play(
-            third_exercise[3].animate.scale(1.5).set_color(BLUE),
-            property_3_copy[2].animate.scale(1.5).set_color(BLUE),
-            property_3_copy[7].animate.scale(1.5).set_color(BLUE)
-        )
-        self.wait(0.5)
-
-        self.fix_formula(property_3_copy)
-
-        self.play(
-            third_exercise[3].animate.scale(1/1.5),
             ModifyFormula(
-                property_3_copy,
-                replace_items=[[2], [7]],
-                replace_items_strs=[['$^2$'], ['$^2$']]
+                clone,
+                remove_items=[0, 3],
+                add_after_items=[2],
+                add_items_strs=[['$^\\cdot$']]
             )
         )
         self.wait()
-      
-      # n = 3
-        self.play(
-            third_exercise[5].animate.scale(1.5).set_color(ORANGE),
-            property_3_copy[4].animate.scale(1.5).set_color(ORANGE),
-            property_3_copy[9].animate.scale(1.5).set_color(ORANGE)
-        )
-        self.wait(0.5)
-
-        self.play(
-            third_exercise[5].animate.scale(1/1.5),
-            ModifyFormula(
-                property_3_copy,
-                replace_items=[[4], [9]],
-                replace_items_strs=[['$^3$'], ['$^3$']]
-            )
-        )
-        self.wait()
-
-        self.fix_formula(property_3_copy)
-
+        
       # 2*3=6
         self.play(
             ModifyFormula(
-                property_3_copy,
-                replace_items=[[7, 8, 9]],
-                replace_items_strs=[['$^6$']],
-                replace_items_colors=[[GREEN]]
+                clone,
+                replace_items=[[1, 2, 3]],
+                replace_items_strs=[['$^6$']]
             )
         )
         self.wait()
@@ -1107,14 +888,11 @@ class Nman_andamner(FormulaModificationsScene):
         self.play(ReplacementTransform(third_exercise[0].copy(), third_exercise[7]))
         self.wait()
 
-        self.play(
-            ReplacementTransform(property_3_copy[6:], third_exercise[8:]),
-            FadeOut(property_3_copy[:6])
-        )
+        self.play(ReplacementTransform(clone, third_exercise[8:]))
         self.wait(0.5)
 
-        self.play(third_exercise.animate.set_color(WHITE))
-        self.wait()
+        # self.play(third_exercise.animate.set_color(WHITE))
+        # self.wait()
 
     # վերջապես նման անդամներ
         self.play(
@@ -1311,5 +1089,3 @@ class Nman_andamner(FormulaModificationsScene):
             expression_2.animate.set_opacity(1)
         )
         self.wait()
-
-        print(first.get_top() - third.get_bottom())
