@@ -1,0 +1,1 @@
+taskNumberString = r"\textrm{Խ.} 12649"
