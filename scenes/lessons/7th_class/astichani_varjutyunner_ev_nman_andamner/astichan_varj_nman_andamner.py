@@ -428,15 +428,21 @@ class Nman_andamner(FormulaModificationsScene):
 
     # Երկրորդի սխալ լուծում  (անիմացիայի համարը մոտավոր 120)
         first_2 = Tex('$1.$', font_size=property_font_size).align_to(left_boundary, LEFT).next_to(second, DOWN, buff=1)
-        first_exercise_2 = Tex('$($', '$y$', '$^2$', '$x$', '$^3$', '$)$', '$^4$', # [0:7]
-        '$=$', #[7]
-        '$x$', '$^{12}$', '$y$', '$^8$', # [8:12]
-        font_size=font_size).next_to(first_2, RIGHT)
+        first_exercise_2 = Tex(
+            '$($', '$y$', '$^2$', '$x$', '$^3$', '$)$', '$^4$', # [0:7]
+            '$=$', #[7]
+            '$x$', '$^{12}$', '$y$', '$^8$', # [8:12]
+            font_size=font_size
+        ) # (y^2 x^3)^4 = x^12 y^8
+        first_exercise_2.next_to(first_2, RIGHT)
 
-        second_exercise_2 = Tex('$($', '$2$', '$\cdot$', '$a$', '$^2$', '$)$', '$^3$', # [0:7]
-        '$=$', #[7]
-        '$2$', '$\cdot$', '$3$', # [8:11] 
-        font_size=font_size).next_to(first_exercise_2, DOWN, buff=1).align_to(first_exercise_2, LEFT)
+        second_exercise_2 = Tex(
+            '$($', '$2$', '$\cdot$', '$a$', '$^2$', '$)$', '$^3$', # [0:7]
+            '$=$', #[7]
+            '$2$', '$\cdot$', '$3$', # [8:11] 
+            font_size=font_size
+        ) # (2•a^2)^3 = 2•3
+        second_exercise_2.next_to(first_exercise_2, DOWN, buff=1).align_to(first_exercise_2, LEFT)
         second_exercise_2[8].set_color(ORANGE)
         second_exercise_2[10].set_color(YELLOW)
         second_exercise_2_tail = Tex('$\cdot$', '$a$', '$^2$', '$^\cdot$', '$^3$', font_size=font_size)
@@ -501,7 +507,7 @@ class Nman_andamner(FormulaModificationsScene):
                 replace_items_strs=[['$6$']],
                 replace_items_colors=[[RED]]
             )
-        )
+        ) # (2•a^2)^3 = 6
         self.wait()
 
     # ցուցիչում 2•3=6
@@ -657,10 +663,14 @@ class Nman_andamner(FormulaModificationsScene):
         ) # (1^1 * y^2x^3)^4 = 1 y^8 x^12
         self.wait()
 
-        second_exercise_2_clone = Tex('$($', '$2$', '$\cdot$', '$a$', '$^2$', '$)$', '$^3$', # [0:7]
-        '$=$', #[7]
-        '$6$', '$cdot$', '$a$', '$^6$', # [8:12]
-        font_size=font_size).next_to(first_exercise_2, DOWN, buff=1).align_to(first_exercise_2, LEFT)
+    # հետ ենք վերադառնում երկրորդ վարժության սխալը դզում ենք (անիմացիայի համարը մոտավոր 190)
+        second_exercise_2_clone = Tex(
+            '$($', '$2$', '$\cdot$', '$a$', '$^2$', '$)$', '$^3$', # [0:7]
+            '$=$', #[7]
+            '$6$', '$\cdot$', '$a$', '$^6$', # [8:12]
+            font_size=font_size
+        ) # (2•a^2)^3 = 6•a^6
+        second_exercise_2_clone.next_to(first_exercise_2, DOWN, buff=1).align_to(first_exercise_2, LEFT)
         second_exercise_2_clone[8].set_color(RED)
 
         self.add(second_exercise_2_clone)
@@ -669,6 +679,7 @@ class Nman_andamner(FormulaModificationsScene):
         self.remove(second_exercise_2_tail)
 
         second_exercise_2 = second_exercise_2_clone
+        second_exercise_2  # (2•a^2)^3 = 6•a^6
 
         self.play(Indicate(second_exercise_2))
         self.wait()
@@ -683,45 +694,80 @@ class Nman_andamner(FormulaModificationsScene):
                 add_after_items=[1],
                 add_items_strs=[['$^1$']],
             )
-        )
+        ) # (2^1•a^2)^3 = 6•a^6
         self.wait(0.5)
 
+        self.fix_formula(second_exercise_2)
         self.play(
-            Indicate(second_exercise_2[2], scale_factor=1.5, color=ORANGE),
-            Indicate(second_exercise_2[7], scale_factor=1.5)
+            ModifyFormula(
+                second_exercise_2,
+                remove_items=[9, 10, 11, 12]
+            )
+        ) # (2^1•a^2)^3 =
+        self.wait()
+
+        self.play(
+            Indicate(second_exercise_2[2], scale_factor=1.5),
+            Indicate(second_exercise_2[5], scale_factor=1.5)
         )
+        self.wait()
+        self.play(Indicate(second_exercise_2[7], scale_factor=1.5))
         self.wait()
 
         self.fix_formula(second_exercise_2)
         self.play(
             ModifyFormula(
                 second_exercise_2,
-                add_after_items=[9],
-                add_items_strs=[['$^1$', '$^\cdot$', '$^3$']],
-                add_items_colors=[[ORANGE, WHITE, YELLOW]],
-                replace_items=[[9]],
-                replace_items_strs=[['$2$']],
-                replace_items_colors=[[BLUE]]
+                add_after_items=[8],
+                add_items_strs=[['$2$', '$^1$', '$^\cdot$', '$^3$']],
+                add_items_colors=[[BLUE, ORANGE, WHITE, YELLOW]],
+                add_items_animation_style=Write
             )
-        )
+        ) # (2^1•a^2)^3 = 2^{1•3}
         self.wait()
 
         self.fix_formula(second_exercise_2)
         self.play(
             ModifyFormula(
                 second_exercise_2,
-                replace_items=[[10, 11, 12]],
-                replace_items_strs=[['$^3$']],
-                replace_items_colors=[[WHITE]]
+                add_after_items=[12],
+                add_items_strs=[['$\cdot$']],
+                add_items_colors=[[WHITE]],
+                add_items_animation_style=Write
             )
-        )
+        ) # (2^1•a^2)^3 = 2^{1•3} • 
         self.wait(0.5)
+
+        self.fix_formula(second_exercise_2)
         self.play(
             ModifyFormula(
                 second_exercise_2,
-                replace_items=[[9, 10]],
+                add_after_items=[13],
+                add_items_strs=[['$a$', '$^2$', '$^\cdot$', '$^3$']],
+                add_items_colors=[[WHITE]],
+                add_items_animation_style=Write
+            )
+        ) # (2^1•a^2)^3 = 2^{1•3} • a^{2•3}
+        self.wait(0.5)
+
+        self.fix_formula(second_exercise_2)
+        self.play(
+            ModifyFormula(
+                second_exercise_2,
+                replace_items=[[9, 10, 11, 12]],
                 replace_items_strs=[['$8$']],
                 replace_items_colors=[[BLUE]]
+            )
+        ) # (2^1•a^2)^3 = 8 • a^{2•3}
+        self.wait()
+
+        self.fix_formula(second_exercise_2)
+        self.play(
+            ModifyFormula(
+                second_exercise_2,
+                replace_items=[[12, 13, 14]],
+                replace_items_strs=[['$^6$']],
+                replace_items_colors=[[WHITE]]
             )
         )
         self.wait()
@@ -744,19 +790,21 @@ class Nman_andamner(FormulaModificationsScene):
         )
         self.wait()
 
-    # Երրորդ վարժություն
-        third = Tex('$3$', '$)$', font_size=property_font_size).align_to(second, LEFT).next_to(second, DOWN, buff=1)
-        third_exercise = Tex('$2$', '$($', '$a$', '$^2$', '$)$', '$^3$', # [0:6]
-        '$=$', # [6]
-        '$2$', '$a$', '$^6$', # [7:10]
-        font_size=font_size).next_to(third, RIGHT)
+    # Երրորդ վարժություն (անիմացիայի համարը մոտավոր 215)
+        third = Tex('$3$', '$)$', font_size=property_font_size).align_to(second, LEFT)
+        third.next_to(second, DOWN, buff=1)
+        third_exercise = Tex(
+            '$2$', '$($', '$a$', '$^2$', '$)$', '$^3$', # [0:6]
+            '$=$', # [6]
+            '$2$', '$\cdot$', '$a$', '$^6$', # [7:10]
+            font_size=font_size
+        ) # 2(a^2)^3 = 2a^6
+        third_exercise.next_to(third, RIGHT)
 
         self.play(Write(third))
         self.wait()
-
         self.play(Write(third_exercise[:6]))
         self.wait()
-
 
     # տարբերում ենք նախորդ վարժությունից
         self.play(
@@ -764,7 +812,6 @@ class Nman_andamner(FormulaModificationsScene):
             Indicate(second_exercise[1], scale_factor=1.5)
         )
         self.wait(0.5)
-
         self.play(
             Indicate(third_exercise[1], scale_factor=1.5, color=RED),
             Indicate(third_exercise[4], scale_factor=1.5, color=RED),
@@ -772,10 +819,8 @@ class Nman_andamner(FormulaModificationsScene):
             Indicate(second_exercise[5], scale_factor=1.5, color=RED)
         )
         self.wait()
-
         self.play(Indicate(third_exercise[1:6], scale_factor=1.5))
         self.wait(0.5)
-
         self.play(Indicate(third_exercise[0], scale_factor=1.5))
         self.wait()
 
@@ -783,10 +828,11 @@ class Nman_andamner(FormulaModificationsScene):
         self.play(Indicate(prop_3))
         self.wait()
 
-        clone = Tex('$($', '$a$', '$^2$', '$)$', '$^3$', font_size=font_size).align_to(third_exercise[1], DL)
+        clone = Tex('$($', '$a$', '$^2$', '$)$', '$^3$', font_size=font_size)
+        clone.align_to(third_exercise[1], DL)
 
         self.play(clone.animate.shift(DOWN))
-        self.wait()
+        self.wait(0.25)
 
         self.fix_formula(clone)
         self.play(
@@ -794,10 +840,12 @@ class Nman_andamner(FormulaModificationsScene):
                 clone,
                 remove_items=[0, 3],
                 add_after_items=[2],
-                add_items_strs=[['$^\\cdot$']]
-            )
+                add_items_strs=[['$^\\cdot$']],
+                new_formula_alignment=UP
+            ),
+            run_time=0.75
         )
-        self.wait()
+        self.wait(0.15)
         
       # 2*3=6
         self.play(
@@ -805,29 +853,33 @@ class Nman_andamner(FormulaModificationsScene):
                 clone,
                 replace_items=[[1, 2, 3]],
                 replace_items_strs=[['$^6$']]
-            )
+            ),
+            run_time=0.75
+        )
+        self.wait(0.5)
+
+        self.play(
+            Write(third_exercise[6]),
+            ReplacementTransform(clone, third_exercise[9:])
+        )
+        self.wait(0.5)
+
+        self.play(
+            Write(third_exercise[8]),
+            ReplacementTransform(third_exercise[0].copy(), third_exercise[7])
         )
         self.wait()
 
-        self.play(Write(third_exercise[6]))
-        self.wait()
-
-        self.play(ReplacementTransform(third_exercise[0].copy(), third_exercise[7]))
-        self.wait()
-
-        self.play(ReplacementTransform(clone, third_exercise[8:]))
-        self.wait(0.5)
-
-    # վերջապես նման անդամներ
+    # վերջապես նման անդամներ (անիմացիայի համարը մոտավոր 238)
         self.play(
-            Circumscribe(second_exercise[8:], time_width=2),
-            Circumscribe(third_exercise[7:], time_width=2)
+            Circumscribe(second_exercise[8:], time_width=2, fade_out=True),
+            Circumscribe(third_exercise[7:], time_width=2, fade_out=True)
         )
         self.wait()
 
         monom_1 = second_exercise[8:]
         monom_2 = third_exercise[7:]
-        
+
         self.play(
             FadeOut(prop_1, prop_2, prop_3),
             FadeOut(first, first_exercise),
@@ -847,8 +899,8 @@ class Nman_andamner(FormulaModificationsScene):
 
     # գետաձիեր
         self.play(
-            Indicate(monom_1[1:3]),
-            Indicate(monom_2[1:3])
+            Indicate(monom_1[2:4]),
+            Indicate(monom_2[2:4])
         )
         self.wait()
 
@@ -861,13 +913,11 @@ class Nman_andamner(FormulaModificationsScene):
             monom_1[0].animate.next_to(first_hippo, LEFT, buff=0.2)
             )
         self.wait()
-
         self.remove(monom_1[1:], monom_2[1:])
 
         hippo = SimpleSVGMobject('hippo').scale(0.9)
 
         hippo_group_1 = VGroup()
-        
         for i in range(8):
             if i == 0:
                 hippo_group_1 += hippo.copy().move_to([-5.5, -0.5, 0])
@@ -877,7 +927,6 @@ class Nman_andamner(FormulaModificationsScene):
                 hippo_group_1 += hippo.copy().next_to(hippo_group_1[i-2], RIGHT, buff=0.2)
 
         hippo_group_2 = VGroup()
-
         for i in range(2):
             if i == 0:
                 hippo_group_2 += hippo.copy().move_to([4, -0.5, 0])
@@ -891,18 +940,10 @@ class Nman_andamner(FormulaModificationsScene):
         surrec_all = SurroundingRectangle(VGroup(hippo_group_1, z), corner_radius=0.3, color=ORANGE, stroke_width=6)
 
         x = VGroup()
-        for i in range(8):
-            if i == 0:
-                x += first_hippo
-            else:
-                x += first_hippo.copy()
+        [x.add(first_hippo) if i == 0 else first_hippo for i in range(8)]
 
         y = VGroup()
-        for i in range(2):
-            if i == 0:
-                y += second_hippo
-            else:
-                y += second_hippo.copy()
+        [y.add(second_hippo) if i == 0 else second_hippo for i in range(2)]
 
     # գետաձիերի խմբեր
         self.play(
@@ -916,13 +957,11 @@ class Nman_andamner(FormulaModificationsScene):
         )
         self.wait()
 
-        self.play(Indicate(VGroup(monom_1[0], surrec_1, hippo_group_1), color=None))
-        self.wait(0.5)
-
-        self.play(Indicate(plus, scale_factor=1.5))
-        self.wait(0.5)
-
-        self.play(Indicate(VGroup(monom_2[0], surrec_2, hippo_group_2), color=None))
+        self.play(Indicate(VGroup(monom_1[0], surrec_1, hippo_group_1), color=None, run_time=0.75))
+        self.wait(0.25)
+        self.play(Indicate(plus, scale_factor=1.5, run_time=0.75))
+        self.wait(0.25)
+        self.play(Indicate(VGroup(monom_2[0], surrec_2, hippo_group_2), color=None, run_time=0.75))
         self.wait(0.5)
 
         self.add(surrec_all)
@@ -936,31 +975,26 @@ class Nman_andamner(FormulaModificationsScene):
             ReplacementTransform(VGroup(surrec_1, surrec_2), surrec_all),
             rate_func=linear
         )
-        self.wait()
+        self.wait(0.5)
 
         ten = Tex('$10$', font_size=new_font_size).move_to(plus)
 
-        self.play(ReplacementTransform(VGroup(monom_1[0], monom_2[0], plus), ten))
-        self.wait()
+        self.play(ReplacementTransform(VGroup(monom_1[0], monom_2[0], plus), ten), run_time=0.75)
+        self.wait(0.75)
         
         expression_1 = MathTex('8', 'a', '^6', '+', '2', 'a', '^6', '=', '10', 'a', '^6', font_size=new_font_size).move_to([0, 2, 0])
 
         self.play(Write(expression_1[:3]))
-        self.wait(0.5)
-
+        self.wait(0.4)
         self.play(Write(expression_1[3]))
-        self.wait(0.5)
-
+        self.wait(0.4)
         self.play(Write(expression_1[4:7]))
-        self.wait(0.5)
-
+        self.wait(0.4)
         self.play(Write(expression_1[7]))
-        self.wait(0.5)
-
+        self.wait(0.4)
         self.play(Write(expression_1[8:11]))
-        self.wait()
-
-        self.play(Indicate(expression_1[8:11], scake_factor=1.5))
+        self.wait(0.5)
+        self.play(Indicate(expression_1[8:11], scale_factor=1.5))
         self.wait()
 
         self.play(
@@ -983,13 +1017,11 @@ class Nman_andamner(FormulaModificationsScene):
             Write(expression_2[5:7])
         )
         self.wait()
-
         self.play(
             Write(expression_2[1]),
             Write(expression_2[4])
         )
         self.wait(0.5)
-
         self.play(Write(expression_2[7:]))
         self.wait()
 
@@ -998,15 +1030,18 @@ class Nman_andamner(FormulaModificationsScene):
 
         expression_3 = MathTex('7b^2c', '-', '3b^2c', '=', '4b^2c', font_size=new_font_size)
 
-        self.play(Write(expression_3[:3]))
+        self.play(Write(expression_3[0]))
+        self.wait(0.25)
+        self.play(Write(expression_3[1]))
+        self.wait(0.25)
+        self.play(Write(expression_3[2]))
         self.wait()
-
         self.play(Write(expression_3[3:]))
         self.wait()
 
         self.play(
-            expression_3.animate.next_to(expression_2, DOWN),
-            expression_1.animate.set_opacity(1),
-            expression_2.animate.set_opacity(1)
+            expression_3.animate.move_to([0, -1.5, 0]),
+            expression_1.animate.set_opacity(1).move_to([0, 1.5, 0]),
+            expression_2.animate.set_opacity(1).move_to([0, 0, 0])
         )
         self.wait()
