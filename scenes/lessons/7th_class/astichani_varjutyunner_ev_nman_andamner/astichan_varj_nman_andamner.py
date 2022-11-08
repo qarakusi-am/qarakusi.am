@@ -720,7 +720,7 @@ class Nman_andamner(FormulaModificationsScene):
                 second_exercise_2,
                 add_after_items=[8],
                 add_items_strs=[['$2$', '$^1$', '$^\cdot$', '$^3$']],
-                add_items_colors=[[BLUE, ORANGE, WHITE, YELLOW]],
+                add_items_colors=[[BLUE, WHITE, WHITE, WHITE]],
                 add_items_animation_style=Write
             )
         ) # (2^1•a^2)^3 = 2^{1•3}
