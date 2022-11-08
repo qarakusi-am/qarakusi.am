@@ -380,7 +380,7 @@ def ModifyFormula(
     remove_items : list = [],
     add_after_items : list =[], add_items_strs : list[list] =[], add_items_colors : list[list] = [],
     replace_items : list[list] = [], replace_items_strs  : list[list] = [], replace_items_colors : list[list] = [],
-    new_formula_alignment=DL, add_items_animation_style = FadeIn, add_lag_ratio = 0.3
+    new_formula_alignment=DL, add_items_animation_style = FadeIn, add_lag_ratio = 0.3, new_font_size=None
 ):
     """
         All indices must be indices of original formula
@@ -429,10 +429,8 @@ def ModifyFormula(
     replaced_items = []
     for i in range(len(new_replace_items)):
         item_index = new_replace_items[i][0]
-        for j in range(len(new_replace_items[i])):
-            del new_tex_string_list[item_index]
-        for j in range(len(replace_items_strs[i]) - 1, -1, -1):
-            new_tex_string_list.insert(item_index, replace_items_strs[i][j])
+        new_tex_string_list = new_tex_string_list[:item_index] + new_tex_string_list[new_replace_items[i][-1] + 1:]  # remove old items
+        new_tex_string_list = new_tex_string_list[:item_index] + replace_items_strs[i] + new_tex_string_list[item_index:] # add new items
         for j in range(i, len(new_replace_items)):
             for k in range(len(new_replace_items[j])):
                 new_replace_items[j][k] += len(replace_items_strs[i]) - len(new_replace_items[i])
@@ -456,10 +454,10 @@ def ModifyFormula(
         if i not in flattened_added_items and i not in flattened_replaced_items:
             fixed_items_new.append(i)
 
-    new_formula = type(formula)(
-        *new_tex_string_list,
-        font_size=formula[0].font_size, tex_template=formula.tex_template
-    )
+    if not new_font_size:
+        new_font_size = formula[0].font_size
+
+    new_formula = type(formula)( *new_tex_string_list, font_size=new_font_size, tex_template=formula.tex_template)
     new_formula.move_to(formula).align_to(formula, new_formula_alignment)
 
     # fix colors
