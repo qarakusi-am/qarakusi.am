@@ -363,8 +363,8 @@ def ReplaceItemsInFormula(
 
     for i in range(len(formula)):
         new_formula[i].set_color(formula[i].color)
-    for i in range(len(colors)):
-        if colors[i]:
+    if len(colors) > 0:
+        for i in range(len(items_indices)):
             new_formula[items_indices[i]].set_color(colors[i])
 
     animations = [ReplacementTransform(formula[i], new_formula[i], run_time=run_time) for i in range(len(formula))]
