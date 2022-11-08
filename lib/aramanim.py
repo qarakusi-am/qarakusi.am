@@ -1,6 +1,6 @@
 from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH, WHITE
 from manim import VMobject, VGroup, Line
-from manim import TexTemplate, MathTex
+from manim import MathTex
 from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
 import numpy as np
