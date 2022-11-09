@@ -1,1 +1,1 @@
-taskNumberString = r"\textrm{Խ.} 12649"
+taskNumberString = r"$\textrm{Խ.} 12649$"
