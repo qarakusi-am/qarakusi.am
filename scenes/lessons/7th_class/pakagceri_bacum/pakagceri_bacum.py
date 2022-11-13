@@ -3,7 +3,8 @@ from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from manim import Write, Tex, VGroup, FadeIn, Rectangle, Create, AnimationGroup, GrowFromCenter, TransformMatchingTex, GrowArrow, Arrow, SurroundingRectangle, FadeOut, Transform, Indicate, ReplacementTransform
 from manim import always_redraw
 from manim import UL, DOWN, UP, LEFT, UR, RIGHT, DL, ORIGIN
-from manim import LIGHT_BROWN, BLUE, ORANGE, GREEN, WHITE, BLACK
+from manim import LIGHT_BROWN, BLUE, ORANGE, GREEN, WHITE, YELLOW, PURPLE, RED, BLUE_C, YELLOW_C, PURPLE_C
+from random import shuffle
 from objects import SimpleSVGMobject, SVGMobject
 from .text import *
 
@@ -363,12 +364,45 @@ class PakagceriBacum(FormulaModificationsScene):
         )
         self.wait()
 
-        # examples
-        # 2x(3y+5)=2x*3y+2x*5=6x+10x
+        # տարբեր արտահայտություններ
         formula = VGroup(tex1, equal_tex, area_of_anis_garden, plus_tex, area_of_babkens_garden)
         self.play(formula.animate.to_edge(UP))
         self.wait()
 
+        formulas = VGroup(
+            Tex("$y$", " $+$ ", "$c$", "$^2$"),
+            Tex("$20$"),
+            Tex("$x$", "$^2$"),
+            Tex("$2a$", " $+$ ", "$b$"),
+            Tex("$-4$"),
+            Tex("$-x$", " $+$ ", "$3y$", "$^2$"),
+            Tex("$3t$"),
+            Tex("$b$", " $+$ ", "$c$", " $-$ ", "$1$"),
+            Tex("$b$", " $+$ ", "$c$")
+        ).arrange_in_grid(3, 3, buff=3).next_to(VGroup(tex1, area_of_anis_garden, plus_tex, area_of_babkens_garden), DOWN, buff=.9).shift(LEFT)
+
+        formulas[0].set_color(YELLOW).scale(2).shift(RIGHT)
+        formulas[1].set_color(PURPLE).scale(2.5).shift(DOWN*.5)
+        formulas[2].set_color(BLUE).scale(2).shift(DOWN*.2)
+        formulas[3].set_color(BLUE_C).scale(2.4).shift(UP+RIGHT)
+        formulas[4].set_color(YELLOW_C).scale(2.2).shift(UP)
+        formulas[5].set_color(RED).scale(2).shift(LEFT+UP*1.5)
+        formulas[6].set_color(PURPLE_C).scale(2.6).shift(UP*2.5+RIGHT)
+        formulas[7].set_color(RED).scale(2).shift(UP*2.8)
+        formulas[8].set_color(BLUE).scale(2.2).shift(UP*2.7)
+
+        shuffle(formulas)
+        self.play(
+            AnimationGroup(*[FadeIn(obj) for obj in formulas], lag_ratio=.8)
+        )
+        self.wait()
+        self.play(
+            AnimationGroup(*[FadeOut(obj) for obj in formulas], lag_ratio=.5)
+        )
+        self.wait()
+
+        # examples
+        # 2x(3y+5)=2x*3y+2x*5=6x+10x
         example1 = Tex("$2x$", "$\\cdot$", "$($", "$3y$", "$+$", "$5$", "$)$", font_size=BIG_FONT_SIZE).next_to(formula, DOWN, 1, LEFT)
         example1[0].set_color(ORANGE)
         example1[3].set_color(GREEN)
