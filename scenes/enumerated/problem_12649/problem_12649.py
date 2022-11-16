@@ -51,11 +51,12 @@ class Problem12649(FormulaModificationsScene):
         # Հերթով բոլոր վարժությունները՝
         # exp-ը զուտ փորձի համար է։
 
-        #self.first()
+        self.first()
         self.second()
         #self.exp()
         #self.third()
-        #self.fourth()
+        self.third_real()
+        self.fourth()
 
     def first(self):
         formulas = self.formulas
@@ -163,26 +164,11 @@ class Problem12649(FormulaModificationsScene):
         dist_prop1 = dist_prop.copy().next_to(formulas[1], 2*DOWN)
         dist_prop1.align_to(formulas[1], LEFT)
 
-        # self.play(TransformFromCopy(dist_prop, dist_prop1))
-        # self.wait(0.25)
-
-        # Narek ու սև խոռոչ
-
-        blackhole1 = ImageMobject('black_hole.jpg').scale(0.4).set_z_index(-1).next_to(rectangle, DOWN)
-        self.play(FadeIn(blackhole1))
-        dot1 = Dot(blackhole1.get_center(), color=WHITE).set_z_index(-0.5)
-
-        blackhole2 = blackhole1.copy()
-        dot2 = dot1.copy()
-        self.play(TransformFromCopy(dist_prop, dot1), run_time=0.75)
-        second = Group(blackhole2,dot2).next_to(dist_prop1, DOWN)
-        self.play(FadeIn(blackhole2), run_time=0.75)
-        self.play(FadeOut(dot1), FadeIn(dot2), run_time=0.5)
-        self.play(Transform(dot2, dist_prop1), run_time=0.75)
-        self.add(dist_prop1).remove(dot2)
+        dist_prop_copy = dist_prop.copy()
+        self.play(CounterclockwiseTransform(dist_prop_copy, dist_prop1, path_arc=-1*PI), run_time=2)
         self.wait(0.25)
-        self.play(FadeOut(blackhole1), FadeOut(blackhole2))
-        self.wait(0.25)
+        self.add(dist_prop1).remove(dist_prop_copy)
+        
 
         self.fix_formula(dist_prop1)
 
@@ -388,37 +374,92 @@ class Problem12649(FormulaModificationsScene):
 
         self.fix_formula(formulas[3])
 
+        self.play(Indicate(formulas[3][5:11], scale_factor=SCALE_FACTOR))
+
+        miandam = Tex('$($', '$x$', '$^2$', '$y$', '$)$', '$^3$', ' $=$ ', '$($', '$x$','$^2$', '$)$', '$^3$', '$y$', '$^3$', ' $=$ ', '$x$', '$^6$', '$y$', '$^3$', font_size=FONT_SIZE)
+        miandam.next_to(formulas[3], 3*DOWN).align_to(formulas[3], LEFT)
+        # miandam[8:10].set_color(RED)
+        # miandam[11].set_color(ORANGE)
+        # miandam[13].set_color(ORANGE)
+        # miandam[12].set_color(BLUE)
+        self.play(ReplacementTransform(formulas[3][5:11].copy(), miandam[:6]))
+
+        #self.play(formulas[3][:5].animate.set_opacity(0.25), formulas[3][11:].animate.set_opacity(0.25))
+        
         # 2nd միանդամ rule
         second_rule = Tex('$($', '$a$', r'$\cdot$', '$b$', '$)$', '$^n$', ' $=$ ', '$a$', '$^n$', r'$\cdot$', '$b$', '$^n$', font_size=FONT_SIZE)
+        # second_rule[1].set_color(RED)
+        # second_rule[7].set_color(RED)
+        # second_rule[3].set_color(BLUE)
+        # second_rule[10].set_color(BLUE)
+        # second_rule[5].set_color(ORANGE)
+        # second_rule[8].set_color(ORANGE)
+        # second_rule[11].set_color(ORANGE)
         second_rule.next_to(formulas[3], 3*DOWN)
+        second_rule.to_edge(RIGHT)
         rect2 = SurroundingRectangle(second_rule, color=GREEN)
         self.play(Create(rect2), Write(second_rule))
         self.wait(0.25)
 
+        # self.play(miandam[1:3].animate.set_color(RED), miandam[3].animate.set_color(BLUE), miandam[5].animate.set_color(ORANGE))
+
         # 3rd միանդամ rule
         third_rule = Tex('$($', '$a$', '$^m$', '$)$', '$^n$', ' $=$ ', '$a$', '$^m$', r'$^\cdot$', '$^n$', font_size=FONT_SIZE)
-        third_rule.next_to(second_rule, 2*RIGHT)
+        # third_rule[1].set_color(RED)
+        # third_rule[2].set_color(PURE_BLUE)
+        # third_rule[4].set_color(ORANGE)
+        # third_rule[6].set_color(RED)
+        # third_rule[7].set_color(PURE_BLUE)
+        # third_rule[9].set_color(ORANGE)
+        
+        #third_rule.next_to(second_rule, 2*RIGHT)
+        third_rule.move_to(second_rule)
         rect3 = SurroundingRectangle(third_rule, color=GREEN)
-        self.play(Create(rect3), Write(third_rule))
-        self.wait(0.25)
+        #self.play(Create(rect3), Write(third_rule))
+        #self.wait(0.25)
 
         # օգտվենք 2-րդից
-        self.play(ApplyWave(VGroup(rect2, second_rule)))
-        self.wait(0.25)
+        self.play(Write(miandam[6:14]))
+
+        # self.play(ApplyWave(VGroup(rect2, second_rule)))
+        # self.wait(0.25)
+
+        #self.play(formulas[3][10].animate.shift(0.5*UP))
+        # self.play(
+        #     #FadeOut(formulas[3][5], rate_func=there_and_back),
+        #     ModifyFormula(formulas[3], remove_items=[9,10], add_after_items=[7,8], add_items_strs=[['$)$', r'$^3$'], ['$^3$']], add_lag_ratio=0.3),
+        #     )
+        # self.wait(0.25)
+
+        self.play(FadeOut(VGroup(rect2, second_rule)))
         self.play(
-            ModifyFormula(formulas[3], remove_items=[9,10], add_after_items=[7,8], add_items_strs=[['$)$', r'$^3$'], ['$^3$']]),
+            Indicate(miandam[7:12], scale_factor=SCALE_FACTOR),
+            miandam[12:14].animate.set_color(WHITE),
+            miandam[:6].animate.set_color(WHITE)
             )
         self.wait(0.25)
+        self.play(Write(third_rule), Create(rect3))
+        self.wait(0.25)
+        #self.play(miandam[9].animate.set_color(PURE_BLUE))
+        self.wait(0.25)
+        #miandam[15].set_color(RED)
+        #miandam[16].set_color_by_gradient([PURE_BLUE, ORANGE])
+        self.play(Write(miandam[14:]))
+        self.wait(0.25)
 
+        #self.play(VGroup(rect3, third_rule).animate.move_to(rect2))
+        self.wait(0.25)
         # օգտվենք 3-րդից
-        self.play(ApplyWave(VGroup(rect3, third_rule)))
+        # self.play(ApplyWave(VGroup(rect3, third_rule)))
         self.wait(0.25)
         self.play(
-            ModifyFormula(formulas[3], remove_items=[5,8,9], replace_items=[[7]], replace_items_strs=[['$^6$']]), 
+            ModifyFormula(formulas[3], remove_items=[5,9], replace_items=[[7]], replace_items_strs=[['$^6$']]), 
             )
         self.wait(0.25)
 
-        self.play(Uncreate(VGroup(rect2, second_rule)), Uncreate(VGroup(rect3, third_rule)))
+        #self.play(Uncreate(VGroup(rect2, second_rule)), Uncreate(VGroup(rect3, third_rule)))
+        #self.play(formulas[3][:5].animate.set_opacity(1), formulas[3][11:].animate.set_opacity(1))
+        self.play(Uncreate(VGroup(rect3, third_rule)), FadeOut(miandam))     
         self.wait(0.25)
 
         ans = Tex(' $=$ ', '$2$', '$x$', '$y$', r'$\cdot$', '$x$', '$^6$', '$y$', '$^3$', ' $+$ ', '$2$', '$x$', '$y$', r'$\cdot$', '$3$', '$x$', '$y$', font_size=FONT_SIZE)
@@ -431,8 +472,11 @@ class Problem12649(FormulaModificationsScene):
         b_copy = formulas[3][5:9].copy()
         self.play(Wiggle(formulas[3][5:9], scale_value=WIGGLE_SCALE_FACTOR), Wiggle(formulas[3][0:3], scale_value=WIGGLE_SCALE_FACTOR))
         self.play(
-            CounterclockwiseTransform(a_copy1, ans[1:4], path_arc=PI/2),
-            FadeIn(ans[4]),
+            AnimationGroup(
+                CounterclockwiseTransform(a_copy1, ans[1:4], path_arc=PI/2),
+                FadeIn(ans[4]),
+                lag_ratio=0.5
+                ),
             CounterclockwiseTransform(b_copy, ans[5:9], path_arc=PI/2)
             )
         self.add(ans[1:4]).remove(a_copy1)
@@ -445,8 +489,11 @@ class Problem12649(FormulaModificationsScene):
         c_copy = formulas[3][10:13].copy()
         self.play(Wiggle(formulas[3][10:13], scale_value=WIGGLE_SCALE_FACTOR), Wiggle(formulas[3][0:3], scale_value=WIGGLE_SCALE_FACTOR))
         self.play(
-            CounterclockwiseTransform(a_copy2, ans[10:13], path_arc=PI/2),
-            FadeIn(ans[13]),
+            AnimationGroup(
+                CounterclockwiseTransform(a_copy2, ans[10:13], path_arc=PI/2),
+                FadeIn(ans[13]), 
+                lag_ratio=0.5
+                ),
             CounterclockwiseTransform(c_copy, ans[14:], path_arc=PI/2)
             )
         self.add(ans[10:13]).remove(a_copy2)
@@ -477,4 +524,73 @@ class Problem12649(FormulaModificationsScene):
         self.write_exponent_in_formula(ans,first_item_index=8, last_item_index=9, base='x', exponent='2')
         self.wait(0.25)
         self.write_exponent_in_formula(ans,first_item_index=10, last_item_index=11, base='y', exponent='2')
+        self.wait(0.25)
+
+
+    def third_real(self):
+        numbers = self.numbers
+        formulas = self.formulas
+        dist_prop = self.dist_prop
+
+        #self.play(FadeIn(formulas[1]), FadeIn(numbers[1]))
+        self.play(FadeIn(formulas[2]), FadeIn(numbers[2]))
+        
+        self.wait(0.25)
+
+        self.fix_formula(dist_prop)
+
+        ans = Tex(' $=$ ', '$a$', '$^2$', '$b$', '$^3$', r'$\cdot$', '$2$', '$a$', '$b$', '$c$', ' $+$ ', '$a$', '$^2$', '$b$', '$^3$', r'$\cdot$', '$b$', '$^2$', font_size=FONT_SIZE)
+        ans.next_to(formulas[2], RIGHT)
+
+        #self.fix_formula(ans)
+
+        self.play(FadeIn(ans[0]))
+
+        # տանում ենք a-ն ու b-ն
+        a_copy1 = formulas[2][0:4].copy()
+        b_copy = formulas[2][6:10].copy()
+        self.play(Wiggle(formulas[2][6:10], scale_value=WIGGLE_SCALE_FACTOR), Wiggle(formulas[2][0:4], scale_value=WIGGLE_SCALE_FACTOR))
+        self.play(
+            AnimationGroup(
+                CounterclockwiseTransform(a_copy1, ans[1:5], path_arc=PI/2),
+                FadeIn(ans[5]),
+                lag_ratio=0.5
+                ),
+            CounterclockwiseTransform(b_copy, ans[6:10], path_arc=PI/2)
+            )
+        self.add(ans[1:5]).remove(a_copy1)
+        self.add(ans[6:10]).remove(b_copy)
+        self.wait(0.25)
+
+        self.play(FadeIn(ans[10]))
+        # տանում ենք a-ն ու c-ն
+        a_copy2 = formulas[2][0:4].copy()
+        c_copy = formulas[2][11:13].copy()
+        self.play(Wiggle(formulas[2][11:13], scale_value=WIGGLE_SCALE_FACTOR), Wiggle(formulas[2][0:4], scale_value=WIGGLE_SCALE_FACTOR))
+        self.play(
+            AnimationGroup(
+                CounterclockwiseTransform(a_copy2, ans[11:15], path_arc=PI/2),
+                FadeIn(ans[15]), 
+                lag_ratio=0.5
+                ),
+            CounterclockwiseTransform(c_copy, ans[16:], path_arc=PI/2)
+            )
+        self.add(ans[11:15]).remove(a_copy2)
+        self.add(ans[16:]).remove(c_copy)
+        self.wait(0.25)
+
+        self.play(Wiggle(ans[1:10], scale_value=WIGGLE_SCALE_FACTOR))
+        self.fix_formula(ans)
+        self.rearrange_formula(ans, new_sequence=[0,6,7,1,2,3,4,5,8,9,10,11,12,13,14,15,16,17], move_down=[6,7])
+        self.wait(0.25)
+
+        self.write_exponent_in_formula(ans, first_item_index=2, last_item_index=4, base='a', exponent='3')
+        self.wait(0.25)
+
+        self.write_exponent_in_formula(ans, first_item_index=4, last_item_index=7, base='b', exponent='4')
+        self.wait(0.25)
+
+        self.play(Wiggle(ans[8:], scale_value=WIGGLE_SCALE_FACTOR))
+
+        self.write_exponent_in_formula(ans, first_item_index=10, last_item_index=14, base='b', exponent='5')
         self.wait(0.25)
