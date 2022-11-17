@@ -146,7 +146,7 @@ class Distributive(Scene):
         self.wait()
         self.play(Create(rect), run_time = 1.5)
         h_edg.next_to(rect.get_edge_center(LEFT), RIGHT, buff=0.1)
-        w_edg.next_to(rect.get_edge_center(DOWN), UP, buff=0.1)
+        w_edg.next_to(rect.get_edge_center(UP), DOWN, buff=0.1)
         self.play(AnimationGroup(
             ReplacementTransform(formula[0][1:4].copy().set_opacity(0.5), h_edg),
             Wait(),
@@ -155,8 +155,8 @@ class Distributive(Scene):
         ), run_time = 3)
         self.wait()
         h_tip.move_to((b*rect.get_corner(UL) + a*rect.get_corner(DL))/(a+b))
-        w_tip_0.move_to((c*rect.get_corner(DR) + (d+e)*rect.get_corner(DL))/(c+d+e))
-        w_tip_1.move_to(((c+d)*rect.get_corner(DR) + e*rect.get_corner(DL))/(c+d+e))
+        w_tip_0.move_to((c*rect.get_corner(UR) + (d+e)*rect.get_corner(UL))/(c+d+e))
+        w_tip_1.move_to(((c+d)*rect.get_corner(UR) + e*rect.get_corner(UL))/(c+d+e))
         self.play(AnimationGroup(
             FadeOut(h_edg[1], scale = 0.2),
             AnimationGroup(
@@ -171,9 +171,9 @@ class Distributive(Scene):
         self.play(AnimationGroup(
             FadeOut(w_edg[1], w_edg[3], scale = 0.2),
             AnimationGroup(
-                ReplacementTransform(w_edg[0], c_text.next_to((rect.get_corner(DL)+w_tip_0.get_center())/2, UP, buff=0.1)),
-                ReplacementTransform(w_edg[2], d_text.next_to((w_tip_0.get_center()+w_tip_1.get_center())/2, UP, buff=0.1)),
-                ReplacementTransform(w_edg[4], e_text.next_to((rect.get_corner(DR)+w_tip_1.get_center())/2, UP, buff=0.1))),
+                ReplacementTransform(w_edg[0], c_text.next_to((rect.get_corner(UL)+w_tip_0.get_center())/2, DOWN, buff=0.1)),
+                ReplacementTransform(w_edg[2], d_text.next_to((w_tip_0.get_center()+w_tip_1.get_center())/2, DOWN, buff=0.1)),
+                ReplacementTransform(w_edg[4], e_text.next_to((rect.get_corner(UR)+w_tip_1.get_center())/2, DOWN, buff=0.1))),
             Wait(0.5),
             AnimationGroup(
                 FadeIn(w_tip_0, scale=3),
@@ -182,8 +182,8 @@ class Distributive(Scene):
 
         ))
         self.wait()
-        w_line_0 = Line(w_tip_0.get_center(), w_tip_0.get_center() + (a+b)*UP)
-        w_line_1 = Line(w_tip_1.get_center(), w_tip_1.get_center() + (a+b)*UP)
+        w_line_0 = Line(w_tip_0.get_center(), w_tip_0.get_center() + (a+b)*DOWN)
+        w_line_1 = Line(w_tip_1.get_center(), w_tip_1.get_center() + (a+b)*DOWN)
         h_line = Line(h_tip.get_center(), h_tip.get_center() + (c+d+e)*RIGHT)
         self.play(AnimationGroup(
             AnimationGroup(
@@ -253,28 +253,27 @@ class Distributive(Scene):
                 rect_1.animate.shift(2.75*RIGHT)),
             Indicate(formula, scale_factor=1.5, run_time = 2),
             Wait(0.5),
-            #FadeIn(rect_1.shift(2.75*RIGHT), scale=0.5),
             lag_ratio=0.25
         ), run_time = 2)
         self.wait()        
-        ay_c.add(
-            a_tc.copy().match_color(ay_c).next_to(ay_c.get_edge_center(LEFT), RIGHT, buff = 0.1),
-            d_tc.copy().match_color(ay_c).next_to(ay_c.get_edge_center(DOWN), UP, buff = 0.1))
-        az_c.add(
-            a_tc.copy().match_color(az_c).next_to(az_c.get_edge_center(LEFT), RIGHT, buff = 0.1),
-            e_tc.copy().match_color(az_c).next_to(az_c.get_edge_center(DOWN), UP, buff = 0.1))
-        ax_c.add(
-            a_tc,
-            c_tc.copy().match_color(ax_c).next_to(ax_c.get_edge_center(DOWN), UP, buff = 0.1))
         by_c.add(
             b_tc.copy().match_color(by_c).next_to(by_c.get_edge_center(LEFT), RIGHT, buff = 0.1),
-            d_tc)
+            d_tc.copy().match_color(by_c).next_to(by_c.get_edge_center(UP), DOWN, buff = 0.1))
         bz_c.add(
             b_tc.copy().match_color(bz_c).next_to(bz_c.get_edge_center(LEFT), RIGHT, buff = 0.1),
-            e_tc)
+            e_tc.copy().match_color(bz_c).next_to(bz_c.get_edge_center(UP), DOWN, buff = 0.1))
         bx_c.add(
             b_tc,
-            c_tc)        
+            c_tc.copy().match_color(bx_c).next_to(bx_c.get_edge_center(UP), DOWN, buff = 0.1))
+        ay_c.add(
+            a_tc.copy().match_color(ay_c).next_to(ay_c.get_edge_center(LEFT), RIGHT, buff = 0.1),
+            d_tc)
+        az_c.add(
+            a_tc.copy().match_color(az_c).next_to(az_c.get_edge_center(LEFT), RIGHT, buff = 0.1),
+            e_tc)
+        ax_c.add(
+            a_tc,
+            c_tc)       
         self.play(
             VGroup(ax_c, bx_c).animate.shift(0.75*LEFT),
             ay_c[1].animate.set_color(WHITE), 
@@ -295,10 +294,10 @@ class Distributive(Scene):
         self.play(AnimationGroup(
             AnimationGroup(
                 VGroup(ax_c, ay_c, az_c).animate.shift((0.75/2)*UP),
-                ax_c[2].animate.set_color(WHITE).shift((0.75/2)*UP), 
-                ay_c[2].animate.set_color(WHITE).shift((0.75/2)*UP),
-                az_c[2].animate.set_color(WHITE).shift((0.75/2)*UP),
-                VGroup(bx_c, by_c, bz_c).animate.shift((0.75/2)*DOWN)),
+                VGroup(bx_c, by_c, bz_c).animate.shift((0.75/2)*DOWN),
+                bx_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN), 
+                by_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN),
+                bz_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN)),
             FadeIn(eq_sign, scale=1.5),
             AnimationGroup(
                 FadeIn(p_signs[0], scale=0.5),
@@ -309,7 +308,13 @@ class Distributive(Scene):
                 FadeIn(p_signs[5], scale=1.5),
                 FadeIn(p_signs[6], scale=1.5)),
                 lag_ratio=0.25
-        ), run_time = 2)
+        ), run_time = 1.5)
+        rect = Rectangle().stretch_to_fit_height(rect_0.height).stretch_to_fit_width(rect_0.width)
+        rect.set_fill(color=['#C35C34', '#50729B'], opacity=1)
+        ab_xyz = MathTex('(a+b)(x+y+z)').move_to(rect)
+        rect.add(ab_xyz)
+        rect.set_z_index(3)
+        rect.move_to(rect_0)
         ax_text = MathTex('a', 'x').move_to(ax_c)
         ay_text = MathTex('a', 'y').move_to(ay_c)
         az_text = MathTex('a', 'z').move_to(az_c)
@@ -318,6 +323,10 @@ class Distributive(Scene):
         bz_text = MathTex('b', 'z').move_to(bz_c)
         self.wait()
         self.play(AnimationGroup(
+            AnimationGroup(
+                FadeIn(rect),
+                FadeOut(rect_0),
+                lag_ratio=0.2),
             SpetialTransform(ax_c, ax_text),
             SpetialTransform(ay_c, ay_text),
             SpetialTransform(az_c, az_text),
@@ -386,44 +395,5 @@ class Distributive(Scene):
                 formula_c[22].animate.set_opacity(1),
                 lag_ratio=0.35))
         self.play(Uncreate(bz_line), formula_c[12].animate.set_opacity(1))
-#        self.play(AnimationGroup(
-#                Create(ax_line),
-#                Wiggle(ax_c),
-#                FadeIn(formula_c[13], scale = 1.5),
-#                Wait(),
-#                lag_ratio=0.35))
-#        self.play(AnimationGroup(
-#                ReplacementTransform(ax_line, ay_line),
-#                Wiggle(ay_c),
-#                FadeIn(formula_c[15], scale = 1.5),
-#                FadeIn(formula_c[14], scale = 0.5),
-#                lag_ratio=0.35))
-#        self.play(AnimationGroup(
-#                ReplacementTransform(ay_line, az_line),
-#                Wiggle(az_c),
-#                FadeIn(formula_c[17], scale = 1.5),
-#                FadeIn(formula_c[16], scale = 0.5),
-#                lag_ratio=0.35))
-#        self.play(Uncreate(az_line))
-#        self.wait(0.5),
-#        self.play(AnimationGroup(
-#                Create(bx_line),
-#                Wiggle(bx_c),
-#                FadeIn(formula_c[19], scale = 1.5),
-#                FadeIn(formula_c[18], scale = 0.5),
-#                lag_ratio=0.35))
-#        self.play(AnimationGroup(
-#                ReplacementTransform(bx_line, by_line),
-#                Wiggle(by_c),
-#                FadeIn(formula_c[21], scale = 1.5),
-#                FadeIn(formula_c[20], scale = 0.5),
-#                lag_ratio=0.35))
-#        self.play(AnimationGroup(
-#                ReplacementTransform(by_line, bz_line),
-#                Wiggle(bz_c),
-#                FadeIn(formula_c[23], scale = 1.5),
-#                FadeIn(formula_c[22], scale = 0.5),
-#                lag_ratio=0.35))
-#        self.play(Uncreate(bz_line), FadeIn(formula_c[12], scale = 3))
 
         self.wait()
