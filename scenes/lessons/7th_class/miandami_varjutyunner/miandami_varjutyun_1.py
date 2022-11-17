@@ -1,15 +1,15 @@
-from hanrahashiv import ExtractExponentInFormula, FormulaModificationsScene, WriteExponentInFormula
+from hanrahashiv import FormulaModificationsScene, ModifyFormula
 
 from manim import MathTex, Tex
 from manim import VGroup
 from manim import RIGHT, LEFT, DOWN, DL
-from manim import BLUE, YELLOW, GREEN, ORANGE, RED, LIGHT_BROWN
+from manim import BLUE, YELLOW, GREEN, ORANGE, RED, LIGHT_BROWN, WHITE
 from manim import Circumscribe, Indicate
 from manim import Write, ReplacementTransform, Create, Wiggle
 from manim import SurroundingRectangle
 from manim import there_and_back
 
-class Exercises_(FormulaModificationsScene):
+class Exercises(FormulaModificationsScene):
     def construct(self):
         
         left_boundary = -5.5
@@ -70,7 +70,15 @@ class Exercises_(FormulaModificationsScene):
         self.wait()
 
     # թվերը բազմպատկում ենք
-        self.multiply_numbers_in_formula(ex, 3, '6', YELLOW) # 6d^2ad
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[0, 1, 2]],
+                replace_items_strs=[['$6$']],
+                replace_items_colors=[[YELLOW]]
+            )
+        ) # 6d^2ad
         self.wait()
 
     # a-ն բերում ենք առաջ
@@ -86,7 +94,15 @@ class Exercises_(FormulaModificationsScene):
         self.play(Indicate(ex[1], scale_factor=1.5, color=RED))
         self.wait()
 
-        self.add_items_in_formula(ex, [3], ['$\cdot$']) # 6ad^2*d
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                add_after_items=[3],
+                add_items_strs=[['$\\cdot$']],
+                add_items_colors=[[WHITE]]
+            )
+        ) # 6ad^2*d
         self.wait()
 
         x = Tex('$6$', '$a$', '$d$', '$^2$', '$\cdot$', '$d$', font_size=size).align_to(ex, DL)
@@ -99,11 +115,27 @@ class Exercises_(FormulaModificationsScene):
     # d^2 = d * d
         self.play(Indicate(ex[2:4], scale_factor=1.5, color=BLUE))
         self.wait()
-        self.play(ExtractExponentInFormula(ex, 2, 'd', 2, add_multiplication_signs_in_between=True, base_color=BLUE)) # 6ad*d*d
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[3]],
+                replace_items_strs=[['$\\cdot$', '$d$']],
+                replace_items_colors=[[WHITE, BLUE]]
+            )
+        ) # 6ad*d*d
         self.wait()
 
     # d * d * d = d^3
-        self.play(WriteExponentInFormula(ex, 2, 6, 'd', 3, base_color=BLUE, exponent_color=BLUE)) # 6ad^3
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[3, 4, 5, 6]],
+                replace_items_strs=[['$^3$']],
+                replace_items_colors=[[BLUE]]
+            )
+        ) # 6ad^3
         self.wait(2)
 
     # d^3 = d^2 * d
@@ -208,7 +240,15 @@ class Exercises_(FormulaModificationsScene):
         self.rearrange_formula(ex, [6, 5, 0, 1, 2, 3, 4, 7, 8], [6], [], [5], [5]) # 6*(1/4)xa*xba
         self.wait()
 
-        self.multiply_numbers_in_formula(ex, 3, '\\frac{3}{2}', YELLOW) # (3/2)xa*xba
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[0, 1, 2]],
+                replace_items_strs=[['$\\frac{3}{2}$']],
+                replace_items_colors=[[YELLOW]]
+            )
+        ) # (3/2)xa*xba
         self.wait()
 
         self.play(Indicate(ex[0], scale_factor=1.5))
@@ -226,19 +266,48 @@ class Exercises_(FormulaModificationsScene):
         self.rearrange_formula(ex, [0, 1, 4, 2, 6, 3, 5], [4], [6], [], []) # (3/2)xxaa*b
         self.wait()
 
-        self.add_items_in_formula(ex, [2], ['$\\cdot$']) # (3/2)xx*aa*b
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                add_after_items=[2],
+                add_items_strs=[['$\\cdot$']]
+            )
+        ) # (3/2)xx*aa*b
         self.wait()
 
         self.rearrange_formula(ex, [0, 4, 5, 6, 7, 3, 1, 2], [1, 2], [4, 5], [3, 6], [3, 6]) # (3/2)aa*b*xx
         self.wait()
 
-        self.write_exponent_in_formula(ex, 1, 2, 'a', 2, exponent_color=RED) # (3/2)a^2*b*xx
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[2]],
+                replace_items_strs=[['$^2$']],
+                replace_items_colors=[[RED]]
+            )
+        ) # (3/2)a^2*b*xx
         self.wait()
 
-        self.write_exponent_in_formula(ex, 6, 7, 'x', 2, exponent_color=GREEN) # (3/2)a^2*b*x^2
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[7]],
+                replace_items_strs=[['$^2$']],
+                replace_items_colors=[[GREEN]]
+            )
+        ) # (3/2)a^2*b*x^2
         self.wait()
 
-        self.remove_items_from_formula(ex, [3, 5]) # (3/2)a^2bx^2
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                remove_items=[3, 5]
+            )
+        ) # (3/2)a^2bx^2
         self.wait()
 
     # add third, fourth, fifth, sixth
@@ -279,7 +348,15 @@ class Exercises_(FormulaModificationsScene):
         self.rearrange_formula(ex, [4, 2, 0, 1, 3, 5], [4], [], [2], [2]) # 3*2xbb
         self.wait()
 
-        self.multiply_numbers_in_formula(ex, 3, '6', YELLOW) # 6xbb
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[0, 1, 2]],
+                replace_items_strs=[['$6$']],
+                replace_items_colors=[[YELLOW]]
+            )
+        ) # 6xbb
         self.wait()
 
         self.play(Wiggle(ex[2:], scale_value=1.5))
@@ -294,7 +371,15 @@ class Exercises_(FormulaModificationsScene):
         self.rearrange_formula(ex, [0, 2, 3, 1], [1], [], [], []) # 6bbx
         self.wait(0.5)
 
-        self.write_exponent_in_formula(ex, 1, 2, 'b', 2, base_color=GREEN, exponent_color=GREEN)
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[2]],
+                replace_items_strs=[['$^2$']],
+                replace_items_colors=[[GREEN]]
+            )
+        ) # 6b^2x
         self.wait()
 
     # fourth exercise
@@ -326,7 +411,15 @@ class Exercises_(FormulaModificationsScene):
         self.rearrange_formula(ex, [0, 4, 5, 3, 1, 2], [1, 2], [], [3], [3]) # 7xy*y^2
         self.wait()
 
-        self.write_exponent_in_formula(ex, 2, 5, 'y', 3) # 7xy^3
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[3, 4, 5]],
+                replace_items_strs=[['$^3$']],
+                replace_items_colors=[[BLUE]]
+            )
+        ) # 7xy^3
         self.wait()
 
     # fifth exercise
@@ -447,7 +540,15 @@ class Exercises_(FormulaModificationsScene):
         self.rearrange_formula(ex, [6, 5, 0, 1, 2, 3, 4, 7, 8, 9, 10], [6], [], [5], [5]) # 8*3x^2y^3a^2x^3
         self.wait()
 
-        self.multiply_numbers_in_formula(ex, 3, '24', YELLOW) # 24x^2y^3a^2x^3
+        self.fix_formula(ex)
+        self.play(
+            ModifyFormula(
+                ex,
+                replace_items=[[0, 1, 2]],
+                replace_items_strs=[['$24$']],
+                replace_items_colors=[[YELLOW]]
+            )
+        ) # 24x^2y^3a^2x^3
         self.wait()
 
         self.play(Indicate(ex[0], scale_factor=1.5))
