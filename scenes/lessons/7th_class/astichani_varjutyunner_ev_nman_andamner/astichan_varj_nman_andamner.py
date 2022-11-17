@@ -1,10 +1,12 @@
-from manim import WHITE, ORANGE, GREEN, YELLOW, RED, BLUE, PINK
-from manim import UL,UR, DR, UP, DOWN, RIGHT, LEFT
-from manim import Write, Create, Circumscribe, Indicate
+from manim import WHITE, ORANGE, GREEN, YELLOW, RED, BLUE
+from manim import DR, UP, DOWN, RIGHT, LEFT, DL
+from manim import Write, Create, Circumscribe, Indicate, FadeIn, FadeOut, ReplacementTransform
 from manim import Circle, Line, SurroundingRectangle
 from manim import linear
+from manim import VGroup, AnimationGroup
+from manim import Tex, MathTex
 
-from hanrahashiv import *
+from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from objects import SimpleSVGMobject
 
 
