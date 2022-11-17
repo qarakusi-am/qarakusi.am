@@ -121,11 +121,11 @@ class Distributive(Scene):
         self.wait()
 
     def main(self):
-        a = 1.2*1.5
-        b = 1.2*0.9
-        c = 1.5
-        d = 1
-        e = 1.95
+        a = 1.05*1.9
+        b = 1.05*1.1
+        c = 1.05*1.65
+        d = 1.05*1.25
+        e = 1.05*1.75
         self.a_text = a_text = MathTex('a').scale(0.75)
         self.b_text = b_text = MathTex('b').scale(0.75)
         self.c_text = c_text = MathTex('x').scale(0.75)
@@ -299,19 +299,19 @@ class Distributive(Scene):
                 by_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN),
                 bz_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN)),
             FadeIn(eq_sign, scale=1.5),
-            AnimationGroup(
-                FadeIn(p_signs[0], scale=0.5),
-                FadeIn(p_signs[1], scale=0.5),
-                FadeIn(p_signs[2], scale=0.5),
-                FadeIn(p_signs[3], scale=1.5),
-                FadeIn(p_signs[4], scale=1.5),
-                FadeIn(p_signs[5], scale=1.5),
-                FadeIn(p_signs[6], scale=1.5)),
-                lag_ratio=0.25
+            #AnimationGroup(
+            #    FadeIn(p_signs[0], scale=0.5),
+            #    FadeIn(p_signs[1], scale=0.5),
+            #    FadeIn(p_signs[2], scale=0.5),
+            #    FadeIn(p_signs[3], scale=1.5),
+            #    FadeIn(p_signs[4], scale=1.5),
+            #    FadeIn(p_signs[5], scale=1.5),
+            #    FadeIn(p_signs[6], scale=1.5)),
+            lag_ratio=0.25
         ), run_time = 1.5)
         rect = Rectangle().stretch_to_fit_height(rect_0.height).stretch_to_fit_width(rect_0.width)
-        rect.set_fill(color=['#C35C34', '#50729B'], opacity=1)
-        ab_xyz = MathTex('(a+b)(x+y+z)').move_to(rect)
+        rect.set_fill(color=['#CF7A29', '#628E90'], opacity=1)
+        ab_xyz = MathTex('(a+b)(x+y', '+z', ')').move_to(rect)
         rect.add(ab_xyz)
         rect.set_z_index(3)
         rect.move_to(rect_0)
@@ -395,5 +395,76 @@ class Distributive(Scene):
                 formula_c[22].animate.set_opacity(1),
                 lag_ratio=0.35))
         self.play(Uncreate(bz_line), formula_c[12].animate.set_opacity(1))
-
+        self.wait()
+        az_line_ = ConectionLine(formula_c[1], formula_c[10], dir=UP, alpha=1/5, color = '#3E55A7')
+        bz_line_ = ConectionLine(formula_c[3], formula_c[10], alpha=1/5, color = '#CF7A29')
+        self.play(AnimationGroup(
+            AnimationGroup(
+                Create(az_line_),
+                Create(bz_line_)),
+            AnimationGroup(
+                formula_c[17].animate.set_color('#3E55A7').scale(1.05),
+                formula_c[23].animate.set_color('#CF7A29').scale(1.05)),
+            AnimationGroup(
+                Wiggle(az_c),
+                Wiggle(bz_c)),
+            lag_ratio=0.5,            
+        ), run_time=3)
+        self.play(FadeOut(az_line_, bz_line_))
+        formula_c_alt = MathTex(
+            '(', 'a', '+', 'b', ')', '(', 'x', '+', 'y', ' ', ' ', ')',
+            '=', 'ax', '+', 'ay', ' ', ' ', '+', 'bx', '+', 'by', ' ', ' ').scale_to_fit_height(formula.height).align_to(formula, UL)
+        formula_c_alt[:12].align_to(formula, UR)
+        formula_c_alt[12].match_x(eq_sign)
+        formula_c_alt[13].match_x(formula_c[13])
+        formula_c_alt[14].match_x(formula_c[14])
+        formula_c_alt[15].match_x(formula_c[15])
+        formula_c_alt[16].match_x(formula_c[15])
+        formula_c_alt[17].match_x(formula_c[15])
+        formula_c_alt[18].match_x(formula_c[16])
+        formula_c_alt[19].match_x(formula_c[17])
+        formula_c_alt[20].match_x(formula_c[18])
+        formula_c_alt[21].match_x(formula_c[19])
+        formula_c_alt[22].match_x(formula_c[19])
+        formula_c_alt[23].match_x(formula_c[19])
+        rect_alt = Rectangle().stretch_to_fit_height(rect_0.height).stretch_to_fit_width(VGroup(ax, ay).width)
+        rect_alt.align_to(ax, UL).match_x(formula_c_alt[:12])
+        rect_alt.set_fill(color=['#CF7A29', '#628E90'], opacity=1)
+        ab_xyz_alt = MathTex('(a+b)(x+y', ' ', ')').move_to(rect_alt)
+        rect_alt.add(ab_xyz_alt)
+        rect_alt.set_z_index(3)
+        self.play(
+            ReplacementTransform(formula_c, formula_c_alt),
+            ReplacementTransform(rect, rect_alt),
+            VGroup(ay_c, by_c).animate.align_to(formula_c[19], RIGHT),
+            FadeOut(VGroup(az_c, bz_c), shift = 0.6*RIGHT),run_time = 2)
+        self.wait()
+        formula_alt = MathTex(
+            '(', 'a', '+', 'b', ')', '(', 'x', '+', 'y', ')',
+            '=', 'ax', '+', 'ay', '+', 'bx', '+', 'by').scale_to_fit_height(formula.height).align_to(formula, UL)
+        formula_alt[0:10].align_to(formula, UR)
+        formula_alt[10].match_x(formula_c[12])
+        formula_alt[11].match_x(formula_c[13])
+        formula_alt[12].match_x(formula_c[14])
+        formula_alt[13].match_x(formula_c[15])
+        formula_alt[14].match_x(formula_c[18])
+        formula_alt[15].match_x(formula_c[19])
+        formula_alt[16].match_x(formula_c[20])
+        formula_alt[17].match_x(formula_c[21])
+        self.remove(formula_c_alt)
+        self.add(formula_alt)
+        formula_forever = MathTex(
+            '(', 'a', '+', 'b', ')', '(', 'x', '+', 'y', ')',
+            '=', 'ax', '+', 'ay', '+', 'bx', '+', 'by').scale(1.5)
+        formula_forever[1].set_color('#628E90')
+        formula_forever[11][0].set_color('#628E90')
+        formula_forever[13][0].set_color('#628E90')
+        formula_forever[3].set_color('#B73E3E')
+        formula_forever[15][0].set_color('#B73E3E')
+        formula_forever[17][0].set_color('#B73E3E')
+        self.play(AnimationGroup(
+            FadeOut(rect_alt, eq_sign, ax_c, ay_c, bx_c, by_c, scale = 0.85),
+            ReplacementTransform(formula_alt, formula_forever),
+            lag_ratio=0.2
+        ),run_time = 2)
         self.wait()
