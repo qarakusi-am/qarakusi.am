@@ -31,13 +31,16 @@ class test(FormulaModificationsScene):
         self.fix_formula(formula_1)
         self.wait()
 
+        self.play(formula_1[0].animate.scale(2).set_color(BLUE))
+        self.wait()
+
         self.play(
             ModifyFormula(formula_1,
                 remove_items=[1, 5],
                 add_after_items=[0, 3, 8], add_items_strs=[['$a$', '$^2$'], ['$b$'], ['$^5$']], add_items_colors=[[GREEN, YELLOW], [], [BLUE]],
                 replace_items=[[2], [6, 7], [10]], replace_items_strs=[['$c$'], ['$d$', '$^3$', ' $\\times$ '], ['$e$', '$^2$']], 
                 replace_items_colors=[[ORANGE], [None, RED], [WHITE, ORANGE]],
-                new_formula_alignment=DL, add_items_animation_style=FadeIn, add_lag_ratio=0.3
+                new_formula_alignment=LEFT, add_items_animation_style=FadeIn, add_lag_ratio=0.3, new_font_size=70
             ),
             run_time=1.5
         ) # 3•a•b•a•2•a•b -> 3a•ba•2•a•b -> 3a^2a•bba•2^5•a•b -> 3a^2c•bbd^3 x 2^5•e^2•b
@@ -61,8 +64,7 @@ class test(FormulaModificationsScene):
             ModifyFormula(formula_2,
                 remove_items=[1, 5],
                 add_after_items=[0, 3, 8], add_items_strs=[['a', '^2'], ['b'], ['^5']], add_items_colors=[[GREEN, YELLOW], [], [BLUE]],
-                replace_items=[[2], [6, 7], [10]], replace_items_strs=[['c'], ['d', '^3', ' \\times '], ['e', '^2']], 
-                replace_items_colors=[[ORANGE], [None, RED], [WHITE, ORANGE]],
+                replace_items=[[2], [6, 7], [10]], replace_items_strs=[['c'], ['d', '^3', ' \\times '], ['e', '^2']], replace_items_colors=[[ORANGE], [None, RED], [WHITE, ORANGE]],
                 new_formula_alignment=DL, add_items_animation_style=FadeIn, add_lag_ratio=0.3
             ),
             run_time=1.5
