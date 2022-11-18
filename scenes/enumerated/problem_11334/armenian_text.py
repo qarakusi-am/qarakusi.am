@@ -1,5 +1,6 @@
 from manim import Tex
 
+taskNumberString = 'Խ․ 11334'
 youngest = Tex('Կրտսեր', font_size=40)
 second = Tex('Երկրորդ', ' երեխան կրտսերից մեծ է $3$ տարով', font_size=40)
 third = Tex('Միջնեկ', 'ը $2$-րդ երեխայից մեծ է $3$ տարով', font_size=40)
