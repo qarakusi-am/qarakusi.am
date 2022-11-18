@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import numpy as np
-
 from manim import linear, MathTex
 from manim import VMobject, VGroup, ValueTracker, Scene
 from manim import Dot, Rectangle
@@ -9,6 +8,7 @@ from manim import RED, WHITE, BLACK, GOLD, GREEN
 from manim import RIGHT, DOWN, UP, ORIGIN, OUT, PI
 from manim import FadeIn, UpdateFromAlphaFunc
 from manim import SVGMobject as OriginalSVGMobject
+from manim import always_redraw
 from colour import Color
 
 from constants import DEFAULT_PAPERS_BUFF
@@ -29,6 +29,218 @@ class SVGMobject(OriginalSVGMobject):
         if isinstance(path, Path):
             path = path.as_posix()
         super().__init__(path, *args, **kwargs)
+
+
+class Defaults:
+    def __init__(self):
+        self.prefix_defaults = {}
+        self.fixed_defaults = {}
+
+    @staticmethod
+    def _set(key: str, values: dict, defaults: dict):
+        if key not in defaults:
+            defaults[key] = {}
+        defaults[key].update(values)
+
+    def add_prefix_default(self, prefix: str, values: dict):
+        self._set(prefix, values, self.prefix_defaults)
+
+    def add_default(self, name: str, values: dict):
+        self._set(name, values, self.fixed_defaults)
+
+    def get_defaults(self, name):
+        defaults = {
+            'folder': path_to_SVG
+        }
+
+        if name in self.fixed_defaults:
+            defaults.update(self.fixed_defaults[name])
+            return defaults
+        for key in self.prefix_defaults:
+            if name.startswith(key):
+                defaults.update(self.prefix_defaults[key])
+                return defaults
+        return defaults
+
+
+svg_defaults = Defaults()
+svg_defaults.add_prefix_default(
+    'man_',
+    {'folder': path_to_SVG / 'people' / 'men',
+     'color': WHITE})
+svg_defaults.add_prefix_default(
+    'woman_',
+    {'folder': path_to_SVG / 'people' / 'woman',
+     'color': WHITE})
+svg_defaults.add_prefix_default(
+    'city_',
+    {'folder': path_to_SVG / 'cities'})
+svg_defaults.add_prefix_default(
+    'boy_',
+    {'folder': path_to_SVG / 'people' / 'children',
+     'color': WHITE})
+svg_defaults.add_prefix_default(
+    'girl_',
+    {'folder': path_to_SVG / 'people' / 'children',
+     'color': WHITE})
+svg_defaults.add_default(
+    'pigeon',
+    {'folder': path_to_SVG / 'animals',
+     'scale': 0.5,
+     'color': WHITE})
+svg_defaults.add_default(
+    'hippo',
+    {'folder': path_to_SVG / 'animals',
+     'scale': 0.5})
+svg_defaults.add_default(
+    'rabbit',
+    {'folder': path_to_SVG / 'animals',
+     'scale': 0.55,
+     'color': WHITE})
+svg_defaults.add_default(
+    'duck',
+    {'folder': path_to_SVG / 'animals',
+     'scale': 0.5, })
+svg_defaults.add_default(
+    'goose',
+    {'folder': path_to_SVG / 'animals',
+     'scale': 0.5})
+svg_defaults.add_default(
+    'cage_square',
+    {'scale': 1.5,
+     'color': GOLD})
+svg_defaults.add_default(
+    'small_car',
+    {'scale': 0.2,
+     'color': RED})
+svg_defaults.add_default(
+    'cage_bird',
+    {'scale': 2,
+     'color': GOLD})
+svg_defaults.add_prefix_default(
+    'empty_bag_',
+    {'folder': path_to_SVG / 'bags'})
+svg_defaults.add_default(
+    'bucket_of_mandarins',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.4})
+svg_defaults.add_default(
+    'green_apple',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.25})
+svg_defaults.add_default(
+    'red_apple',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.25})
+svg_defaults.add_default(
+    'mushfroom',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.25})
+svg_defaults.add_default(
+    'tomato',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.25})
+svg_defaults.add_default(
+    'carrot',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.25})
+svg_defaults.add_default(
+    'banana',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.25})
+svg_defaults.add_default(
+    'pear',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.25})
+svg_defaults.add_default(
+    'mandarin',
+    {'folder': path_to_SVG / 'fruits'})
+svg_defaults.add_default(
+    '20dram',
+    {'folder': path_to_SVG / 'coins'})
+svg_defaults.add_default(
+    'mandarins',
+    {'folder': path_to_SVG / 'fruits',
+     'scale': 0.35})
+svg_defaults.add_prefix_default(
+    'book_',
+    {'folder': path_to_SVG / 'books',
+     'color': WHITE})
+svg_defaults.add_default(
+    'house',
+    {'color': WHITE})
+svg_defaults.add_default(
+    'video_icon',
+    {'color': WHITE})
+svg_defaults.add_default(
+    'pen',
+    {'rotate': PI / 7,
+     'scale': 0.5,
+     'color': WHITE})
+svg_defaults.add_prefix_default(
+    'pencil_',
+    {'folder': path_to_SVG / 'pencils',
+     'scale': 0.6,
+     'rotate': PI / 12,
+     'color': WHITE})
+svg_defaults.add_default(
+    'open_scissors',
+    {'folder': path_to_SVG / 'scissors',
+     'scale': 0.5,
+     'rotate': PI / 10,
+     'color': WHITE})
+svg_defaults.add_default(
+    'closed_scissors',
+    {'folder': path_to_SVG / 'scissors',
+     'scale': 0.4,
+     'rotate': PI / 5,
+     'color': WHITE})
+svg_defaults.add_prefix_default(
+    'scissors_',
+    {'folder': path_to_SVG / 'scissors'})
+svg_defaults.add_default(
+    'tennis_ball',
+    {'folder': path_to_SVG,
+     'scale': 0.5})
+svg_defaults.add_default(
+    'locust',
+    {'folder': path_to_SVG / 'animals'})
+svg_defaults.add_default(
+    'thinking_boy_outlines',
+    {'folder': path_to_SVG / 'people' / 'thinking'})
+svg_defaults.add_default(
+    'big_pool',
+    {'folder': path_to_SVG / 'pool'})
+svg_defaults.add_default(
+    'small_pool',
+    {'folder': path_to_SVG / 'pool'})
+
+
+class SimpleSVGMobject(VMobject):
+    def __init__(self, obj_name: str,
+                 *,
+                 scale: float = None,
+                 rotate: float = None,
+                 color=None):
+        super().__init__()
+
+        defaults = svg_defaults.get_defaults(obj_name)
+        if scale is None:
+            scale = defaults.get('scale')
+        if color is None:
+            color = defaults.get('color')
+        if rotate is None:
+            rotate = defaults.get('rotate')
+        obj_path = (defaults['folder'] / obj_name).with_suffix('.svg')
+
+        svg_object = SVGMobject(obj_path)
+        if color is not None:
+            svg_object.set_color(color)
+        if scale is not None:
+            svg_object.scale(scale)
+        if rotate is not None:
+            svg_object.rotate(rotate)
+        self.add(svg_object)
 
 
 class ChessFigures(VMobject):
@@ -115,109 +327,6 @@ class ChessFigures(VMobject):
                                    chess_figures_stroke_width)
 
 
-class Man(VMobject):
-    def __init__(self, svg_index=1):
-        super().__init__()
-
-        man = SVGMobject(path_to_SVG / 'people' / 'men' / f'man_{svg_index}')
-        man.set_color(WHITE)
-
-        self.add(man)
-
-class Woman(VMobject):
-    def __init__(self, svg_index=1):
-        super().__init__()
-
-        man = SVGMobject(path_to_SVG / 'people' / 'woman' / f'woman_{svg_index}')
-        man.set_color(WHITE)
-
-        self.add(man)
-
-
-class Boy(VMobject):
-    def __init__(self, svg_index=1):
-        super().__init__()
-
-        boy = SVGMobject(
-            path_to_SVG / 'people' / 'children' / f'boy_{svg_index}'
-        )
-        boy.set_color(WHITE)
-
-        self.add(boy)
-
-
-class Girl(VMobject):
-    def __init__(self, svg_index=1):
-        super().__init__()
-
-        girl = SVGMobject(
-            path_to_SVG / 'people' / 'children' / f'girl_{svg_index}'
-        )
-        girl.set_color(WHITE)
-
-        self.add(girl)
-
-
-class Pigeon(VMobject):
-    def __init__(self):
-        super().__init__()
-        pigeon = SVGMobject(path_to_SVG / 'animals' / 'pigeon')
-        pigeon.set_color(WHITE).scale(0.5)
-
-        self.add(pigeon)
-
-
-class Rabbit(VMobject):
-    def __init__(self):
-        super().__init__()
-        rabbit = SVGMobject(path_to_SVG / 'animals' / 'rabbit')
-        rabbit.set_color(WHITE).scale(0.55)
-
-        self.add(rabbit)
-
-
-class Cage(VMobject):
-    def __init__(self, style='square'):
-        super().__init__()
-
-        if style == 'square':
-            cage = SVGMobject(path_to_SVG / 'cage_square')
-            cage.set_color(GOLD).scale(1.5)
-
-        if style == 'bird':
-            cage = SVGMobject(path_to_SVG / 'cage_bird')
-            cage.set_color(GOLD).scale(2)
-
-        self.add(cage)
-
-class Coin(VMobject):
-    def __init__(self):
-        super().__init__()
-        coin = SVGMobject(path_to_SVG / 'coins' / '20dram')
-        self.add(coin)
-
-
-class OpenScissors(VMobject):
-    def __init__(self):
-        super().__init__()
-        open_scissors = SVGMobject(
-            (path_to_SVG / 'scissors' / 'open_scissors').as_posix()
-        )
-        open_scissors.set_color(WHITE).rotate(PI/10).scale(0.5)
-
-        self.add(open_scissors)
-
-
-class ClosedScissors(VMobject):
-    def __init__(self):
-        super().__init__()
-        closed_scissors = SVGMobject(
-            path_to_SVG / 'scissors' / 'closed_scissors'
-        )
-        closed_scissors.set_color(WHITE).scale(0.4).rotate(PI/5)
-
-        self.add(closed_scissors)
-
 class DScissors(VGroup):
     def __init__(self, cut_point, **kwargs):
         self.scissor_1 = SVGMobject(
@@ -231,18 +340,16 @@ class DScissors(VGroup):
         self.arrange(RIGHT, buff=-1.1)
         self.add(self.dot)
         self.scale(0.5)
-        
         self.scissor_1.shift(0.08 * DOWN).rotate(angle=-0.03, about_point=self.dot.get_center())
         self.scissor_2.shift(0.08 * DOWN).rotate(angle=0.03, about_point=self.dot.get_center())
-        
         self.cut_point = np.array(cut_point)
         shift_vector = np.array([0, -0.35, 0])
         p_end = self.cut_point + shift_vector
-        self.move_to(p_end).shift(0.5*DOWN)
+        self.move_to(p_end).shift(0.5 * DOWN)
+
     def open(self, angle):
         self.scissor_1.rotate(angle=angle, about_point=self.dot.get_center())
         self.scissor_2.rotate(angle=-angle, about_point=self.dot.get_center())
-
 
 
 class ThinkingBubble(VMobject):
@@ -253,8 +360,8 @@ class ThinkingBubble(VMobject):
             if from_left_to_right:
                 if style == 1:
                     thinking_bubble = SVGMobject(
-                        path_to_SVG /
-                        'thinking_bubbles'
+                        path_to_SVG
+                        / 'thinking_bubbles'
                         / 'smooth_thinking_bubble_left_1'
                     )
                 else:
@@ -331,35 +438,38 @@ class ThinkingBubble(VMobject):
         self.add(thinking_bubble)
 
 
-class Book(VMobject):
-    def __init__(self, svg_index=1):
-        super().__init__()
-
-        book = SVGMobject(path_to_SVG / 'books' / f'book_{svg_index}')
-        book.set_color(WHITE)
-
-        self.add(book)
-
-
-class Pen(VMobject):
-    def __init__(self):
-        super().__init__()
-        pen = SVGMobject(
-            path_to_SVG / 'pen'
-        ).set_color(WHITE).scale(0.5).rotate(PI / 7)
-
-        self.add(pen)
-
-
-class Pencil(VMobject):
-    def __init__(self, svg_index=1):
-        super().__init__()
-
-        pencil = SVGMobject(path_to_SVG / 'pencils' / f'pencil_{svg_index}')
-        pencil.scale(0.6).rotate(PI / 12)
-        pencil.set_color(WHITE)
-
-        self.add(pencil)
+class AppleSLices(VGroup):
+    def __init__(self, **kwargs):
+        self.apple_ul = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_1.svg').set_color(GREEN)
+        self.apple_dl = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_2.svg').set_color(GREEN)
+        self.apple_ur = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_3.svg').set_color(GREEN)
+        self.apple_dr = SVGMobject(
+            path_to_SVG
+            / 'fruits'
+            / 'green_apple_slices'
+            / 'green_apple_4.svg').set_color(GREEN)
+        self.apple_ur.match_width(self.apple_dr)
+        self.apple_dl.stretch_to_fit_width(self.apple_ul.width)
+        self.apple_dr.stretch_to_fit_height(self.apple_dl.height + 0.03)
+        super().__init__(self.apple_ul, self.apple_dl, self.apple_ur, self.apple_dr, **kwargs)
+        self.arrange_in_grid(2, 2, buff=0, flow_order="dr")
+        self.apple_ul.scale(1.01)
+        self.apple_ur.scale(1.1)
+        self.apple_ur.stretch_to_fit_height(1.05 * self.apple_ur.height)
+        self.apple_ur.next_to(self.apple_dr, UP, buff=0, aligned_edge=RIGHT)
+        self.apple_ul.next_to(self.apple_dl, UP, buff=0, aligned_edge=RIGHT)
 
 
 class Papers(VMobject):
@@ -401,58 +511,37 @@ class Papers(VMobject):
                 self.add(paper)
 
 
-class House(VMobject):
-    def __init__(self):
-        super().__init__()
-        house = SVGMobject(path_to_SVG / 'house').set_color(WHITE)
-
-        self.add(house)
-
-
-class VideoIcon(VMobject):
-    def __init__(self):
-        super().__init__()
-        video_icon = SVGMobject(path_to_SVG / 'video_icon').set_color(WHITE)
-
-        self.add(video_icon)
-
-
 class Scales(VMobject):
-    def __init__(self, svg_index=1, plate_stretch_factor=1):
-        super().__init__()
+    def __init__(self, plate_stretch_factor=1):
+        VMobject.__init__(self)
 
         self.plate_stretch_factor = plate_stretch_factor
 
-        scales = SVGMobject(
-            path_to_SVG / 'scales' / f'scale_{svg_index}'
-        ).scale(1.2)
+        scales = SVGMobject(path_to_SVG / 'scales').scale(1.2)
 
-        if svg_index == 1:
-            self.body = VGroup(scales[0], scales[1], scales[3], scales[2])
-            self.left_plate = scales[4]
-            self.right_plate = scales[5]
+        scales[0].set_color('#8c6239')
+        scales[1].set_color('#764d26')
+        scales[2].set_color('#603813')
+        scales[3].set_color('#00786f')
+        scales[4].set_color('#00a99d')
+        scales[5].set_color('#8c6239').set_stroke(BLACK, 0.4)
+        scales[6].set_color(BLACK)
+        scales[7].set_color('#00786f')
+        scales[8].set_color('#4a2c06')
+        scales[9].set_color('#4a2c06')
+        scales[10].set_color('#00786f')
+        scales[11].set_color('#00786f')
 
-        elif svg_index == 5:
-            scales[0].set_color('#8c6239')
-            scales[1].set_color('#764d26')
-            scales[2].set_color('#603813')
-            scales[3].set_color('#00786f')
-            scales[4].set_color('#00a99d')
-            scales[5].set_color('#8c6239').set_stroke(BLACK, 0.4)
-            scales[6].set_color(BLACK)
-            scales[7].set_color('#00786f')
-            scales[8].set_color('#4a2c06')
-            scales[9].set_color('#4a2c06')
-            scales[10].set_color('#00786f')
-            scales[11].set_color('#00786f')
-            self.body = VGroup(*scales[: 10])
-            self.left_plate = VGroup(scales[-4])  # scales[-2],
-            self.right_plate = VGroup(scales[-3])  # scales[-1],
-        else:
-            scales.set_color(WHITE)
-            self.body = scales[0]
-            self.left_plate = scales[2]
-            self.right_plate = scales[1]
+        self.rotation_dot = scales[6]
+
+        self.fixed_part = VGroup(scales[3], scales[4], scales[5], scales[6], scales[7])
+        self.rotating_part = VGroup(scales[0], scales[1], scales[2], scales[8], scales[9])
+        self.left_plate = always_redraw(lambda: scales[10].next_to(scales[8], UP, buff=0.01))
+        self.right_plate = always_redraw(lambda: scales[11].next_to(scales[9], UP, buff=0.01))
+
+        self.fixed_part.set_z_index(self.rotating_part.get_z() + 1)
+
+        self.body = VGroup(self.rotating_part, self.fixed_part)
 
         self.left_plate.stretch(self.plate_stretch_factor, 0)
         self.right_plate.stretch(self.plate_stretch_factor, 0)
@@ -467,14 +556,25 @@ class Weight(VGroup):
         self.scale_factor = scale_factor
         self.weight_value = kg
 
+        # Սա ընդամենը բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափսը՝ կախված դրա զանգվածի նիշերի քանակից
+        # (առավելագույնը 4 նիշանոց թվերի համար)
+        x = len(str(kg))
+        polynomial = (
+                20 / 6 * (x - 1) * (x - 2) * (x - 3) + 25 / (-2) *
+                (x - 1) * (x - 2) * (x - 4) + 35 / 2 * (x - 1) *
+                (x - 3) * (x - 4) + 45 / (-6) * (x - 2) * (x - 3) * (x - 4)
+        )
+
         self.weight = VGroup(
-            SVGMobject(path_to_SVG / 'weight').set_color(WHITE).scale(0.5),
+            SimpleSVGMobject('weight').scale(0.5),
             MathTex(f"{kg:,}".replace(',', '.'),
-                    color=BLACK, font_size=35).shift(0.1 * DOWN)
+                    color=BLACK, font_size=polynomial).shift(0.1 * DOWN)
         ).scale(((kg / (2 * unit_kg)) ** (1. / 3.)) * self.scale_factor)
 
         self.kettlebell = self.weight[0]
         self.weight_text = self.weight[1]
+
+        # self.weight_text.match_width(self.kettlebell).scale(0.9)
 
         self.add(self.kettlebell, self.weight_text)
 
@@ -509,113 +609,6 @@ class BagOfMandarins(VMobject):
         self.add(bag_of_mandarins)
 
 
-class EmptyBag(VMobject):
-    def __init__(self, svg_index=1):
-        super().__init__()
-
-        empty_bag = SVGMobject(
-            path_to_SVG / 'bags' / f'empty_bag_{svg_index}'
-        )
-
-        self.add(empty_bag)
-
-
-class BucketOfMandarins(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        bucket_of_mandarins = SVGMobject(
-            path_to_SVG / 'fruits' / 'bucket_of_mandarins'
-        )
-        bucket_of_mandarins.scale(0.4)
-
-        self.add(bucket_of_mandarins)
-
-
-class Apple(VMobject):
-    def __init__(self, color=GREEN):
-        super().__init__()
-
-        if color == GREEN:
-            apple = SVGMobject(path_to_SVG / 'fruits' / 'green_apple')
-
-        elif color == RED:
-            apple = SVGMobject(path_to_SVG / 'fruits' / 'red_apple')
-
-        apple.scale(0.25)
-
-        self.add(apple)
-
-
-class Mushroom(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        mushroom = SVGMobject(path_to_SVG / 'fruits' / 'mushroom')
-        mushroom.scale(0.25)
-
-        self.add(mushroom)
-
-
-class Tomato(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        tomato = SVGMobject(path_to_SVG / 'fruits' / 'tomato')
-        tomato.scale(0.25)
-
-        self.add(tomato)
-
-
-class Carrot(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        carrot = SVGMobject(path_to_SVG / 'fruits' / 'carrot')
-        carrot.scale(0.25)
-
-        self.add(carrot)
-
-
-class Banana(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        banana = SVGMobject(path_to_SVG / 'fruits' / 'banana')
-        banana.scale(0.25)
-
-        self.add(banana)
-
-
-class Pear(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        pear = SVGMobject(path_to_SVG / 'fruits' / 'pear')
-        pear.scale(0.25)
-
-        self.add(pear)
-
-
-class Mandarin(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        mandarin = SVGMobject(path_to_SVG / 'fruits' / 'mandarin')
-
-        self.add(mandarin)
-
-
-class Mandarins(VMobject):
-    def __init__(self):
-        super().__init__()
-
-        mandarins = SVGMobject(path_to_SVG / 'fruits' / 'mandarins')
-        mandarins.scale(0.35)
-
-        self.add(mandarins)
-
-
 class ScaleStar(VMobject):
     def __init__(self):
         super().__init__()
@@ -626,13 +619,22 @@ class ScaleStar(VMobject):
         self.add(star)
 
 
+class Checkmark(VMobject):
+    def __init__(self):
+        super().__init__()
+
+        checkmark = SVGMobject(path_to_SVG / 'check')
+
+        self.add(checkmark)
+
+
 class Scissors:
     def __init__(self, cut_coordinate=ORIGIN, style=1):
         self.style = style
 
         if style == 1:
-            self.open_scissors = OpenScissors()
-            self.closed_scissors = ClosedScissors()
+            self.open_scissors = SimpleSVGMobject('open_scissors')
+            self.closed_scissors = SimpleSVGMobject('closed_scissors')
             self.cut_coordinate = (
                 np.array(cut_coordinate)
                 - np.array([0.2, 0.4, 0])
@@ -644,13 +646,8 @@ class Scissors:
             )
         elif style == 2:
             self.cut_coordinate = cut_coordinate
-            scissor_1 = SVGMobject(
-                path_to_SVG / 'scissors' / 'scissors_1'
-            ).set_color(WHITE)
-
-            scissor_2 = SVGMobject(
-                path_to_SVG / 'scissors' / 'scissors_2'
-            ).set_color(WHITE)
+            scissor_1 = SimpleSVGMobject('scissors_1')
+            scissor_2 = SimpleSVGMobject('scissors_2')
 
             dot = Dot().scale(0.2)
             self.__p_end = [a + b for a, b in
@@ -726,10 +723,11 @@ class Scissors:
                 angle = PI / 10 * dt
                 mobject.shift(dl)
                 point = mobject[2].get_center()
-                color = Color(hue=1, saturation=t/3, luminance=1 - t)
+                color = Color(hue=1, saturation=t / 3, luminance=1 - t)
                 mobject.set_color(color)
                 mobject[0].rotate(angle=angle, about_point=point)
                 mobject[1].rotate(angle=-angle, about_point=point)
+
             scene.play(
                 UpdateFromAlphaFunc(
                     self.siz,
@@ -746,23 +744,66 @@ class Stopwatch(VGroup):
         self.__speed = 1
         self.time = ValueTracker(0)
         self.stopwatch = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch.svg').set_color(WHITE).scale(1.8)
-        self.stopwatch_arrow = SVGMobject(path_to_SVG / 'stopwatch' /'stopwatch_arow.svg')
-        self.stopwatch_resetter = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_resetter.svg').set_color(WHITE).scale(0.3)
+        self.stopwatch_arrow = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_arow.svg')
+        self.stopwatch_resetter = SVGMobject(path_to_SVG / 'stopwatch' / 'stopwatch_resetter.svg').set_color(
+            WHITE).scale(0.3)
         self.__aligning()
         vmobjects = [self.stopwatch, self.stopwatch_arrow, self.stopwatch_resetter]
         super().__init__(*vmobjects, **kwargs)
-    
+
     def __aligning(self):
-        self.stopwatch_arrow.move_to(self.stopwatch.get_center()).shift(0.48*UP+0.01*RIGHT)
+        self.stopwatch_arrow.move_to(self.stopwatch.get_center()).shift(0.48 * UP + 0.01 * RIGHT)
         self.stopwatch_resetter.next_to(self.stopwatch, UP, buff=0.05)
-    def speedup(self, ratio:float):
+
+    def speedup(self, ratio: float):
         self.__speed *= ratio
-    def set_time(self, value = 0):
+
+    def set_time(self, value=0):
         self.time.set_value(value=value)
         self.stopwatch_arrow.rotate(
-            2 * value/60 * PI,
+            2 * value / 60 * PI,
             axis=OUT,
             about_point=self.stopwatch.get_center()
         )
 
 
+class Train(VGroup):
+    def __init__(self, with_locomotive=True, passenger=True, number_of_rolling_cars=2):
+        n = number_of_rolling_cars
+        path_to_cars = path_to_SVG / 'train' / 'passenger_car.svg' if passenger else path_to_SVG / 'train' / 'freight_car.svg'
+        path_to_locomotive = path_to_SVG / 'train' / 'locomotive.svg'
+        vmobjects = [SVGMobject(path_to_cars) for _ in range(n)]
+        if with_locomotive:
+            vmobjects.append(SVGMobject(path_to_locomotive))
+        super().__init__(*vmobjects)
+        self.arrange(RIGHT, aligned_edge=DOWN)
+
+
+class Car(VGroup):
+    def __init__(self, index=True):
+        super().__init__()
+        stroke_prop = {
+
+            'car_1': {
+                'object_stokes': {16: 2, 17: 2},
+            },
+            'car_2': {
+                'object_stokes': {k: 2 for k in range(0, 15)},
+            },
+            'car_3': {
+                'object_stokes': {50: 2},
+            },
+            'car_4': {
+                'object_stokes': {k: 2 for k in range(0, 71)},
+            },
+            'car_6': {
+                'object_stokes': {16: 2}
+            },
+        }
+
+        path_to_car = path_to_SVG / 'cars' / f'{index}.svg'
+        car = SVGMobject(path_to_car)
+        if index in stroke_prop:
+            for obj_idx, stoke_width in stroke_prop[index]['object_stokes'].items():
+                car[obj_idx].set_stroke(width=stoke_width)
+        self.add(car)

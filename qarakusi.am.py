@@ -91,7 +91,7 @@ def render(
         sys.exit(f'Loading problem module failed: {err}')
 
     try:
-        scene.render(True)
+        scene.render()
     except Exception:
         error_console.print_exception()
         sys.exit(1)
@@ -118,8 +118,8 @@ def load_scene(module, scene_class_name, prefix=False):
         scene_names = [key for key in dir(module)
                        if key.startswith(scene_class_name)
                        and isinstance(getattr(module, key), type)
-                       and getattr(module, key) is not Scene
-                       and issubclass(getattr(module, key), Scene)]
+                       and issubclass(getattr(module, key), Scene)
+                       and getattr(module, key).__module__ == module.__name__]
         if len(scene_names) == 0:
             raise Exception('No scene found')
         elif len(scene_names) == 1:

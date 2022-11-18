@@ -1,20 +1,13 @@
-import numpy as np
-
-from manim import LEFT, RIGHT, SMALL_BUFF, DOWN
-from manim import WHITE, LIGHT_GRAY, GREEN
-from manim import Tex, MathTex
-from manim import VMobject, VGroup, Line, DashedLine, SurroundingRectangle
-from manim import BraceLabel
+from manim import DEFAULT_STROKE_WIDTH
+from manim import LEFT, RIGHT
+from manim import WHITE
+from manim import VMobject, VGroup, Line
 from manim import Write, ReplacementTransform
 from manim import Scene
 
 from constants import DEFAULT_ENDMARK_LENGTH, DEFAULT_SEGMENT_STROKE_WIDTH
 from constants import DEFAULT_EXTRA_SEGMENT_COLOR, DEFAULT_COUNTING_COLOR
 from constants import DEFAULT_SEGMENT_TEXT_POSITION
-from constants import DEFAULT_SEGMENT_LENGTH_FONT_SIZE
-from constants import DEFAULT_TOTAL_LENGTH_FONT_SIZE
-from constants import DEFAULT_EQUATION_FONT_SIZE, ARMTEX
-from objects import Scissors
 
 
 class SegmentEndmark(VMobject):

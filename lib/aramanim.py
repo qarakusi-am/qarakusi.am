@@ -1,6 +1,6 @@
-from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH, WHITE
 from manim import VMobject, VGroup, Line
-from manim import TexTemplate, MathTex
+from manim import MathTex
 from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
 import numpy as np
@@ -33,7 +33,7 @@ class Segment(VGroup):
             edge_hight = kwargs['edge_hight']
             del kwargs['edge_hight']
         else:
-            edge_hight = DEFAULT_EDGE_HEIGHT        
+            edge_hight = DEFAULT_EDGE_HEIGHT
         self.line = Line(start, end, buff=0, **kwargs)
         self.left_edge = always_redraw(
             lambda: Line(
@@ -189,3 +189,7 @@ class Reset(Animation):
         self.mobject.time.set_value(0)
 
 ### ժամացույցի անիմացիա  END ###
+
+
+def get_segment_part(length, label=None, color=WHITE, **kwargs):
+    return Segment(ORIGIN, length * RIGHT, label, stroke_width=6, color=color, **kwargs)

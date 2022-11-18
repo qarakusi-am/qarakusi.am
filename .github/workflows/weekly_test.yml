@@ -1,0 +1,25 @@
+name: Check existing videos
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python environment
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+      - name: Update apt
+        run: sudo apt update && sudo apt upgrade
+      - name: Install dependencies
+        run: sudo apt install libcairo2-dev libpango1.0-dev ffmpeg texlive-full
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v3
+        with:
+          path: "requirements.txt"
+      - name: Rendering Scenes
+        run: PYTHONPATH=lib:objects python manim_test.py
