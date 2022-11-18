@@ -1,4 +1,7 @@
-from manim import*
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, UL, UR, DL, PI, YELLOW, BLACK, WHITE
+from manim import VMobject, VGroup, Dot, Line, Rectangle, MathTex, Tex
+from manim import Wait, AnimationGroup, FadeIn, FadeOut, Indicate, Wiggle, Create, Uncreate, Write, ReplacementTransform, TransformMatchingShapes
+from manim import Scene
 from .text import text_list
 
 def SpetialTransform(mob_1: VMobject, mob_2: VMobject):
@@ -322,14 +325,6 @@ class Distributive(Scene):
                 by_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN),
                 bz_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN)),
             FadeIn(eq_sign, scale=1.5),
-            #AnimationGroup(
-            #    FadeIn(p_signs[0], scale=0.5),
-            #    FadeIn(p_signs[1], scale=0.5),
-            #    FadeIn(p_signs[2], scale=0.5),
-            #    FadeIn(p_signs[3], scale=1.5),
-            #    FadeIn(p_signs[4], scale=1.5),
-            #    FadeIn(p_signs[5], scale=1.5),
-            #    FadeIn(p_signs[6], scale=1.5)),
             lag_ratio=0.25
         ), run_time = 1.5)
         rect = Rectangle().stretch_to_fit_height(rect_0.height).stretch_to_fit_width(rect_0.width)
