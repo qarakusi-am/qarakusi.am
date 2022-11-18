@@ -34,9 +34,10 @@ from manim import Brace, Dot, DashedLine
 from manim import Create, ReplacementTransform, FadeOut, FadeIn, Write
 from manim import Indicate, Circumscribe
 
+from qarakusiscene import TaskNumberBox
 
 from constants import DEFAULT_SEGMENT_TEXT_POSITION
-from .text import youngest, second, third, fourth, fifth, fifth_2
+from .text import taskNumberString, youngest, second, third, fourth, fifth, fifth_2
 
 from segment import Segment
 
@@ -45,26 +46,31 @@ import numpy as np
 class Problem11334(Scene):
     def construct(self):
 
+        self.wait()
+        taskNumber = TaskNumberBox(taskNumberString)
+        self.play(FadeIn(taskNumber))
+        self.wait()
+
 # INITS
         left_boundary = -3.75
         part_length = ValueTracker(2.5)
 
     # seg_1
-        seg_1 = always_redraw(lambda: Segment([left_boundary, 3, 0], [left_boundary + part_length.get_value(), 3, 0]))
+        seg_1 = always_redraw(lambda: Segment([left_boundary, 2.75, 0], [left_boundary + part_length.get_value(), 2.75, 0]))
 
 
         youngest.next_to(seg_1, 2 * LEFT)
-        second.shift(2 * UP).align_to(youngest, LEFT)
-        third.next_to(UP).align_to(second, LEFT)
-        fourth.align_to(third, LEFT)
-        fifth.shift(DOWN).align_to(fourth, LEFT)
-        fifth_2.shift(2 * DOWN).align_to(fifth, LEFT)
+        second.shift(1.75 * UP).align_to(youngest, LEFT)
+        third.shift(0.75 * UP).align_to(second, LEFT)
+        fourth.shift(0.25 * DOWN).align_to(third, LEFT)
+        fifth.shift(1.25 * DOWN).align_to(fourth, LEFT)
+        fifth_2.shift(2.25 * DOWN).align_to(fifth, LEFT)
 
     # seg_2
-        seg_2_init = Segment([left_boundary, 2, 0], [left_boundary + part_length.get_value() + 1.5, 2, 0])
+        seg_2_init = Segment([left_boundary, 1.75, 0], [left_boundary + part_length.get_value() + 1.5, 1.75, 0])
         seg_2_black = seg_1.copy()
 
-        seg_2 = always_redraw(lambda: Segment([left_boundary, 2, 0], [left_boundary + part_length.get_value(), 2, 0]))
+        seg_2 = always_redraw(lambda: Segment([left_boundary, 1.75, 0], [left_boundary + part_length.get_value(), 1.75, 0]))
         seg_2_extra = always_redraw(lambda: 
             Segment(seg_2.line.get_right(), seg_2.line.get_right() + np.array([1.5, 0, 0]), ORANGE, text=Tex('3'))
         )
@@ -88,10 +94,10 @@ class Problem11334(Scene):
 
     # seg_3
         unnecessary_length_3 = ValueTracker(1)
-        seg_3_init = always_redraw(lambda: Segment([left_boundary, 1, 0], [left_boundary + part_length.get_value() + 2 * 1.5 + unnecessary_length_3.get_value(), 1, 0]))
+        seg_3_init = always_redraw(lambda: Segment([left_boundary, 0.75, 0], [left_boundary + part_length.get_value() + 2 * 1.5 + unnecessary_length_3.get_value(), 0.75, 0]))
         seg_3_black = VGroup(seg_2, seg_2_extra).copy()
 
-        seg_3 = always_redraw(lambda: Segment([left_boundary, 1, 0], [left_boundary + part_length.get_value(), 1, 0]))
+        seg_3 = always_redraw(lambda: Segment([left_boundary, 0.75, 0], [left_boundary + part_length.get_value(), 0.75, 0]))
         seg_3_extra_combined = always_redraw(lambda: 
             Segment(seg_3.line.get_right(), seg_3.line.get_right() + np.array([1.5 * 2, 0, 0]), ORANGE, text=MathTex('6'))
         )
@@ -120,10 +126,10 @@ class Problem11334(Scene):
 
     # seg_4
         unnecessary_length_4 = ValueTracker(2.5)
-        seg_4_init = always_redraw(lambda: Segment([left_boundary, 0, 0], [left_boundary + part_length.get_value() + 3 * 1.5 + unnecessary_length_4.get_value(), 0, 0]))
+        seg_4_init = always_redraw(lambda: Segment([left_boundary, -0.25, 0], [left_boundary + part_length.get_value() + 3 * 1.5 + unnecessary_length_4.get_value(), -0.25, 0]))
         seg_4_black = VGroup(seg_3, seg_3_extra_1, seg_3_extra_2).copy()
 
-        seg_4 = always_redraw(lambda: Segment([left_boundary, 0, 0], [left_boundary + part_length.get_value(), 0, 0]))
+        seg_4 = always_redraw(lambda: Segment([left_boundary, -0.25, 0], [left_boundary + part_length.get_value(), -0.25, 0]))
         seg_4_extra_combined = always_redraw(lambda: 
             Segment(seg_4.line.get_right(), seg_4.line.get_right() + np.array([1.5 * 3, 0, 0]), ORANGE, text=MathTex('9'))
         )
@@ -156,14 +162,13 @@ class Problem11334(Scene):
     # seg_5
         unnecessary_length_5 = ValueTracker(1.5)
         necessary_length_5 = ValueTracker(0)
-        seg_5_init = always_redraw(lambda: Segment([left_boundary + necessary_length_5.get_value(), -1, 0], [left_boundary + part_length.get_value() + 4 * 1.5 + unnecessary_length_5.get_value(), -1, 0]))
+        seg_5_init = always_redraw(lambda: Segment([left_boundary + necessary_length_5.get_value(), -1.25, 0], [left_boundary + part_length.get_value() + 4 * 1.5 + unnecessary_length_5.get_value(), -1.25, 0]))
         seg_5_black = VGroup(seg_4, seg_4_extra_1, seg_4_extra_2, seg_4_extra_3).copy()
 
-        seg_5 = always_redraw(lambda: Segment([left_boundary, -1, 0], [left_boundary + part_length.get_value(), -1, 0]))
+        seg_5 = always_redraw(lambda: Segment([left_boundary, -1.25, 0], [left_boundary + part_length.get_value(), -1.25, 0]))
         seg_5_extra_combined = always_redraw(lambda: 
             Segment(seg_5.line.get_right(), seg_5.line.get_right() + np.array([1.5 * 4, 0, 0]), ORANGE, text=MathTex('12'))
         )
-        # seg_5_extra_combined.add_updater(lambda mob: mob.become(Segment(seg_5.line.get_right(), seg_5.line.get_right() + np.array([1.5 * 4, 0, 0]), ORANGE, text=Tex('12'))))
 
         seg_5_extra_1 = Segment(seg_5.line.get_right(), seg_5.line.get_right() + np.array([1.5, 0, 0]), ORANGE, text=MathTex('3'))
         seg_5_extra_2 = Segment(seg_5_extra_1.line.get_right(), seg_5_extra_1.line.get_right() + np.array([1.5, 0, 0]), ORANGE, text=MathTex('3'))
