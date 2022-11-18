@@ -190,9 +190,7 @@ class Distributive(Scene):
                 ReplacementTransform(h_edg[2], b_text.next_to((rect.get_corner(DL)+h_tip.get_center())/2, RIGHT, buff=0.1))),
             Wait(0.5),
             FadeIn(h_tip, scale=3),
-            lag_ratio=0.2
-
-        ))
+            lag_ratio=0.2))
         self.wait()
         self.play(AnimationGroup(
             FadeOut(w_edg[1], w_edg[3], scale = 0.2),
@@ -204,9 +202,7 @@ class Distributive(Scene):
             AnimationGroup(
                 FadeIn(w_tip_0, scale=3),
                 FadeIn(w_tip_1, scale=3)),
-            lag_ratio=0.2
-
-        ))
+            lag_ratio=0.2))
         self.wait()
         w_line_0 = Line(w_tip_0.get_center(), w_tip_0.get_center() + (a+b)*DOWN)
         w_line_1 = Line(w_tip_1.get_center(), w_tip_1.get_center() + (a+b)*DOWN)
