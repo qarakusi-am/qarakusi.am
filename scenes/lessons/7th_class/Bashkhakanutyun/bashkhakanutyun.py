@@ -532,7 +532,7 @@ class Distributive(Scene):
             AnimationGroup(
                 FadeIn(formula_example[24:27], shift = 0.05*RIGHT, scale = 1.1),
                 FadeIn(formula_example[27:29], shift = 0.05*LEFT, scale = 1.1)),
-            FadeIn(formula_example[23].set_opacity(0.5), scale = 0.5),
+            FadeIn(formula_example[23], scale = 0.5),
             lag_ratio=0.25
         ), run_time = 3)
         self.wait(0.25)
