@@ -47,6 +47,8 @@ class Distributive(Scene):
         ab_ac.add(a.copy().next_to(ab_ac, LEFT, buff = -0.25))
         ab_ac.add(b_c_f.next_to(ab_ac.get_edge_center(UP), DOWN, buff = 0.1))
         self.add(ab_ac)
+        ab_ac_alt_copy = ab_ac.copy()
+        ab_ac_alt_copy.set_z_index(1)
         self.wait()
         self.play(TransformMatchingShapes(ab_ac[2].copy(), dist_f[2:5]), run_time = 2)
         self.play(AnimationGroup(
@@ -63,11 +65,29 @@ class Distributive(Scene):
         ax.add(b.next_to(ax.get_edge_center(UP), DOWN, buff = 0.1))
         ay.add(c.next_to(ay.get_edge_center(UP), DOWN, buff = 0.1))
         ab_ac_copy = VGroup(ax, ay)
-        ab_ac.set_z_index(1)
+        ab_ac.set_z_index(2)
         self.play(
             ab_ac_f.animate.shift(3.25*LEFT),
             ab_ac_copy.animate.shift(3.25*RIGHT),
+            ab_ac_alt_copy.animate.shift(3.25*RIGHT),
             run_time = 2)
+        w_tip_0 = Line(ORIGIN, 0.25*UP).set_stroke(width = 2).move_to(ab_ac_copy[0].get_corner(UR)).set_z_index(2)
+        self.play(AnimationGroup(
+            AnimationGroup(
+                ab_ac_alt_copy[0].animate.set_opacity(1),
+                ab_ac_alt_copy[2][0].animate.move_to(b),
+                ab_ac_alt_copy[2][1].animate.set_opacity(0),
+                ab_ac_alt_copy[2][2].animate.move_to(c)),
+            FadeIn(w_tip_0, scale=3),
+        ))
+        ab_ac_alt_copy[2][1].set_opacity(0)
+        self.wait(0.75)
+        w_line_0 = Line(w_tip_0.get_center(), w_tip_0.get_center() + H*DOWN).set_z_index(2)
+        self.play(AnimationGroup(
+            Create(w_line_0),
+            FadeOut(w_tip_0),
+            lag_ratio=0.2))
+        self.play(FadeOut(ab_ac_alt_copy, w_line_0))
         ab_ac_copy[1].add(a.set_color('#B73E3E').next_to(ab_ac_copy[1], LEFT, buff = -0.25))
         sign_pl.move_to(ab_ac_copy[1].get_edge_center(LEFT))
         sign_eq.move_to(0.5*(ab_ac.get_edge_center(LEFT) + ab_ac_copy.get_edge_center(RIGHT))).shift(0.25*LEFT)
@@ -519,9 +539,9 @@ class Distributive(Scene):
             Create(ax_line),
             Wait(0.2),
             AnimationGroup(
-                FadeIn(formula_example[16:18], shift = 0.05*RIGHT, scale = 1.1),
+                FadeIn(formula_example[16:18], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[18]),
-                FadeIn(formula_example[19:21], shift = 0.05*LEFT, scale = 1.1), lag_ratio=0.25),
+                FadeIn(formula_example[19:21], shift = 0.05*LEFT, scale = 1.5), lag_ratio=0.25),
             FadeIn(formula_example[15].set_opacity(0.25), scale = 0.5),
             lag_ratio=0.25
         ), run_time = 3)
@@ -530,9 +550,9 @@ class Distributive(Scene):
             ReplacementTransform(ax_line, ay_line),
             Wait(0.2),
             AnimationGroup(
-                FadeIn(formula_example[22:24], shift = 0.05*RIGHT, scale = 1.1),
+                FadeIn(formula_example[22:24], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[24]),
-                FadeIn(formula_example[25], shift = 0.05*LEFT, scale = 1.1), lag_ratio=0.25),
+                FadeIn(formula_example[25], shift = 0.05*LEFT, scale = 1.5), lag_ratio=0.25),
             FadeIn(formula_example[21], scale = 0.5),
             lag_ratio=0.25
         ), run_time = 3)
@@ -542,9 +562,9 @@ class Distributive(Scene):
             Create(bx_line),
             Wait(0.2),
             AnimationGroup(
-                FadeIn(formula_example[27:30], shift = 0.05*RIGHT, scale = 1.1),
+                FadeIn(formula_example[27:30], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[30]),
-                FadeIn(formula_example[31:33], shift = 0.05*LEFT, scale = 1.1), lag_ratio=0.25),
+                FadeIn(formula_example[31:33], shift = 0.05*LEFT, scale = 1.5), lag_ratio=0.25),
             FadeIn(formula_example[26], scale = 0.5),
             lag_ratio=0.25
         ), run_time = 3)
@@ -553,9 +573,9 @@ class Distributive(Scene):
             ReplacementTransform(bx_line, by_line),
             Wait(0.2),
             AnimationGroup(
-                FadeIn(formula_example[34:37], shift = 0.05*RIGHT, scale = 1.1),
+                FadeIn(formula_example[34:37], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[37]),
-                FadeIn(formula_example[38], shift = 0.05*LEFT, scale = 1.1), lag_ratio=0.25),
+                FadeIn(formula_example[38], shift = 0.05*LEFT, scale = 1.5), lag_ratio=0.25),
             FadeIn(formula_example[33], scale = 0.5),
             lag_ratio=0.25
         ), run_time = 3)
