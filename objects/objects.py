@@ -636,8 +636,8 @@ class Scissors:
             self.open_scissors = SimpleSVGMobject('open_scissors')
             self.closed_scissors = SimpleSVGMobject('closed_scissors')
             self.cut_coordinate = (
-                    np.array(cut_coordinate)
-                    - np.array([0.2, 0.4, 0])
+                np.array(cut_coordinate)
+                - np.array([0.2, 0.4, 0])
             )
             self.closed_scissors.move_to(self.cut_coordinate)
             self.open_scissors.move_to(
