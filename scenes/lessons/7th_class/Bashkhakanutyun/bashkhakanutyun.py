@@ -143,7 +143,7 @@ class Distributive(Scene):
         formula_forever[16].set_color('#B73E3E')
         formula_alt = MathTex('(', 'a', '+', 'b',')','(', 'x', '+', 'y', '+', 'z', ')', '=', ' ', ' ', ' ', ' ', ' ', '?').match_height(previous_formula).align_to(previous_formula, UL)
         formula_alt[1].set_color('#B73E3E')
-        formula_alt[3].set_color('#B73E3E')
+        formula_alt[3].set_color('#628E90')
         formula_alt.shift(formula_forever[5].get_center() - formula_alt[5].get_center())        
         self.remove(previous_formula)
         self.add(formula_forever)
@@ -498,9 +498,9 @@ class Distributive(Scene):
         formula_forever[1].set_color('#B73E3E')
         formula_forever[11][0].set_color('#B73E3E')
         formula_forever[13][0].set_color('#B73E3E')
-        formula_forever[3].set_color('#B73E3E')
-        formula_forever[15][0].set_color('#B73E3E')
-        formula_forever[17][0].set_color('#B73E3E')
+        formula_forever[3].set_color('#628E90')
+        formula_forever[15][0].set_color('#628E90')
+        formula_forever[17][0].set_color('#628E90')
         self.remove(rect_alt[1])
         self.play(AnimationGroup(
             FadeOut(rect_alt, eq_sign, ax_c, ay_c, bx_c, by_c, scale = 0.85),
@@ -518,13 +518,11 @@ class Distributive(Scene):
             '+', '2', 'x', 'y', '\cdot', '7', 'x', '+', '2', 'x', 'y', '\cdot', 'y' #38
         ).scale(1.1)
         formula_example[1:3].set_color('#B73E3E')
-        formula_example[1:3].set_color('#B73E3E')
-        formula_example[4:7].set_color('#B73E3E')
-        formula_example[4:7].set_color('#B73E3E')
+        formula_example[4:7].set_color('#628E90')
         formula_example[16:18].set_color('#B73E3E') 
         formula_example[22:24].set_color('#B73E3E') 
-        formula_example[27:30].set_color('#B73E3E') 
-        formula_example[34:37].set_color('#B73E3E')   
+        formula_example[27:30].set_color('#628E90') 
+        formula_example[34:37].set_color('#628E90')   
         formula_example.next_to(formula_forever, DOWN)
         self.play(AnimationGroup(
             formula_forever.animate.to_corner(UR).scale(0.7),
