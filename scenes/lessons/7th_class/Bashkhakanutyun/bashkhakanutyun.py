@@ -1,8 +1,10 @@
-from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, UL, UR, DL, PI, YELLOW, BLACK, WHITE
-from manim import VMobject, VGroup, Dot, Line, Rectangle, MathTex, Tex
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, UL, UR, DL, PI, YELLOW, GREEN, BLACK, WHITE
+from manim import VMobject, VGroup, Dot, Line, Rectangle, MathTex, Tex, SurroundingRectangle
 from manim import Wait, AnimationGroup, FadeIn, FadeOut, Indicate, Wiggle, Create, Uncreate, Write, ReplacementTransform, TransformMatchingShapes
-from manim import Scene
 from .text import text_list
+
+from hanrahashiv import FormulaModificationsScene
+from hanrahashiv import ModifyFormula
 
 def SpetialTransform(mob_1: VMobject, mob_2: VMobject):
     return AnimationGroup(
@@ -23,7 +25,7 @@ class ConectionLine(VMobject):
 
 H = 2
 RATIO = 1.75
-class Distributive(Scene):
+class Distributive(FormulaModificationsScene):
     def construct(self):
         self.nostalgy()
         self.texting()
@@ -581,4 +583,143 @@ class Distributive(Scene):
         self.play(
             Uncreate(by_line),
             formula_example[15].animate.set_opacity(1))
+        self.wait()
+
+        self.play(formula_example.animate.set_color(WHITE))
+        self.wait()
+
+        self.fix_formula(formula_example)
+        self.play(Wiggle(formula_example[16:21], scale_value=1.3))
+        self.wait()
+
+        rearrange_list = []
+
+        for i in range(len(formula_example)):
+            if i == 16:
+                rearrange_list.append(19)
+            elif i in [17, 18, 19]:
+                rearrange_list.append(i-1)
+            else:
+                rearrange_list.append(i)
+
+        self.rearrange_formula(
+            formula_example, rearrange_list,
+            [19], [], [], []
+        )
+        self.wait()
+
+        self.play(
+            ModifyFormula(
+                formula_example,
+                replace_items=[[17, 18, 19, 20]],
+                replace_items_strs=[[r'x', r'^3']]
+            )
+        )
+        self.wait()
+
+        self.fix_formula(formula_example)
+        self.play(Wiggle(formula_example[20:24], scale_value=1.3))
+        self.wait(0.2)
+
+        self.play(
+            ModifyFormula(
+                    formula_example,
+                    remove_items=[22]
+                )
+        )
+        self.wait(0.5)
+
+        self.fix_formula(formula_example)
+        self.play(Wiggle(formula_example[24:30], scale_value=1.3))
+        self.wait()
+
+        rearrange_list = []
+        for i in range(len(formula_example)):
+            if i == 24:
+                rearrange_list.append(28)
+            elif i == 25:
+                rearrange_list.append(27)
+            elif i in [26, 27, 28]:
+                rearrange_list.append(i-2)
+            else:
+                rearrange_list.append(i)
+
+        self.rearrange_formula(
+            formula_example, rearrange_list,
+            [28], [], [27], []
+        )
+        self.wait()
+
+        self.play(
+            ModifyFormula(
+                formula_example,
+                replace_items=[[24, 25, 26]],
+                replace_items_strs=[[r'14']]
+            )
+        )
+        self.wait()
+
+        self.fix_formula(formula_example)
+
+        rearrange_list = []
+        for i in range(len(formula_example)):
+            if i == 26:
+                rearrange_list.append(27)
+            elif i == 27:
+                rearrange_list.append(26)
+            else:
+                rearrange_list.append(i)
+
+        self.rearrange_formula(
+            formula_example, rearrange_list,
+            [27], [], [], []
+        )
+        self.wait()
+
+        self.play(
+            ModifyFormula(
+                formula_example,
+                replace_items=[[26]],
+                replace_items_strs=[[r'^2']]
+            )
+        )
+        self.wait()
+
+        self.fix_formula(formula_example)
+
+        self.play(Wiggle(formula_example[29:34], scale_value=1.3, color=YELLOW))
+        self.wait()
+
+        self.play(
+            ModifyFormula(
+                formula_example,
+                replace_items=[[32, 33]],
+                replace_items_strs=[[r'^2']]
+            )
+        )
+        self.wait()
+        self.fix_formula(formula_example)
+
+        self.play(
+            Indicate(formula_example[20:23], scale_value=1.3),
+            Indicate(formula_example[24:28], scale_value=1.3)
+        )
+        self.wait()
+
+        self.play(
+            ModifyFormula(
+                formula_example,
+                replace_items=[[20, 21, 22, 23, 24, 25, 26, 27]],
+                replace_items_strs=[[r'15', r'x', r'^2', r'y']]
+            )
+        )
+        self.wait()
+        self.fix_formula(formula_example)
+
+        self.play(formula_example.animate.set_x(0).scale(1.2))
+        self.wait(0.5)
+
+        answer_rect = SurroundingRectangle(formula_example, color=GREEN, corner_radius=0.2)
+
+        self.play(Create(answer_rect))
         self.wait()
