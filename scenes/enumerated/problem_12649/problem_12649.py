@@ -108,7 +108,7 @@ class Problem12649(FormulaModificationsScene):
             '$2$', '$x$', r'$\cdot$', '$($', '$3$', '$x$', '$^2$', ' $+$ ', '$c$', '$)$', ' $=$ ',
             '$2$', '$x$', r'$\cdot$', '$3$', '$x$', '$^2$', ' $+$ ', '$2$', '$x$',r'$\cdot$', '$c$',
             font_size=FONT_SIZE
-        ) # 2x•(3x^3+c) = 2x•3x^2+2x•c
+        ) # 2x•(3x^2+c) = 2x•3x^2+2x•c
         dist_prop3.next_to(dist_prop2, DOWN).align_to(dist_prop2, LEFT)
         dist_prop3[0:2].set_color(RED)
         dist_prop3[11:13].set_color(RED)
@@ -133,7 +133,7 @@ class Problem12649(FormulaModificationsScene):
             '$2$', '$x$', r'$\cdot$', '$($', '$3$', '$x$', '$^2$', ' $+$ ', '$1$', '$)$', ' $=$ ',
             '$2$', '$x$', r'$\cdot$', '$3$', '$x$', '$^2$', ' $+$ ', '$2$', '$x$',r'$\cdot$', '$1$',
             font_size=FONT_SIZE
-        ) # 2x•(3x^3+1) = 2x•3x^2+2x•1
+        ) # 2x•(3x^2+1) = 2x•3x^2+2x•1
         dist_prop4.next_to(dist_prop3, DOWN).align_to(dist_prop3, LEFT)
         dist_prop4[0:2].set_color(RED)
         dist_prop4[11:13].set_color(RED)
@@ -150,24 +150,24 @@ class Problem12649(FormulaModificationsScene):
         # առաջին գումարելի
         self.play(Wiggle(dist_prop4[11:17], scale_factor=WIGGLE_SCALE_FACTOR))
         self.wait(0.1)
-        self.rearrange_formula(dist_prop4, [*range(12), 13,14,12, *range(15, 22)], move_down=[13,14]) # 2x•(3x^3+1) = 2•3xx^2+2x•1
+        self.rearrange_formula(dist_prop4, [*range(12), 13,14,12, *range(15, 22)], move_down=[13,14]) # 2x•(3x^2+1) = 2•3xx^2+2x•1
         self.wait(0.25)
         self.play(
             ModifyFormula(dist_prop4, remove_items=[12,13], replace_items=[[11]], replace_items_strs=[['6']])
-        ) # 2x•(3x^3+1) = 6xx^2+2x•1
+        ) # 2x•(3x^2+1) = 6xx^2+2x•1
         self.wait(0.25)
         self.play(
             ModifyFormula(dist_prop4, replace_items=[[12, 13, 14]], replace_items_strs=[['$x$', '$^3$']])
-        ) # 2x•(3x^3+1) = 6x^3+2x•1
+        ) # 2x•(3x^2+1) = 6x^3+2x•1
         self.wait(0.25)
 
         # երկրորդ գումարելի
         self.play(Wiggle(dist_prop4[15:], scale_factor=WIGGLE_SCALE_FACTOR))
         self.wait(0.1)
-        self.rearrange_formula(dist_prop4, [*range(16), 17, 18, 16], move_down=[17,18]) # 2x•(3x^3+1) = 6x^3+2•1x
+        self.rearrange_formula(dist_prop4, [*range(16), 17, 18, 16], move_down=[17,18]) # 2x•(3x^2+1) = 6x^3+2•1x
         self.wait(0.25)
 
-        self.play(ModifyFormula(dist_prop4, remove_items=[16,17])) # 2x•(3x^3+1) = 6x^3+2x
+        self.play(ModifyFormula(dist_prop4, remove_items=[16,17])) # 2x•(3x^2+1) = 6x^3+2x
         self.wait(0.25)
 
         self.play(FadeOut(dist_prop1), FadeOut(dist_prop2), FadeOut(dist_prop3), FadeOut(dist_prop4[0:10]))
