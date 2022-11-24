@@ -9,7 +9,7 @@ __all__ = [
     "ani_name_str",
     "babken_name_str",
     "metr_str",
-    "all_str",
+    "total_str",
     "ani_area_str",
     "babken_area_str"
 ]
