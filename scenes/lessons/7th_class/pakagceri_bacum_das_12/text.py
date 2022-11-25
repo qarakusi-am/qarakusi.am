@@ -6,5 +6,4 @@ else:
     from .english_text import *
 
 __all__ = [
-    "ani_name_str",
 ]
