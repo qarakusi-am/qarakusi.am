@@ -106,7 +106,7 @@ class Problem12658(FormulaModificationsScene):
         self.wait()
 
         # task 1
-        task1 = Tex("1. ", "$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE)
+        task1 = Tex("1) ", "$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE)
         task1.to_edge(UL, buff=.5).shift(DOWN*.8)
         self.play(Write(task1))
         self.wait()
@@ -194,15 +194,28 @@ class Problem12658(FormulaModificationsScene):
         )
         self.wait()
 
-        task1 = Tex("1. ", "$x$", "$^2$", " $+$ ", "$4$", "$\\cdot$", "$x$", " $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$", font_size=BIG_FONT_SIZE).align_to(task1, UL)
+        # task1 = Tex("1) ", "$x$", "$^2$", " $+$ ", "$4$", "$\\cdot$", "$x$", " $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$", font_size=BIG_FONT_SIZE).align_to(task1, UL)
+        self.fix_formula(task1)
         self.play(
-            ReplacementTransform(task1_copy[7:], task1[7:]),
+            ModifyFormula(
+                task1,
+                add_after_items=[len(task1)-1],
+                add_items_strs=[[" $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$"]],
+                add_items_colors=[[BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK]],
+                new_formula_alignment=LEFT
+            )
+        )
+        temp = task1[6:].copy().set_color(WHITE)
+        self.play(
+            ReplacementTransform(task1_copy[7:], temp),
             FadeOut(task1_copy[:7])
         )
+        task1[6:].set_color(WHITE)
+        self.remove(temp)
         self.wait()
 
         # task 2
-        task2 = Tex("2. ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE)
+        task2 = Tex("2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE)
         task2.next_to(task1, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task2))
         self.wait()
@@ -301,7 +314,7 @@ class Problem12658(FormulaModificationsScene):
         self.play(Write(task2_copy[-1].set_color(WHITE)))
         self.wait()
 
-        task2 = Tex("2. ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", " $=$ ", "$a$", "$^2$", "$b$", "$^3$", "$($", "$2$", " $+$ ", "$a$", "$^3$", "$)$", font_size=BIG_FONT_SIZE).align_to(task2, UL)
+        task2 = Tex("2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", " $=$ ", "$a$", "$^2$", "$b$", "$^3$", "$($", "$2$", " $+$ ", "$a$", "$^3$", "$)$", font_size=BIG_FONT_SIZE).align_to(task2, UL)
         self.play(
             ReplacementTransform(task2_copy[13:], task2[11:]),
             FadeOut(task2_copy[:13])
@@ -309,7 +322,7 @@ class Problem12658(FormulaModificationsScene):
         self.wait()
 
         # task 3
-        task3 = Tex("3. ", "$6$", "$x$", "$y$", "$^5$", " $-$ ", "$9$", "$x$", "$^3$", "$y$", "$^3$", font_size=BIG_FONT_SIZE)
+        task3 = Tex("3) ", "$6$", "$x$", "$y$", "$^5$", " $-$ ", "$9$", "$x$", "$^3$", "$y$", "$^3$", font_size=BIG_FONT_SIZE)
         task3.next_to(task2, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task3))
         self.wait()
@@ -411,7 +424,7 @@ class Problem12658(FormulaModificationsScene):
         self.wait()
 
         # task 4
-        task4 = Tex("4. ", "$12$", "$m$", "$n$", "$^3$", " $+$ ", "$6$", "$m$", "$^2$", "$n$", "$^3$", " $-$ ", "$18$", "$m$", "$^2$", "$n$", "$^2$", font_size=BIG_FONT_SIZE)
+        task4 = Tex("4) ", "$12$", "$m$", "$n$", "$^3$", " $+$ ", "$6$", "$m$", "$^2$", "$n$", "$^3$", " $-$ ", "$18$", "$m$", "$^2$", "$n$", "$^2$", font_size=BIG_FONT_SIZE)
         task4.next_to(task3, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task4))
         self.wait()
@@ -477,7 +490,15 @@ class Problem12658(FormulaModificationsScene):
         self.play(Write(task4_copy1[7].set_color(WHITE)))
 
         self.play(FadeOut(task4_copy))
-        self.play(task4_copy1.animate.shift(UP).set_color(WHITE))
+        self.fix_formula(task4)
+        self.play(
+            task4_copy1.animate.shift(UP).set_color(WHITE),
+            ModifyFormula(
+                task4,
+                add_after_items=[len(task4)-1],
+                add_items_strs=[[" $=$ "]]
+            )
+        )
         self.wait()
 
         # task 5
