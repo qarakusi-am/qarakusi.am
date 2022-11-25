@@ -1,4 +1,11 @@
-from manim import *
+from manim import WHITE, YELLOW, ORANGE, BLUE, RED, MAROON, GOLD_A, TEAL, GREEN
+from manim import MathTex, VGroup
+from manim import SurroundingRectangle, Rectangle, Circle
+from manim import RIGHT, LEFT, UP, DOWN, DR, UL, DR, ORIGIN
+from manim import AnimationGroup, Write, Unwrite, FadeIn, FadeOut, Create, ReplacementTransform
+from manim import Indicate, Circumscribe, Wiggle, TransformMatchingTex, ClockwiseTransform
+
+import numpy as np
 from colour import Color
 
 from aramanim import ConectionLine
@@ -139,8 +146,9 @@ class scene1(FormulaModificationsScene):
         self.wait()
         self.play(VGroup(form_1, srr_rect1).animate.to_edge(UP, buff=1))
         self.wait()
-        self.play(Write(self.ex_1))
+        self.play(Write(self.ex_1, run_time=2))
         self.wait()
+        self.play(Circumscribe(self.ex_1[4:-1], fade_out=True, run_time=1.5))
         ex_1_anim = [Indicate(self.ex_1[start:end]) for start, end in zip([4, 6, 9], [5, 8, 10])]
         self.play(AnimationGroup(*ex_1_anim, lag_ratio=0.5))
         self.wait()
@@ -190,7 +198,7 @@ class scene1(FormulaModificationsScene):
         self.play(AnimationGroup(*form_1_anim))
 
         #######################################################################################
-        # ATTACHING A NEW ONE
+        # ATTACHING A NEW rectangle with sides a and d
         self.play(rect_abc.animate.shift(LEFT * 1))
 
         rect_3.next_to(rect_abc, RIGHT, buff=0).align_to(rect_abc, DOWN)
@@ -209,20 +217,13 @@ class scene1(FormulaModificationsScene):
         form_2[17 + 4].move_to(pl2_sign_loc).align_to(form_1[13 + 4], DOWN)
         form_2[18 + 4:].move_to(rect_3_copy.get_edge_center(UP)).align_to(form_1[0], DOWN)
 
-        self.play(AnimationGroup(*[
+        self.play(
             ReplacementTransform(form_1, form_2),
-            Write(VGroup(rect_3_copy, a_copy2, d_copy)), Write(VGroup(rect_3, d)),
-            Write(plus_sign_2.move_to(pl2_sign_loc)),
-        ]))
-
-        start = [0, 2, 10 + 4, 14 + 4, 18 + 4]
-        end = [1, 9 + 4, 13 + 4, 17 + 4, -1]
-
-        for st, en in zip(start, end):
-            self.play(Circumscribe(form_2[st:en], fade_out=True))
-        self.wait()
-
-        self.play(Wiggle(VGroup(rect_3, d)), Wiggle(VGroup(rect_3_copy, a_copy2, d_copy)))
+            Write(VGroup(rect_3_copy, a_copy2, d_copy)),
+            Write(VGroup(rect_3, d)),
+            Write(plus_sign_2.move_to(pl2_sign_loc))
+        )
+        self.wait(0.5)
 
         rect_new = Rectangle(Color(WHITE), 5 * SCALE, 10 * SCALE, fill_opacity=opc)
         rect_new.set_fill(color=[ORANGE, BLUE, RED], opacity=1)
@@ -232,7 +233,42 @@ class scene1(FormulaModificationsScene):
             get_tex('b+c+d    ').scale(0.6).set_opacity(opc).move_to(rect_new.get_edge_center(DOWN)).align_to(b, DOWN)
         ).copy().align_to(rect_abc, UL)
 
-        self.play(FadeOut(VGroup(rect_abc, rect_3, d), run_time=1), FadeIn(rect_abcd, run_time=1.5))
+        self.play(
+            AnimationGroup(
+                FadeIn(rect_abcd, run_time=1.5),
+                FadeOut(VGroup(rect_abc, rect_3, d), run_time=1),
+                lag_ratio=0.25
+            )
+        )
+        self.wait()
+
+        self.play(Circumscribe(form_2[0:1], fade_out=True))
+        self.wait(0.25)
+        self.play(Circumscribe(form_2[2:11], fade_out=True))
+        self.wait()
+        self.play(
+            Wiggle(rect_abc_copy[0]),
+            Wiggle(rect_abc_copy[1]),
+            Wiggle(rect_3_copy)
+        )
+        self.wait()
+        self.play(
+            Circumscribe(form_2[14:17], fade_out=True),
+            Indicate(VGroup(rect_abc_copy[0], rect_abc_copy[2], rect_abc_copy[3]), color=None)
+        )
+        self.wait(0.25)
+        self.play(
+            Circumscribe(form_2[18:21], fade_out=True),
+            Indicate(VGroup(rect_abc_copy[1], rect_abc_copy[4], rect_abc_copy[5]), color=None)
+        )
+        self.wait(0.25)
+        self.play(
+            Circumscribe(form_2[22:-1], fade_out=True),
+            Indicate(VGroup(rect_3_copy, d_copy, a_copy2), color=None)
+        )
+        self.wait()
+
+        self.play(Circumscribe(form_2[10 + 4:]))
         self.wait()
 
         self.play(Circumscribe(form_2[:9 + 4]))
@@ -265,6 +301,7 @@ class scene1(FormulaModificationsScene):
                 lag_ratio=opc
             )
         )
+        self.wait()
 
         self.solve_ex1()
 
@@ -273,12 +310,15 @@ class scene1(FormulaModificationsScene):
         new_scale = 0.7
         shapes.restore()
         form_2.restore()
+        VGroup(shapes, form_2).scale(new_scale).move_to(ORIGIN)
 
-        self.play(FadeIn(VGroup(shapes, form_2).scale(new_scale).move_to(ORIGIN)))
-        self.wait()
         self.play(
-            rect_abcd.animate.shift(LEFT * 2).align_to(rect_abcd, DOWN),
+            ReplacementTransform(self.form_2_copy, form_2),
+            FadeIn(shapes)
         )
+        self.wait()
+        self.play(rect_abcd.animate.shift(LEFT * 2).align_to(rect_abcd, DOWN))
+        self.wait()
 
         rescale_obj = [
             e, e_copy, a_copy3,  rect_4, rect_4_copy, f, f_copy, a_copy_4,
@@ -313,11 +353,14 @@ class scene1(FormulaModificationsScene):
 
         form_3[21 + 4:].set_opacity(0)
 
-        self.play(AnimationGroup(*[
+        self.play(
             ReplacementTransform(form_2, form_3),
-            Write(rect_4), Write(e),
-            Write(rect_5), Write(f),
-        ]))
+            Write(rect_4),
+            Write(e),
+            Write(rect_5),
+            Write(f),
+        )
+        self.wait(0.1)
 
         rect_new = Rectangle(Color(WHITE), 5 * SCALE, 16 * SCALE, fill_opacity=opc)
         rect_new.set_fill(color=[GOLD_A, MAROON, ORANGE, BLUE, RED], opacity=1)
@@ -330,6 +373,7 @@ class scene1(FormulaModificationsScene):
         ).copy().scale(new_scale).align_to(rect_abcd, UL)
 
         self.play(FadeOut(VGroup(rect_abcd, rect_4, rect_5, e, f), run_time=2), FadeIn(rect_abcdef, run_time=2))
+        self.wait(0.1)
 
         v_group = VGroup(rect_abcdef, equal_sign_1, VGroup(rect_abc_copy[0], rect_abc_copy[2:4]), plus_sign_1,
                          VGroup(rect_abc_copy[1], rect_abc_copy[4:]), plus_sign_2, VGroup(rect_3_copy, a_copy2, d_copy),
@@ -362,9 +406,12 @@ class scene1(FormulaModificationsScene):
 
         self.form_3_copy.align_to(form_3, DOWN).scale(new_scale)
         self.play(ReplacementTransform(form_3[:21 + 4], form_3_tmp[:21 + 4]))
+        self.wait(0.1)
         self.play(Write(form_3_tmp[21 + 4:]), Write(plus_sign_3.set_opacity(1)), Write(plus_sign_4.set_opacity(1)))
+        self.wait(0.1)
 
         self.play(ReplacementTransform(form_3_tmp, self.form_3_copy.shift(UP * 0.5).set_color(WHITE)))
+        self.wait(0.1)
 
         ################################################################################################################
 
@@ -387,7 +434,9 @@ class scene1(FormulaModificationsScene):
         circles_right = [circle_ab, circle_ac, circle_ad, circle_ae, circle_af]
 
         self.play(Write(circle_a))
+        self.wait(0.1)
         self.play(Write(circle_b), Write(circle_ab))
+        self.wait(0.1)
         for i, j in zip(range(0, 4), range(1, 5)):
             self.play(
                 ReplacementTransform(circles_left[i], circles_left[j]),
@@ -396,9 +445,12 @@ class scene1(FormulaModificationsScene):
             self.wait(0.1)
 
         self.play(Unwrite(circle_a), Unwrite(circles_left[-1]), Unwrite(circles_right[-1]))
+        self.wait(0.1)
 
         self.play(FadeOut(v_group))
+        self.wait(0.1)
         self.play(self.form_3_copy.animate.move_to(ORIGIN))
+        self.wait(0.1)
 
         ################################################################################################################
 
@@ -429,33 +481,39 @@ class scene1(FormulaModificationsScene):
             [form_5[i].set_color(ORANGE) for i in a_copy_4]
             [form_5[i].set_color(BLUE) for i in b_5 + c_5 + d_5 + e_5]
 
-        self.play(ReplacementTransform(self.form_3_copy, form_3))
-        self.play(Circumscribe(form_3))
+        self.play(ReplacementTransform(self.form_3_copy, form_3.scale(1.25)))
         self.wait()
-        self.play(ReplacementTransform(form_3, form_4))
-        self.play(Circumscribe(form_4))
+        self.play(ReplacementTransform(form_3, form_4.scale(1.25)))
         self.wait()
-        self.play(ReplacementTransform(form_4, form_5s[0]))
-        self.play(Circumscribe(form_5s[0]))
-
-        self.play(form_5s[0].animate.to_edge(LEFT).align_to(form_5s[0], DOWN))
-        [form_5.to_edge(LEFT).align_to(form_5, DOWN) for form_5 in form_5s]
+        self.play(ReplacementTransform(form_4, form_5s[0].scale(1.25)))
         self.wait()
 
-        lines = [
-            ConectionLine(form_5s[0][0], form_5s[0][i], alpha=1 / 5, color='#628E90') for i in [3, 5, 7, 9]]
+        self.play(form_5s[0].animate.to_edge(LEFT, buff=0.75))
 
+        self.wait()
+
+        lines = [ConectionLine(form_5s[0][0], form_5s[0][i], alpha=1 / 5, color='#628E90') for i in [3, 5, 7, 9]]
+
+        add_items = [' = a\cdot b', ' + a\cdot c', ' + a\cdot d', ' + a\cdot e']
+        self.fix_formula(form_5s[0])
+        self.play(Create(lines[0]))
         for i in range(4):
-            self.play(AnimationGroup(
-                Create(lines[i]),
-                ReplacementTransform(form_5s[i], form_5s[i+1]),
-                Wait(),
-                lag_ratio=0.35))
-            self.play(FadeOut(lines[i]))
+            if i != 0:
+                self.play(ReplacementTransform(lines[i-1], lines[i]))
+            self.play(
+                ModifyFormula(
+                    form_5s[0],
+                    add_after_items=[len(form_5s[0]) - 1], add_items_strs=[[add_items[i]]], add_items_animation_style=Write
+                )
+            )
+            self.wait(0.25)
 
-        self.play(form_5s[-1].animate.move_to(ORIGIN))
+        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        self.wait(0.5)
 
-        self.wait(5)
+        last_exercise = get_tex('m(x+y^2+3+2z)').scale(BIG_SCALE)
+        self.play(Write(last_exercise))
+        self.wait(3)
 
     def solve_ex1(self):
 
@@ -541,17 +599,13 @@ class scene1(FormulaModificationsScene):
         self.wait(0.25)
 
         self.play(ModifyFormula(solution, remove_items=[17]))
-        self.fix_formula(solution)
         self.wait()
 
-        self.play(Unwrite(self.ex_1))
-        self.fix_formula(solution)
-        self.wait()
+        self.play(
+            Unwrite(self.ex_1),
+            solution.animate.move_to(ORIGIN).set_color(WHITE)
+        )
+        self.wait(0.25)
 
-        self.play(solution.animate.move_to(ORIGIN).set_color(WHITE))
-        self.fix_formula(solution)
-        self.wait()
-
-        self.play(Unwrite(VGroup(self.srr_rect2, self.form_2_copy, self.ex_1, solution), run_time=3))
-        self.fix_formula(solution)
+        self.play(Unwrite(VGroup(self.srr_rect2, self.ex_1, solution), run_time=2))
         self.wait()
