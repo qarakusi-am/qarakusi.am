@@ -194,7 +194,6 @@ class Problem12658(FormulaModificationsScene):
         )
         self.wait()
 
-        # task1 = Tex("1) ", "$x$", "$^2$", " $+$ ", "$4$", "$\\cdot$", "$x$", " $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$", font_size=BIG_FONT_SIZE).align_to(task1, UL)
         self.fix_formula(task1)
         self.play(
             ModifyFormula(
