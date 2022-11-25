@@ -1,5 +1,5 @@
-from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH, WHITE
-from manim import VMobject, VGroup, Line
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, OUT, PI, DEFAULT_STROKE_WIDTH, WHITE, YELLOW
+from manim import VMobject, VGroup, Line, Dot
 from manim import MathTex
 from manim import FadeIn, FadeOut, Animation, Scene
 from manim import always_redraw
@@ -193,3 +193,17 @@ class Reset(Animation):
 
 def get_segment_part(length, label=None, color=WHITE, **kwargs):
     return Segment(ORIGIN, length * RIGHT, label, stroke_width=6, color=color, **kwargs)
+
+
+class ConectionLine(VMobject):
+    """
+    Draws lines under two members of a formula. Usually used for explaining parentheses rules
+    """
+    def __init__(self, mob_1: VMobject, mob_2: VMobject, dir=DOWN, alpha=0.5, color=YELLOW, **kwargs):
+        super().__init__(color=color, **kwargs)
+        vertex_0 = mob_1.get_edge_center(dir) + alpha/3*dir
+        self.start_new_path(vertex_0)
+        vertex_1 = vertex_0 + alpha*dir
+        vertex_2 = Dot(vertex_1).match_x(mob_2).get_center()
+        vertex_3 = mob_2.get_edge_center(dir) + alpha/3*dir
+        self.add_points_as_corners([vertex_0, vertex_1, vertex_2, vertex_3])
