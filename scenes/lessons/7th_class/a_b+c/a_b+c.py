@@ -1,4 +1,7 @@
-from manim import *
+from manim import Write, Tex, VGroup, FadeIn, Rectangle, Create, AnimationGroup, GrowFromCenter, TransformMatchingTex, GrowArrow, Arrow, SurroundingRectangle, FadeOut, Transform, Indicate, ReplacementTransform, CounterclockwiseTransform
+from manim import always_redraw, there_and_back_with_pause
+from manim import UL, DOWN, UP, LEFT, UR, RIGHT, DL, ORIGIN
+from manim import LIGHT_BROWN, BLUE, ORANGE, GREEN, WHITE, YELLOW, PURPLE, RED, BLUE_C, YELLOW_C, BLACK
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from objects import SimpleSVGMobject, SVGMobject
 from .text import *
