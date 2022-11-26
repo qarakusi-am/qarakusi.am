@@ -1,7 +1,7 @@
 import numpy as np
 from manim import FadeIn, Write, Tex, SurroundingRectangle, VGroup, Arrow, GrowArrow, FadeOut, rate_functions, Indicate, Circumscribe, Line
 from manim import WHITE, UL, UR, DOWN, LEFT, BLUE, ORANGE, YELLOW, GREEN, PURPLE_A, RIGHT, UP
-from hanrahashiv import ModifyFormula, ReplaceItemsInFormula
+from hanrahashiv import ModifyFormula
 from hanrahashiv import FormulaModificationsScene
 from qarakusiscene import TaskNumberBox
 from .text import *
@@ -101,7 +101,8 @@ class Problem12629(FormulaModificationsScene):
             run_time=2
         )
         self.wait()
-        self.replace_items_in_formula(new_property_1, [0, 3, 6], ['x', 'x', 'x'])
+        self.fix_formula(new_property_1)
+        self.play(ModifyFormula(new_property_1, replace_items=[[0], [3], [6]], replace_items_strs=[['$x$'], ['$x$'], ['$x$']]))
         self.play(FadeOut(arrow1), FadeOut(arrow2))
         self.wait()
 
@@ -125,7 +126,7 @@ class Problem12629(FormulaModificationsScene):
             run_time=2
         )
         self.wait()
-        self.play(ReplaceItemsInFormula(new_property_1, [1, 7], ['^3', '^3']))
+        self.play(ModifyFormula(new_property_1, replace_items=[[1], [7]], replace_items_strs=[['$^3$'], ['$^3$']]))
         self.play(FadeOut(arrow3, arrow4))
         self.wait()
 
@@ -140,15 +141,13 @@ class Problem12629(FormulaModificationsScene):
             FadeIn(srr_rect)
         )
         self.wait()
-        self.play(
-            ReplaceItemsInFormula(new_property_1, [9], ["$^5$"], colors=[YELLOW])
-        )
+        self.play(ModifyFormula(new_property_1, replace_items=[[9]], replace_items_strs=[['$^5$']], replace_items_colors=[[YELLOW]]))
         self.play(FadeOut(arrow5, srr_rect))
         self.wait()
 
         self.play(Circumscribe(new_property_1[4], fade_out=True))
         self.play(new_property_1[4].animate.set_color(YELLOW))
-        self.play(ReplaceItemsInFormula(new_property_1, [4], ['^5']))
+        self.play(ModifyFormula(new_property_1, replace_items=[[4]], replace_items_strs=[['$^5$']]))
         self.wait()
         self.play(ModifyFormula(task1, replace_items=[[3]], replace_items_strs=[["$x^5$"]], replace_items_colors=[[BLUE]]))
         self.wait()
@@ -190,7 +189,8 @@ class Problem12629(FormulaModificationsScene):
             new_property_3[7].animate.set_color(GREEN)
         )
         self.wait()
-        self.replace_items_in_formula(new_property_3, [2, 7], ["$^2$", "$^2$"])
+        self.fix_formula(new_property_3)
+        self.play(ModifyFormula(new_property_3, replace_items=[[2], [7]], replace_items_strs=[['$^2$'], ['$^2$']]))
         self.play(FadeOut(arrow1, arrow2))
         self.wait()
 
@@ -204,11 +204,14 @@ class Problem12629(FormulaModificationsScene):
             new_property_3[9].animate.set_color(YELLOW)
         )
         self.wait()
-        self.replace_items_in_formula(new_property_3, [4, 9], ["$^4$", "$^4$"])
+        self.fix_formula(new_property_3)
+        self.play(ModifyFormula(new_property_3, replace_items=[[4], [9]], replace_items_strs=[['$^4$'], ['$^4$']]))
+        
         self.play(FadeOut(arrow3, arrow4))
         self.wait()
 
-        self.replace_items_in_formula(new_property_3, [7, 8, 9], ["$^8$", " ", " "])
+        self.fix_formula(new_property_3)
+        self.play(ModifyFormula(new_property_3, replace_items=[[7, 8, 9]], replace_items_strs=[['$^8$']]))
         
         tex1 = Tex("$a$", "$^8$", font_size=FONT_SIZE).move_to(new_property_3, UR)
         self.add(tex1)
@@ -220,7 +223,6 @@ class Problem12629(FormulaModificationsScene):
         )
 
         self.play(tex1.animate.next_to(task2[1], DOWN, .3, LEFT).shift(RIGHT*.1))
-        
         self.wait()
 
         # a^3^2 -> a^6
@@ -254,7 +256,7 @@ class Problem12629(FormulaModificationsScene):
         )
         self.wait()
         self.play(
-            ReplaceItemsInFormula(new_property_1, [1, 7], ["$^8$", "$^8$"]),
+            ModifyFormula(new_property_1, replace_items=[[1], [7]], replace_items_strs=[['$^8$'], ['$^8$']]),
             FadeOut(arrow1, arrow2)
         )
         self.wait()
@@ -270,12 +272,13 @@ class Problem12629(FormulaModificationsScene):
         )
         self.wait()
         self.play(
-            ReplaceItemsInFormula(new_property_1, [4, 9], ["$^6$", "$^6$"]),
+            ModifyFormula(new_property_1, replace_items=[[4], [9]], replace_items_strs=[['$^6$'], ['$^6$']]),
             FadeOut(arrow3, arrow4)
         )
         self.wait()
 
-        self.replace_items_in_formula(new_property_1, [7, 8, 9], ["$^{14}$", " ", " "])
+        self.fix_formula(new_property_1)
+        self.play(ModifyFormula(new_property_1, replace_items=[[7, 8, 9]], replace_items_strs=[['$^{14}$']]))
         self.wait()
         self.play(Circumscribe(task2[:11], fade_out=True))
         self.wait()
@@ -301,13 +304,11 @@ class Problem12629(FormulaModificationsScene):
         self.rearrange_formula(modified_task2, [3, 4, 5, 6, 2, 0, 1], [3, 4, 5, 6], [0, 1])
         self.wait()
 
-        self.play(ReplaceItemsInFormula(modified_task2, [6], ["$^{9+5}$"]))
+        self.play(ModifyFormula(modified_task2, replace_items=[[6]], replace_items_strs=[['$^{5+9}$']]))
         self.wait()
         self.play(Indicate(prop_1))
         self.wait()
-        self.play(
-            ReplaceItemsInFormula(modified_task2, [3], ["$a^5$"])
-        )
+        self.play(ModifyFormula(modified_task2, replace_items=[[3]], replace_items_strs=[['$a^5$']]))
         self.wait()
         
         self.play(ModifyFormula(task2, replace_items=[[15]], replace_items_strs=[["$a^5$"]], replace_items_colors=[[BLUE]]))
@@ -344,7 +345,7 @@ class Problem12629(FormulaModificationsScene):
         )
         self.wait()
         self.play(
-            ReplaceItemsInFormula(new_property_3, [4, 9], ["$^3$", "$^3$"]),
+            ModifyFormula(new_property_3, replace_items=[[4], [9]], replace_items_strs=[['$^3$'], ['$^3$']]),
             FadeOut(arrow1, arrow2)
         )
         self.wait()
@@ -360,7 +361,7 @@ class Problem12629(FormulaModificationsScene):
         )
         self.wait()
         self.play(
-            ReplaceItemsInFormula(new_property_3, [1, 6], ["$y$", "$y$"]),
+            ModifyFormula(new_property_3, replace_items=[[1], [6]], replace_items_strs=[['$y$'], ['$y$']]),
             FadeOut(arrow3, arrow4)
         )
         self.wait()
@@ -373,7 +374,7 @@ class Problem12629(FormulaModificationsScene):
         )
         self.wait()
         self.play(
-            ReplaceItemsInFormula(new_property_3, [2, 7], ["$^2$", "$^2$"]),
+            ModifyFormula(new_property_3, replace_items=[[2], [7]], replace_items_strs=[['$^2$'], ['$^2$']]),
             FadeOut(arrow5, srr_rect)
         )
         self.wait()
@@ -466,5 +467,4 @@ class Problem12629(FormulaModificationsScene):
             Write(task5),
             Write(task5_number)
         )
-
         self.wait(2)
