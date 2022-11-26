@@ -5,7 +5,8 @@ from manim import VMobject, VGroup, Line
 from manim import Write, ReplacementTransform
 from manim import Scene
 
-from constants import DEFAULT_ENDMARK_LENGTH
+from constants import DEFAULT_ENDMARK_LENGTH, DEFAULT_SEGMENT_STROKE_WIDTH
+from constants import DEFAULT_EXTRA_SEGMENT_COLOR, DEFAULT_COUNTING_COLOR
 from constants import DEFAULT_SEGMENT_TEXT_POSITION
 
 
@@ -29,7 +30,7 @@ class Segment(VGroup):
         start=LEFT,
         end=RIGHT,
         color=WHITE,
-        stroke_width=DEFAULT_STROKE_WIDTH,
+        stroke_width=DEFAULT_SEGMENT_STROKE_WIDTH,
         endmark_color=WHITE,
         text=False,
         text_position=DEFAULT_SEGMENT_TEXT_POSITION,
