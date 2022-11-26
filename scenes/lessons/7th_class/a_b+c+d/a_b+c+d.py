@@ -306,6 +306,7 @@ class scene1(FormulaModificationsScene):
         self.solve_ex1()
 
         #######################################################################################
+        # adding 2 new rectangles with sides a•e and a•f
 
         new_scale = 0.7
         shapes.restore()
@@ -359,7 +360,9 @@ class scene1(FormulaModificationsScene):
             Write(e),
             Write(rect_5),
             Write(f),
+            FadeOut(shapes[4])
         )
+        self.play(FadeOut(form_3[13], run_time=0.5))
         self.wait(0.1)
 
         rect_new = Rectangle(Color(WHITE), 5 * SCALE, 16 * SCALE, fill_opacity=opc)
@@ -375,10 +378,12 @@ class scene1(FormulaModificationsScene):
         self.play(FadeOut(VGroup(rect_abcd, rect_4, rect_5, e, f), run_time=2), FadeIn(rect_abcdef, run_time=2))
         self.wait(0.1)
 
-        v_group = VGroup(rect_abcdef, equal_sign_1, VGroup(rect_abc_copy[0], rect_abc_copy[2:4]), plus_sign_1,
-                         VGroup(rect_abc_copy[1], rect_abc_copy[4:]), plus_sign_2, VGroup(rect_3_copy, a_copy2, d_copy),
-                         plus_sign_3.set_opacity(0), VGroup(rect_4_copy, a_copy3, e_copy), plus_sign_4.set_opacity(0),
-                         VGroup(rect_5_copy, a_copy_4, f_copy), )
+        v_group = VGroup(
+            rect_abcdef, equal_sign_1, VGroup(rect_abc_copy[0], rect_abc_copy[2:4]), plus_sign_1,
+            VGroup(rect_abc_copy[1], rect_abc_copy[4:]), plus_sign_2, VGroup(rect_3_copy, a_copy2, d_copy),
+            plus_sign_3.set_opacity(0), VGroup(rect_4_copy, a_copy3, e_copy), plus_sign_4.set_opacity(0),
+            VGroup(rect_5_copy, a_copy_4, f_copy)
+        )
         self.play(
             v_group.animate.arrange(RIGHT, buff=0.15).align_to(rect_abcdef, UL).shift(LEFT * 0.3),
         )
