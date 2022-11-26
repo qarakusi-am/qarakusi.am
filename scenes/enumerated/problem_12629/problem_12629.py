@@ -4,7 +4,7 @@ from manim import WHITE, UL, UR, DOWN, LEFT, BLUE, ORANGE, YELLOW, GREEN, PURPLE
 from hanrahashiv import ModifyFormula
 from hanrahashiv import FormulaModificationsScene
 from qarakusiscene import TaskNumberBox
-from .text import *
+from .text import taskNumberString
 
 FONT_SIZE = 65
 

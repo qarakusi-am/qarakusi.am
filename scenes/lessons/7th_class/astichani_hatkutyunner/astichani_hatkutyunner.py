@@ -1,7 +1,15 @@
-from manim import *
-from hanrahashiv import *
+from manim import Tex
+from manim import SurroundingRectangle, Line, DashedLine, Arrow, Brace, Circle
+from manim import WHITE, GREEN, ORANGE
+from manim import UL, DOWN, RIGHT, LEFT, UP, DL, ORIGIN, PI
+from manim import VGroup, Mobject
+from manim import Scene
+from manim import always_redraw
+from manim import ValueTracker, DecimalNumber
+from manim import AnimationGroup, FadeIn, FadeOut, Create, Write, Transform, ReplacementTransform, Circumscribe, Indicate
+from hanrahashiv import FormulaModificationsScene, ModifyFormula
 
-from constants import ARMTEX, ENGTEX
+from constants import ARMTEX
 from objects import SimpleSVGMobject
 
 

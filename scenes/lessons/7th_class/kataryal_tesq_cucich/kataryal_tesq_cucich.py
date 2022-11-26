@@ -1,4 +1,10 @@
-from manim import *
+from manim import Tex, MathTex
+from manim import VGroup, SVGMobject
+from manim import Arrow, Circle, SurroundingRectangle, Brace
+from manim import DOWN, RIGHT, LEFT, UP, UR, UL, DR, PI
+from manim import AnimationGroup, Write, Create, FadeIn, FadeOut, ReplacementTransform, Circumscribe
+from manim import YELLOW, BLUE
+from manim import there_and_back_with_pause
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from constants import ARMTEX
 
