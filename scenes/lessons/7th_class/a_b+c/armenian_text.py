@@ -1,6 +1,6 @@
 ani_name_str = "Անի"
 babken_name_str = "Բաբկեն"
 metr_str = "մ"
-all_str = "Ընդհանուր՝"
+total_str = "Ընդհանուր՝"
 ani_area_str = "Անի՝"
 babken_area_str = "Բաբկեն՝"
