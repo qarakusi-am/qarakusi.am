@@ -1,17 +1,20 @@
-from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, UL, UR, DL, PI, YELLOW, GREEN, BLACK, WHITE
-from manim import VMobject, VGroup, Dot, Line, Rectangle, MathTex, Tex, SurroundingRectangle
-from manim import Wait, AnimationGroup, FadeIn, FadeOut, Indicate, Wiggle, Create, Uncreate, Write, ReplacementTransform, TransformMatchingShapes
-from .text import text_list
+from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, UL, UR, DL, PI
+from manim import YELLOW, GREEN, BLACK, WHITE
+from manim import VMobject, VGroup, MathTex, Tex, Dot, Line, Rectangle, SurroundingRectangle, Arrow
+from manim import AnimationGroup, Indicate, Wiggle, ReplacementTransform, TransformMatchingShapes
+from manim import Create, Uncreate, Write, FadeIn, FadeOut
 
 from hanrahashiv import FormulaModificationsScene
 from hanrahashiv import ModifyFormula
+
+from .text import polynomial_str
 
 def SpetialTransform(mob_1: VMobject, mob_2: VMobject):
     return AnimationGroup(
         mob_1[0].animate.move_to(mob_1),
         mob_1[1].animate.stretch_to_fit_height(mob_2[0].height).stretch_to_fit_width(mob_2[0].width).move_to(mob_2[0]),
         mob_1[2].animate.stretch_to_fit_height(mob_2[1].height).stretch_to_fit_width(mob_2[1].width).move_to(mob_2[1]))
-    
+
 class ConectionLine(VMobject):
     def __init__(self, mob_1: VMobject, mob_2: VMobject, dir = DOWN, alpha = 0.5, color=YELLOW, **kwargs):
         super().__init__(color=color, **kwargs)
@@ -30,8 +33,8 @@ class Distributive(FormulaModificationsScene):
         self.nostalgy()
         self.texting()
         self.main()
-        self.separating()
-        self.example()
+        # self.separating()
+        # self.example()
 
     def nostalgy(self):
         dist_f = MathTex('a', '(', 'x', '+', 'y',')').scale(1.35)
@@ -129,44 +132,46 @@ class Distributive(FormulaModificationsScene):
         formula_forever[0].set_color('#B73E3E')
         formula_forever[7].set_color('#B73E3E')
         formula_forever[10].set_color('#B73E3E')
-        self.play(AnimationGroup(
-            ReplacementTransform(dist_ff, formula_forever),
-            FadeOut(sign_eq, sign_pl, ab_ac_copy, ab_ac, scale = 1.1),
-            lag_ratio = 0.05
-        ), run_time = 2)        
-        self.wait()
+        self.play(
+            AnimationGroup(
+                ReplacementTransform(dist_ff, formula_forever),
+                FadeOut(sign_eq, sign_pl, ab_ac_copy, ab_ac, scale = 1.1),
+                lag_ratio = 0.05
+            ),
+            run_time = 2
+        )
         self.previous_formula = formula_forever
-    
+        self.wait()
+
     def texting(self):
         previous_formula = self.previous_formula
-        formula_forever = MathTex(' ', 'a', ' ', ' ',' ','(', 'x', '+', 'y', ' ', ' ', ')', '=', 'a', 'x', '+', 'a', 'y', ' ').match_height(previous_formula).align_to(previous_formula, UL)
-        formula_forever[1].set_color('#B73E3E')
-        formula_forever[13].set_color('#B73E3E')
-        formula_forever[16].set_color('#B73E3E')
-        formula_alt = MathTex('(', 'a', '+', 'b',')','(', 'x', '+', 'y', '+', 'z', ')', '=', ' ', ' ', ' ', ' ', ' ', '?').match_height(previous_formula).align_to(previous_formula, UL)
-        formula_alt[1].set_color('#B73E3E')
-        formula_alt[3].set_color('#628E90')
+        formula_forever = MathTex(' ', 'a', ' ', ' ', ' ', '(', 'x', '+', 'y', ' ', ' ', ')', '=', 'a', 'x', '+', 'a', 'y', ' ', ' ', ' ')
+        formula_forever.match_height(previous_formula).align_to(previous_formula, UL)
+        [formula_forever[i].set_color('#B73E3E') for i in [1, 13, 16]]
+
+        formula_forever_1 = MathTex(' ', 'a', ' ', ' ', ' ', '(', 'x', '+', 'y', '+', 'z', ')', '=', 'a', 'x', '+', 'a', 'y', '+', 'a', 'z')
+        formula_forever_1.match_height(previous_formula).align_to(previous_formula, UL)
+        [formula_forever_1[i].set_color('#B73E3E') for i in [1, 13, 16, 19]]
+
+        formula_alt = MathTex('(', 'a', '+', 'b',')','(', 'x', '+', 'y', '+', 'z', ')', '=', ' ', ' ', ' ', ' ', ' ', '?', ' ', ' ')
+        formula_alt.match_height(previous_formula).align_to(previous_formula, UL)
         formula_alt.shift(formula_forever[5].get_center() - formula_alt[5].get_center())        
         self.remove(previous_formula)
         self.add(formula_forever)
-        texts = Tex(*text_list).scale(2)
-        texts[3].match_width(texts[0:3])
-        texts[4:6].match_width(texts[0:3])
-        VGroup(texts[0:3], texts[3], texts[4:6]).arrange(DOWN).scale(0.7)
-        self.play(AnimationGroup(
-            FadeIn(texts[0], scale = 3),
-            Wait(),
-            FadeIn(texts[1], texts[2], shift=LEFT),
-            FadeIn(texts[3], shift=UP, scale = 0.5),
-            FadeIn(texts[4], shift=RIGHT),
-            Wait(0.5),
-            FadeIn(texts[5], shift=LEFT, scale = 1.5),
-            ReplacementTransform(formula_forever, formula_alt),
-            lag_ratio=0.7
-        ), run_time = 6.5)
-        self.wait(2)
-        self.play(FadeOut(texts, formula_alt[12:], scale = 1.1))
-        self.wait(0.5)
+        self.play(ReplacementTransform(formula_forever, formula_forever_1))
+        self.wait()
+
+        arrow_1 = Arrow().rotate(-5/4 * PI)
+        arrow_1.next_to(formula_forever_1)
+        polynomial_tex_1 = Tex(polynomial_str)
+
+        arrow_2 = Arrow().rotate(-3/4 * PI)
+        polynomial_tex_2 = Tex(polynomial_str)
+
+        self.play(ReplacementTransform(formula_forever_1, formula_alt))
+        self.wait()
+        self.play(FadeOut(formula_alt[12:], scale = 1.1))
+        self.wait()
         self.formula_alt = formula_alt[:12]
 
     def main(self):
@@ -196,7 +201,7 @@ class Distributive(FormulaModificationsScene):
         self.wait()
         self.play(AnimationGroup(
             ReplacementTransform(formula[0][1:4].copy().set_opacity(0.5), h_edg),
-            Wait(),
+            # Wait(),
             ReplacementTransform(formula[1][1:6].copy().set_opacity(0.5), w_edg),
             lag_ratio=0.75
         ), run_time = 3)
@@ -206,14 +211,11 @@ class Distributive(FormulaModificationsScene):
         w_edg_c = w_edg.copy()
         rect_0 = VGroup(rect, h_edg, w_edg).set_z_index(1)
         rect_1 = VGroup(rect_c, h_edg_c, w_edg_c)
-        self.play(AnimationGroup(
-            AnimationGroup(
-                rect_0.animate.match_x(formula),
-                rect_1.animate.shift(2.75*RIGHT)),
-            Indicate(formula, scale_factor=1.5, run_time = 2),
-            Wait(0.5),
-            lag_ratio=0.25
-        ), run_time = 2)
+        self.play(
+            rect_0.animate.match_x(formula),
+            rect_1.animate.shift(2.75*RIGHT),
+            run_time = 2
+        )
         self.eq_sign = eq_sign = MathTex('=').move_to((rect_0.get_edge_center(RIGHT) + rect_1.get_edge_center(LEFT))/2)
         h_tip.move_to((b*rect_c.get_corner(UL) + a*rect_c.get_corner(DL))/(a+b))
         w_tip_0.move_to((c*rect_c.get_corner(UR) + (d+e)*rect_c.get_corner(UL))/(c+d+e))
@@ -224,7 +226,7 @@ class Distributive(FormulaModificationsScene):
             AnimationGroup(
                 ReplacementTransform(h_edg_c[0], a_text.next_to((rect_c.get_corner(UL)+h_tip.get_center())/2, RIGHT, buff=0.1)),
                 ReplacementTransform(h_edg_c[2], b_text.next_to((rect_c.get_corner(DL)+h_tip.get_center())/2, RIGHT, buff=0.1))),
-            Wait(0.5),
+            # Wait(0.5),
             FadeIn(h_tip, scale=3),
             lag_ratio=0.2))
         self.wait()
@@ -234,7 +236,7 @@ class Distributive(FormulaModificationsScene):
                 ReplacementTransform(w_edg_c[0], c_text.next_to((rect_c.get_corner(UL)+w_tip_0.get_center())/2, DOWN, buff=0.1)),
                 ReplacementTransform(w_edg_c[2], d_text.next_to((w_tip_0.get_center()+w_tip_1.get_center())/2, DOWN, buff=0.1)),
                 ReplacementTransform(w_edg_c[4], e_text.next_to((rect_c.get_corner(UR)+w_tip_1.get_center())/2, DOWN, buff=0.1))),
-            Wait(0.5),
+            # Wait(0.5),
             AnimationGroup(
                 FadeIn(w_tip_0, scale=3),
                 FadeIn(w_tip_1, scale=3)),
@@ -312,7 +314,6 @@ class Distributive(FormulaModificationsScene):
         ax_c.add(
             a_tc,
             c_tc)
-        rect_1 = VGroup(ax_c, ay_c, az_c, bx_c, by_c, bz_c)  
         eq_sign = self.eq_sign     
         self.play(
             VGroup(ax_c, bx_c).animate.shift(0.75*LEFT),
@@ -337,9 +338,10 @@ class Distributive(FormulaModificationsScene):
             bx_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN), 
             by_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN),
             bz_c[2].animate.set_color(WHITE).shift((0.75/2)*DOWN),
-            run_time = 1.5)
-        #rect = Rectangle().stretch_to_fit_height(rect_0.height).stretch_to_fit_width(rect_0.width)
-        #rect.set_fill(color=['#CF7A29', '#628E90'], opacity=1)
+            run_time = 1.5
+        )
+        self.wait()
+
         ab_xyz = MathTex('(a+b)(x+y', '+z', ')').move_to(rect_0).set_z_index(2)
         ax_text = MathTex('a', 'x').move_to(ax_c)
         ay_text = MathTex('a', 'y').move_to(ay_c)
@@ -347,33 +349,40 @@ class Distributive(FormulaModificationsScene):
         bx_text = MathTex('b', 'x').move_to(bx_c)
         by_text = MathTex('b', 'y').move_to(by_c)
         bz_text = MathTex('b', 'z').move_to(bz_c)
-        self.wait()
+
         h = rect_0[1]
         w = rect_0[2]
         rect_0.remove(rect_0[2])
         rect_0.remove(rect_0[1])
-        self.play(AnimationGroup(
+
+        self.play(
             AnimationGroup(
                 AnimationGroup(
-                    ReplacementTransform(h[0], ab_xyz[0][1]),
-                    ReplacementTransform(h[1], ab_xyz[0][2]),
-                    ReplacementTransform(h[2], ab_xyz[0][3])),
-                AnimationGroup(
-                    ReplacementTransform(w[0], ab_xyz[0][6]),
-                    ReplacementTransform(w[1], ab_xyz[0][7]),
-                    ReplacementTransform(w[2], ab_xyz[0][8]),
-                    ReplacementTransform(w[3], ab_xyz[1][0]),
-                    ReplacementTransform(w[4], ab_xyz[1][1])),
-                FadeIn(ab_xyz[0][0], ab_xyz[0][4], ab_xyz[0][5], ab_xyz[2]),
-                lag_ratio=0.2),
-            SpetialTransform(ax_c, ax_text),
-            SpetialTransform(ay_c, ay_text),
-            SpetialTransform(az_c, az_text),
-            SpetialTransform(bx_c, bx_text),
-            SpetialTransform(by_c, by_text),
-            SpetialTransform(bz_c, bz_text),
-            lag_ratio=0.05
-        ), run_time = 2)
+                    AnimationGroup(
+                        ReplacementTransform(h[0], ab_xyz[0][1]),
+                        ReplacementTransform(h[1], ab_xyz[0][2]),
+                        ReplacementTransform(h[2], ab_xyz[0][3])
+                    ),
+                    AnimationGroup(
+                        ReplacementTransform(w[0], ab_xyz[0][6]),
+                        ReplacementTransform(w[1], ab_xyz[0][7]),
+                        ReplacementTransform(w[2], ab_xyz[0][8]),
+                        ReplacementTransform(w[3], ab_xyz[1][0]),
+                        ReplacementTransform(w[4], ab_xyz[1][1])
+                    ),
+                    FadeIn(ab_xyz[0][0], ab_xyz[0][4], ab_xyz[0][5], ab_xyz[2]),
+                    lag_ratio=0.2
+                ),
+                SpetialTransform(ax_c, ax_text),
+                SpetialTransform(ay_c, ay_text),
+                SpetialTransform(az_c, az_text),
+                SpetialTransform(bx_c, bx_text),
+                SpetialTransform(by_c, by_text),
+                SpetialTransform(bz_c, bz_text),
+                lag_ratio=0.05
+            ),
+            run_time = 2
+        )
         rect_0.add(ab_xyz)
         self.wait()
         formula_c = MathTex(
@@ -400,7 +409,7 @@ class Distributive(FormulaModificationsScene):
                 Create(ax_line),
                 Wiggle(ax_c),
                 formula_c[13].animate.set_opacity(1),
-                Wait(),
+                # Wait(),
                 lag_ratio=0.35))
         self.play(AnimationGroup(
                 ReplacementTransform(ax_line, ay_line),
@@ -537,7 +546,7 @@ class Distributive(FormulaModificationsScene):
         by_line = ConectionLine(formula_example[4:7], formula_example[13], alpha=1/5, color = '#628E90')
         self.play(AnimationGroup(
             Create(ax_line),
-            Wait(0.2),
+            # Wait(0.2),
             AnimationGroup(
                 FadeIn(formula_example[16:18], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[18]),
@@ -548,7 +557,7 @@ class Distributive(FormulaModificationsScene):
         self.wait(0.25)
         self.play(AnimationGroup(
             ReplacementTransform(ax_line, ay_line),
-            Wait(0.2),
+            # Wait(0.2),
             AnimationGroup(
                 FadeIn(formula_example[22:24], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[24]),
@@ -560,7 +569,7 @@ class Distributive(FormulaModificationsScene):
         self.play(Uncreate(ay_line))
         self.play(AnimationGroup(
             Create(bx_line),
-            Wait(0.2),
+            # Wait(0.2),
             AnimationGroup(
                 FadeIn(formula_example[27:30], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[30]),
@@ -571,7 +580,7 @@ class Distributive(FormulaModificationsScene):
         self.wait(0.25)
         self.play(AnimationGroup(
             ReplacementTransform(bx_line, by_line),
-            Wait(0.2),
+            # Wait(0.2),
             AnimationGroup(
                 FadeIn(formula_example[34:37], shift = 0.05*RIGHT, scale = 1.5),
                 FadeIn(formula_example[37]),
