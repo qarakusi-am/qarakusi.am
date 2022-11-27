@@ -4,7 +4,14 @@ from objects import SimpleSVGMobject, Stopwatch, Train
 from aramanim import Run
 from qarakusiscene import TaskNumberBox
 
-from manim import *
+from manim import Scene
+from manim import GRAY, RED
+from manim import LEFT, UP, DOWN, RIGHT, OUT, PI, MED_LARGE_BUFF
+from manim import AnimationGroup, FadeIn, FadeOut, Write, Create, ReplacementTransform, Indicate, Wiggle
+from manim import MathTex, VGroup, Group
+from manim import Arrow, DashedLine, Brace, SurroundingRectangle
+from manim import rate_functions
+# from manim import 
 
 
 class Problem11375(Scene):
