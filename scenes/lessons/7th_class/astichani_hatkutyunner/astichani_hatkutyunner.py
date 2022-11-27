@@ -1,7 +1,15 @@
-from manim import *
-from hanrahashiv import *
+from manim import Tex
+from manim import SurroundingRectangle, Line, DashedLine, Arrow, Brace, Circle
+from manim import WHITE, GREEN, ORANGE
+from manim import UL, DOWN, RIGHT, LEFT, UP, DL, ORIGIN, PI
+from manim import VGroup, Mobject
+from manim import Scene
+from manim import always_redraw
+from manim import ValueTracker, DecimalNumber
+from manim import AnimationGroup, FadeIn, FadeOut, Create, Write, Transform, ReplacementTransform, Circumscribe, Indicate
+from hanrahashiv import FormulaModificationsScene, ModifyFormula
 
-from constants import ARMTEX, ENGTEX
+from constants import ARMTEX
 from objects import SimpleSVGMobject
 
 
@@ -314,7 +322,7 @@ class FirstProperty(FormulaModificationsScene):
 
     # remove spaces form formula
         self.play(
-            ReplaceItemsInFormula(formula_1, [13], ['\cdot']),
+            ModifyFormula(formula_1, replace_items=[[13]], replace_items_strs=[['$\cdot$']]),
             brace_5_tex.animate.shift(LEFT * 0.41),
             brace_5.animate.shift(LEFT * 0.41),
         )# 2•2•2•2•2•2•2•2•2
@@ -344,18 +352,20 @@ class FirstProperty(FormulaModificationsScene):
         self.wait()
 
     # transform everything to 4+6=10 in exponents
-        self.replace_items_in_formula(formula_1, [4], ['$^6$'])
+        self.fix_formula(formula_1)
+        self.play(ModifyFormula(formula_1, replace_items=[[4]], replace_items_strs=[['$^6$']]))
         self.wait(0.25)
 
         self.play(
-            AddItemsInFormula(formula_1, [len(formula_1) - 1], ['$\cdot 2$']),
+            ModifyFormula(formula_1, add_after_items=[len(formula_1) - 1], add_items_strs=[['$\cdot 2$']]),
             brace_5.animate.stretch(1.25, 0).shift(0.3 * RIGHT),
-            ReplaceItemsInFormula(brace_9_tex, [2, 4], ['6', '10']),
+            ModifyFormula(brace_9_tex, replace_items=[[2], [4]], replace_items_strs=[['$6$'], ['$10$']]),
             formula_2.animate.shift(0.4 * RIGHT)
         )
         self.wait(0.25)
 
-        self.replace_items_in_formula(formula_2, [4, 7], ['^6', '^{10}'])
+        self.fix_formula(formula_2)
+        self.play(ModifyFormula(formula_2, replace_items=[[4], [7]], replace_items_strs=[['$^6$'], ['$^{10}$']]))
         self.wait()
 
         self.play(*[mob.animate.shift(UP) for mob in [formula_1, formula_2, brace_4, brace_5, brace_9_tex]])
@@ -462,7 +472,7 @@ class SecondProperty(FormulaModificationsScene):
         x_cube.next_to(formula_a_b, DOWN, 1, LEFT)
 
         property_2_copy = property_2.copy().move_to(x_cube, aligned_edge=LEFT)
-    
+
 # ANIMATIONS
         self.add(prop_1)
         self.play(
@@ -502,9 +512,9 @@ class SecondProperty(FormulaModificationsScene):
             [36, 40], [], [35, 39], [39, 41]
         )
         self.wait()
-        self.play(WriteExponentInFormula(formula_1, 34, 38, '2', '3'))
+        self.play(ModifyFormula(formula_1, replace_items=[[34, 35, 36, 37, 38]], replace_items_strs=[['$2$', '$^3$']]))
         self.wait()
-        self.play(WriteExponentInFormula(formula_1, 37, 41, '5', '3'))
+        self.play(ModifyFormula(formula_1, replace_items=[[37, 38, 39, 40, 41]], replace_items_strs=[['$5$', '$^3$']]))
         self.wait()
 
         self.play(FadeOut(two_times_five))
@@ -555,9 +565,9 @@ class SecondProperty(FormulaModificationsScene):
         )
         self.wait()
 
-        self.play(WriteExponentInFormula(formula_a_b, 25, 29, 'a', '3'))
+        self.play(ModifyFormula(formula_a_b, replace_items=[[25, 26, 27, 28, 29]], replace_items_strs=[['$a$', '$^3$']]))
         self.wait(0.5)
-        self.play(WriteExponentInFormula(formula_a_b, 28, 32, 'b', '3'))
+        self.play(ModifyFormula(formula_a_b, replace_items=[[28, 29, 30, 31, 32]], replace_items_strs=[['$b$', '$^3$']]))
         self.wait(0.5)
         self.play(FadeOut(x_cube))
         self.wait()
@@ -645,11 +655,14 @@ class ThirdProperty(FormulaModificationsScene):
         )
         self.wait()
 
-        self.extract_exponent_in_formula(a_4_1, 0, 'a', 4, True)
+        self.fix_formula(a_4_1)
+        self.fix_formula(a_4_2)
+        self.fix_formula(a_4_3)
+        self.play(ModifyFormula(a_4_1, replace_items=[[0, 1]], replace_items_strs=[['$a$', '$\cdot$', '$a$', '$\cdot$', '$a$', '$\cdot$', '$a$']]))
         self.wait(0.5)
-        self.extract_exponent_in_formula(a_4_2, 1, 'a', 4, True)
+        self.play(ModifyFormula(a_4_2, replace_items=[[1, 2]], replace_items_strs=[['$a$', '$\cdot$', '$a$', '$\cdot$', '$a$', '$\cdot$', '$a$']]))
         self.wait(0.5)
-        self.extract_exponent_in_formula(a_4_3, 1, 'a', 4, True)
+        self.play(ModifyFormula(a_4_3, replace_items=[[1, 2]], replace_items_strs=[['$a$', '$\cdot$', '$a$', '$\cdot$', '$a$', '$\cdot$', '$a$']]))
         self.wait()
 
     # init braces
