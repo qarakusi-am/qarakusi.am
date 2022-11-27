@@ -5,4 +5,6 @@ if LanguageConfig.is_armenian():
 else:
     from .english_text import *
 
-# TODO add __all__ variable
+__all__ = [
+    "taskNumberString"
+]

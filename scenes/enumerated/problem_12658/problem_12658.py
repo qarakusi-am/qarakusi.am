@@ -107,7 +107,7 @@ class Problem12658(FormulaModificationsScene):
 
         # task 1
         task1 = Tex("1) ", "$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE)
-        task1.to_edge(UL, buff=.5).shift(DOWN*.8)
+        task1.to_edge(UL, buff=.4).shift(DOWN*.8)
         self.play(Write(task1))
         self.wait()
 
@@ -150,12 +150,13 @@ class Problem12658(FormulaModificationsScene):
         self.play(Indicate(pakagceri_bacum))
         self.wait()
 
+        temp = [" $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$"]
         self.play(
             ModifyFormula(
                 task1_copy,
                 add_after_items=[6],
-                add_items_strs=[[" $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$"]],
-                add_items_colors=[[BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK]],
+                add_items_strs=[temp],
+                add_items_colors=[[BLACK] * len(temp)],
                 new_formula_alignment=LEFT
             )
         )
@@ -195,12 +196,13 @@ class Problem12658(FormulaModificationsScene):
         self.wait()
 
         self.fix_formula(task1)
+        temp = [" $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$"]
         self.play(
             ModifyFormula(
                 task1,
                 add_after_items=[len(task1)-1],
-                add_items_strs=[[" $=$ ", "$x$", "$($", "$x$", " $+$ ", "$4$", "$)$"]],
-                add_items_colors=[[BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK]],
+                add_items_strs=[temp],
+                add_items_colors=[[BLACK] * len(temp)],
                 new_formula_alignment=LEFT
             )
         )
@@ -277,12 +279,13 @@ class Problem12658(FormulaModificationsScene):
         )
         self.wait()
         
+        temp = [" $=$ ", "$a$", "$^2$", "$b$", "$^3$", "$($", "$2$", " $+$ ", "$a$", "$^3$", "$)$"]
         self.play(
             ModifyFormula(
                 task2_copy,
                 add_after_items=[12],
-                add_items_strs=[[" $=$ ", "$a$", "$^2$", "$b$", "$^3$", "$($", "$2$", " $+$ ", "$a$", "$^3$", "$)$"]],
-                add_items_colors=[[BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK]],
+                add_items_strs=[temp],
+                add_items_colors=[[BLACK] * len(temp)],
                 new_formula_alignment=LEFT
             )
         )
@@ -367,12 +370,13 @@ class Problem12658(FormulaModificationsScene):
         )
         self.wait()
         
+        temp = [" $=$ ", "$3$", "$x$", "$y$", "$^3$", "$($", "$2$", "$y$", "$^2$", " $-$ ", "$3$", "$x$", "$^2$", "$)$"]
         self.play(
             ModifyFormula(
                 task3_copy,
                 add_after_items=[len(task3_copy)-1],
-                add_items_strs=[[" $=$ ", "$3$", "$x$", "$y$", "$^3$", "$($", "$2$", "$y$", "$^2$", " $-$ ", "$3$", "$x$", "$^2$", "$)$"]],
-                add_items_colors=[[BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK]],
+                add_items_strs=[temp],
+                add_items_colors=[[BLACK] * len(temp)],
                 new_formula_alignment=LEFT
             )
         )
@@ -404,12 +408,13 @@ class Problem12658(FormulaModificationsScene):
         self.play(Write(task3_copy[-1].set_color(WHITE)))
         self.wait()
 
+        temp = [" $=$ ", "$3$", "$x$", "$y$", "$^3$", "$($", "$2$", "$y$", "$^2$", " $-$ ", "$3$", "$x$", "$^2$", "$)$"]
         self.play(
             ModifyFormula(
                 task3,
                 add_after_items=[len(task3)-1],
-                add_items_strs=[[" $=$ ", "$3$", "$x$", "$y$", "$^3$", "$($", "$2$", "$y$", "$^2$", " $-$ ", "$3$", "$x$", "$^2$", "$)$"]],
-                add_items_colors=[[BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK, BLACK]],
+                add_items_strs=[temp],
+                add_items_colors=[[BLACK] * len(temp)],
                 new_formula_alignment=LEFT
             )
         )
