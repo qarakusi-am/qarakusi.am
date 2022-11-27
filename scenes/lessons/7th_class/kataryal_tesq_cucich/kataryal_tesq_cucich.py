@@ -1,5 +1,11 @@
-from manim import *
-from hanrahashiv import FormulaModificationsScene
+from manim import Tex, MathTex
+from manim import VGroup, SVGMobject
+from manim import Arrow, Circle, SurroundingRectangle, Brace
+from manim import DOWN, RIGHT, LEFT, UP, UR, UL, DR, PI
+from manim import AnimationGroup, Write, Create, FadeIn, FadeOut, ReplacementTransform, Circumscribe
+from manim import YELLOW, BLUE
+from manim import there_and_back_with_pause
+from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from constants import ARMTEX
 
 class TwoSimpleExamples(FormulaModificationsScene):
@@ -78,7 +84,8 @@ class TwoSimpleExamples(FormulaModificationsScene):
             self.rearrange_formula(sec_ex_first_equation_right, [0, 1, 2, 5, 6, 3, 4], [6], [], [5], [3]) # 3•2•2•a
             self.wait()
 
-            self.multiply_numbers_in_formula(sec_ex_first_equation_right, 5, 12)
+            self.fix_formula(sec_ex_first_equation_right)
+            self.play(ModifyFormula(sec_ex_first_equation_right, replace_items=[[0, 1, 2, 3, 4]], replace_items_strs=[['$12$']]))
             self.wait()
 
         # second equation
@@ -89,7 +96,8 @@ class TwoSimpleExamples(FormulaModificationsScene):
             self.rearrange_formula(sec_ex_second_equation_right, [0, 3, 4, 1, 2], [4], [], [3], [1], run_time=2) # 3•2•2•a
             self.wait(0.5)
 
-            self.multiply_numbers_in_formula(sec_ex_second_equation_right, 3, 12)
+            self.fix_formula(sec_ex_second_equation_right)
+            self.play(ModifyFormula(sec_ex_second_equation_right, replace_items=[[0, 1, 2]], replace_items_strs=[['$12$']]))
             self.wait()
 
             self.play(Create(sec_ex_arrows))
@@ -185,7 +193,8 @@ class ThirdExample(FormulaModificationsScene):
                 run_time=2
             ) # 3•2•a•a•a•b•a•b•b•a
             self.wait(0.5)
-            self.multiply_numbers_in_formula(first_right, 3, 6) # 6•a•a•a•b•a•b•b•a
+            self.fix_formula(first_right)
+            self.play(ModifyFormula(first_right, replace_items=[[0, 1, 2]], replace_items_strs=[['$6$']])) # 6•a•a•a•b•a•b•b•a
             self.wait(0.5)
 
         # second
@@ -200,7 +209,8 @@ class ThirdExample(FormulaModificationsScene):
                 run_time=2
             ) # 6•1•b•a•a•b•a•b•a•a
             self.wait(0.5)
-            self.multiply_numbers_in_formula(second_right, 3, 6) # 6•b•a•a•b•a•b•a•a
+            self.fix_formula(second_right)
+            self.play(ModifyFormula(second_right, replace_items=[[0, 1, 2]], replace_items_strs=[['$6$']])) # 6•b•a•a•b•a•b•a•a
             self.wait(0.5)
         
         # third
@@ -228,7 +238,8 @@ class ThirdExample(FormulaModificationsScene):
                 run_time=2
             ) # 2•a•a•b•a•a•2•a•b•b
             self.wait(0.5)
-            self.multiply_numbers_in_formula(fourth_right, 3, 4) # 4•a•a•b•a•a•a•b•b
+            self.fix_formula(fourth_right)
+            self.play(ModifyFormula(fourth_right, replace_items=[[0, 1, 2]], replace_items_strs=[['$4$']])) # 4•a•a•b•a•a•a•b•b
             self.wait(0.5)
 
             self.play(Create(check_1))
@@ -310,27 +321,35 @@ class ThirdExample(FormulaModificationsScene):
             self.play(Write(rule_3))
 
         # first
-            self.write_exponent_in_formula(first_right, 2, 10, 'a', 5) # 6•a^5•b•b•b
+            self.fix_formula(first_right)
+            self.play(ModifyFormula(first_right, replace_items=[[*range(2, 11)]], replace_items_strs=[['$a$', '$^5$']])) # 6•a^5•b•b•b
             self.wait(0.5)
-            self.write_exponent_in_formula(first_right, 4, 8, 'b', 3) # 6•a^5•b•b•b
+            self.fix_formula(first_right)
+            self.play(ModifyFormula(first_right, replace_items=[[*range(5, 10)]], replace_items_strs=[['$b$', '$^3$']])) # 6•a^5•b^3
             self.wait(0.5)
 
         # second  
-            self.write_exponent_in_formula(second_right, 2, 10, 'a', 5) # 6•a^5•b•b•b
+            self.fix_formula(second_right)
+            self.play(ModifyFormula(second_right, replace_items=[[*range(2, 11)]], replace_items_strs=[['$a$', '$^5$']])) # 6•a^5•b•b•b
             self.wait(0.25)
-            self.write_exponent_in_formula(second_right, 4, 8, 'b', 3) # 6•a^5•b^3
+            self.fix_formula(second_right)
+            self.play(ModifyFormula(second_right, replace_items=[[*range(5, 10)]], replace_items_strs=[['$b$', '$^3$']])) # 6•a^5•b^3
             self.wait(0.25)
         
         # third
-            self.write_exponent_in_formula(third_right, 2, 10, 'a', 5) # 6•a^5•b•b•b•b
+            self.fix_formula(third_right)
+            self.play(ModifyFormula(third_right, replace_items=[[*range(2, 11)]], replace_items_strs=[['$a$', '$^5$']])) # 6•a^5•b•b•b
             self.wait(0.25)
-            self.write_exponent_in_formula(third_right, 4, 10, 'b', 4) # 6•a^5•b^4
+            self.fix_formula(third_right)
+            self.play(ModifyFormula(third_right, replace_items=[[*range(5, 12)]], replace_items_strs=[['$b$', '$^4$']])) # 6•a^5•b^4
             self.wait(0.25)
 
         # fourth
-            self.write_exponent_in_formula(fourth_right, 2, 10, 'a', 5) # 4•a^5•b•b•b
+            self.fix_formula(fourth_right)
+            self.play(ModifyFormula(fourth_right, replace_items=[[*range(2, 11)]], replace_items_strs=[['$a$', '$^5$']])) # 4•a^5•b•b•b
             self.wait(0.25)
-            self.write_exponent_in_formula(fourth_right, 4, 8, 'b', 3) # 4•a^5•b^3
+            self.fix_formula(fourth_right)
+            self.play(ModifyFormula(fourth_right, replace_items=[[*range(5, 10)]], replace_items_strs=[['$b$', '$^3$']])) # 4•a^5•b^3
             self.wait(0.25)
         
             self.play(Create(check_3))
