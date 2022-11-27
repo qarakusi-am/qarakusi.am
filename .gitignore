@@ -1,4 +1,6 @@
 !/.gitignore
+.idea/
+texput.log
 
 .vscode/
 .DS_Store
