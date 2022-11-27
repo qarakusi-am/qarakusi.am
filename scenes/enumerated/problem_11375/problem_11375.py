@@ -11,7 +11,6 @@ from manim import AnimationGroup, FadeIn, FadeOut, Write, Create, ReplacementTra
 from manim import MathTex, VGroup, Group
 from manim import Arrow, DashedLine, Brace, SurroundingRectangle
 from manim import rate_functions
-# from manim import 
 
 
 class Problem11375(Scene):
