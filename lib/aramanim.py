@@ -197,7 +197,7 @@ def get_segment_part(length, label=None, color=WHITE, **kwargs):
 
 class ConectionLine(VMobject):
     """
-    Draws lines under two members of a formula. Usually used for explaining parentheses rules
+    Draws a segment between two members of a formula. Usually used for explaining parentheses rules
     """
     def __init__(self, mob_1: VMobject, mob_2: VMobject, dir=DOWN, alpha=0.5, color=YELLOW, **kwargs):
         super().__init__(color=color, **kwargs)

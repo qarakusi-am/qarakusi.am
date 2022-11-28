@@ -50,9 +50,7 @@ def find_index(arr, val):
     Given a string or an array [arr], find the index of the given char or value [val].
     Ex: find_index('a*(a+b)', 'a') -> [0, 3]
     """
-    if isinstance(arr, str):
-        arr = np.array([el for el in arr])
-    return np.where(arr == val)[0].tolist()
+    return [ind for ind, el in enumerate(arr) if el == val]
 
 
 def circle(mobject, color=WHITE, stroke_width=4.5, buff=0.08):
