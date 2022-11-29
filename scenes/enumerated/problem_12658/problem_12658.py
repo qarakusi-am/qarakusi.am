@@ -1,9 +1,10 @@
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from qarakusiscene import TaskNumberBox
-from manim import FadeIn, Tex, Write, Indicate, CounterclockwiseTransform, AnimationGroup, FadeOut, ReplacementTransform, Transform, SurroundingRectangle, VGroup
+from manim import FadeIn, FadeOut, Write, Indicate, CounterclockwiseTransform, AnimationGroup, ReplacementTransform, Transform
+from manim import VGroup, Tex, SurroundingRectangle
 from manim import DOWN, LEFT, UL, DR, UR, PI, UP
 from manim import ORANGE, GREEN, WHITE, BLACK
-from .text import *
+from .text import taskNumberString
 
 BIG_FONT_SIZE = 70
 
