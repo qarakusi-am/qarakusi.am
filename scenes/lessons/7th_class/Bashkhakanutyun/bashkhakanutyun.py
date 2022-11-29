@@ -2,7 +2,7 @@ from manim import UP, DOWN, LEFT, RIGHT, ORIGIN, UL, UR, DL, PI
 from manim import YELLOW, GREEN, BLACK, WHITE
 from manim import VMobject, VGroup, MathTex, Tex, Dot, Line, Rectangle, SurroundingRectangle, Arrow
 from manim import AnimationGroup, Indicate, Wiggle, ReplacementTransform, TransformMatchingShapes
-from manim import Create, Uncreate, Write, FadeIn, FadeOut
+from manim import Create, Uncreate, Write, FadeIn, FadeOut, GrowArrow
 
 from hanrahashiv import FormulaModificationsScene
 from hanrahashiv import ModifyFormula
@@ -33,8 +33,8 @@ class Distributive(FormulaModificationsScene):
         self.nostalgy()
         self.texting()
         self.main()
-        # self.separating()
-        # self.example()
+        self.separating()
+        self.example()
 
     def nostalgy(self):
         dist_f = MathTex('a', '(', 'x', '+', 'y',')').scale(1.35)
@@ -155,22 +155,34 @@ class Distributive(FormulaModificationsScene):
 
         formula_alt = MathTex('(', 'a', '+', 'b',')','(', 'x', '+', 'y', '+', 'z', ')', '=', ' ', ' ', ' ', ' ', ' ', '?', ' ', ' ')
         formula_alt.match_height(previous_formula).align_to(previous_formula, UL)
+        formula_forever_1[1].set_color('#B73E3E')
+        formula_forever_1[3].set_color('#628E90')
         formula_alt.shift(formula_forever[5].get_center() - formula_alt[5].get_center())        
         self.remove(previous_formula)
         self.add(formula_forever)
         self.play(ReplacementTransform(formula_forever, formula_forever_1))
         self.wait()
 
-        arrow_1 = Arrow().rotate(-5/4 * PI)
-        arrow_1.next_to(formula_forever_1)
-        polynomial_tex_1 = Tex(polynomial_str)
+        arrow_1 = Arrow().rotate(-6/8 * PI)
+        arrow_1.next_to(formula_forever_1[0], DOWN, buff=0.5).shift(LEFT * 0.75)
+        polynomial_tex_1 = Tex(polynomial_str).next_to(arrow_1, DOWN)
 
-        arrow_2 = Arrow().rotate(-3/4 * PI)
-        polynomial_tex_2 = Tex(polynomial_str)
+        arrow_2 = Arrow().rotate(-2/8 * PI)
+        arrow_2.next_to(formula_forever_1[9], DOWN).shift(RIGHT * 0.5).align_to(arrow_1, UP)
+        polynomial_tex_2 = Tex(polynomial_str).next_to(arrow_2, DOWN)
 
-        self.play(ReplacementTransform(formula_forever_1, formula_alt))
+        self.play(GrowArrow(arrow_1), GrowArrow(arrow_2))
+        self.wait(0.1)
+        self.play(Write(polynomial_tex_1), Write(polynomial_tex_2))
         self.wait()
-        self.play(FadeOut(formula_alt[12:], scale = 1.1))
+
+        self.play(
+            ReplacementTransform(formula_forever_1, formula_alt),
+            arrow_1.animate.shift(LEFT),
+            polynomial_tex_1.animate.shift(LEFT)
+        )
+        self.wait()
+        self.play(FadeOut(formula_alt[12:], arrow_1, arrow_2, polynomial_tex_1, polynomial_tex_2))
         self.wait()
         self.formula_alt = formula_alt[:12]
 
@@ -193,6 +205,7 @@ class Distributive(FormulaModificationsScene):
         w_edg = MathTex('x', '+', 'y', '+', 'z').scale(0.75)
         rect = Rectangle(height=a+b, width=c+d+e)
         self.play(TransformMatchingShapes(self.formula_alt, formula[:12]))
+        self.remove(self.formula_alt).add(formula[:12])
         self.wait()
         self.play(Create(rect), run_time = 1.5)
         self.play(rect.animate.set_fill(color=['#CF7A29', '#628E90'], opacity=1))
@@ -388,8 +401,8 @@ class Distributive(FormulaModificationsScene):
         formula_c = MathTex(
             '(', 'a', '+', 'b', ')', '(', 'x', '+', 'y', '+', 'z', ')',
             '=', 'ax', '+', 'ay', '+', 'az', '+', 'bx', '+', 'by', '+', 'bz').scale_to_fit_height(formula.height).align_to(formula, UL)
+        self.remove(*formula)
         self.add(formula_c[:12])
-        self.remove(formula)
         formula_c[12].match_x(eq_sign)
         formula_c[13].align_to(ax_c[0], LEFT)
         formula_c[23].align_to(az_c[0], RIGHT)
