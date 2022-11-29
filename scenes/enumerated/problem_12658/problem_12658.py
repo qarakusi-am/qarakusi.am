@@ -15,8 +15,11 @@ class Problem12658(FormulaModificationsScene):
         self.play(FadeIn(taskNumber))
         self.wait()
 
-        # a(b+c) = ab + ac
-        pakagceri_bacum_tex = Tex("$a$", "$($", "$b$", "$+$", "$c$", "$)$", " $=$ ", "$a$", "$b$", " $+$ ", "$a$", "$c$", font_size=BIG_FONT_SIZE)
+    # a(b+c) = ab + ac
+        pakagceri_bacum_tex = Tex(
+            "$a$", "$($", "$b$", "$+$", "$c$", "$)$", " $=$ ", "$a$", "$b$", " $+$ ", "$a$", "$c$",
+            font_size=BIG_FONT_SIZE
+        ) # a(b+c)=ab+ac
         pakagceri_bacum_tex.set_color_by_tex("a", ORANGE)
         pakagceri_bacum_srr_rect = SurroundingRectangle(pakagceri_bacum_tex, color=GREEN)
         pakagceri_bacum = VGroup(pakagceri_bacum_tex, pakagceri_bacum_srr_rect).to_edge(UR)
@@ -24,8 +27,13 @@ class Problem12658(FormulaModificationsScene):
         self.wait()
         self.play(Indicate(pakagceri_bacum))
         self.wait()
-        
-        formula = Tex("$2$", "$x$", "$($", "$4$", "$x$", "$+$", "$3$", "$)$", " $=$ ", "$2$", "$x$", "$\\cdot$", "$4$", "$x$", " $+$ ", "$2$", "$x$", "$\\cdot$", "$3$", " $=$ ", "$8$", "$x$", "$^2$", " $+$ " "$6$", "$x$", font_size=BIG_FONT_SIZE)
+
+        formula = Tex(
+            "$2$", "$x$", "$($", "$4$", "$x$", "$+$", "$3$", "$)$", " $=$ ",
+            "$2$", "$x$", "$\\cdot$", "$4$", "$x$", " $+$ ", "$2$", "$x$", "$\\cdot$", "$3$", " $=$ ",
+            "$8$", "$x$", "$^2$", " $+$ " "$6$", "$x$",
+            font_size=BIG_FONT_SIZE
+        ) # 2x(4x+3)= 2x•4x+2x•3=8x^2+6x
         formula[:2].set_color(ORANGE)
         formula[9:11].set_color(ORANGE)
         formula[15:17].set_color(ORANGE)
@@ -35,6 +43,7 @@ class Problem12658(FormulaModificationsScene):
         temp1 = formula[:2].copy()
         temp2 = formula[3:5].copy()
         self.play(Write(formula[8]))
+        self.wait(0.1)
         self.play(
             AnimationGroup(
                 AnimationGroup(
@@ -45,19 +54,14 @@ class Problem12658(FormulaModificationsScene):
                 lag_ratio=.5
             )
         )
-        self.add(
-            formula[9:11],
-            formula[11:14]
-        )
-        self.remove(
-            temp1,
-            temp2
-        )
+        self.add(formula[9:11], formula[11:14])
+        self.remove(temp1, temp2)
         self.wait()
 
         temp1 = formula[:2].copy()
         temp2 = formula[6].copy()
         self.play(Write(formula[14]))
+        self.wait(0.1)
         self.play(
             AnimationGroup(
                 AnimationGroup(
@@ -68,27 +72,21 @@ class Problem12658(FormulaModificationsScene):
                 lag_ratio=.5
             )
         )
-        self.add(
-            formula[15:17],
-            formula[18]
-        )
-        self.remove(
-            temp1,
-            temp2
-        )
+        self.add(formula[15:17], formula[18])
+        self.remove(temp1, temp2)
         self.wait()
 
         self.play(Write(formula[19:23]))
         self.wait()
-
         self.play(Write(formula[23:]))
         self.wait()
 
         self.rearrange_formula(
             formula,
-            [20, 21, 22, 23, 24, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7],
-            move_up=[20, 21, 22, 23, 24],
-            move_down=[0, 1, 2, 3, 4, 5, 6, 7])
+            [*range(20, 25), *range(8, 20), *range(8)],
+            move_up=[*range(20, 25)],
+            move_down=[*range(8)]
+        )
         self.wait()
 
         self.play(
@@ -106,7 +104,7 @@ class Problem12658(FormulaModificationsScene):
         self.play(FadeOut(formula))
         self.wait()
 
-        # task 1
+        #------------------------------------- TASK 1 -------------------------------------
         task1 = Tex("1) ", "$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE)
         task1.to_edge(UL, buff=.4).shift(DOWN*.8)
         self.play(Write(task1))
@@ -216,7 +214,7 @@ class Problem12658(FormulaModificationsScene):
         self.remove(temp)
         self.wait()
 
-        # task 2
+        #------------------------------------- TASK 2 -------------------------------------
         task2 = Tex("2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE)
         task2.next_to(task1, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task2))
@@ -506,7 +504,7 @@ class Problem12658(FormulaModificationsScene):
         )
         self.wait()
 
-        # task 5
+    # task 5
         temp = []
         for obj in self.mobjects:
             if obj != taskNumber:
@@ -516,5 +514,4 @@ class Problem12658(FormulaModificationsScene):
 
         task5 = Tex("$4$", "$a$", "$^2$", "$b$", "$^5$", " $+$ ", "$6$", "$a$", "$^3$", "$b$", "$^5$", font_size=110)
         self.play(Write(task5))
-
         self.wait(2)
