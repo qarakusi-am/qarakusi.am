@@ -6,6 +6,7 @@ from manim import PI, UR, RIGHT, LEFT, UP, DOWN
 from manim import Tex, MathTex, VGroup
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from qarakusiscene import TaskNumberBox
+from .text import taskNumberString
 
 
 FONT_SIZE=65
@@ -15,7 +16,6 @@ WIGGLE_SCALE_FACTOR = 1.25
 class Problem12649(FormulaModificationsScene):
     def construct(self):
         # Խնդրի համարը
-        taskNumberString='Խ. 12649'
         taskNumber = TaskNumberBox(taskNumberString)
         self.add(taskNumber)
         self.wait(0.25)
