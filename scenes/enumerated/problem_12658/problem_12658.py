@@ -1,10 +1,12 @@
-from hanrahashiv import FormulaModificationsScene, ModifyFormula
-from qarakusiscene import TaskNumberBox
 from manim import FadeIn, FadeOut, Write, Indicate, CounterclockwiseTransform, AnimationGroup, ReplacementTransform, Transform
 from manim import VGroup, Tex, SurroundingRectangle
-from manim import DOWN, LEFT, UL, DR, UR, PI, UP
+from manim import DOWN, LEFT, RIGHT, UP, UL, DR, UR, PI
 from manim import ORANGE, GREEN, WHITE, BLACK
+from manim import there_and_back_with_pause
+from hanrahashiv import FormulaModificationsScene, ModifyFormula
+from qarakusiscene import TaskNumberBox
 from .text import taskNumberString
+from manim import *
 
 BIG_FONT_SIZE = 70
 
@@ -15,7 +17,7 @@ class Problem12658(FormulaModificationsScene):
         self.play(FadeIn(taskNumber))
         self.wait()
 
-    # a(b+c) = ab + ac
+    # Intro - property and reverse order  (animations - 0,44)
         pakagceri_bacum_tex = Tex(
             "$a$", "$($", "$b$", "$+$", "$c$", "$)$", " $=$ ", "$a$", "$b$", " $+$ ", "$a$", "$c$",
             font_size=BIG_FONT_SIZE
@@ -33,7 +35,7 @@ class Problem12658(FormulaModificationsScene):
             "$2$", "$x$", "$\\cdot$", "$4$", "$x$", " $+$ ", "$2$", "$x$", "$\\cdot$", "$3$", " $=$ ",
             "$8$", "$x$", "$^2$", " $+$ " "$6$", "$x$",
             font_size=BIG_FONT_SIZE
-        ) # 2x(4x+3)= 2x•4x+2x•3=8x^2+6x
+        ) # 2x(4x+3)= 2x•4x+2x•3= 8x^2+6x
         formula[:2].set_color(ORANGE)
         formula[9:11].set_color(ORANGE)
         formula[15:17].set_color(ORANGE)
@@ -81,12 +83,17 @@ class Problem12658(FormulaModificationsScene):
         self.play(Write(formula[23:]))
         self.wait()
 
+        self.play(Indicate(formula[20:25]))
+        self.wait()
+        self.play(Indicate(formula[0:8]))
+        self.wait()
+
         self.rearrange_formula(
             formula,
             [*range(20, 25), *range(8, 20), *range(8)],
             move_up=[*range(20, 25)],
             move_down=[*range(8)]
-        )
+        ) # 8x^2+6x= 2x•4x+2x•3= 2x(4x+3)
         self.wait()
 
         self.play(
@@ -96,22 +103,36 @@ class Problem12658(FormulaModificationsScene):
         self.wait()
 
         self.play(
-            formula[6:8].animate.scale(1.3),
-            formula[12:14].animate.scale(1.3)
+            formula[6:8].animate(rate_func=there_and_back_with_pause, run_time=1.5).scale(1.3),
+            formula[12:14].animate(rate_func=there_and_back_with_pause, run_time=1.5).scale(1.3)
         )
+        self.wait()
+
+        self.play(FadeOut(pakagceri_bacum_srr_rect))
+        self.wait()
+        self.rearrange_formula(
+            pakagceri_bacum_tex,
+            new_sequence=[*range(7,12), 6, *range(0,6)],
+            move_down=[*range(7,12)],
+            fade_out=[6], fade_in=[5]
+        ) # ab+ac=a(b+c)
+        self.wait()
+        self.play(FadeIn(pakagceri_bacum_srr_rect))
         self.wait()
 
         self.play(FadeOut(formula))
         self.wait()
 
+        ######################################        #####################################    animations - 45,80
         #------------------------------------- TASK 1 -------------------------------------
-        task1 = Tex("1) ", "$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE)
+        ######################################        #####################################
+        task1 = Tex("1) ", "$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE) # 1) x^2+4x
         task1.to_edge(UL, buff=.4).shift(DOWN*.8)
         self.play(Write(task1))
         self.wait()
 
-        task1_copy = Tex("$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE)
-        task1_copy.align_to(task1, DR)
+        task1_copy = Tex("$x$", "$^2$", " $+$ ", "$4$", "$x$", font_size=BIG_FONT_SIZE) # x^2+4x
+        task1_copy.move_to(task1).align_to(task1, UR)
         self.play(task1_copy.animate.shift(DOWN))
         self.wait()
 
@@ -122,7 +143,7 @@ class Problem12658(FormulaModificationsScene):
                 replace_items=[[0, 1]],
                 replace_items_strs=[["$x$", "$\\cdot$", "$x$"]]
             )
-        )
+        ) # x•x+4x
         self.wait()
 
         self.play(
@@ -135,7 +156,7 @@ class Problem12658(FormulaModificationsScene):
             task1_copy,
             [0, 1, 2, 3, 5, 4],
             move_up=[5]
-        )
+        ) # x•x+x4
         self.fix_formula(task1_copy)
         self.play(
             ModifyFormula(
@@ -143,7 +164,7 @@ class Problem12658(FormulaModificationsScene):
                 add_after_items=[4],
                 add_items_strs=[["$\\cdot$"]]
             )
-        )
+        ) # x•x+x•4
         self.wait()
 
         self.play(Indicate(pakagceri_bacum))
@@ -158,7 +179,7 @@ class Problem12658(FormulaModificationsScene):
                 add_items_colors=[[BLACK] * len(temp)],
                 new_formula_alignment=LEFT
             )
-        )
+        ) # x•x+x•4 = x(x+4)   հավասարության շարունակությունը սև ա, չի երևում
         self.play(
             Write(task1_copy[7].set_color(WHITE)),
             Write(task1_copy[8].set_color(ORANGE))
@@ -166,32 +187,32 @@ class Problem12658(FormulaModificationsScene):
         self.wait()
         
         temp = task1_copy[2].copy()
-        self.play(
-            Write(task1_copy[9].set_color(WHITE)),
-            CounterclockwiseTransform(temp, task1_copy[10].copy().set_color(WHITE), path_arc=PI/2)
-        )
+        self.play(Write(task1_copy[9].set_color(WHITE)))
+        self.wait(0.5)
+        self.play(Indicate(task1_copy[2], 1.5))
+        self.wait(0.5)
+        self.play(CounterclockwiseTransform(temp, task1_copy[10].copy().set_color(WHITE), path_arc=PI/2))
+        self.wait(0.5)
         task1_copy[10].set_color(WHITE)
         self.add(task1_copy[10])
         self.remove(temp)
-        self.wait()
+        self.wait(0.5)
 
         temp = task1_copy[3].copy()
         self.play(CounterclockwiseTransform(temp, task1_copy[11].copy().set_color(WHITE), path_arc=PI/2))
         task1_copy[11].set_color(WHITE)
         self.add(task1_copy[11])
         self.remove(temp)
-        self.wait()
+        self.wait(0.5)
         
         temp = task1_copy[6].copy()
-        self.play(
-            CounterclockwiseTransform(temp, task1_copy[12].copy().set_color(WHITE), path_arc=PI/2)
-        )
+        self.play(Indicate(task1_copy[6], 1.5))
+        self.wait(0.5)
+        self.play(CounterclockwiseTransform(temp, task1_copy[12].copy().set_color(WHITE), path_arc=PI/2))
         task1_copy[12].set_color(WHITE)
         self.add(task1_copy[12])
         self.remove(temp)
-        self.play(
-            Write(task1_copy[-1].set_color(WHITE))
-        )
+        self.play(Write(task1_copy[-1].set_color(WHITE)))
         self.wait()
 
         self.fix_formula(task1)
@@ -214,13 +235,16 @@ class Problem12658(FormulaModificationsScene):
         self.remove(temp)
         self.wait()
 
+        ######################################        #####################################  animations - 81,
         #------------------------------------- TASK 2 -------------------------------------
+        ######################################        #####################################
         task2 = Tex("2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE)
         task2.next_to(task1, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task2))
         self.wait()
 
-        task2_copy = Tex("$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE).align_to(task2, DR)
+        task2_copy = Tex("$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE)
+        task2_copy.align_to(task2, UR)
         self.play(task2_copy.animate.shift(DOWN*1.2))
         self.wait()
         self.fix_formula(task2_copy)
