@@ -235,15 +235,21 @@ class Problem12658(FormulaModificationsScene):
         self.remove(temp)
         self.wait()
 
-        ######################################        #####################################  animations - 81,
+        ######################################        #####################################  animations - 81,119
         #------------------------------------- TASK 2 -------------------------------------
         ######################################        #####################################
-        task2 = Tex("2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE)
+        task2 = Tex(
+            "2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$",
+            font_size=BIG_FONT_SIZE
+        ) # 2) 2a^2b^3+a^5b^3
         task2.next_to(task1, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task2))
         self.wait()
 
-        task2_copy = Tex("$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", font_size=BIG_FONT_SIZE)
+        task2_copy = Tex(
+            "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$",
+            font_size=BIG_FONT_SIZE
+        ) # 2a^2b^3+a^5b^3
         task2_copy.align_to(task2, UR)
         self.play(task2_copy.animate.shift(DOWN*1.2))
         self.wait()
@@ -251,20 +257,37 @@ class Problem12658(FormulaModificationsScene):
         self.play(
             ModifyFormula(
                 task2_copy,
-                replace_items=[[0, 1, 2, 3, 4]],
-                replace_items_strs=[["$2$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$", "$b$", "$\\cdot$", "$b$", "$\\cdot$", "$b$"]]
+                replace_items=[[0, 1, 2]],
+                replace_items_strs=[["$2$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$"]]
             )
-        )
-        self.wait()
-        
+        ) # 2•a•a•b^3+a^5b^3
+        self.wait(0.1)
         self.play(
             ModifyFormula(
                 task2_copy,
-                replace_items=[[12, 13, 14, 15]],
-                replace_items_strs=[["$a$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$", "$b$", "$\\cdot$", "$b$", "$\\cdot$", "$b$"]],
+                replace_items=[[6, 7]],
+                replace_items_strs=[["$b$", "$\\cdot$", "$b$", "$\\cdot$", "$b$"]]
             )
-        )
+        ) # 2•a•a•b•b•b+a^5b^3
         self.wait()
+
+        self.play(
+            ModifyFormula(
+                task2_copy,
+                replace_items=[[12, 13]],
+                replace_items_strs=[["$a$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$", "$a$", "$\\cdot$"]],
+            )
+        ) # 2•a•a•b•b•b+a•a•a•a•a•b^3
+        self.wait(0.1)
+        self.play(
+            ModifyFormula(
+                task2_copy,
+                replace_items=[[22, 23]],
+                replace_items_strs=[["$b$", "$\\cdot$", "$b$", "$\\cdot$", "$b$"]],
+            )
+        ) # 2•a•a•b•b•b+a•a•a•a•a•b•b•b
+        self.wait()
+
         self.play(
             task2_copy[2].animate.set_color(ORANGE),
             task2_copy[4].animate.set_color(ORANGE),
@@ -289,19 +312,34 @@ class Problem12658(FormulaModificationsScene):
                 2, 3, 4, 5, 6, 7, 8, 9, 10,
                 21, 22, 23, 24, 25, 26
             ]
-        )
+        ) # a•a•b•b•b•2+a•a•b•b•b•a•a•a
         self.wait()
 
         self.play(
             ModifyFormula(
                 task2_copy,
-                replace_items=[[0, 1, 2, 3, 4, 5, 6, 7, 8], [12, 13, 14, 15, 16, 17, 18, 19, 20], [22, 23, 24, 25, 26]],
-                replace_items_strs=[["$a$", "$^2$", "$b$", "$^3$"], ["$a$", "$^2$", "$b$", "$^3$"], ["$a^3$"]],
-                replace_items_colors=[[ORANGE, ORANGE, ORANGE, ORANGE], [ORANGE, ORANGE, ORANGE, ORANGE]]
+                replace_items=[[0, 1, 2], [12, 13, 14]],
+                replace_items_strs=[["$a$", "$^2$"], ["$a$", "$^2$"]],
+                replace_items_colors=[[ORANGE, ORANGE], [ORANGE, ORANGE]]
             )
-        )
+        ) # a^2•b•b•b•2+a^2•b•b•b•a•a•a
+        self.play(
+            ModifyFormula(
+                task2_copy,
+                replace_items=[[2, 3, 4, 5, 6, 7], [13, 14, 15, 16, 17, 18]],
+                replace_items_strs=[["$b$", "$^3$"], ["$b$", "$^3$"]],
+                replace_items_colors=[[ORANGE, ORANGE], [ORANGE, ORANGE]]
+            )
+        ) # a^2b^3•2+a^2b^3•a•a•a
+        self.play(
+            ModifyFormula(
+                task2_copy,
+                replace_items=[[12, 13, 14, 15, 16]],
+                replace_items_strs=[["$a^3$"]]
+            )
+        ) # a^2•b^3•2+a^2•b^3•a^3
         self.wait()
-        
+
         temp = [" $=$ ", "$a$", "$^2$", "$b$", "$^3$", "$($", "$2$", " $+$ ", "$a$", "$^3$", "$)$"]
         self.play(
             ModifyFormula(
@@ -309,9 +347,10 @@ class Problem12658(FormulaModificationsScene):
                 add_after_items=[12],
                 add_items_strs=[temp],
                 add_items_colors=[[BLACK] * len(temp)],
-                new_formula_alignment=LEFT
+                new_formula_alignment=UL
             )
         )
+        self.wait(0.1)
         self.play(
             Write(task2_copy[13].set_color(WHITE)),
             Write(task2_copy[14:18].set_color(ORANGE))
@@ -339,60 +378,81 @@ class Problem12658(FormulaModificationsScene):
         self.play(Write(task2_copy[-1].set_color(WHITE)))
         self.wait()
 
-        task2 = Tex("2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", " $=$ ", "$a$", "$^2$", "$b$", "$^3$", "$($", "$2$", " $+$ ", "$a$", "$^3$", "$)$", font_size=BIG_FONT_SIZE).align_to(task2, UL)
+        task2 = Tex(
+            "2) ", "$2$", "$a$", "$^2$", "$b$", "$^3$", " $+$ ", "$a$", "$^5$", "$b$", "$^3$", " $=$ ",
+            "$a$", "$^2$", "$b$", "$^3$", "$($", "$2$", " $+$ ", "$a$", "$^3$", "$)$",
+            font_size=BIG_FONT_SIZE
+        ).align_to(task2, UL)
         self.play(
             ReplacementTransform(task2_copy[13:], task2[11:]),
             FadeOut(task2_copy[:13])
         )
         self.wait()
 
-        # task 3
+        ######################################        #####################################  animations - 120,156
+        #------------------------------------- TASK 3 -------------------------------------
+        ######################################        #####################################
         task3 = Tex("3) ", "$6$", "$x$", "$y$", "$^5$", " $-$ ", "$9$", "$x$", "$^3$", "$y$", "$^3$", font_size=BIG_FONT_SIZE)
         task3.next_to(task2, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task3))
         self.wait()
 
-        task3_copy = Tex("$6$", "$x$", "$y$", "$^5$", " $-$ ", "$9$", "$x$", "$^3$", "$y$", "$^3$", font_size=BIG_FONT_SIZE)
+        task3_copy = Tex(
+            "$6$", "$x$", "$y$", "$^5$", " $-$ ", "$9$", "$x$", "$^3$", "$y$", "$^3$",
+            font_size=BIG_FONT_SIZE
+        ) # 6xy^5-9x^3y^3
         task3_copy.align_to(task3, UR)
         self.play(task3_copy.animate.shift(DOWN))
         self.wait()
 
-        temp = Tex("$3$", "$x$", "$y$", "$^3$", font_size=BIG_FONT_SIZE)
+        temp = Tex("$3$", "$x$", "$y$", "$^3$", font_size=BIG_FONT_SIZE, color=ORANGE)
         temp.next_to(task3_copy, DOWN, aligned_edge=LEFT)
-        self.play(Write(temp[0]))
-        self.wait()
-        self.play(Write(temp[1]))
-        self.wait()
-        self.play(Write(temp[2:]))
+        self.play(
+            Indicate(task3_copy[0], 1.5),
+            Indicate(task3_copy[5], 1.5)
+        )
+        self.wait(0.1)
+        self.play(Write(temp[0], run_time=0.75))
+        self.wait(0.25)
+        self.play(
+            Indicate(task3_copy[1], 1.5),
+            Indicate(task3_copy[6:8], 1.5)
+        )
+        self.wait(0.1)
+        self.play(Write(temp[1], run_time=0.75))
+        self.wait(0.25)
+        self.play(
+            Indicate(task3_copy[2:4], 1.5),
+            Indicate(task3_copy[8:10], 1.5)
+        )
+        self.wait(0.1)
+        self.play(Write(temp[2:], run_time=0.75))
         self.wait()
 
         self.fix_formula(task3_copy)
         self.play(
             ModifyFormula(
                 task3_copy,
-                replace_items=[[0, 1, 2, 3]],
-                replace_items_strs=[["$3$", "$x$", "$y$", "$^3$", "$\\cdot$", "$2$", "$y$", "$^2$"]]
+                replace_items=[[0, 1], [2, 3]],
+                replace_items_strs=[["$3$", "$x$", "$y$", "$^3$"], ["$\\cdot$", "$2$", "$y$", "$^2$"]],
+                replace_items_colors=[[ORANGE, ORANGE, ORANGE, ORANGE]]
             )
-        )
-        self.wait()
-        self.play(FadeOut(temp))
+        ) # 3xy^2•2y^2-9x^3y^3
         self.wait()
 
         self.play(
             ModifyFormula(
                 task3_copy,
-                replace_items=[[9, 10, 11, 12, 13]],
-                replace_items_strs=[["$3$", "$x$", "$y$", "$^3$", "$\\cdot$", "$3$", "$x$", "$^2$"]]
+                replace_items=[[9, 10], [11, 12, 13]],
+                replace_items_strs=[["$3$", "$x$", "$y$", "$^3$"], ["$\\cdot$", "$3$", "$x$", "$^2$"]],
+                replace_items_colors=[[ORANGE, ORANGE, ORANGE, ORANGE]]
             )
-        )
+        ) # 3xy^2•2y^2-3xy^2•3x^2
         self.wait()
 
-        self.play(
-            task3_copy[:4].animate.set_color(ORANGE),
-            task3_copy[9:13].animate.set_color(ORANGE)
-        )
-        self.wait()
-        
+        self.play(FadeOut(temp))
+        self.wait(0.1)
+
         temp = [" $=$ ", "$3$", "$x$", "$y$", "$^3$", "$($", "$2$", "$y$", "$^2$", " $-$ ", "$3$", "$x$", "$^2$", "$)$"]
         self.play(
             ModifyFormula(
@@ -400,7 +460,7 @@ class Problem12658(FormulaModificationsScene):
                 add_after_items=[len(task3_copy)-1],
                 add_items_strs=[temp],
                 add_items_colors=[[BLACK] * len(temp)],
-                new_formula_alignment=LEFT
+                new_formula_alignment=UL
             )
         )
         
@@ -450,59 +510,69 @@ class Problem12658(FormulaModificationsScene):
         self.remove(task3_copy)
         self.wait()
 
-        # task 4
-        task4 = Tex("4) ", "$12$", "$m$", "$n$", "$^3$", " $+$ ", "$6$", "$m$", "$^2$", "$n$", "$^3$", " $-$ ", "$18$", "$m$", "$^2$", "$n$", "$^2$", font_size=BIG_FONT_SIZE)
+        ######################################        #####################################  animations - 157,
+        #------------------------------------- TASK 4 -------------------------------------
+        ######################################        #####################################
+        task4 = Tex(
+            "4) ", "$12$", "$m$", "$n$", "$^3$", " $+$ ", "$6$", "$m$", "$^2$", "$n$", "$^3$",
+            " $-$ ", "$18$", "$m$", "$^2$", "$n$", "$^2$",
+            font_size=BIG_FONT_SIZE
+        )
         task4.next_to(task3, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(task4))
         self.wait()
 
-        task4_copy = Tex("$12$", "$m$", "$n$", "$^3$", " $+$ ", "$6$", "$m$", "$^2$", "$n$", "$^3$", " $-$ ", "$18$", "$m$", "$^2$", "$n$", "$^2$", font_size=BIG_FONT_SIZE)
+        task4_copy = Tex(
+            "$12$", "$m$", "$n$", "$^3$", " $+$ ", "$6$", "$m$", "$^2$", "$n$", "$^3$",
+            " $-$ ", "$18$", "$m$", "$^2$", "$n$", "$^2$",
+            font_size=BIG_FONT_SIZE
+        ) # 12mn^3 + 6m^2n^3 - 18m^2n^2
         task4_copy.align_to(task4, UR)
         self.play(task4_copy.animate.shift(DOWN))
         self.wait()
-        
+
+        temp = Tex('$6mn^2$', color=ORANGE, font_size=BIG_FONT_SIZE)
+        temp.next_to(task4_copy, DOWN, aligned_edge=LEFT)
+        self.play(Write(temp))
+        self.wait()
+
         self.fix_formula(task4_copy)
         self.play(
             ModifyFormula(
                 task4_copy,
-                replace_items=[[0, 1, 2, 3]],
-                replace_items_strs=[["$6$", "$m$", "$n$", "$^2$", "$\\cdot$", "$2$", "$n$"]]
+                replace_items=[[0, 1], [2, 3]],
+                replace_items_strs=[["$6$", "$m$", "$n$", "$^2$"], ["$\\cdot$", "$2$", "$n$"]],
+                replace_items_colors=[[ORANGE, ORANGE, ORANGE, ORANGE]]
             )
-        )
+        ) # 6mn^2•2n + 6m^2n^3 - 18m^2n^2
         self.wait()
 
         self.play(
             ModifyFormula(
                 task4_copy,
-                replace_items=[[8, 9, 10, 11, 12]],
-                replace_items_strs=[["$6$", "$m$", "$n$", "$^2$", "$\\cdot$", "$m$", "$n$"]]
+                replace_items=[[8, 9], [10, 11, 12]],
+                replace_items_strs=[["$6$", "$m$", "$n$", "$^2$"], ["$\\cdot$", "$m$", "$n$"]],
+                replace_items_colors=[[ORANGE, ORANGE, ORANGE, ORANGE]]
             )
-        )
+        ) # 6mn^2•2n + 6mn^2•mn - 18m^2n^2
         self.wait()
 
         self.play(
             ModifyFormula(
                 task4_copy,
-                replace_items=[[16, 17, 18, 19, 20]],
-                replace_items_strs=[["$6$", "$m$", "$n$", "$^2$", "$\\cdot$", "$3$", "$m$"]]
+                replace_items=[[16, 17], [18, 19, 20]],
+                replace_items_strs=[["$6$", "$m$", "$n$", "$^2$"], ["$\\cdot$", "$3$", "$m$"]]
+                ,
+                replace_items_colors=[[ORANGE, ORANGE, ORANGE, ORANGE]]
             )
-        )
-        self.wait()
-
-        self.play(
-            task4_copy[:4].animate.set_color(ORANGE),
-            task4_copy[8:12].animate.set_color(ORANGE),
-            task4_copy[16:20].animate.set_color(ORANGE)
-        )
+        ) # 6mn^2•2n + 6mn^2•mn - 6mn^2•3m
         self.wait()
 
         task4_copy1 = Tex("$6mn^2$", "$($", "$2n$", " $+$ ", "$mn$", " $-$ ", "$3m$", "$)$", font_size=BIG_FONT_SIZE)
         task4_copy1.next_to(task4_copy, DOWN, aligned_edge=LEFT).set_color(BLACK)
 
-        self.play(
-            Write(task4_copy1[0].set_color(ORANGE)),
-            Write(task4_copy1[1].set_color(WHITE))
-        )
+        self.add(task4_copy1[0].set_color(ORANGE)).remove(temp)
+        self.play(Write(task4_copy1[1].set_color(WHITE)))
         self.wait()
 
         self.play(ReplacementTransform(task4_copy[5:7].copy(), task4_copy1[2].set_color(WHITE)))
