@@ -116,7 +116,7 @@ class ConnectionLine(VMobject):
         vertex_2 = Dot(vertex_1).match_x(mob_2).get_center()
         vertex_3 = mob_2.get_edge_center(dir) + alpha/3*dir
         if equal_size:
-            a = min[abs((vertex_0-vertex_1)[1]), abs((vertex_3-vertex_2)[1])]
+            a = min([abs((vertex_0-vertex_1)[1]), abs((vertex_3-vertex_2)[1])])
             vertex_0 = vertex_1 - a*dir
             vertex_3 = vertex_2 - a*dir
         self.start_new_path(vertex_0)
