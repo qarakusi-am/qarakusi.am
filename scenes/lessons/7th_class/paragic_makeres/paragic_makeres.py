@@ -1,8 +1,12 @@
-from manim import *
-
-# FIXME: Remove this once lib/constants doesn't use xelatex anymore
-ARMTEX = TexTemplate()
-ARMTEX.add_to_preamble(r'\usepackage{armtex}')
+from manim import Scene
+from manim import WHITE, ORANGE, RED, GREEN
+from manim import UP, DOWN, RIGHT, LEFT, PI, TAU
+from manim import Line, DashedLine, Rectangle, Polygon, BraceBetweenPoints, SurroundingRectangle, Dot
+from manim import VGroup, Tex
+from manim import AnimationGroup, Create, Write, FadeIn, FadeOut, ReplacementTransform, Wiggle, Indicate
+from manim import linear, there_and_back_with_pause
+import numpy as np
+from .text import makeres_str, paragic_str
 
 class ParagicMakeres(Scene):
     def construct(self):
@@ -29,33 +33,25 @@ class ParagicMakeres(Scene):
             Tex('7').next_to(rect, UP)
         )
 
-        paragic_3_7 = Tex('3', ' + ', '7', ' + ', '3', ' + ', '7', ' = ', '20')
+        paragic_3_7 = Tex('$3$', ' $+$ ', '$7$', ' $+$ ', '$3$', ' $+$ ', '$7$', ' $=$ ', '$20$')
         paragic_3_7.next_to(sides_7[0], DOWN, buff=0.75)
-        makeres_3_7 = Tex('3 $\cdot$ 7 = 21').next_to(paragic_3_7, DOWN, buff=0.75)
+        makeres_3_7 = Tex('$3 \cdot 7 = 21$').next_to(paragic_3_7, DOWN, buff=0.75)
 
     # արտահայտություններ a ու b-ով
         sides_a = VGroup(
-            Tex('a').next_to(rect, LEFT),
-            Tex('a').next_to(rect, RIGHT)
+            Tex('$a$').next_to(rect, LEFT),
+            Tex('$a$').next_to(rect, RIGHT)
         )
         sides_b = VGroup(
-            Tex('b').next_to(rect, DOWN),
-            Tex('b').next_to(rect, UP)
+            Tex('$b$').next_to(rect, DOWN),
+            Tex('$b$').next_to(rect, UP)
         )
 
-        paragic_a_b = VGroup(
-            Tex('Պարագիծ - ', tex_template=ARMTEX),
-            Tex('a+b+a+b')
-        ).arrange(aligned_edge=DOWN)
-        paragic_a_b[1].shift(0.07 * UP)
+        paragic_a_b = Tex(paragic_str, '$a+b+a+b$')
         paragic_a_b.next_to(sides_7[0], DOWN, buff=0.75)
 
-        makeres_a_b = VGroup(
-            Tex('Մակերես - ', tex_template=ARMTEX),
-            Tex('a$\cdot$b')
-        ).arrange(aligned_edge=DOWN)
-        makeres_a_b[1].shift(0.07 * UP)
-        makeres_a_b.next_to(paragic_a_b, DOWN, buff=1).shift(0.7 * LEFT)
+        makeres_a_b = Tex(makeres_str, '$a\cdot b$')
+        makeres_a_b.next_to(paragic_a_b, DOWN, buff=1, aligned_edge=LEFT)
 
         middle_dashed_line = DashedLine().scale(4).rotate(-PI/2).shift(0.25 * LEFT)
 
@@ -96,12 +92,12 @@ class ParagicMakeres(Scene):
             color=WHITE
         ).set_fill(RED, 0.75)
 
-        new_a = Tex('a').next_to(new_shape_edges[0], LEFT)
-        new_b = Tex('b').next_to(new_shape_edges[1], DOWN)
-        new_c = Tex('c').next_to(new_shape_edges[4], RIGHT, buff=0.15).set_z(new_shape_extra_rectangle.get_z() + 1)
-        new_d = Tex('d').next_to(new_shape_edges[3], UP, buff=0.15).set_z(new_shape_extra_rectangle.get_z() + 1)
-        new_a_minus_c = Tex('a', '-', 'c')
-        new_b_minus_d = Tex('b', '-', 'd')
+        new_a = Tex('$a$').next_to(new_shape_edges[0], LEFT)
+        new_b = Tex('$b$').next_to(new_shape_edges[1], DOWN)
+        new_c = Tex('$c$').next_to(new_shape_edges[4], RIGHT, buff=0.15).set_z(new_shape_extra_rectangle.get_z() + 1)
+        new_d = Tex('$d$').next_to(new_shape_edges[3], UP, buff=0.15).set_z(new_shape_extra_rectangle.get_z() + 1)
+        new_a_minus_c = Tex('$a$', '$-$', '$c$')
+        new_b_minus_d = Tex('$b$', '$-$', '$d$')
 
         brace_a = BraceBetweenPoints(new_shape.get_vertices()[2], new_shape.get_vertices()[5], RIGHT)
         brace_a_minus_c = BraceBetweenPoints(new_shape.get_vertices()[2], new_shape.get_vertices()[3], RIGHT)
@@ -121,8 +117,11 @@ class ParagicMakeres(Scene):
 
     # new shape paragic
         new_shape_paragic = VGroup(
-            Tex('a', '+', '(', 'b', '-', 'd', ')', '+', 'c', '+', 'd', '+', '(', 'a', '-', 'c', ')', '+', 'b', '='),
-            Tex('=', 'a', '+', 'b', '+', 'a', '+', 'b')
+            Tex(
+                '$a$', '$+$', '$($', '$b$', '$-$', '$d$', '$)$', '$+$',
+                '$c$', '$+$', '$d$', '$+$', '$($', '$a$', '$-$', '$c$', '$)$', '$+$', '$b$', '$=$'
+            ),
+            Tex('$=$', '$a$', '$+$', '$b$', '$+$', '$a$', '$+$', '$b$')
         )
         new_shape_paragic.arrange(DOWN).next_to(new_shape, DOWN, buff=1.25)
 
@@ -156,7 +155,7 @@ class ParagicMakeres(Scene):
         )
     
     # new shape makeres
-        new_shape_makeres = Tex('a$\cdot$b', ' - ', 'c$\cdot$d')
+        new_shape_makeres = Tex('$a\cdot b$', ' $-$ ', '$c\cdot d$')
         new_shape_makeres.next_to(new_shape_paragic, DOWN, buff=0.5)
 
         
@@ -167,12 +166,6 @@ class ParagicMakeres(Scene):
         def animate_rect_3_7():
 
             self.add(rect, sides_3, sides_7)
-            # self.play(Create(rect))
-            # self.wait()
-
-            # self.play(Write(sides_3))
-            # self.wait(0.25)
-            # self.play(Write(sides_7))
             self.wait()
 
             self.play(
@@ -432,12 +425,11 @@ class ParagicMakeres(Scene):
         ).scale(2)
 
         last_shape_letters = VGroup(
-            Tex('a', font_size=60).next_to(last_shape, LEFT),
-            Tex('b', font_size=60).next_to(last_shape, DOWN),
-            Tex('c', font_size=60).move_to((last_shape.get_vertices()[5] + last_shape.get_vertices()[6]) / 2).shift(0.3 * RIGHT),
-            Tex('d', font_size=60).move_to((last_shape.get_vertices()[4] + last_shape.get_vertices()[5]) / 2).shift(0.35 * UP)
+            Tex('$a$', font_size=60).next_to(last_shape, LEFT),
+            Tex('$b$', font_size=60).next_to(last_shape, DOWN),
+            Tex('$c$', font_size=60).move_to((last_shape.get_vertices()[5] + last_shape.get_vertices()[6]) / 2).shift(0.3 * RIGHT),
+            Tex('$d$', font_size=60).move_to((last_shape.get_vertices()[4] + last_shape.get_vertices()[5]) / 2).shift(0.35 * UP)
         )
 
         self.play(FadeIn(last_shape, last_shape_letters))
         self.wait()
-
