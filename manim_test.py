@@ -23,9 +23,11 @@ def main(args):
             print('invalid path:', path)
             continue
         for language in ['armenian', 'english']:
-            subprocess.run(['python', 'qarakusi.am.py', index,
-                            '-ql', '--language', language] + extra_args,
-                            env=os.environ)
+            r = subprocess.run(['python', 'qarakusi.am.py', index,
+                                '-ql', '--language', language] + extra_args,
+                                env=os.environ)
+            if r.returncode:
+                exit(r.returncode)
 
 
 if __name__ == '__main__':
