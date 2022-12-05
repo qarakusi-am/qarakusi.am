@@ -17,13 +17,9 @@ def main(args):
     extra_args = []
     if args.last_screen:
         extra_args.append('-s')
-    for path in enumerated_problems.glob('problem_*'):
-        index = path.name[len('problem_'):]
-        if not all(i.isdigit() for i in index):
-            print('invalid path:', path)
-            continue
+    for path in enumerated_problems.rglob('problem_*.py'):
         for language in ['armenian', 'english']:
-            r = subprocess.run(['python', 'qarakusi.am.py', index,
+            r = subprocess.run(['python', 'qarakusi.am.py', path.as_posix(),
                                 '-ql', '--language', language] + extra_args,
                                 env=os.environ)
             if r.returncode:
