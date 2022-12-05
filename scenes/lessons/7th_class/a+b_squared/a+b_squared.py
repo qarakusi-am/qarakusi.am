@@ -1,9 +1,10 @@
 from manim import *
-from manim import LEFT, RIGHT, UP, DOWN, DR, DL, UR, UL, ORIGIN, PI
-from manim import ORANGE, GREEN, WHITE, YELLOW
+from manim import LEFT, RIGHT, UP, DOWN, DR, UR, ORIGIN, PI
+from manim import ORANGE, GREEN, WHITE
 from manim import Square, Rectangle, Tex, VGroup
 from manim import AnimationGroup, Write, Create, FadeOut, FadeIn
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
+from segment import ConnectionLine
 
 class APlusBSquared(FormulaModificationsScene):
 
@@ -90,7 +91,7 @@ class APlusBSquared(FormulaModificationsScene):
         # (a+b)^2=(a+b)(a+b)
         a_plus_b_squared = Tex(
             '$($', '$a$', '$+$', '$b$', '$)$', '$^2$', ' $=$ ',
-            '$(a$', '$+$', '$b$', '$)$', '$(a$', '$+$', '$b$', '$)$',
+            '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$+$', '$b$', '$)$',
             font_size=60
         )
 
@@ -242,18 +243,261 @@ class APlusBSquared(FormulaModificationsScene):
         self.wait()
         self.remove(a_plus_b_squared)
 
-    def get_formula_by_multiplying(self):
+    def get_formula_by_multiplying(self): # get formula by opening parenthesis (a+b)(a+b)
+        # (a+b)^2=(a+b)(a+b)
         formula = Tex(
-            '$($', '$a$', '$+$', '$b$', '$)$', '$^2$', ' $=$ ',
-            '$(a$', '$+$', '$b$', '$)$', '$(a$', '$+$', '$b$', '$)$',
+            '$($', '$a$', '$+$', '$b$', '$)$', '$^2$', ' $=$ ', # 0:7
+            '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$+$', '$b$', '$)$', # 7:17
+            ' $=$ ', '$a$', '$\cdot$', '$a$', '$+$', '$a$', '$\cdot$', '$b$', # 17:24
+            '$+$', '$b$', '$\cdot$', '$a$', '$+$', '$b$', '$\cdot$', '$b$', # 24:32
             font_size=60
         )
         formula.to_edge(LEFT)
-        self.add(formula)
+        self.add(formula[:17])
+        self.play(Write(formula[17]))
+        self.wait()
+
+        # open parenthesis and write   = a•a+a•b+b•a+b•b
+        conn_line = ConnectionLine(formula[8], formula[13], alpha=0.25)
+        self.play(Create(conn_line))
+        self.wait(0.5)
+        self.play(
+            ClockwiseTransform(formula[8].copy(), formula[18], remover=True, radius=10),
+            Write(formula[19]),
+            ClockwiseTransform(formula[13].copy(), formula[20], remover=True)
+        )
+        self.add(formula[18:21])
+        self.wait()
+
+        self.play(
+            Transform(conn_line, ConnectionLine(formula[8], formula[15], alpha=0.25)),
+            Write(formula[21]),
+            run_time=0.75
+        )
+        self.wait(0.5)
+        self.play(
+            ClockwiseTransform(formula[8].copy(), formula[22], remover=True),
+            Write(formula[23]),
+            ClockwiseTransform(formula[15].copy(), formula[24], remover=True)
+        )
+        self.add(formula[21:25])
+        self.wait(0.5)
+
+        self.play(
+            Transform(conn_line, ConnectionLine(formula[10], formula[13], alpha=0.25)),
+            Write(formula[25]),
+            run_time=0.75
+        )
+        self.wait(0.5)
+        self.play(
+            ClockwiseTransform(formula[10].copy(), formula[26], remover=True, radius=0.1),
+            Write(formula[27]),
+            ClockwiseTransform(formula[13].copy(), formula[28], remover=True)
+        )
+        self.add(formula[25:29])
+        self.wait(0.5)
+
+        self.play(
+            Transform(conn_line, ConnectionLine(formula[10], formula[15], alpha=0.25)),
+            Write(formula[29]),
+            run_time=0.75
+        )
+        self.wait(0.5)
+        self.play(
+            ClockwiseTransform(formula[10].copy(), formula[30], remover=True, radius=0.1),
+            Write(formula[31]),
+            ClockwiseTransform(formula[15].copy(), formula[32], remover=True)
+        )
+        self.add(formula[29:])
+        self.wait()
+        self.play(FadeOut(conn_line))
+        self.wait()
+
+        # simplify formula
         self.fix_formula(formula)
+        self.play(
+            ModifyFormula(
+                formula,
+                replace_items=[[18, 19, 20]], replace_items_strs=[['$a$', '$^2$']]
+            )
+        ) # a^2+a•b+b•a+b•b
+        self.wait(0.5)
+        self.play(
+            ModifyFormula(
+                formula,
+                replace_items=[[21, 22, 23, 24, 25, 26, 27]], replace_items_strs=[['$2$', '$a$', '$b$']]
+            )
+        ) # a^2+2ab+b•b
+        self.wait(0.5)
+        self.play(
+            ModifyFormula(
+                formula,
+                replace_items=[[25, 26, 27]], replace_items_strs=[['$b$', '$^2$']]
+            )
+        ) # a^2+2ab+b^2
+        self.wait(0.5)
+        self.play(
+            ModifyFormula(
+                formula, remove_items=[*range(7, 18)], new_formula_alignment=ORIGIN
+            )
+        ) # (a+b)^2 = a^2+2ab+b^2
+        self.wait()
+
+        # read formula
+        self.play(
+            AnimationGroup(
+                Circumscribe(formula[1:4], Circle, fade_out=True, run_time=2),
+                Circumscribe(formula[5], Circle, fade_out=True),
+                lag_ratio=0.5
+            )
+        )
+        self.wait(0.5)
+        self.play(Indicate(formula[7:9], 1.5))
+        self.wait(0.5)
+        self.play(Indicate(formula[10:13], 1.5))
+        self.wait(0.5)
+        self.play(Indicate(formula[14:], 1.5))
+        self.wait()
+
+        self.play(formula.animate.to_corner(UR))
+        surr_rect = SurroundingRectangle(formula, GREEN)
+        self.play(Create(surr_rect))
+        self.wait()
+        self.formula = formula
+        self.formula_rect = surr_rect
+
+    def first_exercise(self): # (c+yz)^2 = x^2 + 2cyz + y^2z^2
+        self.exercise_1 = exercise = Tex('1) ',
+            '$($', '$c$', '$+$', '$yz$', '$)$', '$^2$', ' $=$ ',
+            '$c$', '$^2$', '$+$', '$2$', '$c$', '$y$', '$z$', '$+$', '$y$', '$^2$', '$z$', '$^2$',
+            font_size=60
+        ) # 1) (c+yz)^2 = c^2+2cyz+y^2z^2
+        exercise.to_edge(LEFT).shift(UP * 1.5)
+        self.play(Write(exercise[:7]))
+        self.wait()
+
+        formula_copy = self.formula.copy() # (a+b)^2 = a^2+2ab+b^2
+        self.play(formula_copy.animate.next_to(exercise[1:], DOWN, aligned_edge=LEFT))
+        self.fix_formula(formula_copy)
+        self.wait()
+        
+        # replace a with c
+        self.play(
+            *[formula_copy[i].animate.scale(1.5).set_color(ORANGE) for i in [1, 7, 11]],
+            run_time=0.75
+        )
+        self.wait(0.1)
+        self.play(exercise[2].animate.scale(1.5).set_color(ORANGE))
+        self.wait(0.5)
+        self.play(
+            ModifyFormula(
+                formula_copy,
+                replace_items=[[1], [7], [11]], replace_items_strs=[['$c$']]*3
+            ),
+            exercise[2].animate.scale(1/1.5)
+        ) # (c+b)^2 = c^2+2cb+b^2
+        self.wait()
+
+        # replace b with yz
+        self.play(
+            *[formula_copy[i].animate.scale(1.5).set_color(GREEN) for i in [3, 12, 14]],
+            run_time=0.75
+        )
+        self.wait(0.1)
+        self.play(exercise[4].animate.scale(1.5).set_color(GREEN))
+        self.wait(0.5)
+        self.play(
+            ModifyFormula(
+                formula_copy,
+                replace_items=[[3], [12], [14]],
+                replace_items_strs=[['$y$', '$z$'], ['$y$', '$z$'], ['$($', '$y$', '$z$', '$)$']],
+                replace_items_colors=[[], [], [WHITE, GREEN, GREEN, WHITE]]
+            ),
+            exercise[4].animate.scale(1/1.5)
+        ) # (c+yz)^2 = c^2+2cyz+(yz)^2
+        self.wait()
+
+        # (yz)^2=y^2z^2
+        self.play(Indicate(formula_copy[16:]))
+        self.wait()
+        self.play(
+            ModifyFormula(
+                formula_copy,
+                remove_items=[16, 19],
+                add_after_items=[17], add_items_strs=[['$^2$']]
+            )
+        ) # (c+yz)^2 = c^2+2cyz+y^2z^2
+        self.wait()
+
+        # finish exercise
+        self.play(
+            FadeOut(formula_copy[:7]),
+            ReplacementTransform(formula_copy[7:], exercise[7:]),
+            exercise[:7].animate.set_color(WHITE)
+        )
+        self.wait()
+
+    def second_exercise(self): # (3x+d)^2 = 9x^2 + 6xd + d^2
+        self.exercise_2 = exercise = Tex('2) ',
+            '$($', '$3$', '$x$', '$+$', '$d$', '$)$', '$^2$', ' $=$ ',
+            '$($', '$3$', '$x$', '$)$', '$^2$', '$+$', '$2$', '$\cdot$', '$3$', '$x$', '$\cdot$', '$d$', '$+$', '$d$', '$^2$',
+            font_size=60
+        ) # 1) (3x+d)^2 = (3x)^2+2•3xd+d^2
+        exercise.to_edge(LEFT).shift(DOWN)
+
+        # write 1) (3x+d)^2
+        self.play(Write(exercise[:8]))
+        self.wait()
+        self.play(Write(exercise[8], run_time=0.75))
+        self.wait(0.1)
+
+        # Indicate and write   = (3x)^2+2•3xd+d^2
+        self.play(Indicate(exercise[2:4]))
+        self.wait(0.5)
+        self.play(Write(exercise[9:14]))
+        self.wait(0.5)
+        self.play(Write(exercise[14]))
+        self.wait(0.5)
+        self.play(Write(exercise[15:21]))
+        self.wait()
+        self.play(Indicate(exercise[5]))
+        self.wait(0.5)
+        self.play(Write(exercise[21:]))
+        self.wait()
+
+        # write polynomial in perfect form
+        self.fix_formula(exercise)
+        self.play(
+            ModifyFormula(
+                exercise,
+                remove_items=[9, 12],
+                replace_items=[[10]], replace_items_strs=[['$9$']]
+            )
+        ) # 9x^2+2•3xd+d^2
+        self.wait(0.25)
+
+        self.play(
+            ModifyFormula(
+                exercise,
+                remove_items=[17],
+                replace_items=[[13, 14, 15]], replace_items_strs=[['$6$']]
+            )
+        ) # 9x^2+6xd+d^2
+        self.wait()
+
+    def last_exercise(self): # (4+5k)^2 = ?
+        self.play(FadeOut(self.exercise_1, self.exercise_2))
+        self.wait(0.25)
+
+        exercise = Tex('$(4+5k)^2$', font_size=80)
+        self.play(Write(exercise))
+        self.wait()
 
     def construct(self):
         self.recap()
         self.misconception()
         self.get_formula_by_drawing()
         self.get_formula_by_multiplying()
+        self.first_exercise()
+        self.second_exercise()
+        self.last_exercise()
