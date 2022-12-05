@@ -1,8 +1,9 @@
-from manim import *
 from manim import LEFT, RIGHT, UP, DOWN, DR, UR, ORIGIN, PI
-from manim import ORANGE, GREEN, WHITE
-from manim import Square, Rectangle, Tex, VGroup
-from manim import AnimationGroup, Write, Create, FadeOut, FadeIn
+from manim import ORANGE, GREEN, WHITE, YELLOW_D
+from manim import Square, Rectangle, Tex, VGroup, SurroundingRectangle, Circle
+from manim import AnimationGroup, Write, Create, FadeOut, FadeIn, Indicate, Rotating, Circumscribe
+from manim import ReplacementTransform, Transform, ClockwiseTransform, TransformFromCopy
+from manim import linear, there_and_back_with_pause
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from segment import ConnectionLine
 
