@@ -1,11 +1,12 @@
 from manim import LEFT, RIGHT, UP, DOWN, DR, UR, ORIGIN, PI
-from manim import ORANGE, GREEN, WHITE, YELLOW_D
+from manim import ORANGE, GREEN, WHITE, YELLOW_D, RED
 from manim import Square, Rectangle, Tex, VGroup, SurroundingRectangle, Circle
 from manim import AnimationGroup, Write, Create, FadeOut, FadeIn, Indicate, Rotating, Circumscribe
 from manim import ReplacementTransform, Transform, ClockwiseTransform, TransformFromCopy
 from manim import linear, there_and_back_with_pause
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from segment import ConnectionLine
+from manim import *
 
 class APlusBSquared(FormulaModificationsScene):
 
@@ -21,32 +22,52 @@ class APlusBSquared(FormulaModificationsScene):
 
     def misconception(self): # numerically check if (1+1)^2 = 1^2+1^2
         # 2(1+1) = 2•1 + 2•1
-        equal_expressions = Tex('$2(1+1)$', ' $=$ ', '$2\cdot 1 + 2\cdot 1$')
+        equal_expressions = Tex('$2$', '$(1+1)$', ' $=$ ', '$2$', '$\cdot$', '$1$', ' $+$ ', '$2$', '$\cdot$', '$1$')
         equal_expressions.set(font_size=60).shift(2 * UP)
-        equal_expressions[0].shift(0.25 * LEFT)
-        equal_expressions[2].shift(0.25 * RIGHT)
+        equal_expressions[0:2].shift(0.25 * LEFT)
+        equal_expressions[3:].shift(0.25 * RIGHT)
 
-        self.play(Write(equal_expressions[0], run_time=1.5, rate_func=linear))
+        self.play(Write(equal_expressions[0:2], run_time=1.5, rate_func=linear))
         self.wait(0.1)
-        self.play(Write(equal_expressions[2], run_time=1.5, rate_func=linear))
+        self.play(Write(equal_expressions[3:], run_time=1.5, rate_func=linear))
         self.wait(1)
-        self.play(Write(equal_expressions[1]))
+        self.play(Write(equal_expressions[2]))
         self.wait()
 
         # (1+1)^2 != 1^2 + 1^2
-        not_equal_expressions = Tex('$(1+1)^2$ ', ' $\\not =$ ', ' $1^2+1^2$')
-        not_equal_expressions.set(font_size=60).shift(0.45 * LEFT)
-        not_equal_expressions[0].shift(0.25 * LEFT)
-        not_equal_expressions[2].shift(0.25 * RIGHT)
+        not_equal_expressions = Tex('$(1+1)^2$', ' $\\not =$ ', ' $1^2$', ' $+$ ', '$1^2$')
+        not_equal_expressions.set(font_size=60)
+        not_equal_expressions.shift(0.15 * LEFT)
+        not_equal_expressions[0].shift(0.4 * LEFT)
+        not_equal_expressions[2:].shift(0.4 * RIGHT)
 
-        self.play(Write(not_equal_expressions[0]))
+        self.play(
+            AnimationGroup(
+                ReplacementTransform(equal_expressions[1].copy(), not_equal_expressions[0][0:5]),
+                ReplacementTransform(equal_expressions[0].copy(), not_equal_expressions[0][5]),
+                lag_ratio=0.5
+            )
+        )
         self.wait(0.1)
-        self.play(Write(not_equal_expressions[2]))
+        self.play(
+            AnimationGroup(
+                AnimationGroup(
+                    ReplacementTransform(equal_expressions[5].copy(), not_equal_expressions[2][0]),
+                    ReplacementTransform(equal_expressions[9].copy(), not_equal_expressions[4][0]),
+                ),
+                AnimationGroup(
+                    ReplacementTransform(equal_expressions[3].copy(), not_equal_expressions[2][1]),
+                    ReplacementTransform(equal_expressions[7].copy(), not_equal_expressions[4][1]),
+                ),
+                Write(not_equal_expressions[3]),
+                lag_ratio=0.5
+            )
+        )
         self.wait()
 
         # left part - 2^2=4
         left_part = Tex('$2$', font_size=60)
-        left_part.next_to(not_equal_expressions[0], DOWN).shift(0.2 * LEFT)
+        left_part.next_to(not_equal_expressions[0], DOWN, buff=0.5).shift(0.2 * LEFT)
         surr_rect = SurroundingRectangle(not_equal_expressions[0][1:4], corner_radius=0.25)
 
         self.play(Create(surr_rect))
@@ -66,15 +87,18 @@ class APlusBSquared(FormulaModificationsScene):
 
         # right part - 1+1=2
         right_part = Tex('$1$', '$+1$', font_size=60)
-        right_part.next_to(not_equal_expressions[2], DOWN)
-        surr_rect.become(SurroundingRectangle(not_equal_expressions[2][:2], corner_radius=0.25))
+        right_part.next_to(not_equal_expressions[2], DOWN, buff=0.5).shift(0.8 * RIGHT)
+        surr_rect.become(SurroundingRectangle(not_equal_expressions[2], corner_radius=0.25))
 
         self.play(Create(surr_rect))
         self.wait(0.25)
         self.play(Write(right_part[0]))
         self.play(
-            Transform(surr_rect, SurroundingRectangle(not_equal_expressions[2][3:], corner_radius=0.25)),
-            Write(right_part[1])
+            AnimationGroup(
+                Transform(surr_rect, SurroundingRectangle(not_equal_expressions[4], corner_radius=0.25)),
+                Write(right_part[1]),
+                lag_ratio=0.5
+            )
         )
         self.wait(0.25)
         self.play(ModifyFormula(right_part, replace_items=[[0, 1]], replace_items_strs=[['$2$']], new_formula_alignment=ORIGIN))
@@ -193,8 +217,14 @@ class APlusBSquared(FormulaModificationsScene):
         self.play(*[mob.animate.set_opacity(0.1) for mob in [square_a, square_b, divided_areas[0:2]]])
         self.wait()
         self.add(rect_down)
-        self.play(Rotating(rect_down, about_point=square_a.get_center(), radians=PI/2, run_time=3, rate_func=there_and_back_with_pause))
+        down_rect_center = rect_down.get_center()
+        self.play(Rotating(rect_down, about_point=rect_down.get_center(), radians=PI/2, run_time=1))
         self.wait(0.25)
+        self.play(rect_down.animate.move_to(rect_up.get_center()))
+        self.wait(0.5)
+        self.play(rect_down.animate.move_to(down_rect_center))
+        self.play(Rotating(rect_down, about_point=rect_down.get_center(), radians=-PI/2, run_time=1))
+        self.wait()
         self.play(
             Write(divided_areas[2]),
             Write(divided_areas[3])
@@ -206,28 +236,28 @@ class APlusBSquared(FormulaModificationsScene):
         correct_formula = Tex('$(a+b)^2$', ' $=$ ', '$a^2$', ' $+$ ', '$2ab$', ' $+$ ', '$b^2$', font_size=60)
         correct_formula.shift(3 * DOWN + 0.9 * RIGHT)
 
-        self.play(Indicate(big_square_area, 1.75, run_time=0.75))
+        self.play(Indicate(big_square_area, 1.75, run_time=0.75, color=WHITE))
         self.wait(0.1)
         self.play(TransformFromCopy(big_square_area, correct_formula[:1]))
         self.wait(0.25)
         self.play(Write(correct_formula[1], run_time=0.5, rate_func=linear))
         self.wait()
-        self.play(Indicate(divided_areas[0], 1.75, run_time=0.75))
+        self.play(Indicate(divided_areas[0], 1.75, run_time=0.75, color=WHITE))
         self.wait(0.1)
         self.play(TransformFromCopy(divided_areas[0], correct_formula[2]))
         self.wait(0.25)
         self.play(Write(correct_formula[3], run_time=0.5, rate_func=linear))
         self.wait(0.5)
         self.play(
-            Indicate(divided_areas[2], 1.75, run_time=0.75),
-            Indicate(divided_areas[3], 1.75, run_time=0.75)
+            Indicate(divided_areas[2], 1.75, run_time=0.75, color=WHITE),
+            Indicate(divided_areas[3], 1.75, run_time=0.75, color=WHITE)
         )
         self.wait(0.1)
         self.play(TransformFromCopy(divided_areas[2:4], correct_formula[4]))
         self.wait(0.25)
         self.play(Write(correct_formula[5], run_time=0.5, rate_func=linear))
         self.wait(0.5)
-        self.play(Indicate(divided_areas[1], 1.75, run_time=0.75))
+        self.play(Indicate(divided_areas[1], 1.75, run_time=0.75, color=WHITE))
         self.wait(0.25)
         self.play(TransformFromCopy(divided_areas[1], correct_formula[6]))
         self.wait()
@@ -367,8 +397,64 @@ class APlusBSquared(FormulaModificationsScene):
         self.formula = formula
         self.formula_rect = surr_rect
 
-    def first_exercise(self): # (c+yz)^2 = x^2 + 2cyz + y^2z^2
+    def first_exercise(self): # 1+2y
         self.exercise_1 = exercise = Tex('1) ',
+            '$($', '$1$', '$+$', '$2$', '$y$', '$)$', '$^2$', ' $=$ ',
+            '$1$', '$+$', '$4$', '$y$', '$+$', '$4$', '$y$', '$^2$',
+            font_size=60
+        ) # (1+2y)^2 = 1 + 4y + 4y^2
+        exercise.to_edge(LEFT).shift(UP * 1.5)
+        self.play(Write(exercise[:8]))
+        self.wait()
+
+        formula_copy = self.formula.copy() # (a+b)^2 = a^2+2ab+b^2
+        self.play(formula_copy.animate.next_to(exercise[1:], DOWN, aligned_edge=LEFT))
+        self.fix_formula(formula_copy)
+        self.wait()
+
+        # replace a with 1
+        self.play(
+            *[formula_copy[i].animate.scale(1.5).set_color(ORANGE) for i in [1, 7, 11]],
+            run_time=0.75
+        )
+        self.wait(0.1)
+        self.play(exercise[2].animate.scale(1.5).set_color(ORANGE))
+        self.wait(0.5)
+        self.play(
+            ModifyFormula(
+                formula_copy,
+                replace_items=[[1], [7], [11]],
+                replace_items_strs=[['$1$'], ['$1$'], ['$\cdot$', '$1$', '$\cdot$']],
+                replace_items_colors=[[], [], [WHITE, ORANGE, WHITE]]
+            ),
+            exercise[2].animate.scale(1/1.5)
+        ) # (1+b)^2 = 1^2+2•1•b+b^2
+        self.wait()
+
+        # replace b with 2y
+        self.play(
+            *[formula_copy[i].animate.scale(1.5).set_color(GREEN) for i in [3, 14, 16]],
+            run_time=0.75
+        )
+        self.wait(0.1)
+        self.play(exercise[4:6].animate.scale(1.5).set_color(GREEN))
+        self.wait(0.5)
+        self.play(
+            ModifyFormula(
+                formula_copy,
+                replace_items=[[3], [14], [16]],
+                replace_items_strs=[['$2$', '$y$'], ['$2$', '$y$'], ['$($', '$2$', '$y$', '$)$']],
+                replace_items_colors=[[], [], [WHITE, GREEN, GREEN, WHITE]]
+            ),
+            exercise[4:6].animate.scale(1/1.5)
+        ) # (1+2y)^2 = 1^2+2•1•2y+(2y)^2
+        self.wait()
+
+
+
+
+    def extra_exercise(self): # (c+yz)^2 = x^2 + 2cyz + y^2z^2
+        exercise = Tex('1) ',
             '$($', '$c$', '$+$', '$yz$', '$)$', '$^2$', ' $=$ ',
             '$c$', '$^2$', '$+$', '$2$', '$c$', '$y$', '$z$', '$+$', '$y$', '$^2$', '$z$', '$^2$',
             font_size=60
@@ -495,10 +581,10 @@ class APlusBSquared(FormulaModificationsScene):
         self.wait()
 
     def construct(self):
-        self.recap()
-        self.misconception()
-        self.get_formula_by_drawing()
-        self.get_formula_by_multiplying()
-        self.first_exercise()
-        self.second_exercise()
-        self.last_exercise()
+        self.recap() # -n 0,4
+        self.misconception() # -n 5,36
+        self.get_formula_by_drawing() # -n 37,90
+        # self.get_formula_by_multiplying() # -n 91,129
+        # self.first_exercise() # -n 130,
+        # self.second_exercise()
+        # self.last_exercise()
