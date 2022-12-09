@@ -1,12 +1,11 @@
 from manim import LEFT, RIGHT, UP, DOWN, DR, UR, ORIGIN, PI
-from manim import ORANGE, GREEN, WHITE, YELLOW_D, RED
+from manim import ORANGE, GREEN, WHITE, YELLOW_D
 from manim import Square, Rectangle, Tex, VGroup, SurroundingRectangle, Circle
 from manim import AnimationGroup, Write, Create, FadeOut, FadeIn, Indicate, Rotating, Circumscribe
 from manim import ReplacementTransform, Transform, ClockwiseTransform, TransformFromCopy
 from manim import linear, there_and_back_with_pause
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from segment import ConnectionLine
-from manim import *
 
 class APlusBSquared(FormulaModificationsScene):
 
@@ -214,6 +213,9 @@ class APlusBSquared(FormulaModificationsScene):
         )
         self.wait()
 
+        self.play(*[mob.animate(rate_func=there_and_back_with_pause, run_time=3).set_opacity(0.1) for mob in [rect_down, rect_up]])
+        self.wait()
+
         self.play(*[mob.animate.set_opacity(0.1) for mob in [square_a, square_b, divided_areas[0:2]]])
         self.wait()
         self.add(rect_down)
@@ -397,59 +399,164 @@ class APlusBSquared(FormulaModificationsScene):
         self.formula = formula
         self.formula_rect = surr_rect
 
-    def first_exercise(self): # 1+2y
-        self.exercise_1 = exercise = Tex('1) ',
-            '$($', '$1$', '$+$', '$2$', '$y$', '$)$', '$^2$', ' $=$ ',
-            '$1$', '$+$', '$4$', '$y$', '$+$', '$4$', '$y$', '$^2$',
+    def first_exercise(self): # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
+        self.exercise_1 = exercise = Tex('1) ', '$51^2$', ' $=$ ',
+            '$($', '$50$', '$+$', '$1$', '$)$', '$^2$', ' $=$ ',
+            '$50$', '$^2$', '$+$', '$2$', '$\cdot$', '$50$', '$\cdot$', '$1$', '$+$', '$1$', '$^2$',
+            ' $=$ ', '$2601$',
             font_size=60
-        ) # (1+2y)^2 = 1 + 4y + 4y^2
+        ) # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
         exercise.to_edge(LEFT).shift(UP * 1.5)
-        self.play(Write(exercise[:8]))
+        self.play(Write(exercise[:2]))
+        self.wait()
+        self.play(Write(exercise[4:7]))
+        self.wait(0.5)
+        self.play(Write(VGroup(*[exercise[i] for i in [2, 3, 7, 8]])))
         self.wait()
 
         formula_copy = self.formula.copy() # (a+b)^2 = a^2+2ab+b^2
-        self.play(formula_copy.animate.next_to(exercise[1:], DOWN, aligned_edge=LEFT))
+        self.play(formula_copy.animate.next_to(exercise[3:], DOWN, buff=0.5, aligned_edge=LEFT))
         self.fix_formula(formula_copy)
         self.wait()
 
-        # replace a with 1
+        # replace a with 50
         self.play(
             *[formula_copy[i].animate.scale(1.5).set_color(ORANGE) for i in [1, 7, 11]],
             run_time=0.75
         )
         self.wait(0.1)
-        self.play(exercise[2].animate.scale(1.5).set_color(ORANGE))
+        self.play(exercise[4].animate.scale(1.5).set_color(ORANGE))
         self.wait(0.5)
         self.play(
             ModifyFormula(
                 formula_copy,
                 replace_items=[[1], [7], [11]],
-                replace_items_strs=[['$1$'], ['$1$'], ['$\cdot$', '$1$', '$\cdot$']],
+                replace_items_strs=[['$50$'], ['$50$'], ['$\cdot$', '$50$', '$\cdot$']],
                 replace_items_colors=[[], [], [WHITE, ORANGE, WHITE]]
             ),
-            exercise[2].animate.scale(1/1.5)
-        ) # (1+b)^2 = 1^2+2•1•b+b^2
+            exercise[4].animate.scale(1/1.5)
+        ) # (50+b)^2 = 50^2+2•50•b+b^2
         self.wait()
 
-        # replace b with 2y
+        # replace b with 1
         self.play(
             *[formula_copy[i].animate.scale(1.5).set_color(GREEN) for i in [3, 14, 16]],
             run_time=0.75
         )
         self.wait(0.1)
-        self.play(exercise[4:6].animate.scale(1.5).set_color(GREEN))
+        self.play(exercise[6].animate.scale(1.5).set_color(GREEN))
         self.wait(0.5)
         self.play(
             ModifyFormula(
                 formula_copy,
                 replace_items=[[3], [14], [16]],
-                replace_items_strs=[['$2$', '$y$'], ['$2$', '$y$'], ['$($', '$2$', '$y$', '$)$']],
-                replace_items_colors=[[], [], [WHITE, GREEN, GREEN, WHITE]]
+                replace_items_strs=[['$1$'], ['$1$'], ['$1$']]
             ),
-            exercise[4:6].animate.scale(1/1.5)
-        ) # (1+2y)^2 = 1^2+2•1•2y+(2y)^2
+            exercise[6].animate.scale(1/1.5)
+        ) # (50+1)^2 = 50^2+2•50•1+1^2
         self.wait()
 
+        self.play(
+            FadeOut(formula_copy[:6]),
+            ReplacementTransform(formula_copy[6:], exercise[9:-2]),
+            exercise[:9].animate.set_color(WHITE)
+        )
+        self.wait()
+
+        # 2500 + 100 + 1  ->  2601
+        calculate_answer = Tex('$2500$', '$+$', '$100$', '$+$', '$1$', font_size=60)
+        calculate_answer.next_to(exercise[10:21], DOWN, buff=0.5).shift(0.1 * LEFT)
+
+        self.play(Indicate(exercise[10:12]))
+        self.wait(0.1)
+        self.play(Write(calculate_answer[0]))
+        self.wait()
+        self.play(Indicate(exercise[13:18]))
+        self.wait(0.1)
+        self.play(Write(calculate_answer[1:3]))
+        self.wait()
+        self.play(Indicate(exercise[19:21]))
+        self.wait(0.1)
+        self.play(Write(calculate_answer[3:5]))
+        self.wait()
+
+        self.play(Transform(calculate_answer, Tex('$2601$', font_size=60).move_to(calculate_answer.get_center())))
+        self.wait()
+        self.play(
+            Write(exercise[-2]),
+            ReplacementTransform(calculate_answer, exercise[-1])
+        )
+        self.wait()
+
+    def second_exercise(self): # (3x+d)^2 = 9x^2 + 6xd + d^2
+        self.exercise_2 = exercise = Tex('2) ',
+            '$($', '$3$', '$x$', '$+$', '$d$', '$)$', '$^2$', ' $=$ ',
+            '$($', '$3$', '$x$', '$)$', '$^2$', '$+$', '$2$', '$\cdot$', '$3$', '$x$', '$\cdot$', '$d$', '$+$', '$d$', '$^2$',
+            font_size=60
+        ) # 1) (3x+d)^2 = (3x)^2+2•3xd+d^2
+        exercise.to_edge(LEFT).shift(DOWN)
+
+        # write 1) (3x+d)^2
+        self.play(Write(exercise[:8]))
+        self.wait()
+        self.play(Write(exercise[8], run_time=0.75))
+        self.wait(0.1)
+
+        # Indicate and write   = (3x)^2+2•3xd+d^2
+        self.play(Indicate(exercise[2:4], 1.5))
+        self.wait(0.5)
+        self.play(Write(exercise[9:14]))
+        self.wait(0.5)
+        self.play(Write(exercise[14]))
+        self.wait(0.5)
+        self.play(Write(exercise[15:21]))
+        self.wait()
+        self.play(Indicate(exercise[5], 1.5))
+        self.wait(0.5)
+        self.play(Write(exercise[21:]))
+        self.wait()
+
+        # write polynomial in perfect form
+        self.fix_formula(exercise)
+        self.play(
+            ModifyFormula(
+                exercise,
+                remove_items=[9, 12],
+                replace_items=[[10]], replace_items_strs=[['$9$']]
+            )
+        ) # 9x^2+2•3xd+d^2
+        self.wait(0.25)
+
+        self.play(
+            ModifyFormula(
+                exercise,
+                remove_items=[17],
+                replace_items=[[13, 14, 15]], replace_items_strs=[['$6$']]
+            )
+        ) # 9x^2+6xd+d^2
+        self.wait()
+
+    def last_exercises(self): # 102^2 = ?  (5k+4)^2 = ?
+        self.play(FadeOut(self.exercise_1, self.exercise_2))
+        self.wait(0.25)
+
+        exercise_1 = Tex('$102^2=?$', font_size=80).shift(UP)
+        exercise_2 = Tex('$(5k+4)^2=?$', font_size=80).shift(DOWN)
+
+        self.play(
+            Write(exercise_1),
+            Write(exercise_2)
+        )
+        self.wait()
+
+    def construct(self):
+        self.recap() # -n 0,4
+        self.misconception() # -n 5,36
+        self.get_formula_by_drawing() # -n 37,97
+        self.get_formula_by_multiplying() # -n 98,136
+        self.first_exercise() # -n 137,175
+        self.second_exercise() # -n 176,196
+        self.last_exercises() # -n 197,
 
 
 
@@ -523,68 +630,3 @@ class APlusBSquared(FormulaModificationsScene):
             exercise[:7].animate.set_color(WHITE)
         )
         self.wait()
-
-    def second_exercise(self): # (3x+d)^2 = 9x^2 + 6xd + d^2
-        self.exercise_2 = exercise = Tex('2) ',
-            '$($', '$3$', '$x$', '$+$', '$d$', '$)$', '$^2$', ' $=$ ',
-            '$($', '$3$', '$x$', '$)$', '$^2$', '$+$', '$2$', '$\cdot$', '$3$', '$x$', '$\cdot$', '$d$', '$+$', '$d$', '$^2$',
-            font_size=60
-        ) # 1) (3x+d)^2 = (3x)^2+2•3xd+d^2
-        exercise.to_edge(LEFT).shift(DOWN)
-
-        # write 1) (3x+d)^2
-        self.play(Write(exercise[:8]))
-        self.wait()
-        self.play(Write(exercise[8], run_time=0.75))
-        self.wait(0.1)
-
-        # Indicate and write   = (3x)^2+2•3xd+d^2
-        self.play(Indicate(exercise[2:4]))
-        self.wait(0.5)
-        self.play(Write(exercise[9:14]))
-        self.wait(0.5)
-        self.play(Write(exercise[14]))
-        self.wait(0.5)
-        self.play(Write(exercise[15:21]))
-        self.wait()
-        self.play(Indicate(exercise[5]))
-        self.wait(0.5)
-        self.play(Write(exercise[21:]))
-        self.wait()
-
-        # write polynomial in perfect form
-        self.fix_formula(exercise)
-        self.play(
-            ModifyFormula(
-                exercise,
-                remove_items=[9, 12],
-                replace_items=[[10]], replace_items_strs=[['$9$']]
-            )
-        ) # 9x^2+2•3xd+d^2
-        self.wait(0.25)
-
-        self.play(
-            ModifyFormula(
-                exercise,
-                remove_items=[17],
-                replace_items=[[13, 14, 15]], replace_items_strs=[['$6$']]
-            )
-        ) # 9x^2+6xd+d^2
-        self.wait()
-
-    def last_exercise(self): # (4+5k)^2 = ?
-        self.play(FadeOut(self.exercise_1, self.exercise_2))
-        self.wait(0.25)
-
-        exercise = Tex('$(4+5k)^2$', font_size=80)
-        self.play(Write(exercise))
-        self.wait()
-
-    def construct(self):
-        self.recap() # -n 0,4
-        self.misconception() # -n 5,36
-        self.get_formula_by_drawing() # -n 37,90
-        # self.get_formula_by_multiplying() # -n 91,129
-        # self.first_exercise() # -n 130,
-        # self.second_exercise()
-        # self.last_exercise()
