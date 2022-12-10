@@ -1,13 +1,14 @@
+from manim import Scene
 from manim import LEFT, RIGHT, UP, DOWN, DR, UR, ORIGIN, PI
 from manim import ORANGE, GREEN, WHITE, YELLOW_D
 from manim import Square, Rectangle, Tex, VGroup, SurroundingRectangle, Circle
 from manim import AnimationGroup, Write, Create, FadeOut, FadeIn, Indicate, Rotating, Circumscribe
 from manim import ReplacementTransform, Transform, ClockwiseTransform, TransformFromCopy
 from manim import linear, there_and_back_with_pause
-from hanrahashiv import FormulaModificationsScene, ModifyFormula
+from hanrahashiv import ModifyFormula
 from segment import ConnectionLine
 
-class APlusBSquared(FormulaModificationsScene):
+class APlusBSquared(Scene):
     def construct(self):
         self.recap() # -n 0,4
         self.misconception() # -n 5,36
