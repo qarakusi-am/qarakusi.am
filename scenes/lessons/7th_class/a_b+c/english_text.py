@@ -1,0 +1,6 @@
+ani_name_str = "Ani"
+babken_name_str = "Babken"
+metr_str = "m"
+total_str = "Total:"
+ani_area_str = "Ani:"
+babken_area_str = "Babken:"
