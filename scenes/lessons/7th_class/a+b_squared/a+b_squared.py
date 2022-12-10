@@ -8,6 +8,14 @@ from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from segment import ConnectionLine
 
 class APlusBSquared(FormulaModificationsScene):
+    def construct(self):
+        self.recap() # -n 0,4
+        self.misconception() # -n 5,36
+        self.get_formula_by_drawing() # -n 37,97
+        self.get_formula_by_multiplying() # -n 98,136
+        self.first_exercise() # -n 137,175
+        self.second_exercise() # -n 176,196
+        self.last_exercises() # -n 197,
 
     def recap(self): # write 5^2=5•5 and a(b+c)=ab+ac
         tvi_qarakusi = Tex('$5^2=5\cdot 5$').scale(2).shift(UP)
@@ -548,17 +556,6 @@ class APlusBSquared(FormulaModificationsScene):
             Write(exercise_2)
         )
         self.wait()
-
-    def construct(self):
-        self.recap() # -n 0,4
-        self.misconception() # -n 5,36
-        self.get_formula_by_drawing() # -n 37,97
-        self.get_formula_by_multiplying() # -n 98,136
-        self.first_exercise() # -n 137,175
-        self.second_exercise() # -n 176,196
-        self.last_exercises() # -n 197,
-
-
 
     def extra_exercise(self): # (c+yz)^2 = x^2 + 2cyz + y^2z^2
         exercise = Tex('1) ',
