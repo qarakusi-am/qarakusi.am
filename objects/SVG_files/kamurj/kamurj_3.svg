@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   id="Layer_1"
+   data-name="Layer 1"
+   viewBox="0 0 10057 403.95001"
+   version="1.1"
+   sodipodi:docname="kamur-01.svg"
+   width="10057"
+   height="403.95001"
+   inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview23"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.12682851"
+     inkscape:cx="7096.196"
+     inkscape:cy="-1726.741"
+     inkscape:window-width="1920"
+     inkscape:window-height="1007"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="Layer_1" />
+  <defs
+     id="defs4">
+    <style
+       id="style2">.cls-1{fill:#b95112;}.cls-2{fill:#f48047;}.cls-3{fill:#ff9c49;}.cls-4{fill:none;stroke:#823912;stroke-width:7px;}</style>
+  </defs>
+  <path
+     class="cls-1"
+     d="M 3168.69,32.63 8.69,28.8 19.91,400.32 3164.37,403.95 V 40.34 a 45.65,45.65 0 0 0 4.32,-7.71 z"
+     id="path6"
+     style="fill:#b95112" />
+  <path
+     class="cls-2"
+     d="m 4676.39,35.01 -1507.7,-2.38 a 50,50 0 0 1 -3.33,7.71 v 363.61 h 4.15 c 14.55,-5.35 235.1,-94.58 439.23,-156.51 195.73,-59.38 364.23,-89.46 486.53,-110.43 a 4989.31,4989.31 0 0 1 581.25,-64.67 c -1.43,-12.15 0.72,-25.32 -0.13,-37.33 z"
+     id="path8"
+     style="fill:#f48047" />
+  <path
+     class="cls-1"
+     d="m 10048.32,374.4 8.64,-354.24 -3245.6,9 v 357.22 a 30.92,30.92 0 0 1 5,10.11 l 4.3,1.68 z"
+     id="path10"
+     style="fill:#b95112" />
+  <path
+     class="cls-2"
+     d="m 6811.36,29.12 -2134.93,5.89 c 0.95,12 -1.45,25.18 0.15,37.33 h 4.49 a 134.39,134.39 0 0 1 1.29,15.52 l 9.24,-0.3 c 317.19,-10.24 558.17,-0.26 644,3.81 188.39,8.93 367.05,17.4 598.56,53.28 144.54,22.4 353.16,54.74 575.83,133.22 0,0 20.41,7.18 306.34,118.58 a 30.92,30.92 0 0 0 -5,-10.11 z"
+     id="path12"
+     style="fill:#f48047" />
+  <path
+     class="cls-3"
+     d="m 4045.57,145.25 q 102.52,-19 208.49,-31 c 158.59,-17.91 331.11,-24.74 331.11,-24.74 l 347.7,-6.38 0.3,-22.17 h -1 c -0.52,0 -259.34,-2.27 -520.88,19.09 -196.18,15.93 -347.84,41.45 -430.8,55.61 -140,23.86 -244.47,47.49 -283.91,56.61 -143.94,33.36 -338.17,86 -554.1,169.37 l -3123.41,12.53 0.79,26.15 3149.65,3.63 c 264.67,-112.88 560.69,-200.3 876.06,-258.7 z"
+     id="path14"
+     style="fill:#ff9c49" />
+  <path
+     class="cls-3"
+     d="M 0,0 10057,3.05 V 38.2 L 8.64,28.8 Z"
+     id="path16"
+     style="fill:#ff9c49" />
+  <path
+     class="cls-4"
+     d="M 8.64,28.8 10056.96,47.95"
+     id="path18"
+     style="fill:none;stroke:#823912;stroke-width:7px" />
+  <path
+     class="cls-3"
+     d="m 5876.82,145.25 c -94.64,-15.86 -163.56,-24.33 -187.64,-27.2 q -122.76,-14.43 -248.22,-21.7 c -81.86,-5.07 -149.38,-7.21 -185.51,-8.34 -37,-1.13 -64.17,-1.66 -97,-2.3 -55.87,-1.07 -132.32,-2.2 -225,-2.57 l -0.37,-22.17 c 0,0.15 260.29,-5.78 532.91,14.54 170.61,12.7 368.29,37.33 368.29,37.33 0,0 280.81,51.82 413.48,79.46 a 4106.29,4106.29 0 0 1 589.07,169.36 c 68.26,0.65 2209.84,-1.92 3212.55,-30.65 q -0.52,21.71 -1.06,43.39 L 6808.1,403.95 C 6637.64,335.5 6453.53,276.04 6258.69,226.5 6074.85,179.95 5930.11,154.2 5876.82,145.25 Z"
+     id="path20"
+     style="fill:#ff9c49" />
+</svg>
