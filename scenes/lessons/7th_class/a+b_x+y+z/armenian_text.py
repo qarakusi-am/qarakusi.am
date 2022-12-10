@@ -1,2 +1,1 @@
 polynomial_str = 'Բազմանդամ'
- 
