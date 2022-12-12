@@ -109,7 +109,7 @@ class Segment(VGroup):
         self.opacity = opacity
 
 class ConnectionLine(VMobject):
-    def __init__(self, mob_1: VMobject, mob_2: VMobject, dir = DOWN, alpha = 0.5, color=YELLOW, equal_size = False, **kwargs):
+    def __init__(self, mob_1: VMobject, mob_2: VMobject, dir = DOWN, alpha = 0.25, color=YELLOW, equal_size = False, **kwargs):
         super().__init__(color=color, **kwargs)
         vertex_0 = mob_1.get_edge_center(dir) + alpha/3*dir
         vertex_1 = vertex_0 + alpha*dir
