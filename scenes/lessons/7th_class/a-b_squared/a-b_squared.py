@@ -97,6 +97,155 @@ class AMinusBSquared(Scene):
         self.wait()
 
     def get_formula(self):
+
+        def bacel_pakagcery(): # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+            # a•a
+            self.play(
+                AnimationGroup(
+                    Create(conn_line),
+                    AnimationGroup(
+                        ClockwiseTransform(a_minus_b_squared_extended[8].copy(), a_minus_b_squared_extended[19], remover=True),
+                        ClockwiseTransform(a_minus_b_squared_extended[14].copy(), a_minus_b_squared_extended[21], remover=True),
+                        Write(a_minus_b_squared_extended[20])
+                    ),
+                    lag_ratio=0.75
+                )
+            )
+            self.add(a_minus_b_squared_extended[19:22])
+            self.wait()
+
+            # a•(-b)
+            self.play(
+                AnimationGroup(
+                    Transform(conn_line, ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[16])),
+                    AnimationGroup(
+                        ClockwiseTransform(a_minus_b_squared_extended[8].copy(), a_minus_b_squared_extended[23], remover=True),
+                        ClockwiseTransform(a_minus_b_squared_extended[15:17].copy(), a_minus_b_squared_extended[26:28], remover=True),
+                        Write(a_minus_b_squared_extended[22]),
+                        Write(a_minus_b_squared_extended[24]),
+                        Write(a_minus_b_squared_extended[25]),
+                        Write(a_minus_b_squared_extended[28]),
+                    ),
+                    lag_ratio=0.75
+                )
+            )
+            self.add(a_minus_b_squared_extended[22:29])
+            self.wait()
+
+            # (-b)•a
+            self.play(
+                AnimationGroup(
+                    Transform(conn_line, ConnectionLine(a_minus_b_squared_extended[10], a_minus_b_squared_extended[14])),
+                    AnimationGroup(
+                        ClockwiseTransform(a_minus_b_squared_extended[9:11].copy(), a_minus_b_squared_extended[31:33], remover=True),
+                        ClockwiseTransform(a_minus_b_squared_extended[14].copy(), a_minus_b_squared_extended[35], remover=True),
+                        Write(a_minus_b_squared_extended[29]),
+                        Write(a_minus_b_squared_extended[30]),
+                        Write(a_minus_b_squared_extended[33]),
+                        Write(a_minus_b_squared_extended[34]),
+                    ),
+                    lag_ratio=0.75
+                )
+            )
+            self.add(a_minus_b_squared_extended[29:36])
+            self.wait()
+
+            # (-b)•(-b)
+            self.play(
+                AnimationGroup(
+                    Transform(conn_line, ConnectionLine(a_minus_b_squared_extended[10], a_minus_b_squared_extended[16])),
+                    AnimationGroup(
+                        ClockwiseTransform(a_minus_b_squared_extended[9:11].copy(), a_minus_b_squared_extended[38:40], remover=True),
+                        ClockwiseTransform(a_minus_b_squared_extended[15:17].copy(), a_minus_b_squared_extended[43:45], remover=True),
+                        Write(a_minus_b_squared_extended[36]), # +
+                        Write(a_minus_b_squared_extended[37]), # (
+                        Write(a_minus_b_squared_extended[40]), # )
+                        Write(a_minus_b_squared_extended[41]), # •
+                        Write(a_minus_b_squared_extended[42]), # (
+                        Write(a_minus_b_squared_extended[45]), # )
+                    ),
+                    lag_ratio=0.75
+                )
+            )
+            self.add(a_minus_b_squared_extended[36:])
+            self.wait(0.25)
+            self.play(FadeOut(conn_line))
+            self.wait()
+
+        def berel_kataryal_tesqi(): # (a-b)^2 = (a-b)•(a-b) = a^2 - ab -ba + b^2
+            # a•a  ->  a^2
+            self.play(Indicate(a_minus_b_squared_extended[19:22]))
+            self.wait(0.1)
+            self.play(
+                ModifyFormula(
+                    a_minus_b_squared_extended,
+                    replace_items=[[19, 20, 21]],
+                    replace_items_strs=[['$a$', '$^2$']]
+                )
+            ) # ... = a^2 + a•(-b) + (-b)•a + (-b)•(-b)
+            self.wait()
+
+            # a•(-b)  ->  -ab
+            self.play(Indicate(a_minus_b_squared_extended[22:28]))
+            self.wait(0.1)
+            self.play(
+                ModifyFormula(
+                    a_minus_b_squared_extended,
+                    replace_items=[[22, 23, 24, 25, 26, 27]],
+                    replace_items_strs=[['$($', '$-$', '$a$', '$b$', '$)$']]
+                )
+            ) # ... = a^2 + (-ab) + (-b)•a + (-b)•(-b)
+            self.wait()
+
+            self.play(Circumscribe(a_minus_b_squared_extended[19:27], fade_out=True, run_time=1.5))
+            self.wait(0.5)
+            self.wait(0.1)
+            self.play(
+                ModifyFormula(
+                    a_minus_b_squared_extended,
+                    remove_items=[21, 22, 26],
+                )
+            ) # ... = a^2 - ab + (-b)•a + (-b)•(-b)
+            self.wait()
+
+            # (-b)•a  ->  -ab
+            self.play(Indicate(a_minus_b_squared_extended[25:31]))
+            self.wait(0.1)
+            self.play(
+                ModifyFormula(
+                    a_minus_b_squared_extended,
+                    replace_items=[[24, 25, 26, 27, 28, 29, 30]],
+                    replace_items_strs=[['$-$', '$a$', '$b$']]
+                )
+            ) # ... = a^2 - ab - ab + (-b)•(-b)
+            self.wait()
+
+            # (-b)•(-b)  ->  b^2
+            self.play(Indicate(a_minus_b_squared_extended[28:]))
+            self.wait(0.25)
+            self.play(
+                Wiggle(a_minus_b_squared_extended[29], 1.25, 0.02 * TAU),
+                Wiggle(a_minus_b_squared_extended[34], 1.25, 0.02 * TAU)
+            )
+            self.wait(0.25)
+
+            self.play(
+                ModifyFormula(
+                    a_minus_b_squared_extended,
+                    remove_items=[29, 34],
+                )
+            ) # ... = a^2 - ab - ab + (b)•(b)
+            self.wait()
+
+            self.play(
+                ModifyFormula(
+                    a_minus_b_squared_extended,
+                    replace_items=[[28, 29, 30, 31, 32, 33, 34]],
+                    replace_items_strs=[['$b$', '$^2$']]
+                )
+            ) # ... = a^2 - ab - ab + b^2
+            self.wait()
+
         a_minus_b_squared_extended = Tex(
             '$($', '$a$', '$-$', '$b$', '$)$', '$^2$', # 0:6
             ' $=$ ', '$($', '$a$', '$-$', '$b$', '$)$', '$\cdot$', '$($', '$a$', '$-$', '$b$', '$)$', # 6:18
@@ -107,80 +256,12 @@ class AMinusBSquared(Scene):
         a_minus_b_squared_extended.to_edge(LEFT)
         conn_line = ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[14])
 
-        self.play(Write(a_minus_b_squared_extended[0:6]))
+        self.play(Write(a_minus_b_squared_extended[0:6])) # (a-b)^2
         self.wait()
-        self.play(Write(a_minus_b_squared_extended[6:18]))
+        self.play(Write(a_minus_b_squared_extended[6:18])) # (a-b)^2 = (a-b)•(a-b)
         self.wait()
-        self.play(Write(a_minus_b_squared_extended[18]))
-        self.wait()
-
-        # a•a
-        self.play(
-            AnimationGroup(
-                Create(conn_line),
-                AnimationGroup(
-                    ClockwiseTransform(a_minus_b_squared_extended[8].copy(), a_minus_b_squared_extended[19], remover=True),
-                    ClockwiseTransform(a_minus_b_squared_extended[14].copy(), a_minus_b_squared_extended[21], remover=True),
-                    Write(a_minus_b_squared_extended[20])
-                ),
-                lag_ratio=0.75
-            )
-        )
-        self.add(a_minus_b_squared_extended[19:22])
+        self.play(Write(a_minus_b_squared_extended[18])) # (a-b)^2 = (a-b)•(a-b) =
         self.wait()
 
-        # a•(-b)
-        self.play(
-            AnimationGroup(
-                Transform(conn_line, ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[16])),
-                AnimationGroup(
-                    ClockwiseTransform(a_minus_b_squared_extended[8].copy(), a_minus_b_squared_extended[23], remover=True),
-                    ClockwiseTransform(a_minus_b_squared_extended[15:17].copy(), a_minus_b_squared_extended[26:28], remover=True),
-                    Write(a_minus_b_squared_extended[22]),
-                    Write(a_minus_b_squared_extended[24]),
-                    Write(a_minus_b_squared_extended[25]),
-                    Write(a_minus_b_squared_extended[28]),
-                ),
-                lag_ratio=0.75
-            )
-        )
-        self.add(a_minus_b_squared_extended[22:29])
-        self.wait()
-
-        # (-b)•a
-        self.play(
-            AnimationGroup(
-                Transform(conn_line, ConnectionLine(a_minus_b_squared_extended[10], a_minus_b_squared_extended[14])),
-                AnimationGroup(
-                    ClockwiseTransform(a_minus_b_squared_extended[9:11].copy(), a_minus_b_squared_extended[31:33], remover=True),
-                    ClockwiseTransform(a_minus_b_squared_extended[14].copy(), a_minus_b_squared_extended[35], remover=True),
-                    Write(a_minus_b_squared_extended[29]),
-                    Write(a_minus_b_squared_extended[30]),
-                    Write(a_minus_b_squared_extended[33]),
-                    Write(a_minus_b_squared_extended[34]),
-                ),
-                lag_ratio=0.75
-            )
-        )
-        self.add(a_minus_b_squared_extended[29:36])
-        self.wait()
-
-        # (-b)•(-b)
-        self.play(
-            AnimationGroup(
-                Transform(conn_line, ConnectionLine(a_minus_b_squared_extended[10], a_minus_b_squared_extended[16])),
-                AnimationGroup(
-                    ClockwiseTransform(a_minus_b_squared_extended[9:11].copy(), a_minus_b_squared_extended[38:40], remover=True),
-                    ClockwiseTransform(a_minus_b_squared_extended[15:17].copy(), a_minus_b_squared_extended[43:45], remover=True),
-                    Write(a_minus_b_squared_extended[36]), # +
-                    Write(a_minus_b_squared_extended[37]), # (
-                    Write(a_minus_b_squared_extended[40]), # )
-                    Write(a_minus_b_squared_extended[41]), # •
-                    Write(a_minus_b_squared_extended[42]), # (
-                    Write(a_minus_b_squared_extended[45]), # )
-                ),
-                lag_ratio=0.75
-            )
-        )
-        self.add(a_minus_b_squared_extended[36:])
-        self.wait()
+        bacel_pakagcery() # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+        berel_kataryal_tesqi() # (a-b)^2 = (a-b)•(a-b) = a^2 - ab -ba + b^2
