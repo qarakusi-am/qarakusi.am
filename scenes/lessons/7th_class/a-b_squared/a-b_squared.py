@@ -1,8 +1,8 @@
-from manim import *
+# from manim import *
 from manim import Scene
 from manim import WHITE, GREEN, ORANGE, YELLOW
-from manim import UP, LEFT, DOWN, RIGHT, UL, UR, DR, DL
-from manim import AnimationGroup, Write, Create, FadeOut, Circumscribe, Indicate
+from manim import UP, LEFT, DOWN, RIGHT, UL, UR, DR, DL, TAU
+from manim import AnimationGroup, Write, Create, FadeOut, Circumscribe, Indicate, Wiggle
 from manim import Transform, ReplacementTransform, ClockwiseTransform
 from manim import there_and_back, there_and_back_with_pause
 from manim import Tex, VGroup, Circle
@@ -11,6 +11,7 @@ from hanrahashiv import ModifyFormula
 from segment import ConnectionLine
 
 class AMinusBSquared(Scene):
+
     def construct(self):
         self.forty_nine_squared = Tex(
             '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$',
@@ -99,6 +100,7 @@ class AMinusBSquared(Scene):
     def get_formula(self):
 
         def bacel_pakagcery(): # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+            conn_line = ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[14])
             # a•a
             self.play(
                 AnimationGroup(
@@ -254,7 +256,6 @@ class AMinusBSquared(Scene):
             font_size=50
         ) # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
         a_minus_b_squared_extended.to_edge(LEFT)
-        conn_line = ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[14])
 
         self.play(Write(a_minus_b_squared_extended[0:6])) # (a-b)^2
         self.wait()
