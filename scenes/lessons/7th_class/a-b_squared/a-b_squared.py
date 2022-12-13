@@ -1,7 +1,7 @@
 # from manim import *
 from manim import Scene
 from manim import WHITE, GREEN, ORANGE, YELLOW
-from manim import UP, LEFT, DOWN, RIGHT, UL, UR, DR, DL, TAU
+from manim import UP, LEFT, DOWN, RIGHT, UL, UR, DR, DL, TAU, ORIGIN
 from manim import AnimationGroup, Write, Create, FadeOut, Circumscribe, Indicate, Wiggle
 from manim import Transform, ReplacementTransform, ClockwiseTransform
 from manim import there_and_back, there_and_back_with_pause
@@ -18,6 +18,14 @@ class AMinusBSquared(Scene):
             font_size=60
         ) # 49^2 = (50-1)^2
 
+        self.a_minus_b_squared_extended = Tex(
+            '$($', '$a$', '$-$', '$b$', '$)$', '$^2$', # 0:6
+            ' $=$ ', '$($', '$a$', '$-$', '$b$', '$)$', '$\cdot$', '$($', '$a$', '$-$', '$b$', '$)$', # 6:18
+            ' $=$ ', '$a$', '$\cdot$', '$a$', '$+$', '$a$', '$\cdot$', '$($', '$-$', '$b$', '$)$', '$+$', # 18:31
+            '$($', '$-$', '$b$', '$)$', '$\cdot$', '$a$', '$+$', '$($', '$-$', '$b$', '$)$', '$\cdot$', '$($', '$-$', '$b$', '$)$', #31:46
+            font_size=50
+        ) # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+
         self.a_minus_b_squared = Tex(
             '$($', '$a$', '$-$', '$b$', '$)$', '$^2$', # 0:6
             ' $=$ ', '$a$', '$^2$', '$-$', '$2$', '$a$', '$b$', '$+$', '$b$', '$^2$', # 6:16
@@ -30,8 +38,9 @@ class AMinusBSquared(Scene):
             font_size=60
         ) # (a+b)^2 = a^2+2ab+b^2
 
-        # self.recap_and_get_stuck()
+        self.recap_and_get_stuck()
         self.get_formula()
+        self.compare_with_square_of_sum()
 
     def recap_and_get_stuck(self): # 51^2=(50+1)^2..., 49^2=(40+9)^2..., 49^2=(50-1)^2=???
         # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
@@ -97,7 +106,15 @@ class AMinusBSquared(Scene):
         )
         self.wait()
 
-    def get_formula(self):
+    def get_formula(self): # (a-b)^2=a^2-2ab+b^2
+
+        def write_beginning_of_formula(): # (a-b)^2 = (a-b)•(a-b) =
+            self.play(Write(a_minus_b_squared_extended[0:6])) # (a-b)^2
+            self.wait()
+            self.play(Write(a_minus_b_squared_extended[6:18])) # (a-b)^2 = (a-b)•(a-b)
+            self.wait()
+            self.play(Write(a_minus_b_squared_extended[18])) # (a-b)^2 = (a-b)•(a-b) =
+            self.wait()
 
         def bacel_pakagcery(): # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
             conn_line = ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[14])
@@ -248,21 +265,84 @@ class AMinusBSquared(Scene):
             ) # ... = a^2 - ab - ab + b^2
             self.wait()
 
-        a_minus_b_squared_extended = Tex(
-            '$($', '$a$', '$-$', '$b$', '$)$', '$^2$', # 0:6
-            ' $=$ ', '$($', '$a$', '$-$', '$b$', '$)$', '$\cdot$', '$($', '$a$', '$-$', '$b$', '$)$', # 6:18
-            ' $=$ ', '$a$', '$\cdot$', '$a$', '$+$', '$a$', '$\cdot$', '$($', '$-$', '$b$', '$)$', '$+$', # 18:31
-            '$($', '$-$', '$b$', '$)$', '$\cdot$', '$a$', '$+$', '$($', '$-$', '$b$', '$)$', '$\cdot$', '$($', '$-$', '$b$', '$)$', #31:46
-            font_size=50
-        ) # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+            self.play(
+                AnimationGroup(
+                    Indicate(a_minus_b_squared_extended[22:24]),
+                    Indicate(a_minus_b_squared_extended[25:27]),
+                    lag_ratio=0.5
+                )
+            )
+            self.wait(0.5)
+            self.play(
+                ModifyFormula(
+                    a_minus_b_squared_extended,
+                    replace_items=[[22, 23, 24, 25, 26]],
+                    replace_items_strs=[['$2$', '$a$', '$b$']]
+                )
+            ) # ... = a^2 - 2ab + b^2
+            self.wait()
+
+            self.a_minus_b_squared.next_to(a_minus_b_squared_extended, DOWN, 0.75, LEFT)
+            self.play(
+                ReplacementTransform(a_minus_b_squared_extended[:7].copy(), self.a_minus_b_squared[:7]),
+                ReplacementTransform(a_minus_b_squared_extended[19:].copy(), self.a_minus_b_squared[7:])
+            )
+            self.wait()
+
+            self.play(
+                AnimationGroup(
+                    FadeOut(a_minus_b_squared_extended),
+                    self.a_minus_b_squared.animate.move_to(ORIGIN).to_edge(LEFT),
+                    lag_ratio=0.5
+                )
+            )
+            self.wait()
+
+
+        a_minus_b_squared_extended = self.a_minus_b_squared_extended
         a_minus_b_squared_extended.to_edge(LEFT)
 
-        self.play(Write(a_minus_b_squared_extended[0:6])) # (a-b)^2
-        self.wait()
-        self.play(Write(a_minus_b_squared_extended[6:18])) # (a-b)^2 = (a-b)•(a-b)
-        self.wait()
-        self.play(Write(a_minus_b_squared_extended[18])) # (a-b)^2 = (a-b)•(a-b) =
+        self.add(self.forty_nine_squared.to_corner(UL))
+
+        write_beginning_of_formula()
+        bacel_pakagcery() # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+        berel_kataryal_tesqi() # (a-b)^2 = (a-b)•(a-b) = a^2 - 2ab + b^2
+
+    def compare_with_square_of_sum(self):
+        self.add(self.forty_nine_squared.to_corner(UL))
+        self.add(self.a_minus_b_squared.move_to(ORIGIN).to_edge(LEFT))
+
+        # read formula
+        self.play(
+            AnimationGroup(
+                Circumscribe(self.a_minus_b_squared[1:4], Circle, fade_out=True, run_time=2),
+                Circumscribe(self.a_minus_b_squared[5], Circle, fade_out=True),
+                lag_ratio=0.5
+            )
+        ) # circumscribe a-b and ^2
+        self.wait(0.5)
+        self.play(Indicate(self.a_minus_b_squared[7:9], 1.5)) # a^2
+        self.wait(0.25)
+        self.play(Indicate(self.a_minus_b_squared[9], 1.5)) # -
+        self.wait(0.25)
+        self.play(Indicate(self.a_minus_b_squared[10:13], 1.5)) # 2ab
+        self.wait(0.5)
+        self.play(Indicate(self.a_minus_b_squared[14:], 1.5)) # b^2
         self.wait()
 
-        bacel_pakagcery() # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
-        berel_kataryal_tesqi() # (a-b)^2 = (a-b)•(a-b) = a^2 - ab -ba + b^2
+        # write formula of square of sum - (a+b)^2 = a^2 + 2ab + b^2
+        self.play(
+            AnimationGroup(
+                self.a_minus_b_squared.animate.shift(UP * 0.5),
+                Write(self.a_plus_b_squared.next_to(self.a_minus_b_squared, DOWN, 0.5, LEFT)),
+                lag_ratio=0.5
+            )
+        )
+        self.wait()
+
+        # compare two formulas
+        for formula in [self.a_plus_b_squared, self.a_minus_b_squared]:
+            self.play(Circumscribe(formula[1:4], Circle, fade_out=True, run_time=2)) # a+b  /  a-b
+            self.wait()
+            self.play(Indicate(formula[9:13])) # +2ab  /  -2ab
+            self.wait()
