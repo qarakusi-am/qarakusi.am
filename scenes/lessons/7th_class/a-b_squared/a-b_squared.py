@@ -1,11 +1,11 @@
-# from manim import *
+from manim import *
 from manim import Scene
 from manim import WHITE, GREEN, ORANGE, YELLOW
 from manim import UP, LEFT, DOWN, RIGHT, UL, UR, DR, DL, TAU, ORIGIN
 from manim import AnimationGroup, Write, Create, FadeOut, Circumscribe, Indicate, Wiggle
 from manim import Transform, ReplacementTransform, ClockwiseTransform
 from manim import there_and_back, there_and_back_with_pause
-from manim import Tex, VGroup, Circle
+from manim import Tex, VGroup, Circle, SurroundingRectangle
 
 from hanrahashiv import ModifyFormula
 from segment import ConnectionLine
@@ -31,6 +31,7 @@ class AMinusBSquared(Scene):
             ' $=$ ', '$a$', '$^2$', '$-$', '$2$', '$a$', '$b$', '$+$', '$b$', '$^2$', # 6:16
             font_size=60
         ) # (a-b)^2 = a^2-2ab+b^2
+        self.surr_rect_a_minus_b_squared = SurroundingRectangle(self.a_minus_b_squared, color=GREEN).to_corner(UR)
 
         self.a_plus_b_squared = Tex(
             '$($', '$a$', '$+$', '$b$', '$)$', '$^2$', # 0:6
@@ -38,11 +39,17 @@ class AMinusBSquared(Scene):
             font_size=60
         ) # (a+b)^2 = a^2+2ab+b^2
 
-        self.recap_and_get_stuck()
-        self.get_formula()
-        self.compare_with_square_of_sum()
+        # self.recap_and_get_stuck()
+        # self.get_formula()
+        # self.compare_with_square_of_sum()
+        self.solve_forty_nine_squared()
 
-    def recap_and_get_stuck(self): # 51^2=(50+1)^2..., 49^2=(40+9)^2..., 49^2=(50-1)^2=???
+    def recap_and_get_stuck(self): # 51^2=(50+1)^2=..., 49^2=(40+9)^2=..., 49^2=(50-1)^2=???
+        '''
+            Writes 51^2 = (50+1)^2 = 50^2+2•50•1+1^2 as we learned in previous lessons
+            Uses same method to calculate 49^2, gets (40+9)^2 = 40^2+2•40•9+9^2
+            Tries to calculate 49^2 by another approach - (50-1)^2 and gets stuck
+        '''
         # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
         fifty_one_squared = Tex(
             '$51^2$', ' $=$ ', '$(50+1)^2$', ' $=$ ', '$50^2 + 2 \cdot 50 \cdot 1 + 1^2$', ' $=$ ', '$2601$',
@@ -107,8 +114,17 @@ class AMinusBSquared(Scene):
         self.wait()
 
     def get_formula(self): # (a-b)^2=a^2-2ab+b^2
+        '''
+            Writes (a-b)^2 = (a-b)(a-b)
+            Opens parenthesis
+            Writes formula in perfect form
+            Final result is (a-b)^2=a^2-2ab+b^2
+        '''
 
         def write_beginning_of_formula(): # (a-b)^2 = (a-b)•(a-b) =
+            '''
+                Writes (a-b)^2 =(a-b)•(a-b) =   in 3 steps
+            '''
             self.play(Write(a_minus_b_squared_extended[0:6])) # (a-b)^2
             self.wait()
             self.play(Write(a_minus_b_squared_extended[6:18])) # (a-b)^2 = (a-b)•(a-b)
@@ -117,6 +133,11 @@ class AMinusBSquared(Scene):
             self.wait()
 
         def bacel_pakagcery(): # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+            '''
+                Opens parenthesis of (a-b)(a-b)
+                Writes this formula using ClockwiseTransform and ConnectionLine
+                (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
+            '''
             conn_line = ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[14])
             # a•a
             self.play(
@@ -192,6 +213,10 @@ class AMinusBSquared(Scene):
             self.wait()
 
         def berel_kataryal_tesqi(): # (a-b)^2 = (a-b)•(a-b) = a^2 - ab -ba + b^2
+            '''
+                Writes the expression we got from bacel_pakagcery in the perfect form
+                Writes the formula in final form - (a-b)^2 = a^2-2ab+b^2
+            '''
             # a•a  ->  a^2
             self.play(Indicate(a_minus_b_squared_extended[19:22]))
             self.wait(0.1)
@@ -282,12 +307,14 @@ class AMinusBSquared(Scene):
             ) # ... = a^2 - 2ab + b^2
             self.wait()
 
+            # transform to final form of
             self.a_minus_b_squared.next_to(a_minus_b_squared_extended, DOWN, 0.75, LEFT)
             self.play(
                 ReplacementTransform(a_minus_b_squared_extended[:7].copy(), self.a_minus_b_squared[:7]),
                 ReplacementTransform(a_minus_b_squared_extended[19:].copy(), self.a_minus_b_squared[7:])
             )
             self.wait()
+
 
             self.play(
                 AnimationGroup(
@@ -309,6 +336,11 @@ class AMinusBSquared(Scene):
         berel_kataryal_tesqi() # (a-b)^2 = (a-b)•(a-b) = a^2 - 2ab + b^2
 
     def compare_with_square_of_sum(self):
+        '''
+            Writes formula for square of sum - (a+b)^2 = a^2+2ab+b^2
+            Shows difference in 2 formulas
+            Moves the formula for square of difference to UpRight corner
+        '''
         self.add(self.forty_nine_squared.to_corner(UL))
         self.add(self.a_minus_b_squared.move_to(ORIGIN).to_edge(LEFT))
 
@@ -346,3 +378,23 @@ class AMinusBSquared(Scene):
             self.wait()
             self.play(Indicate(formula[9:13])) # +2ab  /  -2ab
             self.wait()
+        
+        self.play(
+            FadeOut(self.a_plus_b_squared),
+            self.a_minus_b_squared.animate.move_to(self.surr_rect_a_minus_b_squared)
+        )
+        self.play(Create(self.surr_rect_a_minus_b_squared))
+        self.wait()
+
+    def solve_forty_nine_squared(self):
+        '''
+            
+        '''
+        self.add(self.surr_rect_a_minus_b_squared)
+        self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
+        self.add(self.forty_nine_squared.to_corner(UL))
+        exercise = self.forty_nine_squared
+
+        self.wait()
+        self.play(exercise.animate.move_to(ORIGIN).to_edge(LEFT))
+        self.wait()
