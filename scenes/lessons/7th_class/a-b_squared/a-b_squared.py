@@ -39,15 +39,15 @@ class AMinusBSquared(Scene):
             font_size=60
         ) # (a+b)^2 = a^2+2ab+b^2
 
-        # self.recap_and_get_stuck()
-        # self.get_formula()
-        # self.compare_with_square_of_sum()
-        self.solve_forty_nine_squared()
+        # self.recap_and_get_stuck() # 51^2=(50+1)^2=2601, 49^2=(40+9)^2=2401, 49^2=(50-1)^2=???
+        # self.get_formula() # (a-b)^2=a^2-2ab+b^2
+        # self.compare_with_square_of_sum() # show difference between two formulas
+        self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2
 
-    def recap_and_get_stuck(self): # 51^2=(50+1)^2=..., 49^2=(40+9)^2=..., 49^2=(50-1)^2=???
+    def recap_and_get_stuck(self):
         '''
-            Writes 51^2 = (50+1)^2 = 50^2+2•50•1+1^2 as we learned in previous lessons
-            Uses same method to calculate 49^2, gets (40+9)^2 = 40^2+2•40•9+9^2
+            Writes 51^2 = (50+1)^2 = 50^2+2•50•1+1^2=2601 as we learned in previous lessons
+            Uses same method to calculate 49^2, gets (40+9)^2 = 40^2+2•40•9+9^2=2401
             Tries to calculate 49^2 by another approach - (50-1)^2 and gets stuck
         '''
         # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
@@ -113,7 +113,7 @@ class AMinusBSquared(Scene):
         )
         self.wait()
 
-    def get_formula(self): # (a-b)^2=a^2-2ab+b^2
+    def get_formula(self):
         '''
             Writes (a-b)^2 = (a-b)(a-b)
             Opens parenthesis
@@ -331,7 +331,7 @@ class AMinusBSquared(Scene):
 
         self.add(self.forty_nine_squared.to_corner(UL))
 
-        write_beginning_of_formula()
+        write_beginning_of_formula() # (a-b)^2 = (a-b)•(a-b) =
         bacel_pakagcery() # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
         berel_kataryal_tesqi() # (a-b)^2 = (a-b)•(a-b) = a^2 - 2ab + b^2
 
@@ -379,6 +379,7 @@ class AMinusBSquared(Scene):
             self.play(Indicate(formula[9:13])) # +2ab  /  -2ab
             self.wait()
         
+        # move formula for square of difference to UpRight corner
         self.play(
             FadeOut(self.a_plus_b_squared),
             self.a_minus_b_squared.animate.move_to(self.surr_rect_a_minus_b_squared)
@@ -386,15 +387,59 @@ class AMinusBSquared(Scene):
         self.play(Create(self.surr_rect_a_minus_b_squared))
         self.wait()
 
-    def solve_forty_nine_squared(self):
+    def calculate_forty_nine_squared(self):
         '''
-            
+            Calculates 49^2 using formula for square of difference
+            49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
         '''
         self.add(self.surr_rect_a_minus_b_squared)
         self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
         self.add(self.forty_nine_squared.to_corner(UL))
-        exercise = self.forty_nine_squared
 
         self.wait()
-        self.play(exercise.animate.move_to(ORIGIN).to_edge(LEFT))
+        self.play(self.forty_nine_squared.animate.move_to(ORIGIN).to_edge(LEFT))
+        self.wait()
+
+        self.remove(self.forty_nine_squared)
+        self.forty_nine_squared.remove(*self.forty_nine_squared)
+        
+        self.forty_nine_squared = exercise = Tex(
+            '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
+            ' $=$ ', '$50^2$', '$-$', '$2 \cdot 50 \cdot 1$', '$+$', '$1^2$', # 9:15
+            ' $=$ ', '$2401$', # 15,16
+            font_size=60
+        )
+        exercise.to_corner(LEFT)
+        self.add(exercise[:9]) # 49^2 = (50-1)^2
+
+        self.play(Write(exercise[9])) # =
+        self.wait()
+        self.play(Write(exercise[10])) # 50^2
+        self.wait()
+        self.play(Write(exercise[11], run_time=0.5)) # +
+        self.wait()
+        self.play(Write(exercise[12])) # 2•50•1
+        self.wait()
+        self.play(Write(exercise[13], run_time=0.5)) # +
+        self.wait()
+        self.play(Write(exercise[14])) # 1^2
+        self.wait()
+
+        calculations = Tex('$2500$', '$-100$', '$+1$', font_size=60) # 2500-100+1
+        calculations.next_to(exercise[10:15], DOWN, 0.5)
+
+        for calc in calculations:
+            self.play(Write(calc))
+            self.wait()
+        
+        self.play(Transform(calculations, Tex('$2401$', font_size=60).move_to(calculations)))
+        self.wait()
+
+        self.play(
+            Write(exercise[15]),
+            ReplacementTransform(calculations, exercise[16:])
+        )
+        self.wait()
+
+        self.play(exercise.animate.shift(UP))
         self.wait()
