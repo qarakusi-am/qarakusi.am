@@ -39,10 +39,17 @@ class AMinusBSquared(Scene):
             font_size=60
         ) # (a+b)^2 = a^2+2ab+b^2
 
-        # self.recap_and_get_stuck() # 51^2=(50+1)^2=2601, 49^2=(40+9)^2=2401, 49^2=(50-1)^2=???
-        # self.get_formula() # (a-b)^2=a^2-2ab+b^2
-        # self.compare_with_square_of_sum() # show difference between two formulas
-        self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2
+        self.b_minus_a_squared = Tex(
+            '$($', '$b$', '$-$', '$a$', '$)$', '$^2$',
+            ' $=$ ', '$b^2$', '$-$', '$2$', '$b$', '$a$', '$+$', '$a^2$',
+            font_size=60
+        ) # (b-a)^2 = b^2 - 2ba + a^2
+
+        self.recap_and_get_stuck() # 51^2=(50+1)^2=2601, 49^2=(40+9)^2=2401, 49^2=(50-1)^2=???
+        self.get_formula() # (a-b)^2=a^2-2ab+b^2
+        self.compare_with_square_of_sum() # show difference between two formulas
+        self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
+        # self.animate_b_minus_a_squared() # show that (b-a)^2=(a-b)^2
 
     def recap_and_get_stuck(self):
         '''
@@ -52,7 +59,7 @@ class AMinusBSquared(Scene):
         '''
         # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
         fifty_one_squared = Tex(
-            '$51^2$', ' $=$ ', '$(50+1)^2$', ' $=$ ', '$50^2 + 2 \cdot 50 \cdot 1 + 1^2$', ' $=$ ', '$2601$',
+            '$51^2$', ' $=$ ', '$(50+1)^2$', ' $=$ ', '$50^2 + 2\cdot 50\cdot 1 + 1^2$', ' $=$ ', '$2601$',
             font_size=60
         )
         fifty_one_squared.shift(UP).to_edge(LEFT)
@@ -65,9 +72,11 @@ class AMinusBSquared(Scene):
 
         # 49^2 = (40+9)^2 = 40^2 + 2•40•9 + 9^2
         forty_nine_squared_1 = Tex(
-            '$49^2$', ' $=$ ', '$(40+9)^2$', ' $=$ ', '$40^2$', '$+ 2 \cdot 40 \cdot 9$', '$+ 9^2$', ' $=$ ', '$2401$',
+            '$49^2$', ' $=$ ', '$(40+9)^2$',
+            ' $=$ ', '$40^2$', '$+ 2\cdot 40\cdot 9$', '$+ 9^2$',
+            ' $=$ ', '$2401$',
             font_size=60
-        )
+        ) # 49^2 = (40+9)^2 = 40^2 +2•40•9 + 9^2 = 2401
         forty_nine_squared_1.next_to(fifty_one_squared, DOWN, buff=0.75, aligned_edge=LEFT)
         calculations = VGroup(*Tex('$1600 + 720 + 81$', font_size=60)[0])
         calculations.next_to(forty_nine_squared_1[4:7], DOWN, buff=0.5)
@@ -391,11 +400,14 @@ class AMinusBSquared(Scene):
         '''
             Calculates 49^2 using formula for square of difference
             49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
+            Suggests viewer to calculate 51^2=(60-1)^2
         '''
+        # fix old things so this function can work independently from previous functions
         self.add(self.surr_rect_a_minus_b_squared)
         self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
         self.add(self.forty_nine_squared.to_corner(UL))
 
+        # start 49^2
         self.wait()
         self.play(self.forty_nine_squared.animate.move_to(ORIGIN).to_edge(LEFT))
         self.wait()
@@ -405,10 +417,10 @@ class AMinusBSquared(Scene):
         
         self.forty_nine_squared = exercise = Tex(
             '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
-            ' $=$ ', '$50^2$', '$-$', '$2 \cdot 50 \cdot 1$', '$+$', '$1^2$', # 9:15
+            ' $=$ ', '$50^2$', '$-$', '$2\cdot 50\cdot 1$', '$+$', '$1^2$', # 9:15
             ' $=$ ', '$2401$', # 15,16
             font_size=60
-        )
+        ) # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
         exercise.to_corner(LEFT)
         self.add(exercise[:9]) # 49^2 = (50-1)^2
 
@@ -442,4 +454,50 @@ class AMinusBSquared(Scene):
         self.wait()
 
         self.play(exercise.animate.shift(UP))
+        self.wait()
+
+        forty_nine_squared_old_method = Tex(
+            '$49^2$', ' $=$ ', '$(40+9)^2$',
+            ' $=$ ', '$40^2$', '$+ 2\cdot 40\cdot 9$', '$+ 9^2$',
+            ' $=$ ', '$2401$',
+            font_size=60
+        ) # 49^2 = (40+9)^2 = 40^2 +2•40•9 + 9^2 = 2401
+        forty_nine_squared_old_method.next_to(exercise, DOWN, 0.75, aligned_edge=LEFT)
+
+        self.play(Write(forty_nine_squared_old_method, run_time=3))
+        self.wait()
+
+        fifty_one_squared_new_method = Tex('$51^2 = (60-1)^2$', font_size=60)
+        fifty_one_squared_new_method.next_to(forty_nine_squared_old_method, DOWN, 0.75, aligned_edge=LEFT)
+
+        self.play(Write(fifty_one_squared_new_method, run_time=2))
+        self.wait()
+
+        self.play(FadeOut(forty_nine_squared_old_method, fifty_one_squared_new_method))
+        self.wait()
+
+    def animate_b_minus_a_squared(self):
+        '''
+            Opens parenthesis in (b-a)^2 by using the formula
+            Notices that it's equal to (a-b)^2 
+            Explains equality (b-a) = -(a-b)
+        '''
+        # fix old things so this function can work independently from previous functions
+        self.forty_nine_squared = Tex(
+            '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
+            ' $=$ ', '$50^2$', '$-$', '$2\cdot 50\cdot 1$', '$+$', '$1^2$', # 9:15
+            ' $=$ ', '$2401$', # 15,16
+            font_size=60
+        ) # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
+        self.forty_nine_squared.to_edge(LEFT).shift(UP)
+        self.add(self.forty_nine_squared)
+
+        self.add(self.surr_rect_a_minus_b_squared)
+        self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
+
+        # start (b-a)^2
+        exercise = self.b_minus_a_squared # (b-a)^2 = b^2 - 2ba + a^2
+        exercise.next_to(self.forty_nine_squared, DOWN, 0.75, aligned_edge=LEFT)
+
+        self.play(Write(exercise[:6]))
         self.wait()
