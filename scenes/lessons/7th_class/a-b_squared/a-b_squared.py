@@ -1,16 +1,15 @@
 from manim import *
-from manim import Scene
-from manim import WHITE, GREEN, ORANGE, YELLOW
+from manim import GREEN, WHITE, ORANGE, YELLOW
 from manim import UP, LEFT, DOWN, RIGHT, UL, UR, DR, DL, TAU, ORIGIN
-from manim import AnimationGroup, Write, Create, FadeOut, Circumscribe, Indicate, Wiggle
-from manim import Transform, ReplacementTransform, ClockwiseTransform
+from manim import Write, Create, FadeOut, Circumscribe, Indicate, Wiggle
+from manim import AnimationGroup, Transform, ReplacementTransform, ClockwiseTransform
 from manim import there_and_back, there_and_back_with_pause
 from manim import Tex, VGroup, Circle, SurroundingRectangle
 
-from hanrahashiv import ModifyFormula
+from hanrahashiv import ModifyFormula, FormulaModificationsScene
 from segment import ConnectionLine
 
-class AMinusBSquared(Scene):
+class AMinusBSquared(FormulaModificationsScene):
 
     def construct(self):
         self.forty_nine_squared = Tex(
@@ -40,16 +39,17 @@ class AMinusBSquared(Scene):
         ) # (a+b)^2 = a^2+2ab+b^2
 
         self.b_minus_a_squared = Tex(
-            '$($', '$b$', '$-$', '$a$', '$)$', '$^2$',
-            ' $=$ ', '$b^2$', '$-$', '$2$', '$b$', '$a$', '$+$', '$a^2$',
+            '$($', '$b$', '$-$', '$a$', '$)$', '$^2$', # 0:6
+            ' $=$ ', '$b^2$', '$-$', '$2$', '$b$', '$a$', '$+$', '$a^2$', # 6:14
             font_size=60
         ) # (b-a)^2 = b^2 - 2ba + a^2
 
-        self.recap_and_get_stuck() # 51^2=(50+1)^2=2601, 49^2=(40+9)^2=2401, 49^2=(50-1)^2=???
-        self.get_formula() # (a-b)^2=a^2-2ab+b^2
-        self.compare_with_square_of_sum() # show difference between two formulas
-        self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
-        # self.animate_b_minus_a_squared() # show that (b-a)^2=(a-b)^2
+        # self.recap_and_get_stuck() # 51^2=(50+1)^2=2601, 49^2=(40+9)^2=2401, 49^2=(50-1)^2=???
+        # self.get_formula() # (a-b)^2=a^2-2ab+b^2
+        # self.compare_with_square_of_sum() # show difference between two formulas
+        # self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
+        self.animate_b_minus_a_squared() # show that (b-a)^2=(a-b)^2
+        # self.exercise_x_minus_3_squared()
 
     def recap_and_get_stuck(self):
         '''
@@ -482,7 +482,8 @@ class AMinusBSquared(Scene):
             Notices that it's equal to (a-b)^2 
             Explains equality (b-a) = -(a-b)
         '''
-        # fix old things so this function can work independently from previous functions
+        # add items form previous functions,
+        # so this function can work independently from previous functions
         self.forty_nine_squared = Tex(
             '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
             ' $=$ ', '$50^2$', '$-$', '$2\cdot 50\cdot 1$', '$+$', '$1^2$', # 9:15
@@ -499,5 +500,122 @@ class AMinusBSquared(Scene):
         exercise = self.b_minus_a_squared # (b-a)^2 = b^2 - 2ba + a^2
         exercise.next_to(self.forty_nine_squared, DOWN, 0.75, aligned_edge=LEFT)
 
-        self.play(Write(exercise[:6]))
+        self.play(Write(exercise[:6])) # (b-a)^2
         self.wait()
+        self.play(Write(exercise[6])) # (b-a)^2 =
+        self.wait(0.5)
+        self.play(Write(exercise[7])) # (b-a)^2 = b^2
+        self.wait(0.25)
+        self.play(Write(exercise[8], run_time=0.5)) # (b-a)^2 = b^2 -
+        self.wait(0.25)
+        self.play(Write(exercise[9:12])) # (b-a)^2 = b^2 - 2ba
+        self.wait(0.25)
+        self.play(Write(exercise[12], run_time=0.5)) # (b-a)^2 = b^2 - 2ba +
+        self.wait(0.25)
+        self.play(Write(exercise[13])) # (b-a)^2 = b^2 - 2ba + a^2
+        self.wait()
+
+        self.play(Indicate(exercise[9:12]))
+        self.wait()
+        self.rearrange_formula(
+            exercise, [*range(10), 11, 10, 12, 13], [10], [11]
+        ) # (b-a)^2 = b^2 - 2ab + a^2
+        self.wait()
+        self.rearrange_formula(
+            exercise, [*range(7), 13, 8, 9, 10, 11, 12, 7], [7], [13]
+        ) # (b-a)^2 = a^2 - 2ab + b^2
+        self.wait()
+
+        formula_copy = self.a_minus_b_squared.copy()
+        self.play(Indicate(self.a_minus_b_squared))
+        self.wait(0.5)
+        self.play(formula_copy.animate.next_to(exercise, DOWN, buff=0.5, aligned_edge=LEFT))
+        self.wait()
+
+        dividing_line = DashedLine().scale(1.25).rotate(-PI/2).shift(DOWN)
+        self.play(Create(dividing_line))
+        self.wait()
+
+        # show that (b-a)=-(a-b)
+        show_equality = Tex(
+            '$b$', '$-$', '$a$', ' $=$ ', '$-$', '$($', '$a$', '$-$', '$b$', '$)$',
+            font_size=60
+        ) # b-a = -(a-b)
+        show_equality.move_to(exercise).shift(7.5 * RIGHT)
+
+        self.play(Indicate(exercise[1:4]))
+        self.wait(0.1)
+        self.play(Indicate(formula_copy[1:4]))
+        self.wait()
+        self.play(Write(show_equality[:3]))
+        self.wait(0.25)
+        self.play(Write(show_equality[3]))
+        self.wait(0.25)
+        self.play(Write(show_equality[4:]))
+        self.wait()
+
+        self.fix_formula(show_equality)
+        self.play(
+            ModifyFormula(
+                show_equality,
+                add_after_items=[-1, 2, 3, 9],
+                add_items_strs=[['$($'], ['$)$', '$^2$'], ['$($'], ['$)$', '$^2$']],
+                new_formula_alignment=DOWN
+            )
+        ) # (b-a)^2 = (-(a-b))^2
+        self.wait()
+        self.play(
+            ModifyFormula(
+                show_equality,
+                remove_items=[8, 9, 13]
+            )
+        ) # (b-a)^2 = (a-b)^2
+        self.wait()
+
+        # show an example of opposite number have same square   5^2 = (-5)^2
+        five_squared = Tex(
+            '$5^2$', ' $=$ ', '$(-5)^2$', ' $=$ ', '$25$',
+            font_size=60
+        ) # 5^2 = (-5)^2
+        five_squared.next_to(show_equality, DOWN, buff=0.75)
+
+        self.play(
+            AnimationGroup(
+                Write(five_squared[0]),
+                Write(five_squared[2]),
+                lag_ratio=0.75
+            )
+        )
+        self.wait(0.5)
+        self.play(Write(five_squared[1]))
+        self.wait()
+        self.play(Write(five_squared[3:]))
+        self.wait()
+
+        self.play(FadeOut(five_squared, dividing_line, show_equality, formula_copy))
+        self.wait()
+        self.remove(self.forty_nine_squared)
+
+    def exercise_x_minus_3_squared(self):
+        '''
+
+        '''
+        # add items form previous functions,
+        # so this function can work independently from previous functions
+        self.forty_nine_squared = Tex(
+            '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
+            ' $=$ ', '$50^2$', '$-$', '$2\cdot 50\cdot 1$', '$+$', '$1^2$', # 9:15
+            ' $=$ ', '$2401$', # 15,16
+            font_size=60
+        ) # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
+        self.forty_nine_squared.to_edge(LEFT).shift(UP)
+        self.add(self.forty_nine_squared)
+
+        self.add(self.surr_rect_a_minus_b_squared)
+        self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
+
+        self.b_minus_a_squared.next_to(self.forty_nine_squared, DOWN, 0.75, aligned_edge=LEFT)
+        self.add(self.b_minus_a_squared)
+
+        self.wait()
+        self.play(self.surr_rect_a_minus_b_squared.animate.shift(DOWN))
