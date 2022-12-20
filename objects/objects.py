@@ -214,7 +214,10 @@ svg_defaults.add_default(
 svg_defaults.add_default(
     'small_pool',
     {'folder': path_to_SVG / 'pool'})
-
+svg_defaults.add_default(
+    'door',
+    {'folder': path_to_SVG}
+)
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
