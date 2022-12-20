@@ -1,0 +1,5 @@
+task_number_string = "P․ 12189"
+armen_string = "Bob"
+vazgen_string = "Simon"
+condition1_string = "Condition $1$: ", r"Simon collected $13$ mushrooms more \\ than Bob"
+condition2_string = "Condition $2$: ", r"Simon would have three times more than Bob, \\    if he collected $5$ more mushrooms"

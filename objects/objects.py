@@ -215,6 +215,18 @@ svg_defaults.add_default(
     'small_pool',
     {'folder': path_to_SVG / 'pool'})
 svg_defaults.add_default(
+    'train',
+    {'folder': path_to_SVG / 'train'}
+)
+svg_defaults.add_prefix_default(
+    'kamurj_',
+    {'folder': path_to_SVG / 'kamurj'}
+)
+svg_defaults.add_prefix_default(
+    'syun_',
+    {'folder': path_to_SVG / 'syun'}
+)
+svg_defaults.add_default(
     'door',
     {'folder': path_to_SVG}
 )
