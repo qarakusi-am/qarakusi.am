@@ -1,10 +1,9 @@
-from manim import *
-from manim import GREEN, WHITE, ORANGE, YELLOW
-from manim import UP, LEFT, DOWN, RIGHT, UL, UR, DR, DL, TAU, ORIGIN
+from manim import GREEN
+from manim import UP, LEFT, DOWN, RIGHT, UL, UR, TAU, ORIGIN, PI
 from manim import Write, Create, FadeOut, Circumscribe, Indicate, Wiggle
 from manim import AnimationGroup, Transform, ReplacementTransform, ClockwiseTransform
 from manim import there_and_back, there_and_back_with_pause
-from manim import Tex, VGroup, Circle, SurroundingRectangle
+from manim import Tex, VGroup, Circle, SurroundingRectangle, DashedLine
 
 from hanrahashiv import ModifyFormula, FormulaModificationsScene
 from segment import ConnectionLine
@@ -44,12 +43,13 @@ class AMinusBSquared(FormulaModificationsScene):
             font_size=60
         ) # (b-a)^2 = b^2 - 2ba + a^2
 
-        # self.recap_and_get_stuck() # 51^2=(50+1)^2=2601, 49^2=(40+9)^2=2401, 49^2=(50-1)^2=???
-        # self.get_formula() # (a-b)^2=a^2-2ab+b^2
-        # self.compare_with_square_of_sum() # show difference between two formulas
-        # self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
+        self.recap_and_get_stuck() # 51^2=(50+1)^2=2601, 49^2=(40+9)^2=2401, 49^2=(50-1)^2=???
+        self.get_formula() # (a-b)^2=a^2-2ab+b^2
+        self.compare_with_square_of_sum() # show difference between two formulas
+        self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
         self.animate_b_minus_a_squared() # show that (b-a)^2=(a-b)^2
-        # self.exercise_x_minus_3_squared()
+        self.exercise_x_minus_3_squared() # (x-3)^2 = x^2-6x+9
+        self.last_exercise() # (2-y)^2 = ?
 
     def recap_and_get_stuck(self):
         '''
@@ -59,7 +59,7 @@ class AMinusBSquared(FormulaModificationsScene):
         '''
         # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
         fifty_one_squared = Tex(
-            '$51^2$', ' $=$ ', '$(50+1)^2$', ' $=$ ', '$50^2 + 2\cdot 50\cdot 1 + 1^2$', ' $=$ ', '$2601$',
+            '$51^2$', ' $=$ ', '$(50+1)^2$', ' $=$ ', '$50^2 + 2$$\cdot$$50$$\cdot$$1 + 1^2$', ' $=$ ', '$2601$',
             font_size=60
         )
         fifty_one_squared.shift(UP).to_edge(LEFT)
@@ -73,7 +73,7 @@ class AMinusBSquared(FormulaModificationsScene):
         # 49^2 = (40+9)^2 = 40^2 + 2•40•9 + 9^2
         forty_nine_squared_1 = Tex(
             '$49^2$', ' $=$ ', '$(40+9)^2$',
-            ' $=$ ', '$40^2$', '$+ 2\cdot 40\cdot 9$', '$+ 9^2$',
+            ' $=$ ', '$40^2$', '$+ 2$$\cdot$$40$$\cdot$$9$', '$+ 9^2$',
             ' $=$ ', '$2401$',
             font_size=60
         ) # 49^2 = (40+9)^2 = 40^2 +2•40•9 + 9^2 = 2401
@@ -417,7 +417,7 @@ class AMinusBSquared(FormulaModificationsScene):
         
         self.forty_nine_squared = exercise = Tex(
             '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
-            ' $=$ ', '$50^2$', '$-$', '$2\cdot 50\cdot 1$', '$+$', '$1^2$', # 9:15
+            ' $=$ ', '$50^2$', '$-$', '$2$$\cdot$$50$$\cdot$$1$', '$+$', '$1^2$', # 9:15
             ' $=$ ', '$2401$', # 15,16
             font_size=60
         ) # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
@@ -467,7 +467,7 @@ class AMinusBSquared(FormulaModificationsScene):
         self.play(Write(forty_nine_squared_old_method, run_time=3))
         self.wait()
 
-        fifty_one_squared_new_method = Tex('$51^2 = (60-1)^2$', font_size=60)
+        fifty_one_squared_new_method = Tex('$51^2 = (60-9)^2$', font_size=60)
         fifty_one_squared_new_method.next_to(forty_nine_squared_old_method, DOWN, 0.75, aligned_edge=LEFT)
 
         self.play(Write(fifty_one_squared_new_method, run_time=2))
@@ -475,6 +475,7 @@ class AMinusBSquared(FormulaModificationsScene):
 
         self.play(FadeOut(forty_nine_squared_old_method, fifty_one_squared_new_method))
         self.wait()
+        self.remove(self.forty_nine_squared)
 
     def animate_b_minus_a_squared(self):
         '''
@@ -598,7 +599,8 @@ class AMinusBSquared(FormulaModificationsScene):
 
     def exercise_x_minus_3_squared(self):
         '''
-
+            Solves exercise (x-3)^2
+            Just writes = x^2-2•x•3+3^2 and transforms to x^2-6x+9
         '''
         # add items form previous functions,
         # so this function can work independently from previous functions
@@ -617,5 +619,55 @@ class AMinusBSquared(FormulaModificationsScene):
         self.b_minus_a_squared.next_to(self.forty_nine_squared, DOWN, 0.75, aligned_edge=LEFT)
         self.add(self.b_minus_a_squared)
 
+        # start (x-3)^2
+        x_minus_3_squared = Tex(
+            '$(x-3)^2$', ' $=$ ', '$x^2$', '$-$', '$2$$\cdot$$x$$\cdot$$3$', '$+$', '$3^2$',
+            font_size=60
+        ) # (x-3)^2 = x^2-2•x•3+3^2
+        x_minus_3_squared.next_to(self.b_minus_a_squared, DOWN, 0.75, LEFT)
+
+        for tex in x_minus_3_squared:
+            self.play(Write(tex))
+            self.wait(0.5)
+
+        self.play(
+            ModifyFormula(
+                x_minus_3_squared,
+                replace_items=[[4]],
+                replace_items_strs=[['$6x$']]
+            )
+        ) # (x-3)^2 = x^2-6x+3^2
         self.wait()
-        self.play(self.surr_rect_a_minus_b_squared.animate.shift(DOWN))
+        self.play(
+            ModifyFormula(
+                x_minus_3_squared,
+                replace_items=[[6]],
+                replace_items_strs=[['$9$']]
+            )
+        ) # (x-3)^2 = x^2-6x+9
+        self.wait()
+
+        self.play(
+            FadeOut(
+                self.forty_nine_squared,
+                self.b_minus_a_squared,
+                x_minus_3_squared
+            )
+        )
+        self.wait()
+
+    def last_exercise(self):
+        '''
+            Last exercise for the viewer
+            (2-y)^2
+        '''
+        # add formula
+        self.add(self.surr_rect_a_minus_b_squared)
+        self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
+
+        # write exercise
+        exercise = Tex('$(2-y)^2=$', font_size=60)
+        exercise.to_edge(LEFT)
+
+        self.play(Write(exercise, run_time=2))
+        self.wait()
