@@ -52,11 +52,11 @@ class AMinusBSquared(FormulaModificationsScene):
         self.last_exercise() # (2-y)^2 = ?
 
     def recap_and_get_stuck(self):
-        '''
-            Writes 51^2 = (50+1)^2 = 50^2+2•50•1+1^2=2601 as we learned in previous lessons
-            Uses same method to calculate 49^2, gets (40+9)^2 = 40^2+2•40•9+9^2=2401
-            Tries to calculate 49^2 by another approach - (50-1)^2 and gets stuck
-        '''
+        """
+        Write 51^2 = (50+1)^2 = 50^2+2•50•1+1^2=2601 as we learned in previous lessons
+        Use same method to calculate 49^2, get (40+9)^2 = 40^2+2•40•9+9^2=2401
+        Try to calculate 49^2 by another approach - (50-1)^2 and get stuck
+        """
         # 51^2 = (50+1)^2 = 50^2 + 2•50•1 + 1^2
         fifty_one_squared = Tex(
             '$51^2$', ' $=$ ', '$(50+1)^2$', ' $=$ ', '$50^2 + 2$$\cdot$$50$$\cdot$$1 + 1^2$', ' $=$ ', '$2601$',
@@ -123,12 +123,12 @@ class AMinusBSquared(FormulaModificationsScene):
         self.wait()
 
     def get_formula(self):
-        '''
-            Writes (a-b)^2 = (a-b)(a-b)
-            Opens parenthesis
-            Writes formula in perfect form
-            Final result is (a-b)^2=a^2-2ab+b^2
-        '''
+        """
+        Write (a-b)^2 = (a-b)(a-b)
+        Open parenthesis
+        Write formula in perfect form
+        Final result is (a-b)^2=a^2-2ab+b^2
+        """
 
         def write_beginning_of_formula(): # (a-b)^2 = (a-b)•(a-b) =
             '''
@@ -345,11 +345,11 @@ class AMinusBSquared(FormulaModificationsScene):
         berel_kataryal_tesqi() # (a-b)^2 = (a-b)•(a-b) = a^2 - 2ab + b^2
 
     def compare_with_square_of_sum(self):
-        '''
-            Writes formula for square of sum - (a+b)^2 = a^2+2ab+b^2
-            Shows difference in 2 formulas
-            Moves the formula for square of difference to UpRight corner
-        '''
+        """
+        Write formula for square of sum - (a+b)^2 = a^2+2ab+b^2
+        Show difference in 2 formulas
+        Move the formula for square of difference to UpRight corner
+        """
         self.add(self.forty_nine_squared.to_corner(UL))
         self.add(self.a_minus_b_squared.move_to(ORIGIN).to_edge(LEFT))
 
@@ -397,11 +397,11 @@ class AMinusBSquared(FormulaModificationsScene):
         self.wait()
 
     def calculate_forty_nine_squared(self):
-        '''
-            Calculates 49^2 using formula for square of difference
-            49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
-            Suggests viewer to calculate 51^2=(60-1)^2
-        '''
+        """
+        Calculate 49^2 using formula for square of difference
+        49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
+        Suggest viewer to calculate 51^2=(60-1)^2
+        """
         # fix old things so this function can work independently from previous functions
         self.add(self.surr_rect_a_minus_b_squared)
         self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
@@ -478,11 +478,11 @@ class AMinusBSquared(FormulaModificationsScene):
         self.remove(self.forty_nine_squared)
 
     def animate_b_minus_a_squared(self):
-        '''
-            Opens parenthesis in (b-a)^2 by using the formula
-            Notices that it's equal to (a-b)^2 
-            Explains equality (b-a) = -(a-b)
-        '''
+        """
+        Open parenthesis in (b-a)^2 by using the formula
+        Notice that it's equal to (a-b)^2 
+        Explain equality (b-a) = -(a-b)
+        """
         # add items form previous functions,
         # so this function can work independently from previous functions
         self.forty_nine_squared = Tex(
@@ -598,10 +598,10 @@ class AMinusBSquared(FormulaModificationsScene):
         self.remove(self.forty_nine_squared)
 
     def exercise_x_minus_3_squared(self):
-        '''
-            Solves exercise (x-3)^2
-            Just writes = x^2-2•x•3+3^2 and transforms to x^2-6x+9
-        '''
+        """
+        Solve exercise (x-3)^2
+        Just write = x^2-2•x•3+3^2 and transforms to x^2-6x+9
+        """
         # add items form previous functions,
         # so this function can work independently from previous functions
         self.forty_nine_squared = Tex(
@@ -657,10 +657,10 @@ class AMinusBSquared(FormulaModificationsScene):
         self.wait()
 
     def last_exercise(self):
-        '''
-            Last exercise for the viewer
-            (2-y)^2
-        '''
+        """
+        Last exercise for the viewer
+        (2-y)^2
+        """
         # add formula
         self.add(self.surr_rect_a_minus_b_squared)
         self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
