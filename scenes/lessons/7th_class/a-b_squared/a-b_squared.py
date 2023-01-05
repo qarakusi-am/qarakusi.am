@@ -49,7 +49,7 @@ class AMinusBSquared(FormulaModificationsScene):
         self.calculate_forty_nine_squared() # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
         self.animate_b_minus_a_squared() # show that (b-a)^2=(a-b)^2
         self.exercise_x_minus_3_squared() # (x-3)^2 = x^2-6x+9
-        self.last_exercise() # (2-y)^2 = ?
+        self.last_exercise() # (2-z)^2 = ?
 
     def recap_and_get_stuck(self):
         """
@@ -227,7 +227,7 @@ class AMinusBSquared(FormulaModificationsScene):
                 Writes the formula in final form - (a-b)^2 = a^2-2ab+b^2
             '''
             # a•a  ->  a^2
-            self.play(Indicate(a_minus_b_squared_extended[19:22]))
+            self.play(Indicate(a_minus_b_squared_extended[19:22], 1.5))
             self.wait(0.1)
             self.play(
                 ModifyFormula(
@@ -239,7 +239,7 @@ class AMinusBSquared(FormulaModificationsScene):
             self.wait()
 
             # a•(-b)  ->  -ab
-            self.play(Indicate(a_minus_b_squared_extended[22:28]))
+            self.play(Indicate(a_minus_b_squared_extended[22:28], 1.5))
             self.wait(0.1)
             self.play(
                 ModifyFormula(
@@ -262,7 +262,7 @@ class AMinusBSquared(FormulaModificationsScene):
             self.wait()
 
             # (-b)•a  ->  -ab
-            self.play(Indicate(a_minus_b_squared_extended[25:31]))
+            self.play(Indicate(a_minus_b_squared_extended[25:31], 1.5))
             self.wait(0.1)
             self.play(
                 ModifyFormula(
@@ -274,7 +274,7 @@ class AMinusBSquared(FormulaModificationsScene):
             self.wait()
 
             # (-b)•(-b)  ->  b^2
-            self.play(Indicate(a_minus_b_squared_extended[28:]))
+            self.play(Indicate(a_minus_b_squared_extended[28:], 1.5))
             self.wait(0.25)
             self.play(
                 Wiggle(a_minus_b_squared_extended[29], 1.25, 0.02 * TAU),
@@ -301,8 +301,8 @@ class AMinusBSquared(FormulaModificationsScene):
 
             self.play(
                 AnimationGroup(
-                    Indicate(a_minus_b_squared_extended[22:24]),
-                    Indicate(a_minus_b_squared_extended[25:27]),
+                    Indicate(a_minus_b_squared_extended[22:24], 1.5),
+                    Indicate(a_minus_b_squared_extended[25:27], 1.5),
                     lag_ratio=0.5
                 )
             )
@@ -385,7 +385,7 @@ class AMinusBSquared(FormulaModificationsScene):
         for formula in [self.a_plus_b_squared, self.a_minus_b_squared]:
             self.play(Circumscribe(formula[1:4], Circle, fade_out=True, run_time=2)) # a+b  /  a-b
             self.wait()
-            self.play(Indicate(formula[9:13])) # +2ab  /  -2ab
+            self.play(Indicate(formula[9:13], 1.5)) # +2ab  /  -2ab
             self.wait()
         
         # move formula for square of difference to UpRight corner
@@ -458,7 +458,7 @@ class AMinusBSquared(FormulaModificationsScene):
 
         forty_nine_squared_old_method = Tex(
             '$49^2$', ' $=$ ', '$(40+9)^2$',
-            ' $=$ ', '$40^2$', '$+ 2\cdot 40\cdot 9$', '$+ 9^2$',
+            ' $=$ ', '$40^2$', '$+$$2\cdot$$40$$\cdot$$9$', '$+ 9^2$',
             ' $=$ ', '$2401$',
             font_size=60
         ) # 49^2 = (40+9)^2 = 40^2 +2•40•9 + 9^2 = 2401
@@ -487,7 +487,7 @@ class AMinusBSquared(FormulaModificationsScene):
         # so this function can work independently from previous functions
         self.forty_nine_squared = Tex(
             '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
-            ' $=$ ', '$50^2$', '$-$', '$2\cdot 50\cdot 1$', '$+$', '$1^2$', # 9:15
+            ' $=$ ', '$50^2$', '$-$', '$2$$\cdot$$50$$\cdot$$1$', '$+$', '$1^2$', # 9:15
             ' $=$ ', '$2401$', # 15,16
             font_size=60
         ) # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
@@ -516,7 +516,7 @@ class AMinusBSquared(FormulaModificationsScene):
         self.play(Write(exercise[13])) # (b-a)^2 = b^2 - 2ba + a^2
         self.wait()
 
-        self.play(Indicate(exercise[9:12]))
+        self.play(Indicate(exercise[9:12], 1.5))
         self.wait()
         self.rearrange_formula(
             exercise, [*range(10), 11, 10, 12, 13], [10], [11]
@@ -528,7 +528,7 @@ class AMinusBSquared(FormulaModificationsScene):
         self.wait()
 
         formula_copy = self.a_minus_b_squared.copy()
-        self.play(Indicate(self.a_minus_b_squared))
+        self.play(Indicate(self.a_minus_b_squared, 1.5))
         self.wait(0.5)
         self.play(formula_copy.animate.next_to(exercise, DOWN, buff=0.5, aligned_edge=LEFT))
         self.wait()
@@ -544,9 +544,9 @@ class AMinusBSquared(FormulaModificationsScene):
         ) # b-a = -(a-b)
         show_equality.move_to(exercise).shift(7.5 * RIGHT)
 
-        self.play(Indicate(exercise[1:4]))
+        self.play(Indicate(exercise[1:4], 1.5))
         self.wait(0.1)
-        self.play(Indicate(formula_copy[1:4]))
+        self.play(Indicate(formula_copy[1:4], 1.5))
         self.wait()
         self.play(Write(show_equality[:3]))
         self.wait(0.25)
@@ -606,7 +606,7 @@ class AMinusBSquared(FormulaModificationsScene):
         # so this function can work independently from previous functions
         self.forty_nine_squared = Tex(
             '$49$', '$^2$', ' $=$ ', '$($', '$50$', '$-$', '$1$', '$)$', '$^2$', # 0:9
-            ' $=$ ', '$50^2$', '$-$', '$2\cdot 50\cdot 1$', '$+$', '$1^2$', # 9:15
+            ' $=$ ', '$50^2$', '$-$', '$2$$\cdot$$50\cdot$$1$', '$+$', '$1^2$', # 9:15
             ' $=$ ', '$2401$', # 15,16
             font_size=60
         ) # 49^2 = (50-1)^2 = 50^2 - 2•50•1 + 1^2 = 2401
@@ -659,14 +659,14 @@ class AMinusBSquared(FormulaModificationsScene):
     def last_exercise(self):
         """
         Last exercise for the viewer
-        (2-y)^2
+        (2-z)^2
         """
         # add formula
         self.add(self.surr_rect_a_minus_b_squared)
         self.add(self.a_minus_b_squared.move_to(self.surr_rect_a_minus_b_squared))
 
         # write exercise
-        exercise = Tex('$(2-y)^2=$', font_size=60)
+        exercise = Tex('$(2-z)^2=$', font_size=60)
         exercise.to_edge(LEFT)
 
         self.play(Write(exercise, run_time=2))
