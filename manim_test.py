@@ -19,6 +19,7 @@ def main(args):
         extra_args.append('-s')
     for path in enumerated_problems.rglob('problem_*.py'):
         for language in ['armenian', 'english']:
+            subprocess.run(['rm', '-r', 'media'])
             r = subprocess.run(['python', 'qarakusi.am.py', path.as_posix(),
                                 '-ql', '--language', language] + extra_args,
                                 env=os.environ)
