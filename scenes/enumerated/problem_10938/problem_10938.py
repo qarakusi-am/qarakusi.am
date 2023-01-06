@@ -184,11 +184,18 @@ class Problem10938(Scene):
         self.wait(1)
 
         meter_second_4_copy = meter_second_4.copy()
+        divide_2 = MathTex(text.DIVIDE).scale(1.2).next_to(train_length).shift(0.9 * LEFT)
 
-        self.play(train_length.animate.shift(0.9 * LEFT))
-        divide_2 = MathTex(text.DIVIDE).scale(1.2).next_to(train_length)
-
-        self.play(Write(divide_2), meter_second_4_copy.animate.next_to(divide_2).shift(0.06 * DOWN), run_time=2)
+        self.play(
+            AnimationGroup(
+                train_length.animate.shift(0.9 * LEFT),
+                AnimationGroup(
+                    Write(divide_2),
+                    meter_second_4_copy.animate.next_to(divide_2).shift(0.06 * DOWN)
+                ),
+                run_time=2, lag_ratio=0.5
+            )
+        )
         self.wait(1)
 
         self.play(FadeOut(seconds_18),
