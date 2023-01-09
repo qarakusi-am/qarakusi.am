@@ -1,4 +1,4 @@
-task_number_string = "P․ 12189"
+task_number_string = "P. 12189"
 armen_string = "Bob"
 vazgen_string = "Simon"
 condition1_string = "Condition $1$: ", r"Simon collected $13$ mushrooms more \\ than Bob"
