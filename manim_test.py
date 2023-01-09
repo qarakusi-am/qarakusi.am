@@ -22,6 +22,7 @@ def main(args):
             print('#' * 80)
             print(f'# testing {path} in {language}'.ljust(79) + '#')
             print('#' * 80)
+            subprocess.run(['rm', '-r', 'media'])
             r = subprocess.run(['python', 'qarakusi.am.py', path.as_posix(),
                                 '-ql', '--language', language] + extra_args,
                                 env=os.environ)
