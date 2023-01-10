@@ -1,10 +1,11 @@
-from manim import UP, DOWN, RIGHT, LEFT, UL, UR, GREEN, ORANGE
+from manim import Scene
+from manim import UP, DOWN, RIGHT, LEFT
 from manim import VGroup, MathTex, Tex
 from manim import Write, FadeIn, FadeOut, ReplacementTransform, Circumscribe
 from manim import Dot
 from objects import SimpleSVGMobject, Weight, Scales
-from .text import first, second, goose_weight, duck_weight
-from scales import ScalesScene
+from .text import first, second
+from scales import RotateTheScales
 import numpy as np
 
 
@@ -45,7 +46,7 @@ import numpy as np
 10․ 4-րդ հարց
 """
 
-class Problem11159_1Solution(ScalesScene):
+class Problem11159_1Solution(Scene):
     def construct(self):
 
 # INIT
@@ -141,17 +142,17 @@ class Problem11159_1Solution(ScalesScene):
         x = first_1[0].copy()
         self.play(x.animate.move_to(sc_1_geese))
         self.play(ReplacementTransform(x, sc_1_geese))
-        self.rotate_scales(sc_1, 0.4)
+        self.play(RotateTheScales(sc_1, 0.4))
         self.wait()
 
         y = first_1[2].copy()
         self.play(y.animate.move_to(sc_1_ducks.get_center() - np.array([0, 0.25, 0])))
         self.play(ReplacementTransform(y, sc_1_ducks))
-        self.rotate_scales(sc_1, 0.4)
+        self.play(RotateTheScales(sc_1, 0.4))
         self.wait()
 
         self.play(ReplacementTransform(first_1[5].copy(), sc_1_right_mobs))
-        self.rotate_scales(sc_1, -0.8)
+        self.play(RotateTheScales(sc_1, -0.8))
         self.remove(sc_1_ducks, sc_1_geese)
         self.add(sc_1_left_mobs)
         self.wait()
@@ -159,17 +160,17 @@ class Problem11159_1Solution(ScalesScene):
         x = second_2[0].copy()
         self.play(x.animate.move_to(sc_2_geese))
         self.play(ReplacementTransform(x, sc_2_geese))
-        self.rotate_scales(sc_2, 0.4)
+        self.play(RotateTheScales(sc_2, 0.4))
         self.wait()
 
         y = second_2[2].copy()
         self.play(y.animate.move_to(sc_2_ducks.get_center() - np.array([0, 0.25, 0])))
         self.play(ReplacementTransform(y, sc_2_ducks))
-        self.rotate_scales(sc_2, 0.4)
+        self.play(RotateTheScales(sc_2, 0.4))
         self.wait()
 
         self.play(ReplacementTransform(second_2[5].copy(), sc_2_right_mobs))
-        self.rotate_scales(sc_2, -0.8)
+        self.play(RotateTheScales(sc_2, -0.8))
         self.remove(sc_2_ducks, sc_2_geese)
         self.add(sc_2_left_mobs)
         self.wait()
@@ -231,7 +232,7 @@ class Problem11159_1Solution(ScalesScene):
         duck.add_updater(lambda mobs: mobs.next_to(sc_1.left_plate, UP, buff=0).align_to(sc_2_left_mobs[4], RIGHT))
         self.add(sc_1_birds)
 
-        self.rotate_scales(sc_1, 0.25)
+        self.play(RotateTheScales(sc_1, 0.25))
         self.wait()
 
         self.play(
@@ -245,7 +246,7 @@ class Problem11159_1Solution(ScalesScene):
 
         kshraqar.add_updater(lambda x: x.align_to(sc_1_right_mobs, DOWN))
         
-        self.rotate_scales(sc_1, -0.25)
+        self.play(RotateTheScales(sc_1, -0.25))
         self.wait()
 
         self.play(
@@ -266,16 +267,16 @@ class Problem11159_1Solution(ScalesScene):
         self.add(sc_3_right_mobs)
         sc_3_right_mobs.set_opacity(0)
 
-        self.rotate_scales(sc_3, 0.8)
+        self.play(RotateTheScales(sc_3, 0.8))
 
         self.play(sc_3_right_mobs[0].animate.set_opacity(1))    
         
 
-        self.rotate_scales(sc_3, -0.4)
+        self.play(RotateTheScales(sc_3, -0.4))
         
         self.play(sc_3_right_mobs[1].animate.set_opacity(1))
 
-        self.rotate_scales(sc_3, -0.4)
+        self.play(RotateTheScales(sc_3, -0.4))
         self.wait()
 
     # Երկրորդ կշեռքը ֆեյդ աութ
