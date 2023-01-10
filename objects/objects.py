@@ -226,6 +226,10 @@ svg_defaults.add_prefix_default(
     'syun_',
     {'folder': path_to_SVG / 'syun'}
 )
+svg_defaults.add_prefix_default(
+    'finish_flag_',
+    {'folder': path_to_SVG / 'finish_flag'}
+)
 
 
 class SimpleSVGMobject(VMobject):
