@@ -227,8 +227,12 @@ svg_defaults.add_prefix_default(
     {'folder': path_to_SVG / 'syun'}
 )
 svg_defaults.add_prefix_default(
-    'finish_flag_',
-    {'folder': path_to_SVG / 'finish_flag'}
+    'flag_finish_',
+    {'folder': path_to_SVG / 'flag_finish'}
+)
+svg_defaults.add_prefix_default(
+    'flag_meet_',
+    {'folder': path_to_SVG / 'flag_meet'}
 )
 
 
