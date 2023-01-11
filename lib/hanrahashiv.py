@@ -4,13 +4,13 @@ from manim import Scene
 from manim import ReplacementTransform, FadeOut, FadeIn
 from manim import VMobject
 from manim import AnimationGroup
-
+from typing import List
 
 def ModifyFormula(
     formula : Tex or MathTex,
-    remove_items : list = [],
-    add_after_items : list =[], add_items_strs : list[list] =[], add_items_colors : list[list] = [],
-    replace_items : list[list] = [], replace_items_strs  : list[list] = [], replace_items_colors : list[list] = [],
+    remove_items : List = [],
+    add_after_items : List =[], add_items_strs : List[List] =[], add_items_colors : List[List] = [],
+    replace_items : List[List] = [], replace_items_strs  : List[List] = [], replace_items_colors : List[List] = [],
     new_formula_alignment=DL, add_items_animation_style = FadeIn, add_lag_ratio = 0.3, new_font_size=None
 ):
     """
@@ -140,9 +140,9 @@ class FormulaModificationsScene(Scene):
         formula.add(*temp_formula)
 
     def rearrange_formula(self,
-        formula : Tex or MathTex, new_sequence : list,
-        move_up : list = [], move_down : list = [],
-        fade_out : list = [], fade_in : list = [],
+        formula : Tex or MathTex, new_sequence : List,
+        move_up : List = [], move_down : List = [],
+        fade_out : List = [], fade_in : List = [],
         run_time=3
     ):
         """
