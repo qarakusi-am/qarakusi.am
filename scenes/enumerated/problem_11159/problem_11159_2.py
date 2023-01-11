@@ -1,11 +1,10 @@
+from manim import Scene
 from manim import UP, DOWN, RIGHT, LEFT, UL, UR, GREEN, ORANGE
 from manim import VGroup, MathTex, Tex
 from manim import Write, Create, FadeIn, FadeOut, Transform, ReplacementTransform, Circumscribe
 from manim import SurroundingRectangle, Circle
 from objects import SimpleSVGMobject, Weight, Scales
 from .text import goose_weight, duck_weight
-from scales import ScalesScene
-import numpy as np
 
 
 """
@@ -26,7 +25,7 @@ import numpy as np
 """
 
 
-class Problem11159_2Solution(ScalesScene):
+class Problem11159_2Solution(Scene):
     def construct(self):
 
 
