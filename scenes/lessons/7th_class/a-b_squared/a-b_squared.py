@@ -131,9 +131,9 @@ class AMinusBSquared(FormulaModificationsScene):
         """
 
         def write_beginning_of_formula(): # (a-b)^2 = (a-b)•(a-b) =
-            '''
+            """
                 Writes (a-b)^2 =(a-b)•(a-b) =   in 3 steps
-            '''
+            """
             self.play(Write(a_minus_b_squared_extended[0:6])) # (a-b)^2
             self.wait()
             self.play(Write(a_minus_b_squared_extended[6:18])) # (a-b)^2 = (a-b)•(a-b)
@@ -142,11 +142,11 @@ class AMinusBSquared(FormulaModificationsScene):
             self.wait()
 
         def bacel_pakagcery(): # (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
-            '''
+            """
                 Opens parenthesis of (a-b)(a-b)
                 Writes this formula using ClockwiseTransform and ConnectionLine
                 (a-b)^2 = (a-b)•(a-b) = a•a + a•(-b) + (-b)•a + (-b)•(-b)
-            '''
+            """
             conn_line = ConnectionLine(a_minus_b_squared_extended[8], a_minus_b_squared_extended[14])
             # a•a
             self.play(
@@ -222,10 +222,10 @@ class AMinusBSquared(FormulaModificationsScene):
             self.wait()
 
         def berel_kataryal_tesqi(): # (a-b)^2 = (a-b)•(a-b) = a^2 - ab -ba + b^2
-            '''
+            """
                 Writes the expression we got from bacel_pakagcery in the perfect form
                 Writes the formula in final form - (a-b)^2 = a^2-2ab+b^2
-            '''
+            """
             # a•a  ->  a^2
             self.play(Indicate(a_minus_b_squared_extended[19:22], 1.5))
             self.wait(0.1)
