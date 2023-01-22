@@ -230,6 +230,38 @@ svg_defaults.add_default(
     'door',
     {'folder': path_to_SVG}
 )
+svg_defaults.add_default(
+    'bananas_with_box',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'apples_with_box',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'tray_with_fruits',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'trays_with_fruits',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'bananas',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'tray',
+    {'folder': path_to_SVG}
+)
+svg_defaults.add_default(
+    'green_apples',
+    {'folder': path_to_SVG / 'fruits'}
+)
+svg_defaults.add_default(
+    'fruits_for_tray',
+    {'folder': path_to_SVG / 'fruits'}
+)
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
