@@ -227,10 +227,6 @@ svg_defaults.add_prefix_default(
     {'folder': path_to_SVG / 'syun'}
 )
 svg_defaults.add_default(
-    'door',
-    {'folder': path_to_SVG}
-)
-svg_defaults.add_default(
     'bananas_with_box',
     {'folder': path_to_SVG / "fruits"}
 )
