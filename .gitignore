@@ -20,7 +20,7 @@ test/
 
 media/
 
-/test.py
+**/test.py
 
 .VSCodeCounter/
 .venv
