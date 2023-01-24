@@ -3,10 +3,10 @@
    viewBox="0 0 155.13605 551.6654"
    version="1.1"
    id="svg14"
-   sodipodi:docname="finish_flag_3.svg"
+   sodipodi:docname="flag_meet_2.svg"
    width="155.13606"
    height="551.66541"
-   inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -21,15 +21,16 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.98231359"
-     inkscape:cx="22.396107"
-     inkscape:cy="261.62725"
+     inkscape:zoom="3.5966297"
+     inkscape:cx="15.570132"
+     inkscape:cy="122.19773"
      inkscape:window-width="1920"
-     inkscape:window-height="1007"
+     inkscape:window-height="1027"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg14" />
+     inkscape:current-layer="svg14"
+     inkscape:pageshadow="0" />
   <defs
      id="defs4">
     <style
@@ -39,7 +40,7 @@
      class="a"
      d="m 109.52606,123.82 c -14.109999,4 -21.129999,11.42 -23.999999,15 -12,14.94 -10,34.95 -9,45 1.76,18.12 8.08,27.87 5,30 -2.06,1.43 -8.07,-0.7 -27,-20 -0.92,-2.71 -6,-16.72 -21,-24 a 41.64,41.64 0 0 0 -26.9999997,-3 c -6.77999999,-33 -5.99999999,-43 -5.99999999,-43 A 72.85,72.85 0 0 1 7.0060613,98.970003 c 9.9999997,-20.83 29.5199997,-28.47 45.6599997,-37.83 16.14,-9.36 37.66,-25.51 58.999999,-55.3200002 z"
      id="path6"
-     style="fill:#ffb730;stroke:#e6e7e8;stroke-miterlimit:10" />
+     style="fill:#ffb730;stroke:none;stroke-miterlimit:10" />
   <rect
      class="b"
      x="108.13607"

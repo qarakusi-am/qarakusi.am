@@ -3,10 +3,10 @@
    viewBox="0 0 188.96186 657.70366"
    version="1.1"
    id="svg14"
-   sodipodi:docname="spitak drosh-01.svg"
+   sodipodi:docname="flag_meet_1.svg"
    width="188.96187"
    height="657.70367"
-   inkscape:version="1.2 (1:1.2+202206011326+fc4e4096c5)"
+   inkscape:version="1.1.1 (c3084ef, 2021-09-22)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,13 +23,14 @@
      showgrid="false"
      inkscape:zoom="0.98231359"
      inkscape:cx="98.746471"
-     inkscape:cy="362.40973"
+     inkscape:cy="362.91873"
      inkscape:window-width="1920"
-     inkscape:window-height="1007"
+     inkscape:window-height="1027"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg14" />
+     inkscape:current-layer="svg14"
+     inkscape:pageshadow="0" />
   <defs
      id="defs4">
     <style
@@ -39,7 +40,7 @@
      class="a"
      d="m 133.38187,147.62 c -17.19,4.72 -25.74,13.61 -29.24,17.88 -14.589999,17.81 -12.159999,41.67 -10.999999,53.65 2.15,21.6 9.859999,33.22 6.09,35.77 -2.51,1.7 -9.82,-0.84 -32.9,-23.84 -1.12,-3.24 -7.27,-19.94 -25.58,-28.62 a 51.71,51.71 0 0 0 -32.9,-3.57 C -0.41812904,159.53 0.53187096,147.62 0.53187096,147.62 A 85.72,85.72 0 0 1 8.491871,117.99 c 12.2,-24.839997 36,-33.939997 55.63,-45.099997 19.63,-11.16 45.889999,-30.41 71.869999,-65.9500039 z"
      id="path6"
-     style="fill:#ffffff;stroke:#e6e7e8;stroke-miterlimit:10" />
+     style="fill:#ffffff;stroke:none;stroke-miterlimit:10" />
   <rect
      class="b"
      x="131.69188"
