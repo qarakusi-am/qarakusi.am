@@ -76,6 +76,16 @@ class Problem10343(Scene):
             )
         )
 
+        # սկուտեղ
+        empty_tray = SimpleSVGMobject("tray")
+        fruits_for_tray = SimpleSVGMobject("fruits_for_tray")
+        fruits_for_tray.match_width(empty_tray).next_to(empty_tray, UP, buff=0).shift(DOWN*.2)
+        empty_tray.set_z_index(fruits_for_tray.z_index+1)
+        tray = VGroup(fruits_for_tray, empty_tray).scale(.7)
+        tray.to_edge(RIGHT)
+
+        self.play(FadeIn(tray[1]))
+
         # 4 մանդարին
         mandarin = SimpleSVGMobject("mandarin")
         mandarin.scale(.3)
@@ -144,28 +154,16 @@ class Problem10343(Scene):
             )
         )
         self.wait()
-
-        # սկուտեղ
-        empty_tray = SimpleSVGMobject("tray")
-        fruits_for_tray = SimpleSVGMobject("fruits_for_tray")
-        fruits_for_tray.match_width(empty_tray).next_to(empty_tray, UP, buff=0).shift(DOWN*.2)
-        empty_tray.set_z_index(fruits_for_tray.z_index+1)
-        tray = VGroup(fruits_for_tray, empty_tray).scale(.7)
-        tray.to_edge(RIGHT)
         
         # transforming copies of fruits to tray with fruits
         self.play(
-            AnimationGroup(
-                FadeIn(tray[1]),
-                ReplacementTransform(
-                    VGroup(
-                        mandarins_4x,
-                        apples_6x,
-                        bananas_2x
-                    ).copy(),
-                    tray[0]
-                ),
-                lag_ratio=1
+            ReplacementTransform(
+                VGroup(
+                    mandarins_4x,
+                    apples_6x,
+                    bananas_2x
+                ).copy(),
+                tray[0]
             )
         )
         self.wait()
@@ -196,7 +194,7 @@ class Problem10343(Scene):
         tray_in_table.move_to(table.col_labels[1])
         table.col_labels[1].set_opacity(0)
 
-        # transform tray 4x mandarins, 6x aplles and 2x bananas to parts of table
+        # transform tray, 4x mandarins, 6x aplles and 2x bananas to parts of table
         self.play(
             ReplacementTransform(
                     tray,
@@ -236,46 +234,44 @@ class Problem10343(Scene):
         self.play(
             AnimationGroup(
                 AnimationGroup(
-                    ReplacementTransform(
-                        bag_of_mandarins,
-                        table.row_labels[0]
+                    AnimationGroup(
+                        ReplacementTransform(
+                            bag_of_mandarins,
+                            table.row_labels[0]
+                        ),
+                        ReplacementTransform(
+                            count_of_mandarins,
+                            table.get_rows()[1][1]
+                        )
                     ),
-                    ReplacementTransform(
-                        count_of_mandarins,
-                        table.get_rows()[1][1]
-                    )
-                ),
-                AnimationGroup(
-                    ReplacementTransform(
-                        box_of_apples,
-                        table.row_labels[1]
+                    AnimationGroup(
+                        ReplacementTransform(
+                            box_of_apples,
+                            table.row_labels[1]
+                        ),
+                        ReplacementTransform(
+                            count_of_apples,
+                            table.get_rows()[2][1]
+                        )
                     ),
-                    ReplacementTransform(
-                        count_of_apples,
-                        table.get_rows()[2][1]
-                    )
-                ),
-                AnimationGroup(
-                    ReplacementTransform(
-                        box_of_bananas,
-                        table.row_labels[2]
+                    AnimationGroup(
+                        ReplacementTransform(
+                            box_of_bananas,
+                            table.row_labels[2]
+                        ),
+                        ReplacementTransform(
+                            count_of_bananas,
+                            table.get_rows()[3][1]
+                        )
                     ),
-                    ReplacementTransform(
-                        count_of_bananas,
-                        table.get_rows()[3][1]
-                    )
+                    lag_ratio=0
                 ),
-                lag_ratio=.6
-            )
-        )
-        self.wait()
-
-        # FadeIn table's lines and borders
-        self.play(
-            FadeIn(
-                table[1:],
-                table.col_labels[0],
-                table.top_left_entry
+                FadeIn(
+                    table[1:],
+                    table.col_labels[0],
+                    table.top_left_entry
+                ),
+                lag_ratio=.4
             )
         )
         self.wait()
