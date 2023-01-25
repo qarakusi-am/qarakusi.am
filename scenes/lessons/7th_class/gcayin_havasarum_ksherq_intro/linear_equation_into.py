@@ -4,6 +4,10 @@ from objects import SimpleSVGMobject, Weight, Scales
 from scales import RotateTheScales
 from .text import together_are_510, single_apple_is_170
 
+horizontal_states_places = [[-4.7, 3, 0], [-1.57, 3, 0], [1.57, 3, 0], [4.7, 3, 0]]
+vertical_states_places = [[-4, 2.8, 0], [-4, 0.87, 0], [-4, -1, 0], [-4, -2.9, 0]]
+scales_states = VGroup()
+
 class Example(Scene):
     def construct(self):
 
@@ -27,8 +31,10 @@ class Example(Scene):
         self.play(FadeIn(left_mobs, right_mobs))
         self.wait()
 
-        scales_states = VGroup()
-        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy())
+        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy().move_to(horizontal_states_places[0]).scale(0.25))
+
+        self.play(ReplacementTransform(VGroup(sc, left_mobs, right_mobs).copy(), scales_states[0]))
+        self.wait()
 
         # divide 530g into 2 parts - 510g and 20g
         self.play(
@@ -38,7 +44,11 @@ class Example(Scene):
             )
         )
         self.wait()
-        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy())
+
+        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy().move_to(horizontal_states_places[1]).scale(0.25))
+
+        self.play(ReplacementTransform(VGroup(sc, left_mobs, right_mobs).copy(), scales_states[1]))
+        self.wait()
 
         # remove 20g from both sides
         self.play(
@@ -55,7 +65,11 @@ class Example(Scene):
         left_mobs.remove(left_mobs[-1])
         right_mobs.remove(right_mobs[-1])
         self.wait()
-        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy())
+
+        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy().move_to(horizontal_states_places[2]).scale(0.25))
+
+        self.play(ReplacementTransform(VGroup(sc, left_mobs, right_mobs).copy(), scales_states[2]))
+        self.wait()
 
         # divide 510 gram weight into 3 170 gram weights
         self.play(
@@ -73,22 +87,32 @@ class Example(Scene):
         left_mobs.remove(left_mobs[-1])
         right_mobs.remove(right_mobs[0])
         right_mobs.remove(right_mobs[-1])
-        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy())
 
-        self.play(*[FadeOut(mob) for mob in self.mobjects])
+        scales_states.add(VGroup(sc, left_mobs, right_mobs).copy().move_to(horizontal_states_places[3]).scale(0.25))
+
+        self.play(ReplacementTransform(VGroup(sc, left_mobs, right_mobs).copy(), scales_states[3]))
         self.wait()
 
-        horizontal_states = scales_states.copy().arrange(RIGHT, buff=0.75, aligned_edge=DOWN).scale(0.25).to_edge(UP)
-        vertical_states = scales_states.copy().arrange(DOWN, buff=1).scale(0.4).to_edge(LEFT)
+        self.play(FadeOut(sc, left_mobs, right_mobs))
+        self.wait()
 
-        self.add(horizontal_states)
-        self.play(
-            *[ReplacementTransform(horizontal_states[i], vertical_states[i]) for i in range(4)],
-            # *[ClockwiseTransform(horizontal_states[i], vertical_states[i]) for i in range(1, 4)]
+        self.play(scales_states.animate.arrange(DOWN, buff=0.25).scale(1.6).to_edge(LEFT, buff=1))
+        self.wait()
+
+
+        ### write an equation that describes the example of 3apples+20grams = 530grams and solve it
+        equations = VGroup(
+            Tex('$3$', '$\cdot$', '$x$', '$+$', '$20$', ' $=$ ', '$530$', font_size=70), # 3•x+20 = 530
+            Tex('$3$', '$\cdot$', '$x$', '$+$', '$20$', ' $=$ ', '$510$', '$+$', '$20$', font_size=70), # 3•x+20 = 510+20
+            Tex('$3$', '$\cdot$', '$x$', ' $=$ ', '$510$', font_size=70), # 3•x = 510
+            Tex('$x$', ' $=$ ', '$170$', font_size=70) # x = 170
         )
-        self.wait()
+        equations.arrange(DOWN, buff=1.5, aligned_edge=RIGHT).to_edge(RIGHT, buff=2.25)
+        equations[1].shift(RIGHT * 1.275) # align the equality signs of the equations
 
-
+        for equation in equations:
+            self.play(Write(equation))
+            self.wait()
 
         # # write 
         # # 3 apples are 510 grams.
@@ -105,7 +129,7 @@ class Example(Scene):
         # self.wait()
 
 
-        # ### write an equation that describes the example of 3apples+20grams = 530grams
+        ### write an equation that describes the example of 3apples+20grams = 530grams
 
         # # draw the scales, apples and wights
         # sc = Scales(plate_stretch_factor=1.25).shift(2 * DOWN)
