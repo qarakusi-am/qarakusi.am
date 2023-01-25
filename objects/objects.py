@@ -258,6 +258,15 @@ svg_defaults.add_default(
     'fruits_for_tray',
     {'folder': path_to_SVG / 'fruits'}
 )
+svg_defaults.add_prefix_default(
+    'flag_finish_',
+    {'folder': path_to_SVG / 'flag_finish'}
+)
+svg_defaults.add_prefix_default(
+    'flag_meet_',
+    {'folder': path_to_SVG / 'flag_meet'}
+)
+
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
