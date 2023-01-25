@@ -226,10 +226,15 @@ svg_defaults.add_prefix_default(
     'syun_',
     {'folder': path_to_SVG / 'syun'}
 )
-svg_defaults.add_default(
-    'door',
-    {'folder': path_to_SVG}
+svg_defaults.add_prefix_default(
+    'flag_finish_',
+    {'folder': path_to_SVG / 'flag_finish'}
 )
+svg_defaults.add_prefix_default(
+    'flag_meet_',
+    {'folder': path_to_SVG / 'flag_meet'}
+)
+
 
 class SimpleSVGMobject(VMobject):
     def __init__(self, obj_name: str,
@@ -571,8 +576,8 @@ class Weight(VGroup):
         self.scale_factor = scale_factor
         self.weight_value = kg
 
-        # Սա ընդամենը բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափսը՝ կախված դրա զանգվածի նիշերի քանակից
-        # (առավելագույնը 4 նիշանոց թվերի համար)
+        # Սա բազմանդամ է, որի միջոցով ընտրվում է կշռաքարի վրայի գրվող թվի չափը՝ կախված դրա զանգվածի նիշերի քանակից
+        # (առավելագույնը քառանիշ թվերի համար)
         x = len(str(kg))
         polynomial = (
                 20 / 6 * (x - 1) * (x - 2) * (x - 3) + 25 / (-2) *
@@ -581,15 +586,13 @@ class Weight(VGroup):
         )
 
         self.weight = VGroup(
-            SimpleSVGMobject('weight').scale(0.5),
+            SimpleSVGMobject('weight').scale(0.5).set_color(WHITE),
             MathTex(f"{kg:,}".replace(',', '.'),
                     color=BLACK, font_size=polynomial).shift(0.1 * DOWN)
         ).scale(((kg / (2 * unit_kg)) ** (1. / 3.)) * self.scale_factor)
 
         self.kettlebell = self.weight[0]
         self.weight_text = self.weight[1]
-
-        # self.weight_text.match_width(self.kettlebell).scale(0.9)
 
         self.add(self.kettlebell, self.weight_text)
 
