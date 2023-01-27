@@ -1,11 +1,12 @@
 from manim import *
+from hanrahashiv import ModifyFormula, FormulaModificationsScene
 
-class ASquaredMinusBSquared(Scene):
+class DrawASquaredMinusBSquared(Scene):
     def construct(self):
 
         a = 4.5 # length of the sides of the big square
         b = 1.75 # length of the sides of the small square
-        
+
         # vertices of polygons
         ul = np.array([-a/2, a/2, 0])
         dl = np.array([-a/2, -a/2, 0])
@@ -16,7 +17,7 @@ class ASquaredMinusBSquared(Scene):
         mm = np.array([a/2-b, -(a/2-b), 0])
         lm = np.array([-a/2, -(a/2-b), 0])
         um = np.array([a/2-b, a/2, 0])
-        
+
         # square with side a
         square_a = Polygon(ul, dl, dr, ur, color=GREEN, fill_opacity=0.5)
         side_a_up = Tex('$a$', font_size=70).next_to(square_a, UP)
@@ -67,7 +68,7 @@ class ASquaredMinusBSquared(Scene):
 
         # write S = a^2-b^2 in top left corner
         s_equals_difference = Tex('$S$', ' $=$ ', '$a^2$', '$-$', '$b^2$', font_size=70)
-        s_equals_difference.to_corner(UL)
+        s_equals_difference.to_corner(UL).shift(0.5 * DOWN)
 
         self.play(Write(s_equals_difference[:2]))
         self.wait(0.1)
@@ -130,6 +131,9 @@ class ASquaredMinusBSquared(Scene):
 
         self.remove(difference_polygon)
         self.add(big_rectangle, vertical_dashed_line, bottom_rectangle)
+
+        # cut the bottom rectangle, move and stick to the big rectangle form the right
+        # in the end we will have a rectangle with sides a+b and a-b
         self.play(
             bottom_rectangle_with_side_lengths.animate(rate_func=linear).shift(DOWN * 0.75),
             FadeOut(side_a_left)
@@ -150,8 +154,6 @@ class ASquaredMinusBSquared(Scene):
                 side_a_minus_b_down.copy().move_to(bottom_rectangle).shift((b/2 + 0.73) * RIGHT),
                 PI/2, rate_func=linear
             )
-            # side_b_right.animate.move_to(bottom_rectangle).shift((a/2 - b/2 + 0.45) * UP),
-            # side_a_minus_b_down.animate.move_to(bottom_rectangle).shift((b/2 + 0.73) * RIGHT)
         )
         self.wait()
         self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).align_to(big_rectangle, DOWN))
@@ -161,3 +163,83 @@ class ASquaredMinusBSquared(Scene):
             FadeOut(side_a_minus_b_right, side_b_down, vertical_dashed_line)
         )
         self.wait()
+
+        # remove dividing line from final rectangle and calculate the big side
+        final_rectangle = Polygon(ul, lm, rm + b * RIGHT, ur + b * RIGHT, color=GREEN, fill_opacity=0.5)
+        big_side = Tex('$a$', '$+$', '$b$', font_size=70).next_to(final_rectangle, UP, buff=0.2)
+        small_side = side_a_minus_b_down
+
+        self.play(
+            FadeOut(bottom_rectangle, big_rectangle),
+            FadeIn(final_rectangle),
+            ReplacementTransform(side_a_up, big_side[:1]),
+            ReplacementTransform(side_b_right, big_side[2:]),
+            Write(big_side[1])
+        )
+        self.wait()
+
+        # write the area of final rectangle inside of it
+        final_area = Tex('$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$', font_size=70)
+        final_area.move_to(final_rectangle)
+
+        self.play(
+            ReplacementTransform(big_side.copy(), final_area[1:4]),
+            Write(final_area[0]),
+            Write(final_area[4]),
+            ReplacementTransform(small_side.copy(), final_area[6:9]),
+            Write(final_area[5]),
+            Write(final_area[9])
+        )
+        self.wait()
+
+        # write S = (a+b)(a-b) and fadeout final rectangle
+        s_equals_product = Tex('$S$', ' $=$ ', '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$', font_size=70)
+        s_equals_product.next_to(s_equals_difference, DOWN, buff=0.75, aligned_edge=LEFT)
+
+        self.play(
+            *[mob.animate.shift(RIGHT * 1.25) for mob in[final_rectangle, big_side, small_side]],
+            Write(s_equals_product[:2]),
+            ReplacementTransform(final_area, s_equals_product[2:])
+        )
+        self.wait()
+        self.play(FadeOut(final_rectangle, big_side, small_side))
+        self.wait()
+        self.remove(s_equals_difference, s_equals_product)
+
+
+class CalculateASquaredMinusBSquared(FormulaModificationsScene):
+    def construct(self):
+        # add    S = a^2-b^2   and   S = (a+b)(a-b)    from previous scene
+        s_equals_difference = Tex(
+            '$S$', ' $=$ ', '$a^2$', '$-$', '$b^2$',
+            ' $=$ ', '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$',
+            font_size=70
+        )
+        s_equals_difference.to_corner(UL).shift(0.5 * DOWN)
+        s_equals_product = Tex('$S$', ' $=$ ', '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$', font_size=70)
+        s_equals_product.next_to(s_equals_difference[:5], DOWN, buff=0.75, aligned_edge=LEFT)
+        self.add(s_equals_difference[:5], s_equals_product)
+
+        # circumscribe left and right parts and show that a^2-b^2 = (a+b)(a-b)
+        self.play(
+            Circumscribe(s_equals_difference[0], fade_out=True, run_time=2),
+            Circumscribe(s_equals_product[0], fade_out=True, run_time=2)
+        )
+        self.wait()
+        self.play(
+            Circumscribe(s_equals_difference[2:5], fade_out=True, run_time=2),
+            Circumscribe(s_equals_product[2:], fade_out=True, run_time=2)
+        )
+        self.wait()
+
+        self.play(
+            ReplacementTransform(s_equals_product[1:], s_equals_difference[5:]),
+            FadeOut(s_equals_product[0])
+        )
+        self.wait()
+
+
+class ASquaredMinusBSquared(Scene):
+    def construct(self):
+        DrawASquaredMinusBSquared.construct(self)
+        CalculateASquaredMinusBSquared.construct(self)
