@@ -104,3 +104,60 @@ class ASquaredMinusBSquared(Scene):
             side_a_minus_b_down.animate.shift(UP * 0.5)
         )
         self.wait()
+
+        # divide polygon into a square with side a-b and 2 rectangles with sides (a-b)•b
+        vertical_dashed_line = DashedLine(mm, um)
+        horizontal_dashed_line = DashedLine(mm, lm)
+
+        self.play(Create(vertical_dashed_line))
+        self.wait()
+        self.play(Create(horizontal_dashed_line))
+        self.wait()
+
+        # replace polygon with 2 rectangles - (a-b)•a and (a-b)•b
+        big_rectangle = Polygon(ur, ul, lm, rm, color=GREEN, fill_opacity=0.5)
+        lines_of_bottom_rectangle = VGroup(
+            Line(lm, dl, color=GREEN),
+            Line(dl, dm, color=GREEN),
+            Line(dm, mm, color=GREEN),
+            horizontal_dashed_line
+        )
+
+        fill_of_bottom_rectangle = Polygon(mm, lm, dl, dm, color=GREEN, stroke_width=0, fill_opacity=0.5)
+
+        bottom_rectangle = VGroup(fill_of_bottom_rectangle, lines_of_bottom_rectangle)
+        bottom_rectangle_with_side_lengths = VGroup(bottom_rectangle, side_a_minus_b_down, side_b_right)
+
+        self.remove(difference_polygon)
+        self.add(big_rectangle, vertical_dashed_line, bottom_rectangle)
+        self.play(
+            bottom_rectangle_with_side_lengths.animate(rate_func=linear).shift(DOWN * 0.75),
+            FadeOut(side_a_left)
+        )
+        self.wait(0.5)
+        self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).shift(RIGHT * 5.55))
+        self.wait()
+
+        self.play(
+            Rotating(bottom_rectangle, radians=PI/2, run_time=1),
+            CounterclockwiseTransform(
+                side_b_right,
+                side_b_right.copy().move_to(bottom_rectangle).shift((a/2 - b/2 + 0.45) * UP),
+                PI/2, rate_func=linear
+            ),
+            CounterclockwiseTransform(
+                side_a_minus_b_down,
+                side_a_minus_b_down.copy().move_to(bottom_rectangle).shift((b/2 + 0.73) * RIGHT),
+                PI/2, rate_func=linear
+            )
+            # side_b_right.animate.move_to(bottom_rectangle).shift((a/2 - b/2 + 0.45) * UP),
+            # side_a_minus_b_down.animate.move_to(bottom_rectangle).shift((b/2 + 0.73) * RIGHT)
+        )
+        self.wait()
+        self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).align_to(big_rectangle, DOWN))
+        self.wait()
+        self.play(
+            bottom_rectangle_with_side_lengths.animate(rate_func=linear).next_to(big_rectangle, RIGHT, buff=0, aligned_edge=DOWN),
+            FadeOut(side_a_minus_b_right, side_b_down, vertical_dashed_line)
+        )
+        self.wait()
