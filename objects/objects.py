@@ -247,10 +247,6 @@ svg_defaults.add_default(
     {'folder': path_to_SVG / "fruits"}
 )
 svg_defaults.add_default(
-    'tray',
-    {'folder': path_to_SVG}
-)
-svg_defaults.add_default(
     'green_apples',
     {'folder': path_to_SVG / 'fruits'}
 )
