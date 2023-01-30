@@ -31,8 +31,6 @@ $env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10107 --language english -p
 
 Never use tabs, instead use 4 spaces
 
-Always run `make lint` before commiting a change.
-
 Never push to the master. Push to another branch, than create a pull request.
 
 Wait, until your change is reviewed by at least 1 other person. There will never be a super urgent change.
