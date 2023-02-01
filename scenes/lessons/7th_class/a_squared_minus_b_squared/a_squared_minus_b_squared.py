@@ -242,4 +242,5 @@ class CalculateASquaredMinusBSquared(FormulaModificationsScene):
 class ASquaredMinusBSquared(Scene):
     def construct(self):
         DrawASquaredMinusBSquared.construct(self)
+        self.remove(*self.mobjects)
         CalculateASquaredMinusBSquared.construct(self)
