@@ -2,7 +2,7 @@ from manim import *
 
 class OneBoyOneGirl(Scene):
     def construct(self):
-        
+
         # Write names of boys in on column and names of girls in other column
         boys = VGroup(
             Tex('Հայկ'),
@@ -41,7 +41,11 @@ class OneBoyOneGirl(Scene):
             self.play(GrowArrow(arr))
             self.wait(0.5)
 
-        first_group = VGroup(boys[0].copy(), arrows[0].copy(), girls.copy()).scale(0.65).to_corner(DL, 0.75)
+        first_boy_copies = VGroup(*[boys[0].copy() for _ in range(4)])
+        first_boy_copies.arrange(DOWN, aligned_edge=LEFT).match_height(girls).shift(2 * LEFT).to_edge(UP)
+        first_arrows = VGroup(*[Arrow(start=first_boy_copies[i].get_right(), end=girls[i].get_left()) for i in range(4)])
+        first_group = VGroup(first_boy_copies, first_arrows, girls.copy())
+        first_group.scale(0.65).to_corner(DL, 0.75)
         surr_rect_1 = SurroundingRectangle(first_group, RED)
 
         self.play(ReplacementTransform(VGroup(boys[0], arrows[0], girls).copy(), first_group))
@@ -62,7 +66,11 @@ class OneBoyOneGirl(Scene):
             self.play(GrowArrow(arr))
             self.wait(0.5)
 
-        second_group = VGroup(boys[1].copy(), arrows[1].copy(), girls.copy()).scale(0.65).to_edge(DOWN, 0.75)
+        second_boy_copies = VGroup(*[boys[1].copy() for _ in range(4)])
+        second_boy_copies.arrange(DOWN, aligned_edge=LEFT).match_height(girls).shift(2 * LEFT).to_edge(UP)
+        second_arrows = VGroup(*[Arrow(start=second_boy_copies[i].get_right(), end=girls[i].get_left()) for i in range(4)])
+        second_group = VGroup(second_boy_copies, second_arrows, girls.copy())
+        second_group.scale(0.65).to_edge(DOWN, 0.75)
         surr_rect_2 = SurroundingRectangle(second_group, BLUE)
 
         self.play(ReplacementTransform(VGroup(boys[1], arrows[1], girls).copy(), second_group))
@@ -83,7 +91,11 @@ class OneBoyOneGirl(Scene):
             self.play(GrowArrow(arr))
             self.wait(0.5)
 
-        third_group = VGroup(boys[2].copy(), arrows[2].copy(), girls.copy()).scale(0.65).to_corner(DR, 0.75)
+        third_boy_copies = VGroup(*[boys[2].copy() for _ in range(4)])
+        third_boy_copies.arrange(DOWN, aligned_edge=LEFT).match_height(girls).shift(2 * LEFT).to_edge(UP)
+        third_arrows = VGroup(*[Arrow(start=third_boy_copies[i].get_right(), end=girls[i].get_left()) for i in range(4)])
+        third_group = VGroup(third_boy_copies, third_arrows, girls.copy())
+        third_group.scale(0.65).to_corner(DR, 0.75)
         surr_rect_3 = SurroundingRectangle(third_group, ORANGE)
 
         self.play(ReplacementTransform(VGroup(boys[2], arrows[2], girls).copy(), third_group))
@@ -121,5 +133,8 @@ class OneBoyOneGirl(Scene):
         for tex in calculation[5:]:
             self.play(Write(tex, run_time=0.75))
             self.wait(0.5)
-        
+
+        self.play(FadeOut(calculation[:6]))
+        self.wait()
+        self.play(boys.animate.set_color(WHITE))
         self.wait()
