@@ -226,6 +226,34 @@ svg_defaults.add_prefix_default(
     'syun_',
     {'folder': path_to_SVG / 'syun'}
 )
+svg_defaults.add_default(
+    'bananas_with_box',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'apples_with_box',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'tray_with_fruits',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'trays_with_fruits',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'bananas',
+    {'folder': path_to_SVG / "fruits"}
+)
+svg_defaults.add_default(
+    'green_apples',
+    {'folder': path_to_SVG / 'fruits'}
+)
+svg_defaults.add_default(
+    'fruits_for_tray',
+    {'folder': path_to_SVG / 'fruits'}
+)
 svg_defaults.add_prefix_default(
     'flag_finish_',
     {'folder': path_to_SVG / 'flag_finish'}
