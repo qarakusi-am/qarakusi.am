@@ -1,6 +1,6 @@
 from manim import Scene, MathTex, Write, Transform, ReplacementTransform, VGroup, Indicate, Tex, FadeOut
-from manim import LEFT, DOWN, UP, ORIGIN, RIGHT, UL
-from manim import YELLOW, WHITE
+from manim import LEFT, DOWN, UP, ORIGIN, RIGHT
+from manim import YELLOW
 from objects import SimpleSVGMobject
 from .text import *
 
@@ -47,7 +47,7 @@ class Problem11111(Scene):
             ReplacementTransform(task[2].copy(), egg_cartons8)
         )
         self.wait()
-        egg_cartons8_tex = Tex("$8$", " տուփ", font_size=SMALL_FONT_SIZE)
+        egg_cartons8_tex = Tex("$8$", carton_str, font_size=SMALL_FONT_SIZE)
         egg_cartons8_tex.next_to(egg_cartons8, DOWN)
         self.play(Write(egg_cartons8_tex))
         self.wait()
@@ -56,7 +56,7 @@ class Problem11111(Scene):
             ReplacementTransform(task[6].copy(), egg_cartons12)
         )
         self.wait()
-        egg_cartons12_tex = Tex("$12$", " տուփ", font_size=SMALL_FONT_SIZE)
+        egg_cartons12_tex = Tex("$12$", carton_str, font_size=SMALL_FONT_SIZE)
         egg_cartons12_tex.next_to(egg_cartons12, DOWN)
         self.play(Write(egg_cartons12_tex))
         self.wait()
@@ -79,7 +79,7 @@ class Problem11111(Scene):
                 egg_cartons12_tex
             ).animate.shift(LEFT*2.6)
         )
-        total_egg_cartons_tex = Tex("$= 20$ տուփ", font_size=SMALL_FONT_SIZE)
+        total_egg_cartons_tex = Tex("$= 20$", carton_str, font_size=SMALL_FONT_SIZE)
         total_egg_cartons_tex.next_to(egg_cartons12_tex)
         self.play(Write(total_egg_cartons_tex))
         self.wait()
