@@ -234,6 +234,14 @@ svg_defaults.add_prefix_default(
     'flag_meet_',
     {'folder': path_to_SVG / 'flag_meet'}
 )
+svg_defaults.add_prefix_default(
+    'egg_carton_',
+    {'folder': path_to_SVG / 'eggs'}
+)
+svg_defaults.add_default(
+    'empy_egg_carton',
+    {'folder': path_to_SVG / 'eggs'}
+)
 
 
 class SimpleSVGMobject(VMobject):
