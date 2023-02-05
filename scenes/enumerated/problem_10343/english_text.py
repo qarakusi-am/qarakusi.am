@@ -1,3 +1,5 @@
 taskNumberString = "P. 10343"
-remainder_str = "REM" # I'm not sure this is correct
+remainder_str = "REM"
 quantity_str = "Quantity"
+tray_str = "tray"
+fruit_str = "Fruit"

@@ -182,10 +182,10 @@ class Problem10343(Scene):
             ],
             col_labels=[
                 Tex(quantity_str),
-                Tex("սկուտեղ"),
+                Tex(tray_str),
                 SimpleSVGMobject("trays_with_fruits").scale(.7)
             ],
-            top_left_entry=Tex("Միրգ"),
+            top_left_entry=Tex(fruit_str),
             include_outer_lines=True,
             v_buff=.55,
             h_buff=.65
