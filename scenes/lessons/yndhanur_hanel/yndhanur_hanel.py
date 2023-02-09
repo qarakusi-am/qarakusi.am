@@ -1,4 +1,4 @@
-from manim import Scene, MathTex, Write, Transform, ReplacementTransform, VGroup, Indicate, Tex, FadeOut
+from manim import Scene, MathTex, Write, Transform, ReplacementTransform, VGroup, Indicate, Tex, FadeOut, AnimationGroup
 from manim import LEFT, DOWN, UP, ORIGIN, RIGHT
 from manim import YELLOW
 from objects import SimpleSVGMobject
@@ -7,7 +7,7 @@ from .text import *
 FONT_SIZE = 175
 SMALL_FONT_SIZE = 100
 
-class Problem11111(Scene):
+class Yndhanur_hanel(Scene):
     def construct(self):
         self.wait()
 
@@ -63,22 +63,20 @@ class Problem11111(Scene):
 
         plus_tex = MathTex("+", font_size=SMALL_FONT_SIZE)
         plus_tex.move_to(VGroup(egg_cartons8_tex, egg_cartons12_tex).get_center())
+        plus_tex.next_to(egg_cartons8_tex).shift(LEFT)
         self.play(
-            Write(plus_tex),
-            egg_cartons8_tex.animate.next_to(plus_tex, LEFT),
-            egg_cartons12_tex.animate.next_to(plus_tex, RIGHT),
-            egg_cartons8.animate.next_to(egg_cartons12, LEFT, buff=1.35),
-            egg_cartons12.animate.next_to(egg_cartons8, buff=1.35)
+            AnimationGroup(
+                AnimationGroup(   
+                    egg_cartons12_tex.animate.next_to(plus_tex, RIGHT),
+                    egg_cartons8.animate.next_to(egg_cartons12, LEFT, buff=1.35),
+                    egg_cartons12.animate.next_to(egg_cartons8, buff=1.35),
+                    egg_cartons8_tex.animate.shift(LEFT)
+                ),
+                Write(plus_tex),
+                lag_ratio=.6
+            )
         )
-        self.wait()
 
-        self.play(
-            VGroup(
-                egg_cartons8_tex,
-                plus_tex,
-                egg_cartons12_tex
-            ).animate.shift(LEFT*2.6)
-        )
         total_egg_cartons_tex = Tex("$= 20$", carton_str, font_size=SMALL_FONT_SIZE)
         total_egg_cartons_tex.next_to(egg_cartons12_tex)
         self.play(Write(total_egg_cartons_tex))
