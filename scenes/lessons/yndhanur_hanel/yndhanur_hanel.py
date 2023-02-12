@@ -1,13 +1,14 @@
-from manim import Scene, MathTex, Write, Transform, ReplacementTransform, VGroup, Indicate, Tex, FadeOut, AnimationGroup
+from manim import Scene, MathTex, Write, Transform, ReplacementTransform, VGroup, Indicate, Tex, FadeOut, AnimationGroup, SurroundingRectangle, Create
 from manim import LEFT, DOWN, UP, ORIGIN, RIGHT
-from manim import YELLOW
+from manim import YELLOW, GREEN
 from objects import SimpleSVGMobject
+from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from .text import *
 
 FONT_SIZE = 175
 SMALL_FONT_SIZE = 100
 
-class Yndhanur_hanel(Scene):
+class Yndhanur_hanel(FormulaModificationsScene):
     def construct(self):
         self.wait()
 
@@ -66,7 +67,7 @@ class Yndhanur_hanel(Scene):
         plus_tex.next_to(egg_cartons8_tex).shift(LEFT)
         self.play(
             AnimationGroup(
-                AnimationGroup(   
+                AnimationGroup(
                     egg_cartons12_tex.animate.next_to(plus_tex, RIGHT),
                     egg_cartons8.animate.next_to(egg_cartons12, LEFT, buff=1.35),
                     egg_cartons12.animate.next_to(egg_cartons8, buff=1.35),
@@ -122,6 +123,8 @@ class Yndhanur_hanel(Scene):
         tex1 = MathTex("(", "8", "+", "12", ")", font_size=FONT_SIZE).scale(.65)
         tex1.move_to(task_2nd_part[-1].get_center()).align_to(task_2nd_part[-1], LEFT).shift(DOWN*.1)
         self.play(Transform(task_2nd_part[-1], tex1))
+        self.add(tex1)
+        self.remove(task_2nd_part[-1])
         self.wait()
         
         temp1 = task_2nd_part[0].copy().move_to(task[0].get_center())
@@ -130,7 +133,102 @@ class Yndhanur_hanel(Scene):
             Transform(task[0], temp1),
             Transform(task[4], temp2),
             ReplacementTransform(egg_carton3, task_2nd_part[0]),
-            ReplacementTransform(egg_carton3, task_2nd_part[0])
+            ReplacementTransform(egg_carton3, task_2nd_part[0]),
+            FadeOut(egg_cartons8_tex, plus_tex, egg_cartons12_tex, total_egg_cartons_tex),
+            equal.animate.shift(RIGHT*.18),
+            task_2nd_part[1].animate.shift(LEFT*.18)
         )
+        self.wait()
+        
+        self.play(
+            VGroup(
+                task,
+                equal,
+                task_2nd_part[:-1],
+                tex1
+            ).animate.move_to(ORIGIN)
+        )
+        self.wait()
+
+        self.play(
+            Indicate(task[0]),
+            Indicate(task[4]),
+            Indicate(task_2nd_part[0])
+        )
+        self.wait()
+
+        self.fix_formula(task)
+        self.play(
+            ModifyFormula(
+                task,
+                replace_items=[[0], [4]],
+                replace_items_strs=[["a"], ["a"]],
+                replace_items_colors=[[YELLOW], [YELLOW]]
+            ),
+            Transform(
+                task_2nd_part[0],
+                MathTex("a", font_size=FONT_SIZE, color=YELLOW).scale(.7).move_to(task_2nd_part[0].get_center()).shift(DOWN*.1)
+            )
+        )
+        self.wait()
+
+        self.play(
+            Indicate(task[2]),
+            Indicate(tex1[1])
+        )
+        self.wait()
+        
+        self.fix_formula(task)
+        self.fix_formula(tex1)
+        self.play(
+            ModifyFormula(
+                task,
+                replace_items=[[2]],
+                replace_items_strs=[["b"]]
+            ),
+            ModifyFormula(
+                tex1,
+                replace_items=[[1]],
+                replace_items_strs=[["b"]]
+            )
+        )
+        self.wait()
+
+        self.play(
+            Indicate(task[-1]),
+            Indicate(tex1[-2])
+        )
+        self.wait()
+        
+        self.fix_formula(task)
+        self.fix_formula(tex1)
+
+        self.play(
+            ModifyFormula(
+                task,
+                replace_items=[[6]],
+                replace_items_strs=[["c"]]
+            ),
+            ModifyFormula(
+                tex1,
+                replace_items=[[3]],
+                replace_items_strs=[["c"]]
+            ),
+            equal.animate.shift(DOWN*.1 + LEFT*.35)
+        )
+        self.wait()
+
+        formula = VGroup(
+            task,
+            equal,
+            task_2nd_part[:2],
+            tex1
+        )
+
+        self.play(
+            formula.animate.move_to(ORIGIN)
+        )
+        srr_rect = SurroundingRectangle(formula, GREEN, buff=.25)
+        self.play(Create(srr_rect))
 
         self.wait(2)
