@@ -27,6 +27,18 @@ FOR WINDOWS:
 $env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10107 --language english -pql
 ```
 
+### Fix scripts
+
+Run the following to make a small fix in your manim:
+```
+python scripts/manim_fix.py
+```
+
+Run the following command on your svg file to make partial fixes (e.g. remove empty polynoms):
+```
+python scripts/svg_fixer.py path/to/my_svg_file.svg
+```
+
 ### Golden rules
 
 Never use tabs, instead use 4 spaces
