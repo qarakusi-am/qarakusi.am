@@ -4,11 +4,3 @@ if LanguageConfig.is_armenian():
     from .armenian_text import *
 else:
     from .english_text import *
-
-__all__ = [
-    "taskNumberString",
-    "remainder_str",
-    "quantity_str",
-    "tray_str",
-    "fruit_str"
-]

@@ -7,8 +7,5 @@ else:
 
 __all__ = [
     "taskNumberString",
-    "remainder_str",
-    "quantity_str",
-    "tray_str",
-    "fruit_str"
+    "carton_str"
 ]
