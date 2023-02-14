@@ -2,6 +2,7 @@ import os
 import subprocess
 from pathlib import Path
 from argparse import ArgumentParser
+from scripts.manim_fix import main as manim_fix
 
 
 def parse_args():
@@ -31,4 +32,5 @@ def main(args):
 
 
 if __name__ == '__main__':
+    manim_fix()
     main(parse_args())
