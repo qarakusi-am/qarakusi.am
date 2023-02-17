@@ -11,9 +11,7 @@ class ReducingFraction(Scene):
         self.wait()
         
         def getFractionsOnCircle(fraction, circle, color=ORANGE, number_of_sectors=1, stroke_width=5, stroke_color=BLACK, numbering=False, numbering_font_size=None, start_angle=0):
-            """
-            make sure your circle has the same stroke_width and stroke_color as your segments
-            """
+            """make sure your circle has the same stroke_width and stroke_color as your sectors"""
 
             sectors = VGroup()
             if numbering:
