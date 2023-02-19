@@ -271,11 +271,7 @@ svg_defaults.add_default(
     {'folder': path_to_SVG / 'eggs'}
 )
 svg_defaults.add_prefix_default(
-    'pizza_full_',
-    {'folder': path_to_SVG / 'pizza'}
-)
-svg_defaults.add_prefix_default(
-    'pizza_peace_',
+    'pizza_',
     {'folder': path_to_SVG / 'pizza'}
 )
 
