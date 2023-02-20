@@ -1,5 +1,5 @@
 from manim import FadeIn
-from manim import Axes, NumberPlane
+from manim import NumberPlane
 from manim import Scene
 from manim import TEAL
 
