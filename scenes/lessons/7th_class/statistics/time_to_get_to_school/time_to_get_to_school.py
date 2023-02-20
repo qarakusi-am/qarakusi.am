@@ -10,7 +10,7 @@ from . import text
 from .text import *
 UNIT = 0.27
 
-class Problem11111(Scene):
+class TimeToGetToSchool(Scene):
     def construct(self):
         self.set_up()
 

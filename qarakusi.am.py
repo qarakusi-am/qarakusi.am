@@ -82,6 +82,7 @@ def render(
                 '/', '.')
             if file_path.endswith('.py'):
                 file_path = file_path[:-3]
+            print(file_path)
             if not file_path.startswith('scenes.'):
                 raise ValueError('Invalid file path given')
             scene = load_scene(importlib.import_module(file_path), scene_class, True)
