@@ -12,7 +12,6 @@ class CustomScene(Scene):
                                                    "stroke_width": 2,
                                                    "stroke_opacity": 0.1}
                             ).set_opacity(0.2)
-        Axes().set_opacity(0.3)
         self.add(plane)
 
     def add_task_number(self, text):
