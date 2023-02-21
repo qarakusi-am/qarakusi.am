@@ -270,6 +270,10 @@ svg_defaults.add_default(
     'empty_egg_carton',
     {'folder': path_to_SVG / 'eggs'}
 )
+svg_defaults.add_prefix_default(
+    'pizza_',
+    {'folder': path_to_SVG / 'pizza'}
+)
 
 
 class SimpleSVGMobject(VMobject):
