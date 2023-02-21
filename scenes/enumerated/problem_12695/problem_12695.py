@@ -5,9 +5,9 @@ from manim import Line, MathTex
 from manim import rate_functions, always_redraw, ValueTracker, Indicate
 from manim import ORANGE
 
-from .helpers.helper_functions import brace_with_text, obj_movement
-from .helpers.coordinate import Coordinate
-from .helpers.custom_scene import CustomScene
+from lib.helpers import brace_with_text, obj_movement
+from lib.helpers import Coordinate
+from lib.helpers import CustomScene
 from lib.constants import DEFAULT_SEGMENT_STROKE_WIDTH
 from lib.segment import Segment, SegmentEndmark
 from objects import SimpleSVGMobject
