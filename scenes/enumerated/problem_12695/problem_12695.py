@@ -5,35 +5,32 @@ from manim import Line, MathTex
 from manim import rate_functions, always_redraw, ValueTracker, Indicate
 from manim import ORANGE
 
-from lib.helpers import brace_with_text, obj_movement
-from lib.helpers import Coordinate
-from lib.helpers import CustomScene
-from lib.constants import DEFAULT_SEGMENT_STROKE_WIDTH
-from lib.segment import Segment, SegmentEndmark
+from movement_problems import brace_with_text, obj_movement
+from movement_problems import Coordinate, CustomMovementScene
+from constants import DEFAULT_SEGMENT_STROKE_WIDTH
+from segment import Segment, SegmentEndmark
 from objects import SimpleSVGMobject
 from . import text
 
 
-class Problem12695(CustomScene):
+class Problem12695(CustomMovementScene):
+    """
+        Մեքենան անցավ ամբողջ ճանապարհի 2/5
+        մասը, որից հետո մնաց գնալու 126 կմ։
+        Գտնել ամբողք ճանապարհի երկարությունը։
+    """
     def construct(self):
-        """Մեքենան անցավ ամբողջ ճանապարհի 2/5
-           մասը, որից հետո մնաց գնալու 126 կմ։
-           Գտնել ամբողք ճանապարհի երկարությունը։"""
-
+        # -------------- Base ------------ #
         coord_y = -1
         start_point = [-5.55, coord_y, 0]
         end_point = [6.63, coord_y, 0]
 
-        coordinate = Coordinate(start_point, end_point, coord_y)
+        coordinate = Coordinate(start_point, end_point)
 
-        flag_point_1 = coordinate.get_point_by_percent_on_segment(percent=20)
-        flag_point_2 = coordinate.get_point_by_percent_on_segment(percent=40)
-        flag_point_3 = coordinate.get_point_by_percent_on_segment(percent=60)
-        flag_point_4 = coordinate.get_point_by_percent_on_segment(percent=80)
+        flag_point_1, flag_point_2, flag_point_3, flag_point_4 = coordinate.divide_segment_into_equal_parts(5)
         half_3_part = coordinate.get_point_by_percent_on_segment(percent=50)
         half_4_part = coordinate.get_point_by_percent_on_segment(percent=70)
         half_5_part = coordinate.get_point_by_percent_on_segment(percent=90)
-
 
         condition_point = [0, 3.45, 0]
 
