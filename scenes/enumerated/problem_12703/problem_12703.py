@@ -77,26 +77,22 @@ class Problem12703(FormulaModificationsScene):
 
         self.fix_formula(equality1)
         self.wait()
-
-        self.play(ModifyFormula(equality1, replace_items=[[7]], replace_items_strs=[['$($','$2$','$x$','$)$']]),
-                  equality1[7:11].animate.set_color(RED),
-                  equality1[11].animate.set_color(WHITE))
+        equality1[11].animate.set_color(WHITE)
+        self.play(ModifyFormula(equality1, replace_items=[[7]], replace_items_strs=[['$($','$2$','$x$','$)$']],
+                                replace_items_colors=[ [RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality1, replace_items=[[14]],replace_items_strs=[[r'$\cdot$', '$2$', '$x$']]),
-                  equality1[12:15].animate.set_color(WHITE),
-                  equality1[15:17].animate.set_color(RED))
+        equality1[12:15].set_color(WHITE)
+        self.play(ModifyFormula(equality1, replace_items=[[14]],replace_items_strs=[[r'$\cdot$', '$2$', '$x$']],replace_items_colors=[ [WHITE,RED,RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality1, replace_items=[[17]],  replace_items_strs=[[r'$\cdot$', '$y$']]),
-                  equality1[17].animate.set_color(WHITE),
-                  equality1[18].animate.set_color(BLUE))
+        self.play(ModifyFormula(equality1, replace_items=[[17]],  replace_items_strs=[[r'$\cdot$', '$y$']],replace_items_colors=[ [WHITE,BLUE]]))
 
         self.wait(0.5)
-        self.play(ModifyFormula(equality1, replace_items=[[20]],replace_items_strs=[[ '$y$']]),
-                  equality1[19].animate.set_color(WHITE),
-                  equality1[20].animate.set_color(BLUE),
-                  equality1[21].animate.set_color(WHITE))
+        equality1[19].set_color(WHITE)
+        equality1[21].set_color(WHITE)
+
+        self.play(ModifyFormula(equality1, replace_items=[[20]],replace_items_strs=[[ '$y$']],replace_items_colors=[ [BLUE]]))
 
         self.wait()
         product_power_prop1=product_power_prop.copy()
@@ -160,29 +156,23 @@ class Problem12703(FormulaModificationsScene):
         equality2[8].set_color(WHITE)
 
         self.wait()
-        self.play(ModifyFormula(equality2, replace_items=[[7]], replace_items_strs=[['$($', '$2$', '$m$', '$)$']]),
-                  equality2[7:11].animate.set_color(RED),
-                  equality2[11].animate.set_color(WHITE))
+        self.play(ModifyFormula(equality2, replace_items=[[7]], replace_items_strs=[['$($', '$2$', '$m$', '$)$']],replace_items_colors=[[RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality2, replace_items=[[14]], replace_items_strs=[[r'$\cdot$', '$2$', '$m$']]),
-                  equality2[12:15].animate.set_color(WHITE),
-                  equality2[15:17].animate.set_color(RED))
+        equality2[12:15].set_color(WHITE)
+        self.play(ModifyFormula(equality2, replace_items=[[14]], replace_items_strs=[[r'$\cdot$', '$2$', '$m$']],replace_items_colors=[[WHITE,RED,RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality2, replace_items=[[17]], replace_items_strs=[[r'$\cdot$', '$3$','$n$']]),
-                  equality2[17].animate.set_color(WHITE),
-                  equality2[18:20].animate.set_color(BLUE))
+        self.play(ModifyFormula(equality2, replace_items=[[17]], replace_items_strs=[[r'$\cdot$', '$3$','$n$']],replace_items_colors=[[WHITE,BLUE,BLUE]]))
 
         self.wait(0.5)
-        self.play(ModifyFormula(equality2, replace_items=[[21]], replace_items_strs=[['$($', '$3$', '$n$', '$)$']]),
-                  equality2[20].animate.set_color(WHITE),
-                  equality2[21:25].animate.set_color(BLUE),
-                  equality2[25].animate.set_color(WHITE),)
+        equality2[20].set_color(WHITE)
+        equality2[22].set_color(WHITE)
+        self.play(ModifyFormula(equality2, replace_items=[[21]], replace_items_strs=[['$($', '$3$', '$n$', '$)$']],replace_items_colors=[ [BLUE,BLUE,BLUE,BLUE]]))
 
         self.wait()
         self.play(ModifyFormula(equality2, replace_items=[[7, 8, 9, 10]], replace_items_strs=[['$4$', '$m$']]))
-        self.wait(3)
+        self.wait(2)
 
         self.rearrange_formula(
             equality2, new_sequence=[*range(14), 15, 16, 14,*range(17,24)], move_down=[15, 16]
@@ -248,25 +238,19 @@ class Problem12703(FormulaModificationsScene):
         equality3[8].set_color(WHITE)
 
         self.wait()
-        self.play(ModifyFormula(equality3, replace_items=[[7]], replace_items_strs=[['$($', '$x$', '$^5$', '$)$']]),
-                  equality3[7:11].animate.set_color(RED),
-                  equality3[11].animate.set_color(WHITE))
+        self.play(ModifyFormula(equality3, replace_items=[[7]], replace_items_strs=[['$($', '$x$', '$^5$', '$)$']],replace_items_colors=[[RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality3, replace_items=[[14]], replace_items_strs=[[r'$\cdot$', '$x$', '$^5$']]),
-                  equality3[12:15].animate.set_color(WHITE),
-                  equality3[15:17].animate.set_color(RED))
+        equality3[12:15].set_color(WHITE)
+        self.play(ModifyFormula(equality3, replace_items=[[14]], replace_items_strs=[[r'$\cdot$', '$x$', '$^5$']],replace_items_colors=[[WHITE,RED,RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality3, replace_items=[[17]], replace_items_strs=[[r'$\cdot$', '$4$', '$y$']]),
-                  equality3[17].animate.set_color(WHITE),
-                  equality3[18:20].animate.set_color(BLUE))
+        self.play(ModifyFormula(equality3, replace_items=[[17]], replace_items_strs=[[r'$\cdot$', '$4$', '$y$']],replace_items_colors=[[WHITE,BLUE,BLUE]]))
 
         self.wait(0.5)
-        self.play(ModifyFormula(equality3, replace_items=[[21]], replace_items_strs=[['$($', '$4$', '$y$', '$)$']]),
-                  equality3[20].animate.set_color(WHITE),
-                  equality3[21:25].animate.set_color(BLUE),
-                  equality3[25].animate.set_color(WHITE), )
+        equality3[20].set_color(WHITE)
+        equality3[22].set_color(WHITE)
+        self.play(ModifyFormula(equality3, replace_items=[[21]], replace_items_strs=[['$($', '$4$', '$y$', '$)$']],replace_items_colors=[[BLUE,BLUE,BLUE,BLUE]]))
 
         self.wait()
         power_of_power_prop1 = power_of_power_prop.copy()
@@ -357,26 +341,20 @@ class Problem12703(FormulaModificationsScene):
 
 
         self.wait()
-        self.play(ModifyFormula(equality4, replace_items=[[7]], replace_items_strs=[['$($', '$2$','$a$', '$^2$', '$)$']]),
-                  equality4[7:12].animate.set_color(RED),
-                  equality4[12].animate.set_color(WHITE))
+        self.play(ModifyFormula(equality4, replace_items=[[7]], replace_items_strs=[['$($', '$2$','$a$', '$^2$', '$)$']],replace_items_colors=[[RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality4, replace_items=[[15]], replace_items_strs=[[r'$\cdot$', '$2$', '$a$','$^2$']]),
-                  equality4[13:16].animate.set_color(WHITE),
-                  equality4[16:19].animate.set_color(RED))
+        equality4[13:15].set_color(WHITE)
+        self.play(ModifyFormula(equality4, replace_items=[[15]], replace_items_strs=[[r'$\cdot$', '$2$', '$a$','$^2$']],replace_items_colors=[[WHITE,RED,RED,RED]]))
         self.wait(0.5)
 
-        self.play(ModifyFormula(equality4, replace_items=[[19]], replace_items_strs=[[r'$\cdot$', '$3$', '$a$','$c$']]),
-                  equality4[19].animate.set_color(WHITE),
-                  equality4[20:23].animate.set_color(BLUE))
+        self.play(ModifyFormula(equality4, replace_items=[[19]], replace_items_strs=[[r'$\cdot$', '$3$', '$a$','$c$']],replace_items_colors=[[WHITE,BLUE,BLUE,BLUE]]))
 
         self.wait(0.5)
-        self.play(ModifyFormula(equality4, replace_items=[[24]], replace_items_strs=[['$($', '$3$', '$a$','$c$', '$)$']]),
-                  equality4[23].animate.set_color(WHITE),
-                  equality4[24:29].animate.set_color(BLUE),
-                  equality4[29].animate.set_color(WHITE), )
 
+        equality4[23].set_color(WHITE)
+        equality4[25].set_color(WHITE)
+        self.play(ModifyFormula(equality4, replace_items=[[24]], replace_items_strs=[['$($', '$3$', '$a$','$c$', '$)$']],replace_items_colors=[[BLUE,BLUE,BLUE,BLUE,BLUE]]))
 
         self.wait()
         product_power_prop1 = product_power_prop.copy()

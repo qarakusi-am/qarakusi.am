@@ -67,47 +67,47 @@ class AttendancePerWeekday(Scene):
         week_days=[Tex(text.monday),Tex(text.tuesday),Tex(text.wednesday),Tex(text.thursday),Tex(text.friday),
                    Tex(text.monday),Tex(text.tuesday),Tex(text.wednesday),Tex(text.thursday),Tex(text.friday)]
         self.play(ReplacementTransform(days[0][0],week_days[0].scale(scale_factor).next_to(days[0][1],LEFT)))
-        # self.play(Wiggle(week_days[0],n_wiggles=0,scale_value=1.2,run_time=3))
-        # self.wait()
-        # self.play(FadeOut(brace,consequence_days))
-        # self.wait()
-        # self.play(AnimationGroup(*[ReplacementTransform(days[i][0],week_days[i].scale(scale_factor).next_to(days[i][1],LEFT)) for i in range(1,len(days))]))
-        # self.wait()
-        #
-        # self.play(data[5][1][0].animate.next_to(data[0][1][0],RIGHT))
-        # self.play(
-        #     AnimationGroup(
-        #     days[5][1].animate.set_opacity(0),
-        #     data[5][1][0].animate.set_opacity(0),
-        #     week_days[5].animate.set_color(BLACK).set_opacity(0),
-        #     data[0][1].animate.set_color(WHITE),
-        #     )
-        # )
-        # self.play(AnimationGroup(*[data[i][1][0].animate.next_to(data[i-int(len(days)/2)][1][0],RIGHT) for i in range(int(len(days)/2)+1,len(days))]))
-        #
-        # self.play(AnimationGroup(*[AnimationGroup(
-        #     days[i][1].animate.set_opacity(0),
-        #     data[i][1][0].animate.set_opacity(0),
-        #     week_days[i].animate.set_color(BLACK).set_opacity(0),
-        #     data[len(days)-i][1].animate.set_color(WHITE)) for i in range(int(len(days)/2)+1,len(days))]))
-        #
-        # self.play(AnimationGroup(*[data[i][0].animate.remove(days[i][1]) for i in range(int(len(days)/2))]))
-        # table1.get_horizontal_lines().set_opacity(1)
-        # table1.get_vertical_lines().set_opacity(1)
-        #
-        # self.wait()
-        # for i in range(0, 5):
-        #     week_days[i].set_opacity(0.4)
-        #
-        # self.play(
-        #     AnimationGroup(
-        #         table1.animate.set_opacity(0.4)
-        # ))
-        # table1.get_rows()[3].set_opacity(1)
-        # self.wait(4)
-        #
-        # self.play(table1.animate.set_opacity(1))
-        # self.wait(2)
+        self.play(Wiggle(week_days[0],n_wiggles=0,scale_value=1.2,run_time=3))
+        self.wait()
+        self.play(FadeOut(brace,consequence_days))
+        self.wait()
+        self.play(AnimationGroup(*[ReplacementTransform(days[i][0],week_days[i].scale(scale_factor).next_to(days[i][1],LEFT)) for i in range(1,len(days))]))
+        self.wait()
+
+        self.play(data[5][1][0].animate.next_to(data[0][1][0],RIGHT))
+        self.play(
+            AnimationGroup(
+            days[5][1].animate.set_opacity(0),
+            data[5][1][0].animate.set_opacity(0),
+            week_days[5].animate.set_color(BLACK).set_opacity(0),
+            data[0][1].animate.set_color(WHITE),
+            )
+        )
+        self.play(AnimationGroup(*[data[i][1][0].animate.next_to(data[i-int(len(days)/2)][1][0],RIGHT) for i in range(int(len(days)/2)+1,len(days))]))
+
+        self.play(AnimationGroup(*[AnimationGroup(
+            days[i][1].animate.set_opacity(0),
+            data[i][1][0].animate.set_opacity(0),
+            week_days[i].animate.set_color(BLACK).set_opacity(0),
+            data[len(days)-i][1].animate.set_color(WHITE)) for i in range(int(len(days)/2)+1,len(days))]))
+
+        self.play(AnimationGroup(*[data[i][0].animate.remove(days[i][1]) for i in range(int(len(days)/2))]))
+        table1.get_horizontal_lines().set_opacity(1)
+        table1.get_vertical_lines().set_opacity(1)
+
+        self.wait()
+        for i in range(0, 5):
+            week_days[i].set_opacity(0.4)
+
+        self.play(
+            AnimationGroup(
+                table1.animate.set_opacity(0.4)
+        ))
+        table1.get_rows()[3].set_opacity(1)
+        self.wait(4)
+
+        self.play(table1.animate.set_opacity(1))
+        self.wait(2)
 
     def set_up(self, add = False):
         self.text = text
