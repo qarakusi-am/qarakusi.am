@@ -1,5 +1,18 @@
 from manim import *
 from hanrahashiv import ModifyFormula, FormulaModificationsScene
+from segment import ConnectionLine
+
+def get_top_left(mob : Mobject):
+    return np.array([mob.get_left()[0], mob.get_top()[1], 0])
+
+def get_top_right(mob : Mobject):
+    return np.array([mob.get_right()[0], mob.get_top()[1], 0])
+
+def get_bottom_left(mob : Mobject):
+    return np.array([mob.get_left()[0], mob.get_bottom()[1], 0])
+
+def get_bottom_right(mob : Mobject):
+    return np.array([mob.get_right()[0], mob.get_bottom()[1], 0])
 
 class DrawASquaredMinusBSquared(Scene):
     def construct(self):
@@ -61,20 +74,6 @@ class DrawASquaredMinusBSquared(Scene):
         )
         self.wait()
 
-        self.play(side_b_right.animate.shift([-b-0.1, -0.05, 0]))
-        self.wait(0.25)
-        self.play(side_b_down.animate.shift([0.05, b+0.1, 0]))
-        self.wait()
-
-        # write S = a^2-b^2 in top left corner
-        s_equals_difference = Tex('$S$', ' $=$ ', '$a^2$', '$-$', '$b^2$', font_size=70)
-        s_equals_difference.to_corner(UL).shift(0.5 * DOWN)
-
-        self.play(Write(s_equals_difference[:2]))
-        self.wait(0.1)
-        self.play(ReplacementTransform(area_polygon[0:3], s_equals_difference[2:5]))
-        self.wait()
-
         # brace sides of polygon with length a-b
         # right side
         brace_right = BraceBetweenPoints(ur, rm, RIGHT)
@@ -91,6 +90,9 @@ class DrawASquaredMinusBSquared(Scene):
         )
         self.wait()
 
+        self.play(side_b_right.animate.shift([-b-0.1, -0.05, 0]))
+        self.wait(0.25)
+
         # down side
         brace_down = BraceBetweenPoints(dl, dm, DOWN)
         side_a_minus_b_down = Tex('$a$$-$$b$', font_size=70)
@@ -106,12 +108,22 @@ class DrawASquaredMinusBSquared(Scene):
         )
         self.wait()
 
-        # divide polygon into a square with side a-b and 2 rectangles with sides (a-b)•b
-        vertical_dashed_line = DashedLine(mm, um)
+        self.play(side_b_down.animate.shift([0.05, b+0.1, 0]))
+        self.wait()
+
+        # write S = a^2-b^2 in top left corner
+        s_equals_difference = Tex('$S$', ' $=$ ', '$a^2$', '$-$', '$b^2$', font_size=70)
+        s_equals_difference.to_corner(UL).shift(0.25 * DOWN)
+
+        self.play(Write(s_equals_difference[:2]))
+        self.wait(0.1)
+        self.play(ReplacementTransform(area_polygon[0:3], s_equals_difference[2:5]))
+        self.wait()
+
+
+        # divide polygon into a rectangle with sides (a-b)•a and a rectangle with sides (a-b)•b
         horizontal_dashed_line = DashedLine(mm, lm)
 
-        self.play(Create(vertical_dashed_line))
-        self.wait()
         self.play(Create(horizontal_dashed_line))
         self.wait()
 
@@ -130,47 +142,44 @@ class DrawASquaredMinusBSquared(Scene):
         bottom_rectangle_with_side_lengths = VGroup(bottom_rectangle, side_a_minus_b_down, side_b_right)
 
         self.remove(difference_polygon)
-        self.add(big_rectangle, vertical_dashed_line, bottom_rectangle)
+        self.add(big_rectangle, bottom_rectangle)
 
-        # cut the bottom rectangle, move and stick to the big rectangle form the right
+        # cut the bottom rectangle, move and stick to the big rectangle
         # in the end we will have a rectangle with sides a+b and a-b
         self.play(
             bottom_rectangle_with_side_lengths.animate(rate_func=linear).shift(DOWN * 0.75),
-            FadeOut(side_a_left)
+            FadeOut(side_a_left, side_b_down)
         )
         self.wait(0.5)
-        self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).shift(RIGHT * 5.55))
+        self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).shift(LEFT * 3.5))
+        self.wait()
+        self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).align_to(big_rectangle, UP).shift((a/2-b) * DOWN))
         self.wait()
 
         self.play(
-            Rotating(bottom_rectangle, radians=PI/2, run_time=1),
-            CounterclockwiseTransform(
+            Rotating(bottom_rectangle, radians=-PI/2, run_time=1),
+            ClockwiseTransform(
                 side_b_right,
-                side_b_right.copy().move_to(bottom_rectangle).shift((a/2 - b/2 + 0.45) * UP),
-                PI/2, rate_func=linear
+                side_b_right.copy().move_to(bottom_rectangle).shift((a/2 - b/2 + 0.45) * DOWN),
+                -PI/2, rate_func=linear
             ),
-            CounterclockwiseTransform(
+            ClockwiseTransform(
                 side_a_minus_b_down,
-                side_a_minus_b_down.copy().move_to(bottom_rectangle).shift((b/2 + 0.73) * RIGHT),
-                PI/2, rate_func=linear
+                side_a_minus_b_down.copy().move_to(bottom_rectangle).shift((b/2 + 0.73) * LEFT),
+                -PI/2, rate_func=linear
             )
         )
         self.wait()
-        self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).align_to(big_rectangle, DOWN))
-        self.wait()
-        self.play(
-            bottom_rectangle_with_side_lengths.animate(rate_func=linear).next_to(big_rectangle, RIGHT, buff=0, aligned_edge=DOWN),
-            FadeOut(side_a_minus_b_right, side_b_down, vertical_dashed_line)
-        )
+        self.play(bottom_rectangle_with_side_lengths.animate(rate_func=linear).next_to(big_rectangle, LEFT, buff=0, aligned_edge=UP))
         self.wait()
 
         # remove dividing line from final rectangle and calculate the big side
-        final_rectangle = Polygon(ul, lm, rm + b * RIGHT, ur + b * RIGHT, color=GREEN, fill_opacity=0.5)
+        final_rectangle = Polygon(ur, ul + b * LEFT, lm + b * LEFT, rm, color=GREEN, fill_opacity=0.5)
         big_side = Tex('$a$', '$+$', '$b$', font_size=70).next_to(final_rectangle, UP, buff=0.2)
         small_side = side_a_minus_b_down
 
         self.play(
-            FadeOut(bottom_rectangle, big_rectangle),
+            FadeOut(bottom_rectangle, big_rectangle, side_a_minus_b_right),
             FadeIn(final_rectangle),
             ReplacementTransform(side_a_up, big_side[:1]),
             ReplacementTransform(side_b_right, big_side[2:]),
@@ -179,25 +188,25 @@ class DrawASquaredMinusBSquared(Scene):
         self.wait()
 
         # write the area of final rectangle inside of it
-        final_area = Tex('$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$', font_size=70)
+        final_area = Tex('$($', '$a$', '$-$', '$b$', '$)$', '$($', '$a$', '$+$', '$b$', '$)$', font_size=70)
         final_area.move_to(final_rectangle)
 
         self.play(
-            ReplacementTransform(big_side.copy(), final_area[1:4]),
+            ReplacementTransform(big_side.copy(), final_area[6:9]),
             Write(final_area[0]),
             Write(final_area[4]),
-            ReplacementTransform(small_side.copy(), final_area[6:9]),
+            ReplacementTransform(small_side.copy(), final_area[1:4]),
             Write(final_area[5]),
             Write(final_area[9])
         )
         self.wait()
 
         # write S = (a+b)(a-b) and fadeout final rectangle
-        s_equals_product = Tex('$S$', ' $=$ ', '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$', font_size=70)
+        s_equals_product = Tex('$S$', ' $=$ ', '$($', '$a$', '$-$', '$b$', '$)$', '$($', '$a$', '$+$', '$b$', '$)$', font_size=70)
         s_equals_product.next_to(s_equals_difference, DOWN, buff=0.75, aligned_edge=LEFT)
 
         self.play(
-            *[mob.animate.shift(RIGHT * 1.25) for mob in[final_rectangle, big_side, small_side]],
+            *[mob.animate.shift(RIGHT * 3 + DOWN) for mob in[final_rectangle, big_side, small_side]],
             Write(s_equals_product[:2]),
             ReplacementTransform(final_area, s_equals_product[2:])
         )
@@ -212,11 +221,11 @@ class CalculateASquaredMinusBSquared(FormulaModificationsScene):
         # add    S = a^2-b^2   and   S = (a+b)(a-b)    from previous scene
         s_equals_difference = Tex(
             '$S$', ' $=$ ', '$a^2$', '$-$', '$b^2$',
-            ' $=$ ', '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$',
+            ' $=$ ', '$($', '$a$', '$-$', '$b$', '$)$', '$($', '$a$', '$+$', '$b$', '$)$',
             font_size=70
         )
-        s_equals_difference.to_corner(UL).shift(0.5 * DOWN)
-        s_equals_product = Tex('$S$', ' $=$ ', '$($', '$a$', '$+$', '$b$', '$)$', '$($', '$a$', '$-$', '$b$', '$)$', font_size=70)
+        s_equals_difference.to_corner(UL).shift(0.25 * DOWN)
+        s_equals_product = Tex('$S$', ' $=$ ', '$($', '$a$', '$-$', '$b$', '$)$', '$($', '$a$', '$+$', '$b$', '$)$', font_size=70)
         s_equals_product.next_to(s_equals_difference[:5], DOWN, buff=0.75, aligned_edge=LEFT)
         self.add(s_equals_difference[:5], s_equals_product)
 
@@ -235,6 +244,94 @@ class CalculateASquaredMinusBSquared(FormulaModificationsScene):
         self.play(
             ReplacementTransform(s_equals_product[1:], s_equals_difference[5:]),
             FadeOut(s_equals_product[0])
+        )
+        self.wait()
+
+        final_formula = s_equals_difference
+        self.play(
+            ModifyFormula(final_formula, remove_items=[0, 1])
+        )
+        self.wait()
+
+        # open parenthesis and confirm the result
+        calculations = Tex(
+            '$($', '$a$', '$-$', '$b$', '$)$', '$($', '$a$', '$+$', '$b$', '$)$', ' $=$ ', # 0:11
+            '$a^2$', ' $+$ ', '$a$', '$b$', ' $-$' , '$b$', '$a$', ' $-$ ', '$b^2$', # 11:19
+            font_size=70
+        )
+        calculations.to_edge(LEFT).shift(DOWN)
+
+        self.play(ReplacementTransform(final_formula[4:].copy(), calculations[:10]))
+        self.wait()
+        self.play(Write(calculations[10]))
+        self.wait()
+
+        conn_line = ConnectionLine(calculations[1], calculations[6])
+        self.play(Create(conn_line))
+        self.wait()
+
+        # write a^2
+        self.play(
+            ClockwiseTransform(calculations[1].copy(), calculations[11], remover=True),
+            ClockwiseTransform(calculations[6].copy(), calculations[11], remover=True)
+        )
+        self.add(calculations[11])
+        self.wait()
+
+        # write +ab
+        self.play(Transform(conn_line, ConnectionLine(calculations[1], calculations[8])))
+        self.wait(0.25)
+        self.play(
+            Write(calculations[12]),
+            ClockwiseTransform(calculations[1].copy(), calculations[13], remover=True),
+            ClockwiseTransform(calculations[8].copy(), calculations[14], remover=True)
+        )
+        self.add(calculations[13:15])
+        self.wait()
+        
+        # write -ba
+        self.play(Transform(conn_line, ConnectionLine(calculations[3], calculations[6])))
+        self.wait(0.25)
+        self.play(
+            Write(calculations[15]),
+            ClockwiseTransform(calculations[3].copy(), calculations[16], remover=True),
+            ClockwiseTransform(calculations[6].copy(), calculations[17], remover=True)
+        )
+        self.add(calculations[16:18])
+        self.wait()
+
+        # write -b^2
+        self.play(Transform(conn_line, ConnectionLine(calculations[3], calculations[8])))
+        self.wait(0.25)
+        self.play(
+            Write(calculations[18]),
+            ClockwiseTransform(calculations[3].copy(), calculations[19], remover=True),
+            ClockwiseTransform(calculations[8].copy(), calculations[19], remover=True)
+        )
+        self.add(calculations[19])
+        self.wait()
+
+        self.play(FadeOut(conn_line))
+        self.wait()
+
+        # +ab and -ab cancel out
+        surr_rect = SurroundingRectangle(calculations[12:18])
+        self.play(Create(surr_rect, rate_func=there_and_back_with_pause, run_time=2))
+        self.wait()
+
+        krchatman_gcikner = VGroup(
+            Line(get_top_left(calculations[12:15]), get_bottom_right(calculations[12:15]), color=YELLOW),
+            Line(get_top_left(calculations[15:18]), get_bottom_right(calculations[15:18]), color=YELLOW)
+        )
+        self.play(
+            Create(krchatman_gcikner[0]),
+            Create(krchatman_gcikner[1])
+        )
+        self.wait()
+
+        self.play(
+            FadeOut(krchatman_gcikner),
+            ModifyFormula(calculations, remove_items=[12, 13, 14, 15, 16, 17], replace_items=[[18]], replace_items_strs=[['$-$']])
         )
         self.wait()
 
