@@ -1,19 +1,18 @@
 class Coordinate:
-    """
-        A class to calculate coordinates.
-        --Attributes
-            start_point : list
+    """A class to calculate coordinates.
+       This class is intended for points which y coordinates are the same.
+       --Attributes
+           start_point : list
                 first point coordinate
-            end_point : list
+           end_point : list
                 second point coordinate
-        --Methods
-            get_point_by_percent_on_segment(percent)
-                takes in percent
-                :return coordinate of the percent on segment
-            divide_segment_into_equal_parts(parts):
-                takes in parts quantity, into which must be divided
-                :return coordinate of the parts on segment
-    """
+       --Methods
+           get_point_by_percent_on_segment(percent)
+               takes in percent
+               :return coordinate of the percent on segment
+           divide_segment_into_equal_parts(parts):
+               takes in parts quantity, into which must be divided
+               :return coordinate of the parts on segment"""
     def __init__(self, start_point, end_point):
         self.start_point_x = start_point[0]
         self.end_point_x = end_point[0]

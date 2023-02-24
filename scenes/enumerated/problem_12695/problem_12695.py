@@ -5,7 +5,7 @@ from manim import Line, MathTex
 from manim import rate_functions, always_redraw, ValueTracker, Indicate
 from manim import ORANGE
 
-from movement_problems import brace_with_text, obj_movement
+from movement_problems import down_brace_with_text, obj_movement
 from movement_problems import Coordinate, CustomMovementScene
 from constants import DEFAULT_SEGMENT_STROKE_WIDTH
 from segment import Segment, SegmentEndmark
@@ -14,11 +14,9 @@ from . import text
 
 
 class Problem12695(CustomMovementScene):
-    """
-        Մեքենան անցավ ամբողջ ճանապարհի 2/5
-        մասը, որից հետո մնաց գնալու 126 կմ։
-        Գտնել ամբողք ճանապարհի երկարությունը։
-    """
+    """Մեքենան անցավ ամբողջ ճանապարհի 2/5
+       մասը, որից հետո մնաց գնալու 126 կմ։
+       Գտնել ամբողք ճանապարհի երկարությունը։"""
     def construct(self):
         # -------------- Base ------------ #
         coord_y = -1
@@ -81,7 +79,7 @@ class Problem12695(CustomMovementScene):
 
         # -------------------------- Point 6 ------------------------------- #
         # brace for passed road
-        brace_with_text_1 = brace_with_text(text=text.TWO_FIFTH_OF_ROAD, points=(start_point, flag_point_2))
+        brace_with_text_1 = down_brace_with_text(text=text.TWO_FIFTH_OF_ROAD, points=(start_point, flag_point_2))
 
         self.play(Write(VGroup(*brace_with_text_1)))
         self.wait()
@@ -93,7 +91,7 @@ class Problem12695(CustomMovementScene):
 
         # -------------------------- Point 8 ------------------------------- #
         # brace for other part of road
-        brace_with_text_2 = brace_with_text(text=text.KM_126, points=(flag_point_2, end_point))
+        brace_with_text_2 = down_brace_with_text(text=text.KM_126, points=(flag_point_2, end_point))
 
         self.play(Write(VGroup(*brace_with_text_2)))
         self.wait()

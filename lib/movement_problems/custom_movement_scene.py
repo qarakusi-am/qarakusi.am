@@ -7,14 +7,12 @@ from lib.qarakusiscene import TaskNumberBox
 
 
 class CustomMovementScene(Scene):
-    """
-        A class for custom movement scene
-        --Methods
-            add_plane()
-                add to screen coordinate system
-            add_task_number
-                takes in text module content, get task number and add to scene with wait(0.5)
-        """
+    """A class for custom movement scene
+       --Methods
+           add_plane()
+               add to screen coordinate system
+           add_task_number
+               takes in text module content, get task number and add to scene with wait(0.5)"""
     def add_plane(self):
         plane = NumberPlane(background_line_style={"stroke_color": TEAL,
                                                    "stroke_width": 2,
