@@ -274,6 +274,16 @@ svg_defaults.add_prefix_default(
     'pizza_',
     {'folder': path_to_SVG / 'pizza'}
 )
+svg_defaults.add_prefix_default(
+    'schoolboy_',
+    {'folder': path_to_SVG / 'schoolboy',
+     'stroke_width': 1}
+)
+svg_defaults.add_prefix_default(
+    'colored_',
+    {'folder': path_to_SVG / 'colored_books',
+     'stroke_width': 1}
+)
 
 
 class SimpleSVGMobject(VMobject):
