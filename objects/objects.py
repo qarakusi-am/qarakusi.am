@@ -281,6 +281,7 @@ class SimpleSVGMobject(VMobject):
                  *,
                  scale: float = None,
                  rotate: float = None,
+                 stroke_width: float = None,
                  color=None):
         super().__init__()
 
@@ -291,6 +292,8 @@ class SimpleSVGMobject(VMobject):
             color = defaults.get('color')
         if rotate is None:
             rotate = defaults.get('rotate')
+        if stroke_width is None:
+            stroke_width = defaults.get('stroke_width')
         obj_path = (defaults['folder'] / obj_name).with_suffix('.svg')
 
         svg_object = SVGMobject(obj_path)
@@ -300,6 +303,8 @@ class SimpleSVGMobject(VMobject):
             svg_object.scale(scale)
         if rotate is not None:
             svg_object.rotate(rotate)
+        if stroke_width is not None:
+            svg_object.set_stroke(width=stroke_width)
         self.add(svg_object)
 
 
