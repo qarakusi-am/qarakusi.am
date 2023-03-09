@@ -2,7 +2,7 @@ from manim import LEFT, UP, DOWN, RIGHT
 from manim import FadeIn, FadeOut, Write
 from manim import AnimationGroup, Group, VGroup
 from manim import Line, MathTex
-from manim import ReplacementTransform, Wiggle, UL, DR, Rectangle, BraceBetweenPoints, index_labels
+from manim import ReplacementTransform, Wiggle, UL, DR, Rectangle, BraceBetweenPoints
 from manim import BLUE, RED, YELLOW
 
 from movement_problems import down_brace_with_text, obj_movement, up_brace_with_text
@@ -31,11 +31,10 @@ class Problem12699(CustomMovementScene):
         condition_point = [0, 3.40, 0]
 
         self.add_task_number(text=text.TASK_NUMBER_STR)
-        # self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
         # Show book
-        book = SimpleSVGMobject('books/books').move_to(screen_center).scale(2).shift(0.8 * LEFT + 0.3 * UP)
+        book = SimpleSVGMobject('colored_book_2').move_to(screen_center).scale(1.5).shift(0.8 * LEFT + 0.3 * UP)
         self.play(FadeIn(book))
         self.wait()
 
@@ -44,7 +43,6 @@ class Problem12699(CustomMovementScene):
         segment = Segment(start_point, end_point)
         self.play(ReplacementTransform(book, segment))
         self.wait()
-
 
         # -------------------------- Point 3 ------------------------------- #
         condition_1_0 = MathTex(text.CONDITION_1_0).move_to(condition_point).scale(1.2).shift(0.2 * DOWN + 1.25 * LEFT)
@@ -154,21 +152,16 @@ class Problem12699(CustomMovementScene):
         self.wait()
 
         five_twelfth_copy = five_twelfth.copy()
-        parts_group = part_5[1], part_4[1], part_3[1] #AnimationGroup(FadeOut(Group(*parts_group)),
+        parts_group = part_5[1], part_4[1], part_3[1]
         self.play(AnimationGroup(FadeOut(Group(*parts_group)),
                                  five_twelfth_copy.animate.move_to(part_5[1]).shift(0.3 * UP),
                                  lag_ratio=1))
 
         # -------------------------- Point 14 ------------------------------- #
-        # solution_3 = MathTex(text.SOLUTION_PART_3).next_to(solution_2).scale(1.2).shift(0.2 * RIGHT)
-        # self.play(Write(solution_3))
-        # self.wait()
-
         # -------------------------- Point 15 ------------------------------- #
         solution_4 = MathTex(text.SOLUTION_PART_4).move_to(solution_2).scale(1.2).shift(1.5 * DOWN + 1.3 * LEFT)
         self.play(Write(solution_4))
         self.wait()
-        # self.add(index_labels(solution_4[0]))
         line = Line(solution_4[0][16:18].get_critical_point(UL), solution_4[0][16:18].get_critical_point(DR), color=RED)
         line_2 = Line(solution_4[0][22:23].get_critical_point(UL), solution_4[0][22:23].get_critical_point(DR), color=RED)
         self.play(Write(line), Write(line_2))
