@@ -31,11 +31,11 @@ class Problem12703(FormulaModificationsScene):
             font_size=FONT_SIZE
         ) # (a+b)^2=a^2+2ab+b^2
 
-        self.product_power_prop = product_power_prop = Tex(
+        self.product_power_prop  = Tex(
             '$($', '$a$', '$b$', '$)$', '$^n$', ' $=$ ', '$a$', '$^n$', r'$\cdot$','$b$', ' $^n$ ',
             font_size=FONT_SIZE
-        )  # (a+b)^2=a^2+2ab+b^2
-        self.power_of_power_prop = power_of_power_prop = Tex(
+        )  # (ab)^n=a^n * b^n
+        self.power_of_power_prop  = Tex(
             '$($', '$a$', '$^n$', '$)$', '$^m$', ' $=$ ', '$a$', '$^n$', r'$^\cdot$', '$^m$ ',
             font_size=FONT_SIZE
         )  # (a^n)^m=a^n*m
@@ -48,6 +48,7 @@ class Problem12703(FormulaModificationsScene):
         self.play(FadeOut(formulas[1:]), FadeOut(numbers[1:]))
         self.wait(0.25)
 
+        self.elements=VGroup(taskNumber,formulas,numbers,rectangle,sum_square_prop)
         self.first()
         self.second()
         self.third()
@@ -59,7 +60,7 @@ class Problem12703(FormulaModificationsScene):
 
         self.equality1 =equality1= sum_square_prop.copy().next_to(formulas[0], 2*DOWN).align_to(formulas[0], LEFT)
         self.play(TransformFromCopy(sum_square_prop, equality1))
-        self.wait(0.25)
+        self.wait()
 
         equality1[7:16].set_color(GREY)
         formulas[0][1:3].set_color(RED)
@@ -72,23 +73,22 @@ class Problem12703(FormulaModificationsScene):
         equality1[3].set_color(BLUE)
         self.wait()
 
-        equality1[7:8].set_color(RED)
-        equality1[8].set_color(WHITE)
+        equality1[7:9].set_color(WHITE)
 
         self.fix_formula(equality1)
         self.wait()
         equality1[11].animate.set_color(WHITE)
         self.play(ModifyFormula(equality1, replace_items=[[7]], replace_items_strs=[['$($','$2$','$x$','$)$']],
-                                replace_items_colors=[ [RED]]))
-        self.wait(0.5)
+                                replace_items_colors=[ [RED,RED,RED,RED]]))
+        self.wait()
 
         equality1[12:15].set_color(WHITE)
         self.play(ModifyFormula(equality1, replace_items=[[14]],replace_items_strs=[[r'$\cdot$', '$2$', '$x$']],replace_items_colors=[ [WHITE,RED,RED]]))
-        self.wait(0.5)
+        self.wait()
 
         self.play(ModifyFormula(equality1, replace_items=[[17]],  replace_items_strs=[[r'$\cdot$', '$y$']],replace_items_colors=[ [WHITE,BLUE]]))
 
-        self.wait(0.5)
+        self.wait(2)
         equality1[19].set_color(WHITE)
         equality1[21].set_color(WHITE)
 
@@ -98,7 +98,7 @@ class Problem12703(FormulaModificationsScene):
         product_power_prop1=product_power_prop.copy()
         self.play(Write(product_power_prop1.next_to(equality1[8],DOWN*1.2)))
 
-        self.wait()
+        self.wait(2)
         self.play(ModifyFormula(product_power_prop1, replace_items=[[1],[6]], replace_items_strs=[['$2$'],['$2$']]))
         self.wait()
         self.play(ModifyFormula(product_power_prop1, replace_items=[[2], [9]], replace_items_strs=[['$x$'], ['$x$']]))
@@ -108,17 +108,21 @@ class Problem12703(FormulaModificationsScene):
 
         self.play(ModifyFormula(product_power_prop1, replace_items=[[6,7,8]],replace_items_strs=[['$4$']]))
         self.wait()
-        self.play(ModifyFormula(equality1, replace_items=[[7,8,9,10]],replace_items_strs=[['$4$','$x$']]))
+        self.play(ModifyFormula(equality1, replace_items=[[7,8,9,10]],replace_items_strs=[['$4$', '$x$']]))
         self.wait()
         self.play(FadeOut(product_power_prop1))
+        self.wait()
         self.play( ModifyFormula(equality1, replace_items=[[ 11, 12,13 ]],replace_items_strs=[['$4$']]))
+        self.wait()
+
         self.play( ModifyFormula(equality1,remove_items=[13]))
         self.wait()
 
         self.play(equality1[6:].animate.next_to(formulas[0], RIGHT).set_color(WHITE),
                   formulas[0].animate.set_color(WHITE),
                   FadeOut(equality1[0:6]))
-        self.wait()
+        self.elements.add(equality1[6:])
+        self.wait(2)
 
     def second(self):
         numbers = self.numbers
@@ -138,7 +142,7 @@ class Problem12703(FormulaModificationsScene):
         self.wait(0.25)
         self.add(equality2).remove(sum_square_prop_copy)
         self.fix_formula(equality2)
-        self.wait(0.25)
+        self.wait(0)
 
 
         equality2[7:16].set_color(GREY)
@@ -152,20 +156,19 @@ class Problem12703(FormulaModificationsScene):
         equality2[3].set_color(BLUE)
         self.wait()
 
-        equality2[7:8].set_color(RED)
-        equality2[8].set_color(WHITE)
+        equality2[7:9].set_color(WHITE)
 
         self.wait()
-        self.play(ModifyFormula(equality2, replace_items=[[7]], replace_items_strs=[['$($', '$2$', '$m$', '$)$']],replace_items_colors=[[RED]]))
-        self.wait(0.5)
+        self.play(ModifyFormula(equality2, replace_items=[[7]], replace_items_strs=[['$($', '$2$', '$m$', '$)$']],replace_items_colors=[[RED,RED,RED,RED]]))
+        self.wait(0)
 
         equality2[12:15].set_color(WHITE)
         self.play(ModifyFormula(equality2, replace_items=[[14]], replace_items_strs=[[r'$\cdot$', '$2$', '$m$']],replace_items_colors=[[WHITE,RED,RED]]))
-        self.wait(0.5)
+        self.wait()
 
         self.play(ModifyFormula(equality2, replace_items=[[17]], replace_items_strs=[[r'$\cdot$', '$3$','$n$']],replace_items_colors=[[WHITE,BLUE,BLUE]]))
 
-        self.wait(0.5)
+        self.wait()
         equality2[20].set_color(WHITE)
         equality2[22].set_color(WHITE)
         self.play(ModifyFormula(equality2, replace_items=[[21]], replace_items_strs=[['$($', '$3$', '$n$', '$)$']],replace_items_colors=[ [BLUE,BLUE,BLUE,BLUE]]))
@@ -183,7 +186,7 @@ class Problem12703(FormulaModificationsScene):
 
         product_power_prop2 = product_power_prop.copy()
         self.play(Write(product_power_prop2.next_to(equality2[16], DOWN * 1.2)))
-        self.wait()
+        self.wait(2)
         self.play(ModifyFormula(product_power_prop2, replace_items=[[1], [6]], replace_items_strs=[['$3$'], ['$3$']]))
         self.wait()
         self.play(ModifyFormula(product_power_prop2, replace_items=[[2], [9]], replace_items_strs=[['$n$'], ['$n$']]))
@@ -196,11 +199,13 @@ class Problem12703(FormulaModificationsScene):
         self.play(ModifyFormula(equality2, replace_items=[[15,16, 17, 18]], replace_items_strs=[['$9$', '$n$']]))
         self.wait()
         self.play(FadeOut(product_power_prop2))
+        self.wait()
 
         self.play(equality2[6:].animate.next_to(formulas[1], RIGHT).set_color(WHITE),
                   formulas[1].animate.set_color(WHITE),
                   FadeOut(equality2[0:6]))
-        self.wait()
+        self.elements.add(equality2[6:])
+        self.wait(2)
 
 
     def third(self):
@@ -221,7 +226,7 @@ class Problem12703(FormulaModificationsScene):
         self.wait(0.25)
         self.add(equality3).remove(sum_square_prop_copy)
         self.fix_formula(equality3)
-        self.wait(0.25)
+        self.wait()
 
         equality3[7:16].set_color(GREY)
         formulas[2][1:3].set_color(RED)
@@ -234,20 +239,19 @@ class Problem12703(FormulaModificationsScene):
         equality3[3].set_color(BLUE)
         self.wait()
 
-        equality3[7:8].set_color(RED)
-        equality3[8].set_color(WHITE)
+        equality3[7:9].set_color(WHITE)
 
         self.wait()
-        self.play(ModifyFormula(equality3, replace_items=[[7]], replace_items_strs=[['$($', '$x$', '$^5$', '$)$']],replace_items_colors=[[RED]]))
-        self.wait(0.5)
+        self.play(ModifyFormula(equality3, replace_items=[[7]], replace_items_strs=[['$($', '$x$', '$^5$', '$)$']],replace_items_colors=[[RED,RED,RED,RED]]))
+        self.wait()
 
         equality3[12:15].set_color(WHITE)
         self.play(ModifyFormula(equality3, replace_items=[[14]], replace_items_strs=[[r'$\cdot$', '$x$', '$^5$']],replace_items_colors=[[WHITE,RED,RED]]))
-        self.wait(0.5)
+        self.wait()
 
         self.play(ModifyFormula(equality3, replace_items=[[17]], replace_items_strs=[[r'$\cdot$', '$4$', '$y$']],replace_items_colors=[[WHITE,BLUE,BLUE]]))
 
-        self.wait(0.5)
+        self.wait()
         equality3[20].set_color(WHITE)
         equality3[22].set_color(WHITE)
         self.play(ModifyFormula(equality3, replace_items=[[21]], replace_items_strs=[['$($', '$4$', '$y$', '$)$']],replace_items_colors=[[BLUE,BLUE,BLUE,BLUE]]))
@@ -255,7 +259,8 @@ class Problem12703(FormulaModificationsScene):
         self.wait()
         power_of_power_prop1 = power_of_power_prop.copy()
         self.play(Write(power_of_power_prop1.next_to(equality3[8], DOWN * 1.2)))
-        self.wait()
+        self.wait(2)
+
         self.play(ModifyFormula(power_of_power_prop1, replace_items=[[1], [6]], replace_items_strs=[['$x$'], ['$x$']]))
         self.wait()
         self.play(ModifyFormula(power_of_power_prop1, replace_items=[[2], [7]], replace_items_strs=[['$^5$'], ['$^5$']]))
@@ -295,11 +300,13 @@ class Problem12703(FormulaModificationsScene):
             ModifyFormula(equality3, replace_items=[[16, 17, 18, 19,20]], replace_items_strs=[['$1$', '$6$','$y$','$^2$']]))
         self.wait()
         self.play(FadeOut(product_power_prop1))
+        self.wait()
 
         self.play(equality3[6:].animate.next_to(formulas[2], RIGHT).set_color(WHITE),
                   formulas[2].animate.set_color(WHITE),
                   FadeOut(equality3[0:6]))
-        self.wait()
+        self.elements.add(equality3[6:])
+        self.wait(2)
 
     def fourth(self):
         numbers = self.numbers
@@ -318,12 +325,9 @@ class Problem12703(FormulaModificationsScene):
         self.play(CounterclockwiseTransform(sum_square_prop_copy, equality4, path_arc=-1 * PI), run_time=2)
         self.wait(0.25)
         self.add(equality4).remove(sum_square_prop_copy)
-        self.fix_formula(equality4)
         self.wait(0.25)
 
-        elements=VGroup(self.taskNumber,self.formulas,self.numbers,self.rectangle,self.sum_square_prop,
-                         self.equality1[6:],self.equality2[6:],self.equality3[6:])
-        self.play(VGroup(elements,equality4).animate.shift(UP*1.2))
+        self.play(VGroup(self.elements,equality4).animate.shift(UP*1.4))
         self.wait()
         equality4[7:16].set_color(GREY)
         formulas[3][1:4].set_color(RED)
@@ -336,21 +340,21 @@ class Problem12703(FormulaModificationsScene):
         equality4[3].set_color(BLUE)
         self.wait()
 
-        equality4[7].set_color(RED)
-        equality4[8].set_color(WHITE)
+        equality4[7:9].set_color(WHITE)
 
+        self.fix_formula(equality4)
 
         self.wait()
-        self.play(ModifyFormula(equality4, replace_items=[[7]], replace_items_strs=[['$($', '$2$','$a$', '$^2$', '$)$']],replace_items_colors=[[RED]]))
-        self.wait(0.5)
+        self.play(ModifyFormula(equality4, replace_items=[[7]], replace_items_strs=[['$($', '$2$','$a$', '$^2$', '$)$']],replace_items_colors=[[RED,RED,RED,RED,RED]]))
+        self.wait()
 
         equality4[13:15].set_color(WHITE)
         self.play(ModifyFormula(equality4, replace_items=[[15]], replace_items_strs=[[r'$\cdot$', '$2$', '$a$','$^2$']],replace_items_colors=[[WHITE,RED,RED,RED]]))
-        self.wait(0.5)
+        self.wait()
 
         self.play(ModifyFormula(equality4, replace_items=[[19]], replace_items_strs=[[r'$\cdot$', '$3$', '$a$','$c$']],replace_items_colors=[[WHITE,BLUE,BLUE,BLUE]]))
 
-        self.wait(0.5)
+        self.wait()
 
         equality4[23].set_color(WHITE)
         equality4[25].set_color(WHITE)
@@ -360,7 +364,8 @@ class Problem12703(FormulaModificationsScene):
         product_power_prop1 = product_power_prop.copy()
 
         self.play(Write(product_power_prop1.next_to(equality4[8], DOWN * 1.2)))
-        self.wait()
+        self.fix_formula(product_power_prop1)
+        self.wait(2)
         self.play(ModifyFormula(product_power_prop1, replace_items=[[1], [6]], replace_items_strs=[['$2$'], ['$2$']]))
         self.wait()
         self.play(ModifyFormula(product_power_prop1, replace_items=[[2], [9]], replace_items_strs=[['$($','$a$','$^2$''$)$'], ['$($','$a$','$^2$''$)$']]))
@@ -373,7 +378,7 @@ class Problem12703(FormulaModificationsScene):
 
         power_of_power_prop1 = power_of_power_prop.copy()
         self.play(Write(power_of_power_prop1.next_to(product_power_prop1[12], DOWN * 2.2)))
-        self.wait()
+        self.wait(2)
         self.play(ModifyFormula(power_of_power_prop1, replace_items=[[1], [6]], replace_items_strs=[['$a$'], ['$a$']]))
         self.wait()
         self.play(ModifyFormula(power_of_power_prop1, replace_items=[[2], [7]], replace_items_strs=[['$^2$'], ['$^2$']]))
@@ -401,8 +406,9 @@ class Problem12703(FormulaModificationsScene):
 
         self.wait()
         product_power_prop2 = product_power_prop.copy()
-        self.fix_formula(product_power_prop2)
         self.play(Write(product_power_prop2.next_to(equality4[18], DOWN * 1.2)))
+        self.fix_formula(product_power_prop2)
+
         self.wait()
         self.play(ModifyFormula(product_power_prop2, replace_items=[[1], [6]], replace_items_strs=[['$($', '$3$', '$a$''$)$'], ['$($', '$3$', '$a$''$)$']]))
         self.wait()
@@ -425,5 +431,5 @@ class Problem12703(FormulaModificationsScene):
                   FadeOut(equality4[0:6]))
         self.wait()
 
-        self.play(VGroup(elements,equality4[6:]).animate.shift(DOWN * 1.2))
+        self.play(VGroup(self.elements,equality4[6:]).animate.shift(DOWN * 1.4))
         self.wait()
