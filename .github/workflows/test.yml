@@ -5,6 +5,7 @@ on:
     paths:
       - 'lib/**'
       - 'objects/**.py'
+      - '.github/**'
     branches:
       - master
 
