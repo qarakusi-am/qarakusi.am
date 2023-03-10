@@ -35,7 +35,7 @@ def getFractionsOnCircle(fraction, circle, color=ORANGE, number_of_sectors=1, st
     
     radius = circle.radius
     angle = TAU * fraction
-    if numbering and numbering_font_size==None:
+    if numbering and numbering_font_size is None:
         numbering_font_size = radius * 44
     
     coordinates = circle.get_center()
