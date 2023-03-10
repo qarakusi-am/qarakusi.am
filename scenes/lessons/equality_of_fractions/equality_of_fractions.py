@@ -1,5 +1,5 @@
 from manim import Scene, FadeIn, GrowFromPoint, Circle, AnimationGroup, VGroup, MathTex, Line, ReplacementTransform, Write, Transform, Rectangle, FadeOut, ValueTracker
-from ..reducing_fractions.reducing_fractions import getFractionsOnCircle
+from utilities import getFractionsOnCircle
 from objects import SimpleSVGMobject
 from manim import PI
 from manim import UP, DL, DOWN, LEFT, RIGHT
