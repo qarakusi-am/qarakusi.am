@@ -12,6 +12,8 @@ SEGMENT_SCALE = .105
 
 class Problem12707(Scene):
     def construct(self):
+        """Դուբին 126 էջանոց գրքի 24 էջը կարդաց առաջին օրը, իսկ հաջորդ օրը կարդաց ևս 35 էջ։ Քանի՞ էջ մնաց կարդալու։"""
+
         self.wait()
 
         task_number = TaskNumberBox(task_number_str)
