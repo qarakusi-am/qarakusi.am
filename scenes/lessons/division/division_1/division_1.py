@@ -5,7 +5,7 @@ from manim import PI
 
 FONT_SIZE = 85
 
-class Division(Scene):
+class Division_1(Scene):
     """Այս վիդեոյի նպատակն է սյունակով բաժանում սովորեցնելը"""
     def construct(self):
         self.wait()
