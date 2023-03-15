@@ -1,0 +1,12 @@
+january = "January "
+february = "February "
+minute = " minutes"
+day="Day"
+time="Time"
+width="width"
+average_time="average time (arithmetic mean)"
+mode="mode"
+data="Data"
+count="Count"
+frequency_table="Frequency table"
+
