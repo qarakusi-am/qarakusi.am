@@ -7,8 +7,9 @@ else:
 
 __all__ = [
     "air_mass_str",
-    "moleculs_in_one_gram_str",
+    "molecules_in_one_gram_str",
     "task_number_str",
-    "moleculs_in_ball_str",
-    "hat_str"
+    "molecules_in_ball_str",
+    "hat_str",
+    "molecules_in_ball_shift"
 ]

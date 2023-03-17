@@ -9,7 +9,7 @@ from .text import *
 FONT_SIZE = 90
 
 class Problem12723(FormulaModificationsScene):
-    """Փչած ֆուտբոլի գնդակը պարունակում է 450 գրամ օդ։ Հայտնի է, որ 1 գ օդում կա մոտ 2⋅1022 հատ մոլեկուլ։ Քանի՞ հատ մոլեկուլ կա փչած ֆուտբոլի գնդակի ներսում։"""
+    """Փչած ֆուտբոլի գնդակը պարունակում է 450 գրամ օդ։ Հայտնի է, որ 1գ օդում կա մոտ 2⋅1022 հատ մոլեկուլ։ Քանի՞ հատ մոլեկուլ կա փչած ֆուտբոլի գնդակի ներսում։"""
     def construct(self):
         self.wait()
 
@@ -33,36 +33,36 @@ class Problem12723(FormulaModificationsScene):
         self.play(VGroup(air_mass, arrow, ball).animate.scale(.7).to_edge(LEFT))
         self.wait()
 
-        moleculs_in_one_gram = Tex(moleculs_in_one_gram_str, font_size=.6*FONT_SIZE)
-        moleculs_in_one_gram.to_corner(UR)
-        srr_rect = SurroundingRectangle(moleculs_in_one_gram, buff=.1, color=GREEN)
+        molecules_in_one_gram = Tex(molecules_in_one_gram_str, font_size=.6*FONT_SIZE)
+        molecules_in_one_gram.to_corner(UR)
+        srr_rect = SurroundingRectangle(molecules_in_one_gram, buff=.1, color=GREEN)
         self.play(
-            FadeIn(moleculs_in_one_gram),
+            FadeIn(molecules_in_one_gram),
             Create(srr_rect)
         )
         self.wait()
 
-        moleculs_in_ball = Tex(*moleculs_in_ball_str, font_size=FONT_SIZE)
-        moleculs_in_ball.next_to(ball)
+        molecules_in_ball = Tex(*molecules_in_ball_str, font_size=FONT_SIZE)
+        molecules_in_ball.next_to(ball).shift(molecules_in_ball_shift)
         temp = air_mass[0].copy()
-        self.play(Write(moleculs_in_ball[0]))
+        self.play(Write(molecules_in_ball[0]))
         self.play(
-            ReplacementTransform(temp, moleculs_in_ball[1]),
+            ReplacementTransform(temp, molecules_in_ball[1]),
             FadeOut(air_mass, arrow)
         )
-        self.play(Write(moleculs_in_ball[2:]))
+        self.play(Write(molecules_in_ball[2:]))
         self.wait()
 
-        self.fix_formula(moleculs_in_ball)
+        self.fix_formula(molecules_in_ball)
         self.play(
-            FadeOut(ball, srr_rect, moleculs_in_one_gram),
-            ModifyFormula(moleculs_in_ball, [0, 6], move_to=ORIGIN)
+            FadeOut(ball, srr_rect, molecules_in_one_gram),
+            ModifyFormula(molecules_in_ball, [0, 6], move_to=ORIGIN)
         )
         self.wait()
 
         self.play(
             ModifyFormula(
-                moleculs_in_ball,
+                molecules_in_ball,
                 replace_items=[[0, 1, 2]],
                 replace_items_strs=[["$9$", "$0$","$0$"]],
                 new_formula_alignment=ORIGIN
@@ -72,7 +72,7 @@ class Problem12723(FormulaModificationsScene):
 
         self.play(
             ModifyFormula(
-                moleculs_in_ball,
+                molecules_in_ball,
                 replace_items=[[4]],
                 replace_items_strs=[["1", "$0000000000000000000000$"]],
                 new_formula_alignment=ORIGIN
@@ -81,7 +81,7 @@ class Problem12723(FormulaModificationsScene):
         self.wait()
 
         val_tracker = ValueTracker(11)
-        brace = Brace(moleculs_in_ball[-1], DOWN)
+        brace = Brace(molecules_in_ball[-1], DOWN)
         brace_label = always_redraw(lambda: brace.get_tex(f"{int(val_tracker.get_value())*2} \\text{{{hat_str}}}").scale(1.7))
         self.play(
             GrowFromCenter(brace),
@@ -91,24 +91,24 @@ class Problem12723(FormulaModificationsScene):
 
         self.play(
             ModifyFormula(
-                moleculs_in_ball,
+                molecules_in_ball,
                 [1, 2],
-                add_after_items=[len(moleculs_in_ball)-1],
+                add_after_items=[len(molecules_in_ball)-1],
                 add_items_strs=[["$00$"]],
                 add_items_animation_style=Write
             ),
             val_tracker.animate.set_value(12),
-            brace.animate.stretch_to_fit_width(moleculs_in_ball[-2:].width).align_to(brace, RIGHT)
+            brace.animate.stretch_to_fit_width(molecules_in_ball[-2:].width).align_to(brace, RIGHT)
         )
         self.wait()
 
         brace_label.clear_updaters()
 
-        self.fix_formula(moleculs_in_ball)
+        self.fix_formula(molecules_in_ball)
         self.play(
             ModifyFormula(
-                moleculs_in_ball,
-                add_after_items=[len(moleculs_in_ball)-1],
+                molecules_in_ball,
+                add_after_items=[len(molecules_in_ball)-1],
                 add_items_strs=[[" $= 9 \cdot 10^{24}$"]],
                 new_font_size=FONT_SIZE*.8,
                 add_items_animation_style=Write,
@@ -121,10 +121,10 @@ class Problem12723(FormulaModificationsScene):
         self.play(FadeOut(brace, brace_label))
         self.wait()
 
-        self.play(moleculs_in_ball.animate.shift(UP*1.5))
+        self.play(molecules_in_ball.animate.shift(UP*1.5))
 
         tex = Tex("$900$", " $\cdot$ ", "$10^{22}$", font_size=FONT_SIZE)
-        tex.next_to(moleculs_in_ball, DOWN, buff=1)
+        tex.next_to(molecules_in_ball, DOWN, buff=1)
         self.play(Write(tex))
         self.wait()
 
