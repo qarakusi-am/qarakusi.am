@@ -1,2 +1,5 @@
 TASK_NUMBER_STR = "P. 11104"
-
+CONDITION_1 = r"\text{Get the biggest possible number}"
+CONSEQUENCE_1 = r"\text{8-digit}"
+CONDITION_2 = r"\text{as large as possible}"
+CONDITION_3 = r"\text{The smallest possible number}"
