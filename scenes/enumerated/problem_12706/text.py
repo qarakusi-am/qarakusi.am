@@ -17,5 +17,4 @@ CONDITION_6 = r"\text{8 } > \text{ 4 }"
 CONDITION_7 = r"\text{9 } > \text{ 4 }"
 QUESTION_MARK = r"\mathord{?}"
 FOUR = r"4"
-NUMS = r"1\quad\,2\quad\,3\quad\,4\quad5\;\;\;\;6\quad\,7\quad8\quad9\;\;\;10\;\;\;11\;\;12"
 NUMS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
