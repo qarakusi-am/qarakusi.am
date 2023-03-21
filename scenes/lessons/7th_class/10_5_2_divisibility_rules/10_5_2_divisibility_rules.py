@@ -330,7 +330,7 @@ class DivisibilityRules(Scene):
         self.play(AnimationGroup(*[multiples_of_2_list[0][i].animate.scale(1.4)
                                    for i in range(162, len(multiples_of_2_list[0]), 4)]))
         self.wait()
-        self.play(AnimationGroup(*[multiples_of_2_list[0][i].animate.scale(1/1.4)
+        self.play(AnimationGroup(*[multiples_of_2_list[0][i].animate.scale(1 / 1.4)
                                    for i in range(162, len(multiples_of_2_list[0]), 4)]))
         self.wait()
         for i in range(0,4):
