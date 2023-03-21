@@ -3,14 +3,10 @@ from manim import Tex, AnimationGroup, SurroundingRectangle, VGroup, Line, Dashe
     DrawBorderThenFill
 from manim import FadeOut, Write
 from manim import Scene
-from . import text
-
 from .text import *
-
 
 class Histogram(Scene):
     def construct(self):
-        self.text = text
         position = [-4, 1, 0]
         horizontal_shift_factor = 0.3
         vertical_shift_factor = 0.7
@@ -138,7 +134,7 @@ class Histogram(Scene):
 
         self.wait()
 
-        histogram_label = Tex(self.text.histogram, font_size=65).move_to(coordinates, UP).shift(UP * 4.3)
+        histogram_label = Tex(histogram, font_size=65).move_to(coordinates, UP).shift(UP * 4.3)
         self.play(Write(histogram_label))
         self.wait()
 
@@ -247,12 +243,3 @@ class Histogram(Scene):
         self.play(Write(histogram2_dashed_line))
         self.wait()
 
-    def set_up(self, add=False):
-        self.text = text
-        self.january = text.january
-        self.february = text.february
-        self.minute = text.minute
-
-    def get_date_and_time_text(self, date_time_data):
-        date_and_time = date_time_data[0] + " " + '$\longrightarrow$' + str(date_time_data[1])
-        return Tex(date_and_time)

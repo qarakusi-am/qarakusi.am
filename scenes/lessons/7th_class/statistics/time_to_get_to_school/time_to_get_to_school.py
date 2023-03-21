@@ -6,16 +6,12 @@ from manim import FadeIn, FadeOut, Write
 from manim import Scene, Arrow
 from objects import SimpleSVGMobject
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
-from . import text
-
 from .text import *
 
 UNIT = 0.27
 
-
 class TimeToGetToSchool(Scene):
     def construct(self):
-        self.set_up()
 
         school_child_pos = [0, 0, 0]
         school_child = SimpleSVGMobject("people/children/girl_1", color=WHITE).move_to(school_child_pos)
@@ -30,27 +26,29 @@ class TimeToGetToSchool(Scene):
         self.play(arrow.animate(rate_func=linear, run_time=2))
         self.wait(0.5)
 
-        minutes = np.array([["15"], ["10"], ["15"], ["14"], ["17"], ["14"], ["11"], ["15"], ["14"], ["15"]])
+        minutes_for_table_rows = ["$15$","$10$","$15$","$14$","$17$","$14$","$11$","$15$","$14$","$15$"]
         days = [
-            [Tex(january + '30'), Tex('$\longrightarrow$')],
-            [Tex(january + '31'), Tex('$\longrightarrow$')],
-            [Tex(february + '1'), Tex('$\longrightarrow$')],
-            [Tex(february + '2'), Tex('$\longrightarrow$')],
-            [Tex(february + '3'), Tex('$\longrightarrow$')],
-            [Tex(february + '6'), Tex('$\longrightarrow$')],
-            [Tex(february + '7'), Tex('$\longrightarrow$')],
-            [Tex(february + '8'), Tex('$\longrightarrow$')],
-            [Tex(february + '9'), Tex('$\longrightarrow$')],
-            [Tex(february + '10'), Tex('$\longrightarrow$')],
+            [Tex(january + '$30$'), Tex('$\longrightarrow$')],
+            [Tex(january + '$31$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$1$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$2$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$3$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$6$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$7$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$8$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$9$'), Tex('$\longrightarrow$')],
+            [Tex(february + '$10$'), Tex('$\longrightarrow$')],
         ]
 
-        data = self.get_data_for_table(days, minutes)
+        data = self.get_data_for_table(days, minutes_for_table_rows)
+        minutes = np.array([["15"], ["10"], ["15"], ["14"], ["17"], ["14"], ["11"], ["15"], ["14"], ["15"]])
+
 
         table = MobjectTable(
             data,
             col_labels=[
-                Tex(text.day),
-                Tex(text.time)
+                Tex(day),
+                Tex(time)
             ],
             include_outer_lines=True,
             v_buff=0.5,
@@ -76,10 +74,8 @@ class TimeToGetToSchool(Scene):
         for index in range(4,6):
             table.get_rows()[index].set_opacity(1)
 
-        index=2
-        while index<len(data):
-            self.play(table.get_rows()[index+1].animate.set_color(WHITE))
-            index+=1
+        for index in range(2,len(data)):
+            self.play(table.get_rows()[index + 1].animate.set_color(WHITE))
 
         #did arrow deletion this way, to be faster(simultaneous)
 
@@ -113,32 +109,21 @@ class TimeToGetToSchool(Scene):
 
         minutes = [int(numeric_string) for numeric_string in minutes.ravel()]
         minutes.sort()
-        elements = self.get_elements_from_list(minutes)
-        first_element = elements["first_element"]
-        last_element = elements["last_element"]
-        mode_value = elements["mode_value"]
-        mode_numbers = elements["mode_numbers"]
-        total_minutes_text = elements["total_minutes_text"]
+        first_element, last_element, mode_value, mode_numbers, total_minutes_text = self.get_elements_from_list(minutes)
 
         self.play(ReplacementTransform(table, total_minutes_text.scale(1.2).shift(LEFT).move_to(DOWN * 2)))
         self.play(AnimationGroup(Wiggle(first_element, scale_value=1.5), Wiggle(last_element, scale_value=1.5)))
         self.wait()
 
-        width_equality = str(minutes[len(minutes) - 1]) + " - " + str(minutes[0]) + " = " + str(
+        width_equality = str(minutes[- 1]) + " - " + str(minutes[0]) + " = " + str(
             minutes[len(minutes) - 1] - minutes[0])
-        width_text = Tex(width_equality + "  $\longrightarrow$  " + text.width)
+        width_text = Tex(width_equality + "  $\longrightarrow$  " + width)
         self.play(Write(width_text.move_to(UP * 3).shift(LEFT * 3)))
 
         first_equality_sign = Tex(" = ")
         second_equality_sign = Tex(" = ")
 
-        sum_nominator = ""
-        index = 0
-        while index < len(minutes):
-            sum_nominator += str(minutes[index])
-            if index != len(minutes) - 1:
-                sum_nominator += " + "
-            index += 1
+        sum_nominator = " + ".join([str(i) for i in minutes])
 
         scale_factor = .8
         sum_nominator = Tex(sum_nominator)
@@ -170,7 +155,7 @@ class TimeToGetToSchool(Scene):
 
         self.play(quotient.animate.next_to(width_text,DOWN).align_to(width_text,LEFT).scale(1/scale_factor))
 
-        average_time_text=Tex(text.minute+' $\longrightarrow$ '+text.average_time)
+        average_time_text=Tex(minute+' $\longrightarrow$ '+average_time)
         self.play(Write(average_time_text.next_to(quotient,RIGHT)))
         self.wait()
 
@@ -178,13 +163,11 @@ class TimeToGetToSchool(Scene):
         self.play(Wiggle(VGroup(mode_numbers[0],mode_numbers[2],mode_numbers[4],mode_numbers[6]).set_color(RED),scale_value=1.2))
 
         mode_upper_texts=VGroup()
-        index=0
-        while index<len(mode_numbers):
-            mode_text = Tex(text.mode)
-            mode_upper_texts.add(mode_text.next_to(mode_numbers[index],UP).scale(0.6))
-            index+=2
+        for item in mode_numbers[::2]:
+            mode_text = Tex(mode)
+            mode_upper_texts.add(mode_text.next_to(item, UP).scale(0.6))
 
-        mode_text = Tex(str(mode_value) +minute+ " $\longrightarrow$  " +text.mode)
+        mode_text = Tex(str(mode_value) +minute+ " $\longrightarrow$  " +mode)
 
         self.play(AnimationGroup(Write(mode_upper_texts)))
         self.play(TransformFromCopy(mode_upper_texts,mode_text.next_to(average_time_text,DOWN).align_to(width_text,LEFT)))
@@ -203,23 +186,11 @@ class TimeToGetToSchool(Scene):
 
         self.draw_frequency_table(frequency_table_array,sorted_time_text)
 
-    def set_up(self, add=False):
-        self.text = text
-        self.january = text.january
-        self.february = text.february
-        self.minute = text.minute
-
-    def get_date_and_time_text(self, date_time_data):
-        date_and_time = date_time_data[0] + " " + '$\longrightarrow$' + str(date_time_data[1])
-        return Tex(date_and_time)
-
     def get_data_for_table(self, days, minutes):
         data = []
-        index = 0
-        while index < len(days):
+        for index in range(len(days)):
             data.append([VGroup(days[index][0], days[index][1].next_to(days[index][0], RIGHT)),
-                         Tex(minutes[index][0] + minute).next_to(days[index][1], RIGHT)])
-            index += 1
+                         Tex(minutes[index] + minute).next_to(days[index][1], RIGHT)])
         return data
 
     def get_elements_from_list(self, minutes):
@@ -230,9 +201,8 @@ class TimeToGetToSchool(Scene):
         mode_numbers = Tex('$15$ ', ' $ , $ ', ' $15$ ', ' $ , $ ', ' $15$ ', ' $ , $ ', ' $15$ ', ' $ , $ ')
         numbers_before_mode = ""
         numbers_after_mode = ""
-        index = 1
 
-        while index < len(minutes) - 1:
+        for index in range(1,len(minutes)-1):
             if minutes[index] < mode_value:
                 if numbers_before_mode == "":
                     numbers_before_mode = " , "
@@ -244,8 +214,6 @@ class TimeToGetToSchool(Scene):
                 numbers_after_mode += str(minutes[index])
                 numbers_after_mode += " , "
 
-            index += 1
-
         numbers_before_mode = Tex(numbers_before_mode)
         numbers_after_mode = Tex(numbers_after_mode)
         total_minutes_text = VGroup(first_element, numbers_before_mode.next_to(first_element))
@@ -254,8 +222,7 @@ class TimeToGetToSchool(Scene):
         total_minutes_text.add(numbers_after_mode.next_to(total_minutes_text))
         total_minutes_text.add(last_element.next_to(total_minutes_text))
 
-        return {"first_element": first_element, "last_element": last_element, "mode_value": mode_value,
-                "mode_numbers": mode_numbers, "total_minutes_text": total_minutes_text}
+        return first_element, last_element, mode_value, mode_numbers, total_minutes_text
 
     def get_elements_frequency_array(self, elements):
 
@@ -267,12 +234,10 @@ class TimeToGetToSchool(Scene):
                 sorted_array.append([Tex(str(elements[current_element_index])), str(count)])
             else:
                 text = ""
-                index = 0
-                while index < count:
+                for index in range(count):
                     text += str(elements[current_element_index])
                     if index != count - 1:
                         text += " ,"
-                    index += 1
                 sorted_array.append([Tex(text), str(count)])
             current_element_index += count
 
@@ -282,8 +247,8 @@ class TimeToGetToSchool(Scene):
         frequency_table = Table(
             data,
             col_labels=[
-                Tex(text.data),
-                Tex(text.count)
+                Tex(data_str),
+                Tex(count)
             ],
             include_outer_lines=True
         )
@@ -297,8 +262,7 @@ class TimeToGetToSchool(Scene):
         self.play(frequency_table.get_columns()[0].animate.set_color(WHITE))
         self.wait()
 
-        index = 0
-        while index < len(data):
+        for index in  range(len(data)):
             self.play(
                 TransformFromCopy(
                     frequency_table.get_cell((index + 2, 1)),
@@ -306,10 +270,9 @@ class TimeToGetToSchool(Scene):
                 )
             )
             self.play(frequency_table.get_rows()[index + 1].animate.set_color(WHITE))
-            index += 1
 
         self.play(frequency_table.get_rows()[0].animate.set_color(WHITE))
         self.wait()
 
-        self.play(Write(Tex(text.frequency_table).scale(0.7).next_to(frequency_table, RIGHT)))
+        self.play(Write(Tex(frequency_table_str).scale(0.7).next_to(frequency_table, DOWN)))
         self.wait()

@@ -5,8 +5,9 @@ day="Օր"
 time="Ժամանակ"
 width="Լայնք"
 average_time=" միջին ժամանակը (միջին թվաբանականը)"
-mode="Մոդ"
-data="Տվյալ"
+mode="Մոդա"
+data_str="Տվյալ"
 count="Քանակ"
-frequency_table="հաճախականային աղյուսակ"
+frequency_table_str="Հաճախականային աղյուսակ"
+
 

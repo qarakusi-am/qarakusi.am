@@ -4,30 +4,16 @@ from manim import FadeOut, Write, Create, Table, Brace
 from manim import Scene
 from . import text
 import numpy as np
-
 from .text import *
-
 
 class Statistics(Scene):
     def construct(self):
-        self.text = text
         run_time = 5
-        minute = text.minute
-        data = ["10 " + minute,
-                "11 " + minute,
-                "12 " + minute,
-                "13 " + minute,
-                "14 " + minute,
-                "15 " + minute,
-                "16 " + minute,
-                "17 " + minute,
-                "18 " + minute]
+        data = [f"{ind} {minute}" for ind in range(10, 19)]
 
         count = [1, 2, 3, 5, 14, 13, 9, 2, 1]
 
-        data_for_table = []
-        for i in range(0, len(data)):
-            data_for_table.append([data[i], str(count[i])])
+        data_for_table = [[i, str(j)] for i, j in zip(data, count)]
 
         table = Table(
             data_for_table,
@@ -100,6 +86,3 @@ class Statistics(Scene):
         self.play(Write(VGroup(conclusion, concolusion_box)), run_time=run_time)
         self.wait(2)
 
-    def set_up(self, add=False):
-        self.text = text
-        self.minute = text.minute

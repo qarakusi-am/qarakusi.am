@@ -100,16 +100,16 @@ class DivisibilityRules(Scene):
         self.wait()
         self.play(multiples.animate(run_time=2).shift(RIGHT * 45), rate_func=smooth)
         self.wait()
-        is_a_divider_text = Tex('$10$', is_a_divider, font_size=FONT_SIZE).shift(UP * 2)
+        is_a_divisor_text = Tex('$10$', is_a_divisor, font_size=FONT_SIZE).shift(UP * 2)
 
         self.play(FadeOut(multiples_of_10_str))
-        self.play(Write(is_a_divider_text, run_time=RUN_TIME_SPEED))
+        self.play(Write(is_a_divisor_text, run_time=RUN_TIME_SPEED))
         self.wait()
 
         self.numbers_divisible_by_10 = numbers_divisible_by_10 = Tex(numbers_ending_with_0,
-                                                                     font_size=FONT_SIZE).next_to(is_a_divider_text,
+                                                                     font_size=FONT_SIZE).next_to(is_a_divisor_text,
                                                                                                   DOWN).shift(DOWN)
-        self.play(FadeOut(multiples, is_a_divider_text))
+        self.play(FadeOut(multiples, is_a_divisor_text))
         self.play(Write(numbers_divisible_by_10, run_time=RUN_TIME_SPEED))
         self.loading_animation(3, numbers_divisible_by_10[0][len(numbers_divisible_by_10[0]) - 1], FONT_SIZE)
         self.wait(0.5)
