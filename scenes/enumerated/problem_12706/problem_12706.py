@@ -5,12 +5,12 @@ from manim import Line, Rectangle, Arrow, MathTex
 from manim import UL, DR, UR, DL
 from manim import RED, GREEN, ORANGE
 
-from movement_problems import CustomMovementScene
+from qarakusiscene import QarakusiScene
 from hanrahashiv import ModifyFormula, FormulaModificationsScene
 from . import text
 
 
-class Problem12706(CustomMovementScene, FormulaModificationsScene):
+class Problem12706(QarakusiScene, FormulaModificationsScene):
     """Ո՞ր թվանշանն է պետք ջնջել ա) 4913, բ) 849170239715 թվից, որպեսզի ստացված թիվը լինի հնարավորին մեծ։"""
     def construct(self):
         screen_center = [0, 0, 0]

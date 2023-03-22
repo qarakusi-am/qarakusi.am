@@ -5,15 +5,15 @@ from manim import Line, MathTex
 from manim import rate_functions, always_redraw, ValueTracker, Indicate
 from manim import ORANGE
 
-from movement_problems import down_brace_with_text, obj_movement
-from movement_problems import Coordinate, CustomMovementScene
+from movement_problems import down_brace_with_text, obj_movement, Coordinate
+from qarakusiscene import QarakusiScene
 from constants import DEFAULT_SEGMENT_STROKE_WIDTH
 from segment import Segment, SegmentEndmark
 from objects import SimpleSVGMobject
 from . import text
 
 
-class Problem12695(CustomMovementScene):
+class Problem12695(QarakusiScene):
     """Մեքենան անցավ ամբողջ ճանապարհի 2/5
        մասը, որից հետո մնաց գնալու 126 կմ։
        Գտնել ամբողք ճանապարհի երկարությունը։"""
