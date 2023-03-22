@@ -5,15 +5,15 @@ from manim import Line, MathTex
 from manim import ReplacementTransform, Wiggle, UL, DR, Rectangle, BraceBetweenPoints
 from manim import BLUE, RED, YELLOW
 
-from movement_problems import down_brace_with_text, obj_movement, up_brace_with_text
-from movement_problems import Coordinate, CustomMovementScene
+from movement_problems import down_brace_with_text, obj_movement, up_brace_with_text, Coordinate
+from qarakusiscene import QarakusiScene
 from constants import DEFAULT_SEGMENT_STROKE_WIDTH
 from segment import Segment, SegmentEndmark
 from objects import SimpleSVGMobject
 from . import text
 
 
-class Problem12699(CustomMovementScene):
+class Problem12699(QarakusiScene):
     """Դուբին առաջին օրը կարդաց գրքի 1/3 մասը, իսկ երկրորդ օրը՝ 1/4 մասը։
        Քանի՞ էջից է բաղկացած գիրքը, եթե մնացել է կարդալու 25 էջ։"""
     def construct(self):

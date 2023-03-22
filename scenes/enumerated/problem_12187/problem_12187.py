@@ -5,12 +5,12 @@ from manim import Line, BraceBetweenPoints, Rectangle, Arrow, MathTex
 from manim import UL, DR, PI, UR
 from manim import RED, YELLOW
 
-from movement_problems import CustomMovementScene
+from qarakusiscene import QarakusiScene
 from objects import SimpleSVGMobject
 from . import text
 
 
-class Problem12187(CustomMovementScene):
+class Problem12187(QarakusiScene):
     """Գտնել ամենափոքր բնական թիվը, որի թվանշանների գումարը հավասար է 23:"""
     def construct(self):
         screen_center = [0, 0, 0]
