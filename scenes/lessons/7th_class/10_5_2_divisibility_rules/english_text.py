@@ -1,5 +1,5 @@
 multiples_are = "'s multiples are \\\\"
-is_a_divisor=" is a divider of these numbers"
+is_a_divisor=" is a divisor of these numbers"
 numbers_ending_with_0="Numbers ending with 0 are \\ divisible by 10"
 no_other_number=" and no other number"
 number_divisible_by_5_end_with_0_and_5="Numbers ending with 0 or 5 are \\\\ divisible by 5, and no other number"

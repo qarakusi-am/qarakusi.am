@@ -1,6 +1,6 @@
-from manim import UP, DOWN, LEFT, RIGHT, Scene, PI
-from manim import GREEN, ORANGE, WHITE, BLACK, RED, BLUE
-from manim import VGroup, MathTex, Tex, SurroundingRectangle, Arrow, Create
+from manim import UP, DOWN, LEFT, RIGHT
+from manim import  WHITE, RED, BLUE
+from manim import VGroup, MathTex, SurroundingRectangle, Create
 from manim import Write, AnimationGroup, FadeOut, TransformFromCopy, ReplacementTransform, Wiggle
 from segment import ConnectionLine
 
@@ -131,5 +131,3 @@ class NumericExpressionValue(FormulaModificationsScene):
         self.wait()
         self.play(Write(helper_equations[7]))
         self.wait()
-
-

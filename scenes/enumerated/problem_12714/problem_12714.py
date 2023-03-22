@@ -222,11 +222,3 @@ class Problem12714(Scene):
 
         self.play(Write(Tex(doesnt_have_solution, font_size=FONT_SIZE).next_to(equations[4], DOWN*shift_down_factor)))
         self.wait()
-
-
-
-
-
-
-
-
