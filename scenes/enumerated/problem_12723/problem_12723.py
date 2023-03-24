@@ -34,7 +34,7 @@ class Problem12723(FormulaModificationsScene):
         self.wait()
 
         molecules_in_one_gram = Tex(molecules_in_one_gram_str, font_size=.6*FONT_SIZE)
-        molecules_in_one_gram.to_corner(UR)
+        molecules_in_one_gram.to_corner(UR).shift(UP*.1)
         srr_rect = SurroundingRectangle(molecules_in_one_gram, buff=.1, color=GREEN)
         self.play(
             FadeIn(molecules_in_one_gram),
@@ -74,7 +74,7 @@ class Problem12723(FormulaModificationsScene):
             ModifyFormula(
                 molecules_in_ball,
                 replace_items=[[4]],
-                replace_items_strs=[["1", "$0000000000000000000000$"]],
+                replace_items_strs=[["1", "$0$"*22]],
                 new_formula_alignment=ORIGIN
             )
         )
