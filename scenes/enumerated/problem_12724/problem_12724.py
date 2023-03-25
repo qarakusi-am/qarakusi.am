@@ -62,7 +62,7 @@ class Problem12724(Scene):
             if index == 0:
                 tex = MathTex(*"14", font_size=FONT_SIZE)
                 tex.next_to(line1, LEFT).shift(LEFT*5).align_to(first_number, DOWN)
-                self.play(tex.animate.shift(RIGHT*5))
+                self.play(tex.animate.align_to(avelacav1, RIGHT))
                 self.wait()
                 self.play(
                     ReplacementTransform(tex[0], avelacav1),
@@ -75,14 +75,13 @@ class Problem12724(Scene):
                 tex.next_to(line1, LEFT).shift(LEFT*5).align_to(first_number, DOWN)
                 self.play(tex.animate.align_to(avelacav1, RIGHT))
                 self.wait()
-                new_tex = MathTex("5", font_size=FONT_SIZE).move_to(tex.get_center())
-                self.play(ReplacementTransform(VGroup(tex, avelacav1), new_tex))
-                self.wait()
-                self.play(ReplacementTransform(new_tex, first_number[len(first_number)-index-1]))
+                self.play(ReplacementTransform(VGroup(tex, avelacav1), first_number[len(first_number)-index-1]))
                 self.wait()
             
             elif index == 2:
-                self.play(Write(first_number[len(first_number)-index-1]))
+                tex = MathTex("8", font_size=FONT_SIZE)
+                tex.set_y(first_number.get_y()).to_edge(LEFT).shift(LEFT*2)
+                self.play(tex.animate.move_to(first_number[0].get_center()))
                 self.wait()
 
         for index in range(len(num1[0])):
@@ -96,7 +95,7 @@ class Problem12724(Scene):
             if index == 0:
                 tex = MathTex(*"21", font_size=FONT_SIZE)
                 tex.next_to(line1, LEFT).shift(LEFT*5).align_to(second_number, DOWN)
-                self.play(tex.animate.align_to(avelacav1, RIGHT))
+                self.play(tex.animate.align_to(avelacav2, RIGHT))
                 self.wait()
                 self.play(
                     ReplacementTransform(tex[0], avelacav2),
@@ -107,12 +106,9 @@ class Problem12724(Scene):
             elif index == 1:
                 tex = MathTex("6", font_size=FONT_SIZE)
                 tex.next_to(line1, LEFT).shift(LEFT*5).align_to(second_number, DOWN)
-                self.play(tex.animate.align_to(avelacav1, RIGHT))
+                self.play(tex.animate.align_to(avelacav2, RIGHT))
                 self.wait()
-                new_tex = MathTex("8", font_size=FONT_SIZE).move_to(tex.get_center())
-                self.play(ReplacementTransform(VGroup(tex, avelacav2), new_tex))
-                self.wait()
-                self.play(ReplacementTransform(new_tex, second_number[len(second_number)-index-1]))
+                self.play(ReplacementTransform(VGroup(tex, avelacav2), second_number[len(second_number)-index-1]))
                 self.wait()
             
             elif index == 2:
@@ -174,7 +170,6 @@ class Problem12724(Scene):
         self.wait()
         tex = MathTex("2", font_size=FONT_SIZE)
         tex.move_to(second_number[-3].get_center())
-        # self.play(tex.animate.move_to(answer[0][-4].get_center()))
         self.wait()
         self.play(ReplacementTransform(VGroup(tex, avelacav1), answer[0][-4]))
         self.wait()
