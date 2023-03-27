@@ -1,8 +1,7 @@
-from manim import DOWN, RIGHT, WHITE, LEFT, UP, BLACK, BarChart, GREEN, RED, Rectangle, GREEN_B, YELLOW, ORANGE
-from manim import Tex, SurroundingRectangle, VGroup, Line, Text, ReplacementTransform, DrawBorderThenFill
-from manim import FadeOut, Write, Create, Table, Brace
+from manim import DOWN, RIGHT, WHITE, LEFT, UP, BarChart, ORANGE
+from manim import Tex, SurroundingRectangle, VGroup,  ReplacementTransform
+from manim import FadeOut, Write, Table, Brace
 from manim import Scene
-from . import text
 import numpy as np
 from .text import *
 
@@ -18,8 +17,8 @@ class Statistics(Scene):
         table = Table(
             data_for_table,
             col_labels=[
-                Tex(text.data),
-                Tex(text.count)
+                Tex(data),
+                Tex(count)
             ],
             include_outer_lines=True,
             v_buff=0.5,
@@ -45,11 +44,11 @@ class Statistics(Scene):
         self.play(ReplacementTransform(table, histogram))
         self.wait(2)
 
-        total_days = Tex(text.total_days)
+        total_days = Tex(total_days_str)
         equality = Tex('$13$', '$ + $', '$9$', '$ + $', '$2$', '$ + $', '$1$').set_color(ORANGE)
         result = Tex('$25$')
-        days_bought_a_pie = Tex(text.days_bought_a_pie)
-        conclusion = Tex(text.number_of_pie_bought_days, r'$\frac{25}{50} $ ', '$ = 0.5 $' + text.part)
+        days_bought_a_pie = Tex(days_bought_a_pie_str)
+        conclusion = Tex(number_of_pie_bought_days, r'$\frac{25}{50} $ ', '$ = 0.5 $' + part)
         concolusion_box = SurroundingRectangle(conclusion, color=ORANGE, buff=0.5)
 
         self.play(Write(total_days.next_to(histogram, UP).shift(UP * 1.5)), run_time=2)
@@ -63,7 +62,7 @@ class Statistics(Scene):
         brace.stretch(0.35, dim=0).shift(RIGHT * 2.6)
         self.play(Write(brace), run_time=2)
         self.wait()
-        bought_a_pie_text = Tex(text.bought_a_pie).scale(0.8).set_color(ORANGE)
+        bought_a_pie_text = Tex(bought_a_pie).scale(0.8).set_color(ORANGE)
         equality_text = VGroup(brace, bought_a_pie_text)
 
         self.play(Write(bought_a_pie_text.next_to(brace, UP)), run_time=2)

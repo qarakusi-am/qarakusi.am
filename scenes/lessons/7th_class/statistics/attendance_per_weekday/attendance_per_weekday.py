@@ -52,6 +52,7 @@ class AttendancePerWeekday(Scene):
 
         table2.next_to(table1, DOWN).align_to(table1, UP).scale(0.6).shift(DOWN * 1.7)
         scale_factor = 0.6
+
         for item in data:
             self.play(AnimationGroup(item[0].animate.set_color(WHITE), item[1][0].animate.set_color(WHITE)))
         self.wait()
