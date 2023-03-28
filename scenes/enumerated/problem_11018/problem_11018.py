@@ -175,31 +175,3 @@ class Problem11018(Scene):
             self.play(ReplacementTransform(product_rows[2][0][5+i], helper_numbers[9][i]))
 
         self.wait()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
