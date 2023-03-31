@@ -297,6 +297,10 @@ svg_defaults.add_default(
     {'folder': path_to_SVG / 'fruits',
      'stroke_width': 1}
 )
+svg_defaults.add_default(
+    'yellow_apple',
+    {'folder': path_to_SVG / 'fruits'}
+)
 
 
 class SimpleSVGMobject(VMobject):

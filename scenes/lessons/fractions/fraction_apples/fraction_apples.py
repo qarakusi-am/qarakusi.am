@@ -5,14 +5,14 @@ from objects import SimpleSVGMobject
 from numpy import array
 from .text import *
 
-FONT_SIZE = 24
+FONT_SIZE = 21
 
 class FractionApples(MovingCameraScene):
     def construct(self):
         self.wait()
 
         # apples
-        apple_svg = SimpleSVGMobject("green_apple", scale=1)
+        apple_svg = SimpleSVGMobject("yellow_apple")
         
         apples_3x = VGroup(*[apple_svg.copy() for _ in range(3)])
         apples_3x.arrange(buff=3).to_edge(UP)
@@ -98,7 +98,7 @@ class FractionApples(MovingCameraScene):
             MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=BLUE).move_to(quarter_apples_4x_2[-1].get_center()),
             MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=BLUE).move_to(quarter_apples_4x_1[-1].get_center()),
             MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=BLUE).move_to(quarter_apples_4x_3[-1].get_center())
-        ).shift(RIGHT*.1) #.shift(array([.14, -.012, 0]))
+        ).shift(RIGHT*.1).shift(array([.03, .02, 0]))
         self.play(Write(quarter_texs))
         self.wait()
 
@@ -110,7 +110,7 @@ class FractionApples(MovingCameraScene):
 
         # zoom out camera
         apples_3x.restore()
-        apples_3x.set_opacity(.02).scale(.7).to_edge(UP)
+        apples_3x.set_opacity(.01).scale(.7).to_edge(UP)
         self.add(apples_3x)
 
         for index in range(3):
