@@ -75,7 +75,7 @@ class Problem12723(FormulaModificationsScene):
             ModifyFormula(
                 molecules_in_ball,
                 replace_items=[[4]],
-                replace_items_strs=[["1", "$0$"*22]],
+                replace_items_strs=[["1", "$" + "0" * 22 + "$"]],
                 new_formula_alignment=ORIGIN
             )
         )
