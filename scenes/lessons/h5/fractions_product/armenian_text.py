@@ -1,16 +1,4 @@
 TASK_NUMBER_STR = r"\text{կոտորակների} \\ \text{արտադրյալը}"
 CONDITION_4 = r"\text{1-ին եղանակ․}"
 CONDITION_6 = r"\text{2-րդ եղանակ․}"
-
-
-CONDITION_2_0 = r"\text{2-րդ օրը}"
-PART = r"\text{մասը}"
-BRACE_TEXT_1 = r"\frac{1}{3} \text{ մաս}"
-BRACE_TEXT_2 = r"\frac{1}{4} \text{ մաս}"
-PAGES_25 = r"\text{25 էջ }"
-SOLUTION_PART_4 = r"\text{Ամբողջը = 25 : } \frac{5}{12} \text{ = 25}\cdot \frac{12}{5}"
-RESULT = r"\text{ 60 էջ}"
-BRACE_TEXT_3 = r"\text{ 12 հավասար մասեր}"
-PART_4 = r"\text{ 4 մաս}"
-PART_3 = r"\text{ 3 մաս}"
-PART_5 = r"\text{ 5 մաս}"
+CONDITION_8 = r"\text{3-րդ եղանակ․}"

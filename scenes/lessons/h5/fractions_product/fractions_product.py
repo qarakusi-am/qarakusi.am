@@ -1,38 +1,19 @@
-from movement_problems import down_brace_with_text, obj_movement, up_brace_with_text, Coordinate
 from qarakusiscene import QarakusiScene
-from constants import DEFAULT_SEGMENT_STROKE_WIDTH
-from segment import Segment, SegmentEndmark
-from objects import SimpleSVGMobject
 from . import text
 
-from manim import LEFT, UP, DOWN, RIGHT
-from manim import FadeIn, FadeOut, Write
-from manim import AnimationGroup, Group, VGroup
-from manim import Line, MathTex
-from manim import ReplacementTransform, Wiggle, UL, DR, Rectangle, BraceBetweenPoints
-from manim import BLUE, RED, YELLOW
+from manim import UP, DOWN, UL, DR
+from manim import FadeOut, Write
+from manim import VGroup, Line, MathTex
+from manim import YELLOW
 
 
 class FractionsProduct(QarakusiScene):
     """Հ5 – կոտորակների արտադրյալը"""
     def construct(self):
-        coord_y = -2.2
-        start_point = [-6.5, coord_y, 0]
-        end_point = [6.5, coord_y, 0]
-        screen_center = [0, 0, 0]
-
-        # coordinate = Coordinate(start_point, end_point)
-        #
-        # divide_into_12_parts = coordinate.divide_segment_into_equal_parts(12)
-        # first_point = coordinate.get_point_by_percent_on_segment(percent=33.333333)
-        # second_point = coordinate.get_point_by_percent_on_segment(percent=58.333333)
-
         condition_point = [-2, 3, 0]
-
-
         MathTex.set_default(font_size=60)
         self.add_task_number(text=text.TASK_NUMBER_STR)
-        self.add_plane()
+        # self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
         condition_1 = MathTex(*text.CONDITION_1).next_to(condition_point)
@@ -93,34 +74,76 @@ class FractionsProduct(QarakusiScene):
         self.wait()
 
         # -------------------------- Point 11 ------------------------------- #
+        line_1 = Line(option_2[3][1:3].get_critical_point(UL),
+                      option_2[3][1:3].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        line_2 = Line(option_2[3][10:].get_critical_point(UL),
+                      option_2[3][10:].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        self.play(Write(VGroup(line_1, line_2)))
+        self.wait()
 
-        # self.play(ReplacementTransform(Group(brace_text_1, brace_1), VGroup(*part_4, *part_3, *part_5)))
+        line_3 = Line(option_2[3][4:6].get_critical_point(UL),
+                      option_2[3][4:6].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        line_4 = Line(option_2[3][7:9].get_critical_point(UL),
+                      option_2[3][7:9].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        self.play(Write(VGroup(line_3, line_4)))
         self.wait()
 
         # -------------------------- Point 12 ------------------------------- #
-
-        # self.play(Write(solution_1))
+        condition_7 = MathTex(*text.CONDITION_7).next_to(option_2)
+        self.play(Write(condition_7[0]))
+        self.wait()
+        self.play(Write(condition_7[1]))
+        self.wait()
+        self.play(Write(condition_7[2]))
         self.wait()
 
         # -------------------------- Point 13 ------------------------------- #
-
-        # self.play(AnimationGroup(Write(solution_2), Write(five_twelfth), lag_ratio=1, run_time=2))
+        option_2_all = VGroup(condition_6, option_2, condition_7, line_1, line_2, line_3, line_4)
+        self.play(option_2_all.animate(run_time=1.5).shift(1.8 * DOWN))
         self.wait()
 
+        condition_8 = MathTex(text.CONDITION_8).to_edge().shift(UP)
+        condition_8_1 = solution_group_1.copy().next_to(condition_8)
+        self.play(Write(condition_8))
+        self.play(Write(condition_8_1))
+        self.wait()
 
         # -------------------------- Point 14 ------------------------------- #
+        line_5 = Line(condition_8_1[0][:2].get_critical_point(UL),
+                      condition_8_1[0][:2].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        line_6 = Line(condition_8_1[2][3:].get_critical_point(UL),
+                      condition_8_1[2][3:].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        self.play(Write(VGroup(line_5, line_6)))
+        self.wait()
+
+        line_7 = Line(condition_8_1[0][3:].get_critical_point(UL),
+                      condition_8_1[0][3:].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        line_8 = Line(condition_8_1[2][:2].get_critical_point(UL),
+                      condition_8_1[2][:2].get_critical_point(DR),
+                      stroke_width=5,
+                      color=YELLOW)
+        self.play(Write(VGroup(line_7, line_8)))
+        self.wait()
+
         # -------------------------- Point 15 ------------------------------- #
-
-        # self.play(Write(line), Write(line_2))
+        condition_8_2 = condition_7.copy().next_to(condition_8_1)
+        self.play(Write(condition_8_2[0]))
         self.wait()
-
-        # -------------------------- Point 16 ------------------------------- #
-
-        # self.play(AnimationGroup(Write(result_0), Write(result), lag_ratio=1))
+        self.play(Write(condition_8_2[1]))
         self.wait()
-
-        # -------------------------- Point 17 ------------------------------- #
-
-        # self.play(Write(rectangle))
-
+        self.play(Write(condition_8_2[2]))
         self.wait(3)
