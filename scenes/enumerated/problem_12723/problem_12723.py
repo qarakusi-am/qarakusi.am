@@ -4,6 +4,7 @@ from manim import GREEN
 from manim import UP, LEFT, UR, DOWN, ORIGIN, RIGHT
 from hanrahashiv import ModifyFormula, FormulaModificationsScene
 from qarakusiscene import TaskNumberBox
+from objects import SimpleSVGMobject
 from .text import *
 
 FONT_SIZE = 90
@@ -17,7 +18,7 @@ class Problem12723(FormulaModificationsScene):
         self.play(FadeIn(task_number))
         self.wait()
 
-        ball = Circle().set_opacity(1).scale(1.5)
+        ball = SimpleSVGMobject("football_1").scale(1.2)
         self.play(FadeIn(ball))
         self.wait()
 

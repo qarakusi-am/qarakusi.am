@@ -288,6 +288,11 @@ svg_defaults.add_prefix_default(
     'karkandak_',
     {'folder': path_to_SVG / 'food'}
 )
+svg_defaults.add_prefix_default(
+    'football_',
+    {'folder': path_to_SVG / 'balls'}
+)
+
 
 
 class SimpleSVGMobject(VMobject):
