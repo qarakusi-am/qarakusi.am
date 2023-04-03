@@ -5,10 +5,10 @@ from qarakusiscene import TaskNumberBox
 
 from manim import LEFT, UP, DOWN, RIGHT, PI
 from manim import AnimationGroup, FadeIn, FadeOut, Write, ReplacementTransform
-from manim import MathTex, VGroup, Group
+from manim import MathTex, VGroup
 from manim import Arrow, Line, Circle
 from manim import Axes
-from manim import rate_functions, always_redraw, ValueTracker,MovingCameraScene, BraceBetweenPoints
+from manim import rate_functions, MovingCameraScene, BraceBetweenPoints
 from manim import YELLOW
 
 
@@ -50,8 +50,8 @@ class Problem12674(MovingCameraScene):
         left_arrow = Arrow(stroke_width=4, max_tip_length_to_length_ratio=0.2).scale(1.45).move_to(left_spead_point)
         right_arrow = left_arrow.copy().rotate(angle=PI).move_to(right_spead_point)
 
-        left_car_spead = MathTex(text.LEFT_CAR_SPEAD).move_to(left_arrow).scale(1.2).shift(0.35 * UP + 0.15 * LEFT)
-        right_car_spead = MathTex(text.RIGHT_CAR_SPEAD).move_to(right_arrow).scale(1.2).shift(0.35 * UP + 0.15 * RIGHT)
+        left_car_spead = text.left_car_spead.move_to(left_arrow).shift(0.35 * UP + 0.15 * LEFT)
+        right_car_spead = text.right_car_spead.move_to(right_arrow).shift(0.35 * UP + 0.15 * RIGHT)
 
         spead_animation_group = AnimationGroup(Write(left_arrow), Write(left_car_spead), Write(right_arrow), Write(right_car_spead))
         car_animation_group = cars_movement(left_dist=7.83 * RIGHT, right_dist=6.5 * LEFT, run_time=12)
@@ -68,18 +68,13 @@ class Problem12674(MovingCameraScene):
 
         # --------------------------------------------- Point 6 ------------------------------------- #
         car_animation_group = cars_movement(left_dist=3.3 * LEFT, right_dist=2.8 * RIGHT, run_time=6)
-
-        t = ValueTracker()
-        before_meeting_1 = MathTex(text.BEFORE_MEETING_1).move_to(meeting_moment).scale(1.2).shift(2.22 * LEFT)
-        before_meeting_clock = always_redraw(lambda:MathTex(int(t.get_value())).move_to(before_meeting_1).scale(1.2).shift(2.27  * RIGHT))
-        before_meeting_2 = MathTex(text.BEFORE_MEETING_2).move_to(before_meeting_clock).scale(1.2).shift(1.95 * RIGHT)
-        before_meeting_group = Group(before_meeting_1, before_meeting_2, before_meeting_clock)
+        before_meeting_group = text.before_meeting_group
 
         self.play(FadeOut(meeting_moment))
         self.wait()
         self.add(before_meeting_group)
         self.play(AnimationGroup(car_animation_group,
-                                 t.animate(rate_func=rate_functions.linear,run_time=6).set_value(60)))
+                                 text.t.animate(rate_func=rate_functions.linear,run_time=6).set_value(60)))
         self.wait()
 
         # --------------------------------------------- Point 7 ------------------------------------- #
