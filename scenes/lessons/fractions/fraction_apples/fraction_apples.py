@@ -1,11 +1,11 @@
 from manim import MovingCameraScene, FadeIn, VGroup, ReplacementTransform, AnimationGroup, MathTex, Write, Tex
 from manim import UP, DOWN, RIGHT
-from manim import BLUE
+from manim import ORANGE
 from objects import SimpleSVGMobject
 from numpy import array
 from .text import *
 
-FONT_SIZE = 21
+FONT_SIZE = 27
 
 class FractionApples(MovingCameraScene):
     def construct(self):
@@ -95,16 +95,16 @@ class FractionApples(MovingCameraScene):
 
         # write 1/4 on quarter apples of the first plate
         quarter_texs = VGroup(
-            MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=BLUE).move_to(quarter_apples_4x_2[-1].get_center()),
-            MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=BLUE).move_to(quarter_apples_4x_1[-1].get_center()),
-            MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=BLUE).move_to(quarter_apples_4x_3[-1].get_center())
+            MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=ORANGE).move_to(quarter_apples_4x_2[-1].get_center()),
+            MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=ORANGE).move_to(quarter_apples_4x_1[-1].get_center()),
+            MathTex("\\bf{\\frac{1}{4}}", font_size=FONT_SIZE, color=ORANGE).move_to(quarter_apples_4x_3[-1].get_center())
         ).shift(RIGHT*.1).shift(array([.03, .02, 0]))
         self.play(Write(quarter_texs))
         self.wait()
 
         # transform 3x "1/4"s to "3/4"
-        three_quarters = MathTex("\\frac{3}{4}", font_size=1.15*FONT_SIZE, color=BLUE)
-        three_quarters.next_to(plates_4x[0], UP)
+        three_quarters = MathTex("\\frac{3}{4}", font_size=1.05*FONT_SIZE, color=ORANGE)
+        three_quarters.next_to(plates_4x[0], UP, buff=.19)
         self.play(ReplacementTransform(quarter_texs, three_quarters))
         self.wait()
 
