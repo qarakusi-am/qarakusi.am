@@ -11,7 +11,8 @@ def ModifyFormula(
     remove_items : List = [],
     add_after_items : List =[], add_items_strs : List[List] =[], add_items_colors : List[List] = [],
     replace_items : List[List] = [], replace_items_strs  : List[List] = [], replace_items_colors : List[List] = [],
-    new_formula_alignment=DL, add_items_animation_style = FadeIn, add_lag_ratio = 0.3, new_font_size=None
+    new_formula_alignment=DL, add_items_animation_style = FadeIn, add_lag_ratio = 0.3, new_font_size=None,
+    move_to=None
 ):
     """
         All indices must be indices of original formula
@@ -89,7 +90,12 @@ def ModifyFormula(
         new_font_size = formula[0].font_size
 
     new_formula = type(formula)(*new_tex_string_list, font_size=new_font_size, tex_template=formula.tex_template)
-    new_formula.move_to(formula).align_to(formula, new_formula_alignment)
+    
+    # move_to
+    if move_to is not None:
+        new_formula.move_to(move_to)
+    else:
+        new_formula.move_to(formula).align_to(formula, new_formula_alignment)
 
     # fix colors
     for i in range(len(fixed_items_old)):

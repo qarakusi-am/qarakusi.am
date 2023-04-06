@@ -16,7 +16,6 @@ from manim import PI, OUT
 
 
 class Problem11946(Scene):
-
     def construct(self):
         # --------------------------------------------- Base -------------------------------------- #
         def get_point_x(start, end, percent):
