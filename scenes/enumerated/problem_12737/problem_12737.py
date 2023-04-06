@@ -118,11 +118,13 @@ class Problem12737(Scene):
         )
         self.wait()
 
-        temp = VGroup(verlucel_parz_artadrichneri_1, verlucel_parz_artadrichneri_2).copy().to_edge(RIGHT, buff=2.2)
+        temp = VGroup(verlucel_parz_artadrichneri_1, verlucel_parz_artadrichneri_2).copy()
         VGroup(
-            temp[0][:8],
+            temp[0][:6],
             temp[1][:2]
         ).next_to(temp[1][2], LEFT, aligned_edge=DOWN)
+        temp[0][6:8].align_to(temp[1][4], LEFT)
+        temp.to_edge(LEFT, buff=2.3)
 
         self.play(
             Transform(VGroup(verlucel_parz_artadrichneri_1, verlucel_parz_artadrichneri_2), temp)
