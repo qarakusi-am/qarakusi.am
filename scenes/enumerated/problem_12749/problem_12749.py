@@ -10,9 +10,6 @@ from .text import taskNumberString
 from segment import ConnectionLine
 
 FONT_SIZE = 60
-SCALE_FACTOR = 1.5
-WIGGLE_SCALE_FACTOR = 1.25
-
 
 class Problem12749(FormulaModificationsScene):
     def construct(self):
@@ -22,17 +19,17 @@ class Problem12749(FormulaModificationsScene):
 
         self.formulas = formulas = VGroup(
             Tex('$a$', '$^2$', ' $+$ ', '$1$', '$0$', '$a$', '$+$', ' $2$', '$1$', ' $=$ ',
-                font_size=FONT_SIZE).next_to(2 * UP + 6.5 * LEFT, buff=0.2),  # a^2+10a+21
-            Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$', ' $-$ ', '$1$', '$6$', ' $=$ ', font_size=FONT_SIZE).next_to(
-                1 * UP + 6.5 * LEFT, buff=0.2),  # x^2+6x-16
-            Tex('$z$', '$^2$', ' $-$ ', '$8$', '$z$', ' $+$ ', '$7$', '$=$ ', font_size=FONT_SIZE).next_to(6.5 * LEFT,
-                                                                                                           buff=0.2),
+                font_size = FONT_SIZE).next_to(2 * UP + 6.5 * LEFT, buff = 0.2),  # a^2+10a+21
+            Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$', ' $-$ ', '$1$', '$6$', ' $=$ ', font_size = FONT_SIZE).next_to(
+                1 * UP + 6.5 * LEFT, buff = 0.2),  # x^2+6x-16
+            Tex('$z$', '$^2$', ' $-$ ', '$8$', '$z$', ' $+$ ', '$7$', '$=$ ', font_size = FONT_SIZE).next_to(6.5 * LEFT,
+                                                                                                           buff = 0.2),
             # z^2-8z+7
             Tex('$4$', '$a$', '$^2$', ' $+$ ', '$1$', '$2$', '$a$', ' $+$ ', '$5$', ' $=$ ',
-                font_size=FONT_SIZE).next_to(DOWN + 6.5 * LEFT, buff=0.2))  # 4a^2+12a+5
+                font_size = FONT_SIZE).next_to(DOWN + 6.5 * LEFT, buff = 0.2))  # 4a^2+12a+5
 
         self.numbers = numbers = VGroup(
-            *[MathTex(f'{i + 1})', font_size=FONT_SIZE - 7).next_to(formulas[i], LEFT, buff=0.3) for i in
+            *[MathTex(f'{i + 1})', font_size = FONT_SIZE - 7).next_to(formulas[i], LEFT, buff = 0.3) for i in
               range(4)]).align_to(taskNumber, LEFT)
 
         self.solutions = VGroup()
@@ -49,12 +46,12 @@ class Problem12749(FormulaModificationsScene):
         self.sum_square_prop = Tex(
             '$($', '$a$', ' $+$ ', '$b$', '$)$', '$^2$', ' $=$ ',
             '$a$', '$^2$', ' $+$ ', '$2$', '$\cdot$', '$a$', '$\cdot$', '$b$', ' $+$ ', '$b$', '$^2$',
-            font_size=FONT_SIZE)
+            font_size = FONT_SIZE)
 
         self.difference_of_squares_prop = Tex(
             '$a$', '$^2$', ' $-$ ', '$b$', '$^2$', ' $=$ ',
             '$($', '$a$', ' $-$ ', '$b$', '$)$', '$\cdot$', '$($', '$a$', ' $+$ ', '$b$', '$)$',
-            font_size=FONT_SIZE)
+            font_size = FONT_SIZE)
 
         self.play(FadeOut(formulas[1:]), FadeOut(numbers[1:]))
         self.wait(0.25)
@@ -67,14 +64,14 @@ class Problem12749(FormulaModificationsScene):
     def first(self):
         formulas = self.formulas
         # copy a^2+10a part and move down
-        abbr_formula = Tex('$a$', '$^2$', ' $+$ ', '$1$', '$0$', '$a$', font_size=FONT_SIZE).move_to(
+        abbr_formula = Tex('$a$', '$^2$', ' $+$ ', '$1$', '$0$', '$a$', font_size = FONT_SIZE).move_to(
             formulas[0]).align_to(formulas[0], LEFT)
         self.play(abbr_formula.animate.shift(DOWN))
         self.wait()
         self.fix_formula(abbr_formula)
 
-        self.play(ModifyFormula(abbr_formula, replace_items=[[3, 4, 5]],
-                                replace_items_strs=[['$2$', '$\cdot$', '$a$', '$\cdot$' '$5$']]))
+        self.play(ModifyFormula(abbr_formula, replace_items = [[3, 4, 5]],
+                                replace_items_strs = [['$2$', '$\cdot$', '$a$', '$\cdot$' '$5$']]))
         self.wait()
 
         # write sum square property
@@ -100,18 +97,18 @@ class Problem12749(FormulaModificationsScene):
         # change letters in sum square property to letters from the equation
         self.fix_formula(square_prop)
         self.play(
-            ModifyFormula(square_prop, replace_items=[[3], [14], [16]],
-                          replace_items_strs=[['$5$'], ['$5$'], ['$5$']])
+            ModifyFormula(square_prop, replace_items = [[3], [14], [16]],
+                          replace_items_strs = [['$5$'], ['$5$'], ['$5$']])
         )
         self.wait()
 
         helper_equations = VGroup(
-            Tex(' $+$ ', '$5$', '$^2$', font_size=FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
+            Tex(' $+$ ', '$5$', '$^2$', font_size = FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
                                                                                                        DOWN),
-            Tex(' $-$ ', '$5$', '$^2$', ' $+$ ', '$2$', '$1$', ' $=$ ', font_size=FONT_SIZE),
-            Tex(' $=$ ', '$($', '$a$', ' $+$ ', '$5$', '$)$', '$^2$', font_size=FONT_SIZE).move_to(formulas[0],
+            Tex(' $-$ ', '$5$', '$^2$', ' $+$ ', '$2$', '$1$', ' $=$ ', font_size = FONT_SIZE),
+            Tex(' $=$ ', '$($', '$a$', ' $+$ ', '$5$', '$)$', '$^2$', font_size = FONT_SIZE).move_to(formulas[0],
                                                                                                    LEFT).shift(DOWN),
-            Tex(' $-$ ', '$4$', font_size=FONT_SIZE)
+            Tex(' $-$ ', '$4$', font_size = FONT_SIZE)
         )
 
         self.play(TransformFromCopy(square_prop[15:], helper_equations[0]))
@@ -131,7 +128,7 @@ class Problem12749(FormulaModificationsScene):
 
         # create surrounding rectangle for 5^2-5^2
         surrounding_rectangle1 = SurroundingRectangle(VGroup(helper_equations[0][1:], helper_equations[1][0:3]),
-                                                      color=YELLOW, buff=0.2)
+                                                      color = YELLOW, buff = 0.2)
         self.play(Write(surrounding_rectangle1))
         self.wait()
 
@@ -143,8 +140,8 @@ class Problem12749(FormulaModificationsScene):
         self.wait()
 
         square_formula_lines = VGroup(
-            ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha=1 / 5, color='#628E90'),
-            ConnectionLine(square_prop[7], square_prop[-2], alpha=1 / 5, color='#628E90'))
+            ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha = 1 / 5, color = '#628E90'),
+            ConnectionLine(square_prop[7], square_prop[-2], alpha = 1 / 5, color = '#628E90'))
 
         self.play(Write(square_formula_lines))
         self.wait()
@@ -157,7 +154,7 @@ class Problem12749(FormulaModificationsScene):
         self.wait()
 
         # create surrounding rectangle for -5^2+21
-        surrounding_rectangle2 = SurroundingRectangle(helper_equations[1][0:6], color=YELLOW, buff=0.2)
+        surrounding_rectangle2 = SurroundingRectangle(helper_equations[1][0:6], color = YELLOW, buff = 0.2)
         self.play(Write(surrounding_rectangle2))
         self.wait()
 
@@ -171,7 +168,7 @@ class Problem12749(FormulaModificationsScene):
 
         self.fix_formula(helper_equations[-1])
 
-        self.play(ModifyFormula(helper_equations[-1], replace_items=[[1]], replace_items_strs=[['$2$', '$^2$']]))
+        self.play(ModifyFormula(helper_equations[-1], replace_items = [[1]], replace_items_strs=[['$2$', '$^2$']]))
         self.wait()
 
         # write difference of squares formula
@@ -196,22 +193,22 @@ class Problem12749(FormulaModificationsScene):
 
         self.fix_formula(difference_of_squares_prop)
 
-        self.play(ModifyFormula(difference_of_squares_prop, replace_items=[[0], [7], [13]],
-                                replace_items_strs=[['$($', '$a$', ' $+$ ', '$5$', '$)$'],
+        self.play(ModifyFormula(difference_of_squares_prop, replace_items = [[0], [7], [13]],
+                                replace_items_strs = [['$($', '$a$', ' $+$ ', '$5$', '$)$'],
                                                     ['$($', '$a$', ' $+$ ', '$5$', '$)$'],
                                                     ['$($', '$a$', ' $+$ ', '$5$', '$)$']]))
         self.wait()
 
         self.play(
-            ModifyFormula(difference_of_squares_prop, replace_items=[[7], [17], [27]],
-                          replace_items_strs=[['$2$'], ['$2$'], ['$2$']]))
+            ModifyFormula(difference_of_squares_prop, replace_items = [[7], [17], [27]],
+                          replace_items_strs = [['$2$'], ['$2$'], ['$2$']]))
         self.wait()
 
         # add result of difference of squares to the solution
         difference_of_squares_prop_result = Tex(' $=$ ', '$($', '$($', '$a$', ' $+$ ', '$5$', '$)$', ' $-$ ', '$2$',
                                                 '$)$', '$\cdot$', '$($',
                                                 '$($', '$a$', ' $+$ ', '$5$', '$)$', ' $+$ ', '$2$', '$)$',
-                                                font_size=FONT_SIZE)
+                                                font_size = FONT_SIZE)
 
         difference_of_squares_prop_result[2:7].set_color(RED)
         difference_of_squares_prop_result[12:17].set_color(RED)
@@ -233,16 +230,16 @@ class Problem12749(FormulaModificationsScene):
 
         self.play(
             ModifyFormula(difference_of_squares_prop_result,
-                          replace_items=[[2, 3, 4, 5, 6, 7, 8]],
-                          replace_items_strs=[['$a$', ' $+$ ', '$3$', ]],
-                          replace_items_colors=[[WHITE, WHITE, WHITE]]))
+                          replace_items = [[2, 3, 4, 5, 6, 7, 8]],
+                          replace_items_strs = [['$a$', ' $+$ ', '$3$', ]],
+                          replace_items_colors = [[WHITE, WHITE, WHITE]]))
         self.wait()
 
         self.play(
             ModifyFormula(difference_of_squares_prop_result,
-                          replace_items=[[8, 9, 10, 11, 12, 13, 14]],
-                          replace_items_strs=[['$a$', ' $+$ ', '$7$']],
-                          replace_items_colors=[[WHITE, WHITE, WHITE]]))
+                          replace_items = [[8, 9, 10, 11, 12, 13, 14]],
+                          replace_items_strs = [['$a$', ' $+$ ', '$7$']],
+                          replace_items_colors = [[WHITE, WHITE, WHITE]]))
         self.wait()
 
         self.play(difference_of_squares_prop_result.animate.next_to(helper_equations[-1][-1], RIGHT).align_to(
@@ -265,7 +262,7 @@ class Problem12749(FormulaModificationsScene):
         self.play(FadeIn(formulas[1]), FadeIn(numbers[1]))
         self.wait(0.25)
         # copy x^2+6x part and move down
-        abbr_formula = Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$', font_size=FONT_SIZE).move_to(
+        abbr_formula = Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$', font_size = FONT_SIZE).move_to(
             formulas[1]).align_to(formulas[1], LEFT)
 
         self.play(abbr_formula.animate.shift(DOWN))
@@ -273,8 +270,8 @@ class Problem12749(FormulaModificationsScene):
 
         self.fix_formula(abbr_formula)
         self.play(
-            ModifyFormula(abbr_formula, replace_items=[[3, 4, 5]],
-                          replace_items_strs=[['$2$', '$\cdot$', '$x$', '$\cdot$' '$3$']])
+            ModifyFormula(abbr_formula, replace_items = [[3, 4, 5]],
+                          replace_items_strs = [['$2$', '$\cdot$', '$x$', '$\cdot$' '$3$']])
         )
         self.wait()
 
@@ -301,22 +298,22 @@ class Problem12749(FormulaModificationsScene):
         # change letters in sum square property to letters from the equation
         self.fix_formula(square_prop)
         self.play(
-            ModifyFormula(square_prop, replace_items=[[1], [7], [12]],
-                          replace_items_strs=[['$x$'], ['$x$'], ['$x$']]))
+            ModifyFormula(square_prop, replace_items = [[1], [7], [12]],
+                          replace_items_strs = [['$x$'], ['$x$'], ['$x$']]))
         self.wait()
 
         self.play(
-            ModifyFormula(square_prop, replace_items=[[3], [14], [16]],
-                          replace_items_strs=[['$3$'], ['$3$'], ['$3$']]))
+            ModifyFormula(square_prop, replace_items = [[3], [14], [16]],
+                          replace_items_strs = [['$3$'], ['$3$'], ['$3$']]))
         self.wait()
 
         helper_equations = VGroup(
-            Tex(' $+$ ', '$3$', '$^2$', font_size=FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
+            Tex(' $+$ ', '$3$', '$^2$', font_size = FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
                                                                                                        DOWN),
-            Tex(' $-$ ', '$3$', '$^2$', ' $-$ ', '$1$', '$6$', ' $=$ ', font_size=FONT_SIZE),
-            Tex(' $=$ ', '$($', '$x$', ' $+$ ', '$3$', '$)$', '$^2$', font_size=FONT_SIZE).move_to(formulas[1],
+            Tex(' $-$ ', '$3$', '$^2$', ' $-$ ', '$1$', '$6$', ' $=$ ', font_size = FONT_SIZE),
+            Tex(' $=$ ', '$($', '$x$', ' $+$ ', '$3$', '$)$', '$^2$', font_size = FONT_SIZE).move_to(formulas[1],
                                                                                                    LEFT).shift(DOWN),
-            Tex(' $-$ ', '$2$', '$5$', font_size=FONT_SIZE))
+            Tex(' $-$ ', '$2$', '$5$', font_size = FONT_SIZE))
 
         self.play(TransformFromCopy(square_prop[15:], helper_equations[0]))
         self.wait()
@@ -336,7 +333,7 @@ class Problem12749(FormulaModificationsScene):
 
         # create surrounding rectangle for 3^2-3^2
         surrounding_rectangle1 = SurroundingRectangle(VGroup(helper_equations[0][1:], helper_equations[1][0:3]),
-                                                      color=YELLOW, buff=0.2)
+                                                      color = YELLOW, buff = 0.2)
         self.play(Write(surrounding_rectangle1))
         self.wait()
 
@@ -348,8 +345,8 @@ class Problem12749(FormulaModificationsScene):
         self.wait()
 
         square_formula_lines = VGroup(
-            ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha=1 / 5, color='#628E90'),
-            ConnectionLine(square_prop[7], square_prop[-2], alpha=1 / 5, color='#628E90'))
+            ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha =  1 / 5, color = '#628E90'),
+            ConnectionLine(square_prop[7], square_prop[-2], alpha = 1 / 5, color = '#628E90'))
 
         self.play(Write(square_formula_lines))
         self.wait()
@@ -362,7 +359,7 @@ class Problem12749(FormulaModificationsScene):
         self.wait()
 
         # create surrounding rectangle for -3^2-16
-        surrounding_rectangle2 = SurroundingRectangle(helper_equations[1][0:6], color=YELLOW, buff=0.2)
+        surrounding_rectangle2 = SurroundingRectangle(helper_equations[1][0:6], color = YELLOW, buff = 0.2)
         self.play(Write(surrounding_rectangle2))
         self.wait()
 
@@ -375,13 +372,13 @@ class Problem12749(FormulaModificationsScene):
         self.wait()
         self.fix_formula(helper_equations[-1])
 
-        self.play(ModifyFormula(helper_equations[-1], replace_items=[[1,2]], replace_items_strs=[['$5$', '$^2$']]))
+        self.play(ModifyFormula(helper_equations[-1], replace_items = [[1, 2]], replace_items_strs=[['$5$', '$^2$']]))
         self.wait()
 
         difference_of_squares_prop_result = Tex(' $=$ ', '$($', '$($', '$x$', ' $+$ ', '$3$', '$)$', ' $-$ ', '$5$',
                                                 '$)$', '$\cdot$', '$($',
                                                 '$($', '$x$', ' $+$ ', '$3$', '$)$', ' $+$ ', '$5$', '$)$',
-                                                font_size=FONT_SIZE)
+                                                font_size = FONT_SIZE)
 
         difference_of_squares_prop_result.next_to(helper_equations[-1][-1], RIGHT).align_to(helper_equations[2], DOWN)
 
@@ -392,17 +389,16 @@ class Problem12749(FormulaModificationsScene):
         self.fix_formula(difference_of_squares_prop_result)
 
         self.play(ModifyFormula(difference_of_squares_prop_result,
-                                replace_items=[[2, 3, 4, 5, 6, 7, 8]],
-                                replace_items_strs=[['$x$', ' $-$ ', '$2$', ]],
-                                replace_items_colors=[[WHITE, WHITE, WHITE]]))
+                                replace_items = [[2, 3, 4, 5, 6, 7, 8]],
+                                replace_items_strs = [['$x$', ' $-$ ', '$2$', ]],
+                                replace_items_colors = [[WHITE, WHITE, WHITE]]))
         self.wait()
 
         self.play(ModifyFormula(difference_of_squares_prop_result,
-                                replace_items=[[8, 9, 10, 11, 12, 13, 14]],
-                                replace_items_strs=[['$x$', ' $+$ ', '$8$']],
-                                replace_items_colors=[[WHITE, WHITE, WHITE]]))
+                                replace_items = [[8, 9, 10, 11, 12, 13, 14]],
+                                replace_items_strs = [['$x$', ' $+$ ', '$8$']],
+                                replace_items_colors = [[WHITE, WHITE, WHITE]]))
         self.wait()
-
 
         # write final solution
         self.play(AnimationGroup(
@@ -420,21 +416,21 @@ class Problem12749(FormulaModificationsScene):
         self.play(FadeIn(formulas[2]), FadeIn(numbers[2]))
         self.wait(0.25)
         # copy z^2-8z part and move down
-        abbr_formula = Tex('$z$', '$^2$', ' $-$ ', '$8$', '$z$', font_size=FONT_SIZE).move_to(formulas[2]).align_to(
+        abbr_formula = Tex('$z$', '$^2$', ' $-$ ', '$8$', '$z$', font_size = FONT_SIZE).move_to(formulas[2]).align_to(
             formulas[2], LEFT)
         self.play(abbr_formula.animate.shift(DOWN))
         self.wait()
 
         self.fix_formula(abbr_formula)
-        self.play(ModifyFormula(abbr_formula, replace_items=[[3, 4, 5]],
-                                replace_items_strs=[['$2$', '$\cdot$', '$z$', '$\cdot$' '$4$']]))
+        self.play(ModifyFormula(abbr_formula, replace_items = [[3, 4, 5]],
+                                replace_items_strs = [['$2$', '$\cdot$', '$z$', '$\cdot$' '$4$']]))
         self.wait()
 
         helper_equations = VGroup(
-            Tex(' $+$ ', '$4$', '$^2$', font_size=FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
+            Tex(' $+$ ', '$4$', '$^2$', font_size = FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
                                                                                                        DOWN),
-            Tex(' $-$ ', '$4$', '$^2$', ' $+$ ', '$7$', ' $=$ ', font_size=FONT_SIZE),
-            Tex(' $=$ ', '$($', '$z$', ' $-$ ', '$4$', '$)$', '$^2$', ' $-$ ', '$9$', font_size=FONT_SIZE).move_to(
+            Tex(' $-$ ', '$4$', '$^2$', ' $+$ ', '$7$', ' $=$ ', font_size = FONT_SIZE),
+            Tex(' $=$ ', '$($', '$z$', ' $-$ ', '$4$', '$)$', '$^2$', ' $-$ ', '$9$', font_size = FONT_SIZE).move_to(
                 formulas[2], LEFT).shift(DOWN)
         )
         # add 4^2 to abbreviate form and move to equality sign
@@ -451,7 +447,7 @@ class Problem12749(FormulaModificationsScene):
 
         self.play(Write(helper_equations[1]))
         self.wait()
-        square_formula_line = ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha=1 / 5, color='#628E90')
+        square_formula_line = ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha = 1 / 5, color = '#628E90')
 
         self.play(Write(square_formula_line))
         self.wait()
@@ -464,13 +460,13 @@ class Problem12749(FormulaModificationsScene):
 
         self.fix_formula(helper_equations[2])
 
-        self.play(ModifyFormula(helper_equations[2], replace_items=[[8]], replace_items_strs=[['$3$', '$^2$']]))
+        self.play(ModifyFormula(helper_equations[2], replace_items = [[8]], replace_items_strs=[['$3$', '$^2$']]))
         self.wait()
 
         difference_of_squares_prop_result = Tex(' $=$ ', '$($', '$($', '$z$', ' $-$ ', '$4$', '$)$', ' $-$ ', '$3$',
                                                 '$)$', '$\cdot$', '$($',
                                                 '$($', '$z$', ' $-$ ', '$4$', '$)$', ' $+$ ', '$3$', '$)$',
-                                                font_size=FONT_SIZE).next_to(helper_equations[2][-1], RIGHT).align_to(
+                                                font_size = FONT_SIZE).next_to(helper_equations[2][-1], RIGHT).align_to(
             helper_equations[2], DOWN)
 
         self.play(Write(difference_of_squares_prop_result))
@@ -479,15 +475,15 @@ class Problem12749(FormulaModificationsScene):
         # sum the result of difference of squares
         self.fix_formula(difference_of_squares_prop_result)
         self.play(ModifyFormula(difference_of_squares_prop_result,
-                                replace_items=[[2, 3, 4, 5, 6, 7, 8]],
-                                replace_items_strs=[['$z$', ' $-$ ', '$7$', ]],
-                                replace_items_colors=[[WHITE, WHITE, WHITE]]))
+                                replace_items = [[2, 3, 4, 5, 6, 7, 8]],
+                                replace_items_strs = [['$z$', ' $-$ ', '$7$', ]],
+                                replace_items_colors = [[WHITE, WHITE, WHITE]]))
         self.wait()
 
         self.play(ModifyFormula(difference_of_squares_prop_result,
-                                replace_items=[[8, 9, 10, 11, 12, 13, 14]],
-                                replace_items_strs=[['$z$', ' $-$ ', '$1$']],
-                                replace_items_colors=[[WHITE, WHITE, WHITE]]))
+                                replace_items = [[8, 9, 10, 11, 12, 13, 14]],
+                                replace_items_strs = [['$z$', ' $-$ ', '$1$']],
+                                replace_items_colors = [[WHITE, WHITE, WHITE]]))
         self.wait()
 
         self.play(difference_of_squares_prop_result.animate.next_to(helper_equations[2][-1], RIGHT).align_to(
@@ -508,13 +504,14 @@ class Problem12749(FormulaModificationsScene):
 
         self.play(FadeIn(formulas[3]), FadeIn(numbers[3]))
         self.wait(0.25)
+        #shift previous tasks up
         self.play(VGroup(formulas, numbers, self.solutions, self.taskNumber).animate.shift(UP))
         self.wait()
 
         formulas = self.formulas
-        # copy 2a^2+12a part and move down
+        # copy 4a^2+12a part and move down
         abbr_formula = Tex('$4$', '$a$', '$^2$', ' $+$ ', '$1$', '$2$', '$a$',
-                           font_size=FONT_SIZE).move_to(
+                           font_size = FONT_SIZE).move_to(
             formulas[3]).align_to(formulas[3], LEFT)
         abbr_formula[8:].set_opacity(0)
 
@@ -523,22 +520,22 @@ class Problem12749(FormulaModificationsScene):
 
         self.fix_formula(abbr_formula)
         self.play(
-            ModifyFormula(abbr_formula, replace_items=[[0, 1]],
-                          replace_items_strs=[['$($', '$2$', '$a$', '$)$']])
+            ModifyFormula(abbr_formula, replace_items = [[0, 1]],
+                          replace_items_strs = [['$($', '$2$', '$a$', '$)$']])
         )
         self.wait()
         self.play(
-            ModifyFormula(abbr_formula, replace_items=[[6, 7, 8]],
-                          replace_items_strs=[['$2$', '$\cdot$', '$($', '$2$', '$a$', '$)$', '$\cdot$' '$3$']])
+            ModifyFormula(abbr_formula, replace_items = [[6, 7, 8]],
+                          replace_items_strs = [['$2$', '$\cdot$', '$($', '$2$', '$a$', '$)$', '$\cdot$' '$3$']])
         )
         self.wait()
 
         helper_equations = VGroup(
-            Tex(' $+$ ', '$3$', '$^2$', font_size=FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
+            Tex(' $+$ ', '$3$', '$^2$', font_size = FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
                                                                                                        UP),
-            Tex(' $-$ ', '$3$', '$^2$', ' $+$ ', '$5$', ' $=$ ', font_size=FONT_SIZE),
+            Tex(' $-$ ', '$3$', '$^2$', ' $+$ ', '$5$', ' $=$ ', font_size = FONT_SIZE),
             Tex(' $=$ ', '$($', '$2$', '$a$', ' $+$ ', '$3$', '$)$', '$^2$', ' $-$ ', '$4$',
-                font_size=FONT_SIZE).move_to(formulas[3], LEFT).shift(DOWN))
+                font_size = FONT_SIZE).move_to(formulas[3], LEFT).shift(DOWN))
         self.play(Write(helper_equations[0]))
         self.wait()
 
@@ -553,7 +550,7 @@ class Problem12749(FormulaModificationsScene):
         self.play(Write(helper_equations[1]))
         self.wait()
 
-        square_formula_line = ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha=1 / 5, color='#628E90')
+        square_formula_line = ConnectionLine(abbr_formula[0], helper_equations[0][-2], alpha = 1 / 5, color = '#628E90')
 
         self.play(Write(square_formula_line))
         self.wait()
@@ -567,8 +564,8 @@ class Problem12749(FormulaModificationsScene):
         self.fix_formula(helper_equations[2])
 
         self.play(
-            ModifyFormula(helper_equations[2], replace_items=[[9]],
-                          replace_items_strs=[['$2$', '$^2$']])
+            ModifyFormula(helper_equations[2], replace_items = [[9]],
+                          replace_items_strs = [['$2$', '$^2$']])
         )
         self.wait()
 
@@ -576,7 +573,7 @@ class Problem12749(FormulaModificationsScene):
             ' $=$', '$($', '$($', '$2$', '$a$', '$+$', '$3$', '$)$', '$-$',
             '$2$', '$)$', '$\cdot$', '$($',
             '$($', '$2$', '$a$', '$+$', '$3$', '$)$', '$+$', '$2$', '$)$',
-            font_size=FONT_SIZE).next_to(helper_equations[2][-1], RIGHT).align_to(helper_equations[2], DOWN)
+            font_size = FONT_SIZE).next_to(helper_equations[2][-1], RIGHT).align_to(helper_equations[2], DOWN)
 
         self.play(Write(difference_of_squares_prop_result))
 
@@ -585,15 +582,15 @@ class Problem12749(FormulaModificationsScene):
         self.fix_formula(difference_of_squares_prop_result)
         self.fix_formula(difference_of_squares_prop_result)
         self.play(ModifyFormula(difference_of_squares_prop_result,
-                                replace_items=[[2, 3, 4, 5, 6, 7, 8, 9]],
-                                replace_items_strs=[['$2$', '$a$', ' $+$ ', '$1$']],
-                                replace_items_colors=[[WHITE, WHITE, WHITE, WHITE]]))
+                                replace_items = [[2, 3, 4, 5, 6, 7, 8, 9]],
+                                replace_items_strs = [['$2$', '$a$', ' $+$ ', '$1$']],
+                                replace_items_colors = [[WHITE, WHITE, WHITE, WHITE]]))
         self.wait()
 
         self.play(ModifyFormula(difference_of_squares_prop_result,
-                                replace_items=[[9, 10, 11, 12, 13, 14, 15, 16]],
-                                replace_items_strs=[['$2$', '$a$'' $+$ ', '$5$']],
-                                replace_items_colors=[[WHITE, WHITE, WHITE]]))
+                                replace_items = [[9, 10, 11, 12, 13, 14, 15, 16]],
+                                replace_items_strs = [['$2$', '$a$'' $+$ ', '$5$']],
+                                replace_items_colors = [[WHITE, WHITE, WHITE]]))
         self.wait()
 
         self.play(difference_of_squares_prop_result.animate.next_to(helper_equations[2][-1], RIGHT).align_to(
@@ -608,6 +605,6 @@ class Problem12749(FormulaModificationsScene):
         self.wait()
 
         self.solutions.add(difference_of_squares_prop_result[1:])
-
+        #shift previous tasks down
         self.play(VGroup(formulas, numbers, self.solutions, self.taskNumber).animate.shift(DOWN))
         self.wait()
