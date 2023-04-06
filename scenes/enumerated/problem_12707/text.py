@@ -12,5 +12,5 @@ __all__ = [
     "condition3_str",
     "page_str",
     "first_solution_str",
-    "second_solution_str"
+    "second_solution_str",
 ]
