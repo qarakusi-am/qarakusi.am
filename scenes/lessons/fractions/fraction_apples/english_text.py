@@ -1,4 +1,2 @@
-#TODO translate and set the font_size
-
 TEXT_FONT_SIZE = 70
-text_str = "$3$ խնձորը $4$ հավասար մասերի բաժանելիս,\\\\ամեն մասում կլինի $\\frac{3}{4}$ խնձոր"
+text_str = "When dividing $3$ apples into $4$ equal parts,\\\\each part will contain $\\frac{3}{4}$ apple"
