@@ -3,8 +3,9 @@ from manim import UP, DOWN, RIGHT
 from manim import ORANGE
 from objects import SimpleSVGMobject
 from numpy import array
-from .text import *
+from .text import text_str
 
+TEXT_FONT_SIZE = 70
 FONT_SIZE = 27
 
 class FractionApples(MovingCameraScene):
