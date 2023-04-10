@@ -65,7 +65,7 @@ class Problem12732(Scene):
                         Tex('180$^{\circ}$').move_to(hands[0]),
                         Tex('150$^{\circ}$').move_to(hands[0]).shift(UP * 0.2 + RIGHT * 0.2))
 
-        angle_labels = VGroup(Tex(straight_angle).next_to(angles[0], UP).shift(RIGHT * 4),
+        angle_labels = VGroup(Tex(right_angle).next_to(angles[0], UP).shift(RIGHT * 4),
                               Tex(obtuse_angle).next_to(angles[0], UP).shift(RIGHT * 4))
 
         self.play(Write(angles[0]))
