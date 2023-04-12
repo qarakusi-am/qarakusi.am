@@ -45,7 +45,7 @@ class Problem12755(MovingCameraScene):
 
         # write the function
         function_size = 55
-        function = MathTex("y=-1.5x+7", font_size=function_size).shift(RIGHT * 3.2 + UP * 3.4)
+        self.function=function = MathTex("y=-1.5x+7", font_size=function_size).shift(RIGHT * 3.2 + UP * 3.4)
 
         self.play(Write(function))
         self.wait()
@@ -124,7 +124,7 @@ class Problem12755(MovingCameraScene):
         )
         area_position_texts=VGroup(
             Tex(above_line,font_size=FONT_SIZE).move_to(function,LEFT).shift(DOWN),
-            Tex(below_line, font_size=FONT_SIZE).move_to(function, LEFT).shift(DOWN*2+LEFT*5.6)
+            Tex(below_line, font_size=FONT_SIZE).move_to(function, LEFT).shift(DOWN*2+LEFT*6)
         )
         area_above_dividing_line.z_index=area_above_dividing_line.z_index-1
         area_under_dividing_line.z_index=area_under_dividing_line.z_index-1
@@ -278,7 +278,7 @@ class Problem12755(MovingCameraScene):
 
     def solve_for_point_c(self):
         #scale camera
-        self.play(self.camera.frame.animate.scale(1.3).shift(DOWN*1.5))
+        self.play(AnimationGroup(self.camera.frame.animate.scale(1.3).shift(DOWN*2),self.function.animate.shift(DOWN*0.7)))
         self.wait()
 
         coordinate_axes = self.coordinate_axes
@@ -327,7 +327,7 @@ class Problem12755(MovingCameraScene):
         self.wait()
 
         #write the conclusion
-        conclusion = Tex("$1.75 > -8,$ ", hence_str, "\\\\$C$", is_str, below_str, str_suffix, font_size=50).shift(RIGHT*3.5+ UP*2.3)
+        conclusion = Tex("$1.75 > -8,$ ", hence_str, "\\\\$C$", is_str, below_str, str_suffix, font_size=50).shift(RIGHT*3.7+ UP*1.8)
         self.play(Write(conclusion, run_time=2))
         self.wait(2)
 
@@ -344,9 +344,9 @@ class Problem12755(MovingCameraScene):
 
     def solve_for_point_d(self):
 
-        #scale camera
-        self.play(VGroup(self.points_to_display,self.answers).animate.shift(LEFT*2.1))
-        self.play(self.camera.frame.animate.scale(0.9).shift(UP*2.7+LEFT))
+        #scale cameraVGroup
+        self.play(AnimationGroup(VGroup(self.points_to_display,self.answers).animate.shift(LEFT*2.5),
+                  self.camera.frame.animate.scale(0.9).shift(UP*3+LEFT*1.5)))
         self.wait(2)
 
         coordinate_axes = self.coordinate_axes
