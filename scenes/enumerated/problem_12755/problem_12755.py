@@ -172,7 +172,7 @@ class Problem12755(MovingCameraScene):
                        Line(coordinate_axes.c2p(1, 0, 0), coordinate_axes.c2p(1, 8, 0), stroke_width=3))
         braces = VGroup(Brace(lines[0], direction=(-1., 0., 0.), sharpness=1),
                         Brace(lines[1], direction=(1., 0., 0.), sharpness=1), )
-        line_lengths = VGroup(MathTex("5.5", font_size=DOT_SIZE, color=WHITE).next_to(braces[0], LEFT).shift(RIGHT*0.23),
+        line_lengths = VGroup(MathTex("5.5", font_size=DOT_SIZE, color=WHITE).next_to(braces[0], LEFT).shift(RIGHT*0.15),
                               MathTex("8", font_size=DOT_SIZE, color=WHITE).next_to(braces[1], RIGHT))
 
         self.play(Write(lines[0]))
@@ -192,6 +192,7 @@ class Problem12755(MovingCameraScene):
         self.play(Write(braces[1]))
         self.wait()
         self.play(Write(line_lengths[1]))
+        self.wait()
 
         #write the conclusion
         conclusion = Tex("$8 > 5.5,$", hence_str, " \\\\ $A$ ", is_str, above_str, str_suffix, font_size=50).shift(RIGHT*4.3 + UP*2.3)
@@ -393,10 +394,7 @@ class Problem12755(MovingCameraScene):
         self.play(Write(conclusion, run_time=2))
         self.wait()
 
-        self.play(FadeOut( braces, lines, line_lengths))
-        self.wait()
-
-        self.play(FadeOut(point[0][0:]))
+        self.play(FadeOut( braces, lines, line_lengths,point[0][0:]))
         self.wait(2)
 
     def solve_for_point_e(self):
@@ -438,9 +436,6 @@ class Problem12755(MovingCameraScene):
         self.play(Write(conclusion, run_time=2))
         self.wait()
 
-        self.play(FadeOut(braces, lines, line_lengths))
-        self.wait()
-
-        self.play(FadeOut(point[0][0:]))
+        self.play(FadeOut(braces, lines, line_lengths,point[0][0:]))
         self.wait(2)
 
