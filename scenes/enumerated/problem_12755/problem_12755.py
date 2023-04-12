@@ -345,9 +345,9 @@ class Problem12755(MovingCameraScene):
 
     def solve_for_point_d(self):
 
-        #scale cameraVGroup
-        self.play(AnimationGroup(VGroup(self.points_to_display,self.answers).animate.shift(LEFT*2.5),
-                  self.camera.frame.animate.scale(0.9).shift(UP*3+LEFT*1.5)))
+        #scale camera
+        self.play(self.camera.frame.animate.scale(0.9).shift(UP*3+LEFT*1.5))
+        self.play(VGroup(self.points_to_display,self.answers).animate.shift(LEFT*2.5))
         self.wait(2)
 
         coordinate_axes = self.coordinate_axes
