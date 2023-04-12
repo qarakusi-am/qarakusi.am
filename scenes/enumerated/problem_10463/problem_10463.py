@@ -132,25 +132,20 @@ class Problem10463(FormulaModificationsScene):
 
         #combine squares
         helper_equations[-2].align_to(helper_equations[3],LEFT).shift(UP*0.2)
-        self.play(helper_equations[-2].animate.shift(DOWN*1.05))
+        self.play(AnimationGroup(helper_equations[-2].animate.shift(DOWN*1.05+RIGHT*0.4),FadeOut(brace2)))
         self.wait()
 
-        self.play(helper_equations[-3].animate.next_to(helper_equations[-2][-1],RIGHT))
         helper_equations[-1].next_to(helper_equations[-3][-1],RIGHT).shift(DOWN*0.2)
         self.play(Write(helper_equations[-1]))
-        self.wait()
-        self.play(FadeOut(brace2))
         self.wait()
 
         #find solutions
         non_negative=Tex(non_negative_str,font_size=FONT_SIZE).move_to(helper_equations[-2]).shift(DOWN*1.2+RIGHT*2)
-        self.play(Write(non_negative))
-        self.wait()
-
         arrows=VGroup(
             Arrow(non_negative[0][5].get_top(),helper_equations[-3][2].get_bottom(),max_stroke_width_to_length_ratio=2,max_tip_length_to_length_ratio=0.1).scale(1.3,1),
             Arrow(non_negative[0][5].get_top(),helper_equations[-2][2].get_bottom(),max_stroke_width_to_length_ratio=0.9,max_tip_length_to_length_ratio=0.08).scale(1.15,1),
         )
+        self.play(Write(non_negative))
         self.play(Write(arrows))
         self.wait(2)
 
@@ -182,9 +177,14 @@ class Problem10463(FormulaModificationsScene):
                           replace_items_strs=[[' $=$ ', '$-$' '$4$']])
         ))
         self.wait()
-        self.play(AnimationGroup(solution_equations[2].animate.next_to(formulas[0],RIGHT).shift(RIGHT*0.2+UP*0.06),
-                                 solution_equations[3].animate.next_to(formulas[0],RIGHT).shift(RIGHT*2.46)))
-        self.play(FadeOut(helper_equations[0:5],helper_equations[6:],solution_equations[0:2],abbr_formula))
+        final_solution=Tex(' $(x,y) = (-3,-4)$', font_size=FONT_SIZE,color=ORANGE).next_to(formulas[0],RIGHT).shift(RIGHT*0.1+UP*0.06)
+        self.play(TransformFromCopy(solution_equations[2:],final_solution))
+        self.wait()
+
+        surrounding_rectangle2=SurroundingRectangle(final_solution,color=YELLOW)
+        self.play(Write(surrounding_rectangle2))
+        self.wait()
+        self.play(FadeOut(helper_equations[0:5],helper_equations[6:],solution_equations,abbr_formula,surrounding_rectangle2))
         self.wait(2)
 
 
@@ -196,8 +196,6 @@ class Problem10463(FormulaModificationsScene):
         self.play(FadeIn(formulas[1]), FadeIn(numbers[1]))
         self.wait()
 
-        self.play(formulas[1].animate.shift(RIGHT))
-        self.wait()
         # divide 13y^2 into 2 parts
 
         self.fix_formula(formulas[1])
@@ -210,7 +208,7 @@ class Problem10463(FormulaModificationsScene):
         brace2 = Brace(formulas[1][11:19])
 
         helper_equations = VGroup(
-            Tex('$($','$2$','$x$', ' $+$ ', '$3$','$y$','$)$', '$^2$', font_size=FONT_SIZE).move_to(brace1).shift(DOWN*0.5+RIGHT*0.2),
+            Tex('$($','$x$', ' $-$ ', '$3$','$y$','$)$', '$^2$', font_size=FONT_SIZE).move_to(brace1).shift(DOWN*0.5+RIGHT*0.3),
             Tex('$($', '$2$', '$y$', ' $-$ ', '$1$', '$)$', '$^2$', font_size=FONT_SIZE).move_to(brace2).shift(
                 DOWN * 0.5)
         )
@@ -232,7 +230,7 @@ class Problem10463(FormulaModificationsScene):
 
         # combine squares
         helper_signs= VGroup(
-            Tex( ' $+$ ', font_size=FONT_SIZE).next_to(helper_equations[0],RIGHT).shift(RIGHT*0.65),
+            Tex( ' $+$ ', font_size=FONT_SIZE).next_to(helper_equations[0],RIGHT).shift(RIGHT*0.67),
             Tex( ' $=$ ', '$0$',  font_size=FONT_SIZE).next_to(helper_equations[1],RIGHT)
         )
         self.play(Write(helper_signs[0]))
@@ -242,12 +240,12 @@ class Problem10463(FormulaModificationsScene):
         # find solutions
 
         solution_equations = VGroup(
-            Tex('$2$', '$x$', ' $+$ ', '$3$', '$y$',  ' $=$ ', '$0$', font_size=FONT_SIZE).move_to(
+            Tex( '$x$', ' $-$ ', '$3$', '$y$',  ' $=$ ', '$0$', font_size=FONT_SIZE).move_to(
                 helper_equations[0], LEFT).shift(DOWN*1.15),
 
             Tex('$2$', '$y$', ' $-$ ', '$1$', ' $=$ ', '$0$', font_size=FONT_SIZE).move_to(
                 helper_equations[1], LEFT).shift(DOWN*1.15),
-            Tex('$2$', '$x$', ' $-$ ', '$1.5$', ' $=$ ', '$0$', font_size=FONT_SIZE).move_to(
+            Tex( '$x$', ' $-$ ', '$1.5$', ' $=$ ', '$0$', font_size=FONT_SIZE).move_to(
                 helper_equations[0], LEFT).shift(DOWN * 2.3),
         )
 
@@ -258,24 +256,24 @@ class Problem10463(FormulaModificationsScene):
 
         final_values = VGroup(
 
-            Tex('$x$', ' $=$ ', '$\\frac{3}{4}$', font_size=FONT_SIZE).move_to(
+            Tex('$x$', ' $=$ ', '$\\frac{3}{2}$', font_size=FONT_SIZE).move_to(
                 helper_equations[0], LEFT).shift(DOWN * 2.3),
-            Tex('$y$', ' $=$ ', '-$\\frac{1}{2}$', font_size=FONT_SIZE).move_to(
+            Tex('$y$', ' $=$ ', '$\\frac{1}{2}$', font_size=FONT_SIZE).move_to(
                 helper_equations[1], LEFT).shift(DOWN * 2.3),
         )
         #find y
-        surrounding_rectangle=SurroundingRectangle(VGroup(helper_equations[1],helper_signs[1]),color=YELLOW,buff=0.2)
-        self.play(Write(surrounding_rectangle))
+        surrounding_rectangle1=SurroundingRectangle(solution_equations[1],color=YELLOW,buff=0.2)
+        self.play(Write(surrounding_rectangle1))
         self.wait()
 
         self.play(Write(final_values[1]))
         self.wait()
 
-        self.play(FadeOut(surrounding_rectangle))
+        self.play(FadeOut(surrounding_rectangle1))
         self.wait()
 
         # find x
-        curved_arrow = CurvedArrow(final_values[1][2].get_bottom(), solution_equations[0][4].get_bottom(),
+        curved_arrow = CurvedArrow(final_values[1][2].get_bottom(), solution_equations[0][3].get_bottom(),
                                    tip_length=0.15,angle=-.5).shift(DOWN * 0.1)
 
         self.play(Write(curved_arrow))
@@ -290,6 +288,8 @@ class Problem10463(FormulaModificationsScene):
         self.wait(2)
 
         #write final solution
-        self.play(AnimationGroup(TransformFromCopy(final_values[0],final_values[0].copy().move_to(helper_equations[0],LEFT).shift(LEFT*2.5)),
-                                 TransformFromCopy(final_values[1],final_values[1].copy().move_to(helper_equations[0],LEFT).shift(LEFT*2.5+DOWN))))
+        final_solution = Tex(' $(x,y) = (frac{3}{2},frac{1}{2})$', font_size=FONT_SIZE, color=ORANGE).next_to(formulas[1], RIGHT).shift( UP * 0.06)
+        self.play(TransformFromCopy(solution_equations[2:], final_solution))
         self.wait()
+
+
