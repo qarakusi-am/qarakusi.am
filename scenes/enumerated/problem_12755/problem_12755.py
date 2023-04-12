@@ -33,7 +33,7 @@ class Problem12755(MovingCameraScene):
 
         #move point for display to left
         self.play(AnimationGroup(
-            *[points_to_display[i].animate.to_corner(LEFT,UP).shift(DOWN*0.3*i+ RIGHT*0.2+DOWN) for i in range(0,len(points_to_display[0])+3,2)],
+            *[points_to_display[i].animate.to_corner(LEFT,UP).shift(DOWN*0.3*i+ RIGHT*0.2+DOWN*1.5) for i in range(0,len(points_to_display[0])+3,2)],
             *[points_to_display[i].animate.set_opacity(0) for i in range(1, len(points_to_display[0])+2, 2)]
             )
         )
@@ -366,7 +366,7 @@ class Problem12755(MovingCameraScene):
                        Line(coordinate_axes.c2p(-4, 0, 0), coordinate_axes.c2p(-4,7, 0), stroke_width=3))
         braces = VGroup(Brace(lines[0], direction=(-1., 0., 0.), sharpness=1),
                         Brace(lines[1], direction=(1., 0., 0.), sharpness=1))
-        line_lengths = VGroup(MathTex("13", font_size=DOT_SIZE, color=WHITE).next_to(braces[0], LEFT),
+        line_lengths = VGroup(MathTex("13", font_size=DOT_SIZE, color=WHITE).next_to(braces[0], LEFT).shift(RIGHT*0.1),
                               MathTex("7", font_size=DOT_SIZE, color=WHITE).next_to(braces[1], RIGHT))
 
         self.play(Write(lines[0]))
