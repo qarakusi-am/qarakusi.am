@@ -1,0 +1,8 @@
+above_line="above the line"
+below_line="below the line"
+hence_str = "hence"
+is_str = "is "
+above_str = " above "
+below_str = " below "
+on_str=" on "
+str_suffix = " the line"
