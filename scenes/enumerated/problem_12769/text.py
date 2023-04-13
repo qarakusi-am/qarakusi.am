@@ -11,5 +11,6 @@ __all__=[
     "condition3",
     "condition4",
     "condition5",
-    "condition6"
+    "condition6",
+    "abscissa_str"
 ]
