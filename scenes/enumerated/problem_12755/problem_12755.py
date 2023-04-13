@@ -11,10 +11,16 @@ class Problem12755(MovingCameraScene):
     def construct(self):
         self.camera.frame.save_state()
 
-        self.points_to_display=points_to_display = MathTex("A(1,8)",","," B(2,4)",",", "C(3.5,-8)",",","D(-4,7)",",","E(0,4)", font_size=40).shift(UP * 3)
+        self.points_to_display=points_to_display = MathTex("A(1,8)",","," B(2,4)",",", "C(3.5,-8)",",","D(-4,7)",",","E(0,4)", font_size=FONT_SIZE).shift(UP*2 )
         self.answers=VGroup()
 
         self.play(Write(points_to_display))
+        self.wait()
+
+        # write the function
+        self.function = function = MathTex("y=-1.5x+7", font_size=FONT_SIZE).shift(UP)
+
+        self.play(Write(function))
         self.wait()
 
         self.coordinate_axes=coordinate_axes = Axes(
@@ -33,28 +39,24 @@ class Problem12755(MovingCameraScene):
 
         #move point for display to left
         self.play(AnimationGroup(
-            *[points_to_display[i].animate.to_corner(LEFT,UP).shift(DOWN*0.3*i+ RIGHT*0.2+DOWN*1.5) for i in range(0,len(points_to_display[0])+3,2)],
+            *[points_to_display[i].animate.scale(0.7).to_corner(LEFT,UP).shift(DOWN*0.3*i+ RIGHT*0.2+DOWN*.5) for i in range(0,len(points_to_display[0])+3,2)],
             *[points_to_display[i].animate.set_opacity(0) for i in range(1, len(points_to_display[0])+2, 2)]
             )
         )
-        self.wait()
+        self.play(function.animate.shift(RIGHT * 3.2 + UP * 2.4))
+        self.wait(2)
 
         # create coordinate axis
         self.play(Write(coordinate_axes))
         self.wait(2)
 
-        # write the function
-        function_size = 55
-        self.function=function = MathTex("y=-1.5x+7", font_size=function_size).shift(RIGHT * 3.2 + UP * 3.4)
 
-        self.play(Write(function))
-        self.wait()
 
         # find y for x=0
-        first_point_helpers = VGroup(MathTex("x=0", font_size=function_size).move_to(function, LEFT).shift(DOWN * 0.6),
-                                     MathTex("y=", font_size=function_size).move_to(function, LEFT).shift(
+        first_point_helpers = VGroup(MathTex("x=0", font_size=FONT_SIZE).move_to(function, LEFT).shift(DOWN * 0.6),
+                                     MathTex("y=", font_size=FONT_SIZE).move_to(function, LEFT).shift(
                                          DOWN * 0.69 + RIGHT * 1.8),
-                                     MathTex("7", font_size=function_size))
+                                     MathTex("7", font_size=FONT_SIZE))
         first_point_helpers[2].next_to(first_point_helpers[1], RIGHT).shift(UP * 0.09)
 
         self.play(Write(first_point_helpers[0]))
@@ -82,11 +84,11 @@ class Problem12755(MovingCameraScene):
         self.wait()
 
         # find y for x=1
-        second_point_helpers = VGroup(MathTex("x=1", font_size=function_size).move_to(function, LEFT).shift(DOWN * 0.6),
-                                      MathTex("y=-1.5 \cdot 1 + 7", font_size=function_size).move_to(function,
+        second_point_helpers = VGroup(MathTex("x=1", font_size=FONT_SIZE).move_to(function, LEFT).shift(DOWN * 0.6),
+                                      MathTex("y=-1.5 \cdot 1 + 7", font_size=FONT_SIZE).move_to(function,
                                                                                                            LEFT).shift(
                                           DOWN * 0.64 + RIGHT * 1.8),
-                                      MathTex("5.5", font_size=function_size))
+                                      MathTex("5.5", font_size=FONT_SIZE))
 
         self.play(Write(second_point_helpers[0]))
         self.wait()
