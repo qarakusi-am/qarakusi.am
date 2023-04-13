@@ -132,7 +132,7 @@ class Problem10463(FormulaModificationsScene):
 
         #combine squares
         helper_equations[-2].align_to(helper_equations[3],LEFT).shift(UP*0.2)
-        self.play(AnimationGroup(helper_equations[-2].animate.shift(DOWN*1.05+RIGHT*0.4),FadeOut(brace2)))
+        self.play(AnimationGroup(helper_equations[-2].animate.shift(DOWN+RIGHT*0.4),FadeOut(brace2)))
         self.wait()
 
         helper_equations[-1].next_to(helper_equations[-3][-1],RIGHT).shift(DOWN*0.2)
@@ -163,7 +163,7 @@ class Problem10463(FormulaModificationsScene):
 
 
         self.play(ReplacementTransform(VGroup(arrows,non_negative),solution_equations[0:2]))
-        self.wait()
+        self.wait(2)
         self.play(Write(solution_equations[2]))
         self.play(Write(solution_equations[3]))
         self.wait(2)
@@ -177,7 +177,7 @@ class Problem10463(FormulaModificationsScene):
                           replace_items_strs=[[' $=$ ', '$-$' '$4$']])
         ))
         self.wait()
-        final_solution=Tex(' $(x,y) = (-3,-4)$', font_size=FONT_SIZE,color=ORANGE).next_to(formulas[0],RIGHT).shift(RIGHT*0.1+UP*0.06)
+        final_solution=Tex(' $(x,y) = (-3,-4)$', font_size=FONT_SIZE,color=ORANGE).next_to(formulas[0],RIGHT).shift(UP*0.06+LEFT*0.1)
         self.play(TransformFromCopy(solution_equations[2:],final_solution))
         self.wait()
 
@@ -237,6 +237,9 @@ class Problem10463(FormulaModificationsScene):
         self.play(Write(helper_signs[1]))
         self.wait()
 
+        self.play(ModifyFormula(formulas[1], replace_items=[[7, 8,9,10,11]],
+                                replace_items_strs=[['$1$', '$3$', ]]))
+        self.wait()
         # find solutions
 
         solution_equations = VGroup(
@@ -288,8 +291,8 @@ class Problem10463(FormulaModificationsScene):
         self.wait(2)
 
         #write final solution
-        final_solution = Tex(' $(x,y) = (frac{3}{2},frac{1}{2})$', font_size=FONT_SIZE, color=ORANGE).next_to(formulas[1], RIGHT).shift( UP * 0.06)
-        self.play(TransformFromCopy(solution_equations[2:], final_solution))
+        final_solution = Tex(' $(x,y) = ($',r'$\frac{3}{2}$','$,$',r' $\frac{1}{2}$','$)$', font_size=FONT_SIZE, color=ORANGE).next_to(formulas[1], RIGHT).shift( UP * 0.06)
+        self.play(TransformFromCopy(VGroup(solution_equations[2:],final_values[1]), final_solution))
         self.wait()
 
 
