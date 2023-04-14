@@ -167,7 +167,7 @@ class Problem12769(FormulaModificationsScene):
         self.wait(3)
 
         point_coordinates = VGroup(
-                       Tex("(-6, -2)", font_size = FONT_SIZE).next_to(coordinate_axes.c2p(-6, -2, 0)).shift(UP*0.3),
+                       Tex("(-6, -2)", font_size = FONT_SIZE).next_to(coordinate_axes.c2p(-6, -2, 0)).shift(UP*0.25),
                        coordinate_axes.get_horizontal_line(coordinate_axes.c2p(-6, -2, 0)),
                        coordinate_axes.get_vertical_line(coordinate_axes.c2p(-6, -2, 0)))
 
@@ -320,5 +320,6 @@ class Problem12769(FormulaModificationsScene):
         self.play(Transform(helper_equations[-1], point[0]))
         self.wait()
 
-        self.play(Write(VGroup(point[1:])))
-        self.wait(2)
+        self.play(Write(point[2:]))
+        self.play(Write(point[1]))
+        self.wait(3)
