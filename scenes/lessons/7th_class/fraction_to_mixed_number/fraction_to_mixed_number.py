@@ -47,8 +47,7 @@ class FractionToMixedNumber(Scene):
         self.play(FadeIn(helper_numbers[0]))
         self.wait(2)
 
-        self.play(FadeIn(helper_numbers[1]))
-        self.wait(2)
+
 
         #create x axis
         x_axis=Line((-6,-3,0),(10,-3,0))
@@ -72,6 +71,9 @@ class FractionToMixedNumber(Scene):
             braces.add(Brace(VGroup(apple_slices[4*i], apple_slices[4*i+3]), sharpness=1, direction=([0., 1., 0.])))
 
         self.play(Write(braces,run_time=RUN_TIME))
+        self.wait(2)
+
+        self.play(FadeIn(helper_numbers[1]))
         self.wait(2)
 
         arrows = VGroup()
