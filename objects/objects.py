@@ -284,6 +284,31 @@ svg_defaults.add_prefix_default(
     {'folder': path_to_SVG / 'colored_books',
      'stroke_width': 1}
 )
+svg_defaults.add_prefix_default(
+    'karkandak_',
+    {'folder': path_to_SVG / 'food'}
+)
+svg_defaults.add_prefix_default(
+    'football_',
+    {'folder': path_to_SVG / 'balls'}
+)
+svg_defaults.add_prefix_default(
+    'plate_',
+    {'folder': path_to_SVG / 'plates'}
+)
+svg_defaults.add_default(
+    'apples_in_plate',
+    {'folder': path_to_SVG / 'fruits'}
+)
+svg_defaults.add_default(
+    'part_of_apple',
+    {'folder': path_to_SVG / 'fruits',
+     'stroke_width': 1}
+)
+svg_defaults.add_default(
+    'yellow_apple',
+    {'folder': path_to_SVG / 'fruits'}
+)
 
 
 class SimpleSVGMobject(VMobject):

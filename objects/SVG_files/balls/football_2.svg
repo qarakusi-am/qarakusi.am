@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="477.60001"
+   height="477.78632"
+   viewBox="-2500 -2500 4776.0001 4777.8632"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="football_2.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.678"
+     inkscape:cx="232.71752"
+     inkscape:cy="360.54827"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12" />
+  <title
+     id="title2">soccer ball</title>
+  <g
+     stroke="#000000"
+     stroke-width="24"
+     id="g8"
+     transform="translate(-112,-110.13686)">
+    <circle
+       fill="#ffffff"
+       r="2376"
+       id="circle4"
+       cx="0"
+       cy="0" />
+    <path
+       fill="none"
+       d="m -1643,-1716 155,158 m -550,2364 c 231,231 538,195 826,202 m -524,-2040 c -491,351 -610,1064 -592,1060 m 1216,-1008 c -51,373 84,783 364,1220 m -107,-2289 c 157,-157 466,-267 873,-329 m -528,4112 c -50,132 -37,315 -8,510 m 62,-3883 c 282,32 792,74 1196,303 M 336,1308 c 310,173 649,247 1060,180 M 1056,-520 C 814,-186 522,125 184,416 m 1109,-2119 c -111,-207 -296,-375 -499,-534 m 1146,1281 c 100,3 197,44 290,141 m -438,495 c 158,297 181,718 204,1140"
+       id="path6" />
+  </g>
+  <path
+     fill="#000000"
+     d="m -1736,-1810.1369 c 243,-153 498,-303 856,-424 141,117 253,307 372,492 -288,275 -562,544 -724,756.00004 -274,-25.00004 -410,-2 -740,-60.00004 3,-244 84,-499 236,-764 z m 2904,-40 c 271,248 537,498 724,788 -55,262.00004 -105,553.00004 -180,704.00004 -234,-35 -536,-125 -819.99997,-200 C 754,-915.13686 661,-1183.1369 552,-1482.1369 c 210,-156 417.00003,-296 616,-368 z m -3273,3033 a 2376,2376 0 0 1 -378,-1391.99996 l 59,-7 c 54,342 124,674 311,928 -36,179 -2,322.99996 51,457.99996 z M -908,57.863143 c 365,59.999997 717,119.999997 1060,179.999997 106,333 120,667 156,999.99996 -262.999999,218 -625,287 -944,420 -372,-240 -523,-508 -736,-767.99996 122,-281 257,-561 464,-831.999997 z M 2105,735.86314 A 2376,2376 0 0 1 1180,1882.8631 l -116,-5 c 84,-127 114,-297 118,-488 232,-111 464,-462.99996 696,-771.99996 86,30 159,72 227,118 z M -182,2262.8631 a 2376,2376 0 0 1 -993,-251 c 199,74 367,143 542,83 53,75 176,134 451,168 z"
+     id="path10" />
+  <metadata
+     id="metadata898">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:title>soccer ball</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
