@@ -12,5 +12,7 @@ __all__=[
     "condition4",
     "condition5",
     "condition6",
-    "abscissa_str"
+    "abscissa_str",
+    "abscissa_axis_str",
+    "x_y_are_whole_numbers"
 ]
