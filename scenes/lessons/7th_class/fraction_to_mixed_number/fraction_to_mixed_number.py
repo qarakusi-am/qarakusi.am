@@ -47,8 +47,6 @@ class FractionToMixedNumber(Scene):
         self.play(FadeIn(helper_numbers[0]))
         self.wait(2)
 
-
-
         #create x axis
         x_axis=Line((-6,-3,0),(10,-3,0))
         self.play(Create(x_axis))
