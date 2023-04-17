@@ -333,5 +333,5 @@ class Problem12769(FormulaModificationsScene):
 
 
         self.play(AnimationGroup(Write(point),coordinates.animate.scale(1/1.15).next_to(coordinate_system.c2p(-1, 1, 0)).shift(
-                           LEFT * 2)))
+                           LEFT * 2.1)))
         self.wait(3)
