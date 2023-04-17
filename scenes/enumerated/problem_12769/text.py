@@ -14,5 +14,6 @@ __all__=[
     "condition6",
     "abscissa_str",
     "abscissa_axis_str",
+    "ordinate_str",
     "x_y_are_whole_numbers"
 ]
