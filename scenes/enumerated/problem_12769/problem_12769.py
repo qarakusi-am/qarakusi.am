@@ -289,7 +289,7 @@ class Problem12769(FormulaModificationsScene):
                                   Tex(x_y_are_whole_numbers, font_size=FONT_SIZE).next_to(coordinates,
                                                                                           DOWN).shift(
                                       DOWN * 0.7 + LEFT * .2),
-                                  Tex('$x<0, y>0$', font_size=FONT_SIZE).scale(1.15).shift(UP),
+                                  Tex('$x<0, y>0$', font_size=FONT_SIZE).scale(1.15).shift(UP+LEFT*0.1),
                                   Tex("$x=-1, y=1$", font_size=FONT_SIZE).scale(1.15).next_to(coordinates, DOWN))
 
         self.play(Write(conditions[-1]))
@@ -323,14 +323,15 @@ class Problem12769(FormulaModificationsScene):
 
         self.play(Transform(VGroup(helper_equations[0:2]), helper_equations[-1]))
         self.wait(2)
+        self.fix_formula(coordinates)
+        self.play(ModifyFormula(coordinates, replace_items=[[2],[4]], replace_items_strs=[["$-1$"],["$1$"]]))
+        self.wait(2)
 
         point = VGroup(Dot(point=coordinate_system.c2p(-1, 1, 0)),
                        coordinate_system.get_horizontal_line(coordinate_system.c2p(-1, 1, 0)),
                        coordinate_system.get_vertical_line(coordinate_system.c2p(-1, 1, 0)))
 
-        self.play(Transform(helper_equations[-1], point[0]))
-        self.wait()
 
-        self.play(AnimationGroup(Write(point[1:]),coordinates.animate.scale(1/1.15).next_to(coordinate_system.c2p(-1, 1, 0)).shift(
-                           LEFT * 1.5)))
+        self.play(AnimationGroup(Write(point),coordinates.animate.scale(1/1.15).next_to(coordinate_system.c2p(-1, 1, 0)).shift(
+                           LEFT * 2)))
         self.wait(3)
