@@ -27,6 +27,7 @@ class Problem12769(FormulaModificationsScene):
             },
             tips=True,
         ).shift(RIGHT * 1.85)
+        self.points=VGroup()
 
         self.play(Write(coordinate_system))
         self.wait()
@@ -74,6 +75,10 @@ class Problem12769(FormulaModificationsScene):
         self.play(FadeOut(conditions[0], point[1:]))
         self.wait()
 
+        #add to shift the whole coordinate system down in the end
+        self.points.add(coordinates)
+        self.points.add(point[0])
+
     def solve_for_condition2(self):
         conditions = self.conditions
         coordinate_system = self.coordinate_system
@@ -116,6 +121,10 @@ class Problem12769(FormulaModificationsScene):
 
         self.play(FadeOut(conditions[1], equation, point[1:]))
         self.wait()
+
+        # add to shift the whole coordinate system down in the end
+        self.points.add(coordinates)
+        self.points.add(point[0])
 
     def solve_for_condition3(self):
         conditions = self.conditions
@@ -174,6 +183,9 @@ class Problem12769(FormulaModificationsScene):
         self.play(FadeOut(point_coordinates[1:], brace, length_from_x_axis, conditions[2], third_quarter))
         self.wait()
 
+        # add to shift the whole coordinate system down in the end
+        self.points.add(point_coordinates[0])
+
     def solve_for_condition4(self):
         conditions = self.conditions
         coordinate_system = self.coordinate_system
@@ -188,7 +200,7 @@ class Problem12769(FormulaModificationsScene):
             UP * 0.7 + RIGHT * 0.2)
 
         brace1 = VGroup(Tex("$5$", font_size=60).next_to(coordinate_system.c2p(4, -2.5, 0)),
-                        BraceBetweenPoints(coordinate_system.c2p(3, -5, 0), coordinate_system.c2p(3, 0, 0))).shift(LEFT*0.12)
+                        BraceBetweenPoints(coordinate_system.c2p(3, -5, 0), coordinate_system.c2p(3, 0, 0))).shift(LEFT*0.14)
         brace2 = brace1.copy().shift(UP * 2.75)
         #put point up to make it visible behind A
         point = VGroup(Tex("$D(3, 5)$", font_size=FONT_SIZE).next_to(coordinate_system.c2p(2.5, 5.5, 0)),
@@ -223,6 +235,9 @@ class Problem12769(FormulaModificationsScene):
         self.play(FadeOut(line, helper_point, conditions[3], brace1, brace2, point[2:]))
         self.wait(2)
 
+        # add to shift the whole coordinate system down in the end
+        self.points.add(point[0:2])
+
     def solve_for_condition5(self):
         conditions = self.conditions
         coordinate_system = self.coordinate_system
@@ -238,21 +253,29 @@ class Problem12769(FormulaModificationsScene):
 
         ordinate = Tex(ordinate_str, font_size=FONT_SIZE).move_to(coordinates).shift(DOWN * 1.4)
         arrow = Arrow(coordinates[4].get_bottom() + DOWN, coordinates[4].get_bottom()).scale(2, 1).shift(DOWN * 0.05)
+
         self.play(Write(arrow))
         self.play(Write(ordinate))
         self.wait()
+
         self.fix_formula(coordinates)
         self.play(ModifyFormula(coordinates, replace_items=[[4]], replace_items_strs=[["$3$"]]))
         self.wait(2)
+
         self.play(ModifyFormula(coordinates, replace_items=[[2]], replace_items_strs=[["$0$"]]))
         self.wait(2)
 
-        point =Dot(point=coordinate_system.c2p(3, 0, 0))
+        point =Dot(point=coordinate_system.c2p(0, 3, 0))
 
         self.play(AnimationGroup(coordinates.animate.scale(1/1.15).next_to(coordinate_system.c2p(0, 3, 0)),Write(point)))
         self.wait(2)
+
         self.play(FadeOut( conditions[4], ordinate, arrow))
         self.wait()
+
+        # add to shift the whole coordinate system down in the end
+        self.points.add(coordinates)
+        self.points.add(point)
 
     def solve_for_condition6(self):
         conditions = self.conditions
@@ -260,13 +283,13 @@ class Problem12769(FormulaModificationsScene):
 
         coordinates = Tex("$F$","$($", "$x$", " $,$ ", "$y$", "$)$", font_size=FONT_SIZE).scale(1.15).move_to(conditions[5],
                                                                                                         LEFT).shift(
-            DOWN + RIGHT * 3)
+            DOWN + RIGHT*1.5 )
 
         helper_equations = VGroup(Tex('$x\cdot y = -1$').next_to(coordinates, DOWN),
                                   Tex(x_y_are_whole_numbers, font_size=FONT_SIZE).next_to(coordinates,
                                                                                           DOWN).shift(
-                                      DOWN * 0.7 + LEFT * 0.2),
-                                  Tex('$x<0, y>0$', font_size=FONT_SIZE).scale(1.15).shift(UP + RIGHT * 0.6),
+                                      DOWN * 0.7 + LEFT * .2),
+                                  Tex('$x<0, y>0$', font_size=FONT_SIZE).scale(1.15).shift(UP),
                                   Tex("$x=-1, y=1$", font_size=FONT_SIZE).scale(1.15).next_to(coordinates, DOWN))
 
         self.play(Write(conditions[-1]))
@@ -275,7 +298,7 @@ class Problem12769(FormulaModificationsScene):
         self.play(Write(coordinates))
         self.wait(2)
 
-        self.play(coordinate_system.animate.shift(DOWN * 2))
+        self.play(VGroup(coordinate_system,self.points).animate.shift(DOWN * 2))
 
         second_quarter = coordinate_system.get_area(
             graph=coordinate_system.plot(lambda x: 0, x_range=[-6.5, 0], ),
