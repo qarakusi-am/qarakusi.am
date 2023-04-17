@@ -98,8 +98,22 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         # gago = MathTex(*text.GAGO).arrange(buff=0.3).next_to(condition_4[1], DOWN).shift(0.27 * DOWN + 0.06 * RIGHT)
         # gata1 = MathTex(*text.GATA).arrange(buff=0.3).next_to(gago, DOWN).shift(DOWN + 0.04 * RIGHT)
         self.play(self.camera.frame.animate.move_to(condition_4[1]).scale(0.7).shift(1.8 * DOWN), run_time=1.5)
+        # gago = MathTex(*text.GAGO).next_to(condition_4[1], DOWN).shift(0.27 * DOWN + 0.06 * RIGHT)
+        # gata1 = MathTex(*text.GATA).next_to(gago, DOWN).shift(DOWN + 0.04 * RIGHT)
+
+        positions_gago = ([1.9, 2.74, 0], [2.74, 2.74, 0], [ 3.6, 2.74, 0], [4.5, 2.74, 0])
         gago = MathTex(*text.GAGO).next_to(condition_4[1], DOWN).shift(0.27 * DOWN + 0.06 * RIGHT)
+        for i, p in enumerate(positions_gago):
+            gago[i].next_to(p)
+        # [i.next_to(p) for p, i in (positions_gago, gago)]
+
+        positions_gata = ([1.9, -1.39, 0], [2.74, -1.39, 0], [3.6, -1.39, 0], [4.5, -1.39, 0])
         gata1 = MathTex(*text.GATA).next_to(gago, DOWN).shift(DOWN + 0.04 * RIGHT)
+        for i, p in enumerate(positions_gata):
+            gata1[i].next_to(p)
+
+        # [gata1[i].next_to(p) for p, i in (positions_gata, len(gata1))]
+        # print(gata1[0].get_critical_point(ORIGIN), gata1[1].get_critical_point(ORIGIN), gata1[2].get_critical_point(ORIGIN), gata1[3].get_critical_point(ORIGIN))
         self.play(Write(gata1))
         self.play(Write(gago))
         self.wait()
@@ -110,11 +124,11 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         self.play(ModifyFormula(gago,
                                 replace_items=[[0], [2]],
                                 replace_items_strs=[[r"\text{ 2 }"], [r"\text{ 2 }"]],
-                                new_formula_alignment=ORIGIN),
+                                ),
                   ModifyFormula(gata1,
                                 replace_items=[[0]],
                                 replace_items_strs=[[r"\text{ 2 }"]],
-                                new_formula_alignment=ORIGIN))
+                                ))
         self.wait()
 
         # -------------------------- Point 15 ------------------------------- #
@@ -123,11 +137,11 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         self.play(ModifyFormula(gata1,
                                 replace_items=[[1], [3]],
                                 replace_items_strs=[[r"\text{ 0 }"], [r"\text{ 0 }"]],
-                                new_formula_alignment=ORIGIN),
+                                ),
                   ModifyFormula(gago,
                                 replace_items=[[1]],
                                 replace_items_strs=[[r"\text{ 0 }"]],
-                                new_formula_alignment=ORIGIN))
+                                ))
         self.wait()
 
         # -------------------------- Point 16 ------------------------------- #
@@ -147,14 +161,14 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         self.play(ModifyFormula(gago,
                                 replace_items=[[3]],
                                 replace_items_strs=[[r"\text{ 1 }"]],
-                                new_formula_alignment=ORIGIN))
+                                ))
         self.wait()
 
         # -------------------------- Point 18 ------------------------------- #
         self.play(ModifyFormula(gata1,
                                 replace_items=[[2]],
                                 replace_items_strs=[[r"\text{ 4 }"]],
-                                new_formula_alignment=ORIGIN))
+                                ))
         self.wait()
 
         # -------------------------- Point 19 ------------------------------- #
