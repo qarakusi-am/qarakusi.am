@@ -76,8 +76,8 @@ class Problem12754(Scene):
         self.wait()
 
         self.play(AnimationGroup(VGroup(line_intersection_point1[0], line_intersection_point2[0]).animate(run_time=2.5).shift(RIGHT * 2.38),
-                                 # VGroup(line_intersection_point1[1],line_intersection_point2[1]).animate(run_time=2.5).move_to(graphs_intersection_point),
-                                 VGroup(line_intersection_point1[2],line_intersection_point2[2]).animate(run_time=2.5).move_to(graphs_intersection_point).shift(RIGHT)))
+                                 line_intersection_point1[1].animate(run_time=2.5).move_to(graphs_intersection_point),
+                                 line_intersection_point2[1].animate(run_time=2.5).move_to(graphs_intersection_point),))
         self.wait(2)
         surrounding_rectangles=VGroup(SurroundingRectangle(line_intersection_point1[2][1],color=YELLOW,buff=0.1),
                                       SurroundingRectangle(line_intersection_point2[2][1],color=YELLOW,buff=0.1))
