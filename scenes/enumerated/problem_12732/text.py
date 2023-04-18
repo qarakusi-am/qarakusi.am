@@ -9,5 +9,5 @@ __all__ = [
     "taskNumberString",
     "angle_between_clock_hands",
     "right_angle",
-    "obtuse_angle",
+    "straight_angle",
 ]
