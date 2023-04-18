@@ -81,12 +81,14 @@ class Problem12767(QarakusiScene):
         #           rectangle_group_copy[3].animate.shift(right_line_shift).rotate(0.5 * PI),
         #           length_sides[0].animate.move_to(left_line_invisible),
         #           length_sides[1].animate.move_to(right_line_invisible))
-        self.play(FadeIn(rectangle_group_copy), FadeIn(length_sides))
-        self.wait()
 
         end_mark_pattern = SegmentEndmark(length=DEFAULT_SEGMENT_STROKE_WIDTH / 20).set_z_index(+1)
         left_end_marks = VGroup(*[end_mark_pattern.copy().move_to(point.get_critical_point(LEFT)) for point in rectangle_group_copy])
         right_end_marks = VGroup(*[end_mark_pattern.copy().move_to(point.get_critical_point(RIGHT)) for point in rectangle_group_copy])
+
+        self.play(FadeIn(rectangle_group_copy), FadeIn(length_sides), Write(VGroup(*left_end_marks, *right_end_marks)))
+        self.wait()
+
 
         brace = BraceBetweenPoints(right_end_marks[0].get_critical_point(UR),
                                    [rectangle_group_copy[0].get_critical_point(RIGHT)[0],
@@ -94,7 +96,6 @@ class Problem12767(QarakusiScene):
                                    direction=RIGHT)
 
         self.play(
-            Write(VGroup(*left_end_marks, *right_end_marks)),
             perimeter.animate.shift(5.1 * LEFT + 2 * UP),
             ReplacementTransform(perimeter[0], brace))
         self.wait()
@@ -123,5 +124,6 @@ class Problem12767(QarakusiScene):
 
         # -------------------------- Point 9 ------------------------------- #
         result = MathTex(*text.RESULT).arrange(DOWN).move_to(rectangle_group)
+        result[1].shift(0.28 * LEFT)
         self.play(Write(result))
         self.wait(3)
