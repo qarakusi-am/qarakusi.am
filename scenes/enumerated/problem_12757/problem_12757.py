@@ -17,6 +17,7 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         condition_point = [-5.25, 3.4, 0]
         self.add_task_number(text=text.TASK_NUMBER_STR)
         MathTex.set_default(font_size=57)
+        # MathTex.set_default(font_size=65)
         self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
@@ -34,7 +35,7 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         # -------------------------- Point 3 ------------------------------- #
         condition_1_0_copy = condition_1[0].copy()
         self.play(rectangle_1.animate.shift(2.3 * DOWN), condition_2.animate.shift(0.8 * UP))
-        self.play(condition_1_0_copy.animate.move_to(rectangle_1).shift(1.2 * UP))
+        self.play(condition_1_0_copy.animate.move_to(rectangle_1).shift(1.4 * UP))
         self.wait()
 
         # -------------------------- Point 4 ------------------------------- #
@@ -88,7 +89,7 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 12 ------------------------------- #
-        self.play(condition_1_0_copy.animate.shift(3 * LEFT))
+        self.play(condition_1_0_copy.animate(run_time=1.5).shift(5.1 * LEFT))
         solution_2_2 = MathTex(text.SOLUTION_2_2).next_to(condition_1_0_copy)
         self.play(Write(solution_2_2))
         self.wait()
@@ -106,13 +107,18 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
                         max_tip_length_to_length_ratio=0.5,
                         max_stroke_width_to_length_ratio=10).scale(1.3)
         arrow_3 = Arrow(solution_2_3[0][6:11].get_critical_point(UP),
-                        solution_2_2[0][4:11].get_critical_point(DOWN),
+                        solution_2_2[0][4:8].get_critical_point(DOWN),
                         color=YELLOW,
                         max_tip_length_to_length_ratio=0.7,
-                        max_stroke_width_to_length_ratio=12).scale(1.5)
+                        max_stroke_width_to_length_ratio=10).scale(1.5)
 
         self.play(Write(solution_2_3))
         self.play(Write(arrow_1), Write(arrow_2), Write(arrow_3))
+        self.play(FadeOut(Group(solution_2_2[0][4], solution_2_2[0][11])))
+        self.wait()
+
+        # -------------------------- Point 15 ------------------------------- #
+        self.play(solution_2_2[0][8:11].animate.set_color(ORANGE))
         self.wait()
 
         # -------------------------- Point 14 ------------------------------- #
@@ -120,39 +126,41 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.play(ReplacementTransform(solution_2_3, solution_2_4), FadeOut(Group(arrow_1, arrow_2, arrow_3)))
         self.wait()
 
-        # -------------------------- Point 15 ------------------------------- #
-        self.play(solution_2_2[0][8:11].animate.set_color(ORANGE))
-        self.wait()
-
         # -------------------------- Point 16 ------------------------------- #
-        self.play(Group(condition_1_0_copy, solution_2_2, solution_2_4).animate.shift(2.1 * LEFT))
-        solution_2_5 = MathTex(text.SOLUTION_2_5).next_to(solution_2_2)
-        solution_2_5[0][8:11].set_color(ORANGE)
+        # self.play(Group(condition_1_0_copy, solution_2_2, solution_2_4).animate.shift(2.1 * LEFT))
+        equal_0 = MathTex(text.EQUAL).next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.4)
+        self.play(Write(equal_0), solution_2_4.animate.next_to(equal_0))
+        solution_2_5 = MathTex(text.SOLUTION_2_5, color=ORANGE).next_to(solution_2_4)
+        # solution_2_5[0][8:11].set_color(ORANGE)
         self.play(Write(solution_2_5))
         self.wait()
 
         # -------------------------- Point 17 ------------------------------- #
-        solution_2_6 = MathTex(text.SOLUTION_2_6).next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT)
+        solution_2_6 = MathTex(text.SOLUTION_2_6).next_to(solution_2_5)
         self.play(Write(solution_2_6))
         self.wait()
 
         # -------------------------- Point 18 ------------------------------- #
-        equal = MathTex(text.EQUAL).next_to(condition_1_0_copy)
-        self.play(FadeOut(Group(solution_2_2, solution_2_4, solution_2_5)),
-                  Write(equal),
-                  solution_2_6.animate.next_to(condition_1_0_copy).shift(0.7 * RIGHT))
-        self.play(Group(condition_1_0_copy, equal, solution_2_6).animate.shift(0.41 * UP))
+        # equal = MathTex(text.EQUAL).next_to(condition_1_0_copy)
+        self.play(FadeOut(Group(solution_2_2, solution_2_4, solution_2_5, equal_0)),
+                  # Write(equal),
+                  solution_2_6.animate.next_to(condition_1_0_copy, aligned_edge=UP))
+        # self.play(Group(condition_1_0_copy, solution_2_6).animate.shift(0.15 * UP))
         self.wait()
 
         # -------------------------- Point 19 ------------------------------- #
         condition_3 = MathTex(*text.CONDITION_3).next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.2)
-        condition_3[4:].next_to(condition_3[:4], DOWN, buff=0.2, aligned_edge=RIGHT)
+        condition_3[4:].next_to(condition_3[:4], DOWN, buff=0.2, aligned_edge=RIGHT).shift(3.95 * LEFT)
         self.play(Write(condition_3))
         self.wait()
 
         # -------------------------- Point 20 ------------------------------- #
         condition_1_2_copy = condition_1[2].copy()
-        self.play(condition_1_2_copy.animate.next_to(condition_3, DOWN, aligned_edge=LEFT, buff=0.2))
+        self.play(FadeOut(condition_3),
+                  condition_1_2_copy.animate.next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.2))
+        self.wait()
+        self.play(FadeOut(condition_2),
+                  Group(rectangle_1, condition_1_2_copy, solution_2_6, condition_1_0_copy).animate.shift(1.2 * UP))
         self.wait()
 
         # -------------------------- Point 21 ------------------------------- #
@@ -182,5 +190,6 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
 
         # -------------------------- Point 26 ------------------------------- #
         result = MathTex(*text.RESULT).next_to(condition_1_2_copy, DOWN, aligned_edge=LEFT, buff=0.2)
+        result[3].next_to(result[0], DOWN, aligned_edge=LEFT)
         self.play(Write(result))
         self.wait(3)
