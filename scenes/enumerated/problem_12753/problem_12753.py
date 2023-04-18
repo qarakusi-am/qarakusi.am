@@ -7,7 +7,7 @@ from manim import LEFT, DOWN, RIGHT
 from manim import FadeOut, Write, FadeIn
 from manim import VGroup, ReplacementTransform, SurroundingRectangle, Group
 from manim import Line, MathTex
-from manim import UL, DR, UR, DL, UP, ORIGIN
+from manim import UL, DR, UR, DL, UP
 from manim import RED
 from manim import MovingCameraScene
 
@@ -95,58 +95,42 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         self.wait()
 
         # -------------------------- Point 13 ------------------------------- #
-        # gago = MathTex(*text.GAGO).arrange(buff=0.3).next_to(condition_4[1], DOWN).shift(0.27 * DOWN + 0.06 * RIGHT)
-        # gata1 = MathTex(*text.GATA).arrange(buff=0.3).next_to(gago, DOWN).shift(DOWN + 0.04 * RIGHT)
         self.play(self.camera.frame.animate.move_to(condition_4[1]).scale(0.7).shift(1.8 * DOWN), run_time=1.5)
-        # gago = MathTex(*text.GAGO).next_to(condition_4[1], DOWN).shift(0.27 * DOWN + 0.06 * RIGHT)
-        # gata1 = MathTex(*text.GATA).next_to(gago, DOWN).shift(DOWN + 0.04 * RIGHT)
 
-        positions_gago = ([1.9, 2.74, 0], [2.74, 2.74, 0], [ 3.6, 2.74, 0], [4.5, 2.74, 0])
-        gago = MathTex(*text.GAGO).next_to(condition_4[1], DOWN).shift(0.27 * DOWN + 0.06 * RIGHT)
+        positions_gago = ([1.8, 0.4, 0], [2.7, 0.4, 0], [3.6, 0.4, 0], [4.5, 0.4, 0])
+        gago = MathTex(*text.GAGO)
         for i, p in enumerate(positions_gago):
-            gago[i].next_to(p)
-        # [i.next_to(p) for p, i in (positions_gago, gago)]
+            gago[i].move_to(p)
 
-        positions_gata = ([1.9, -1.39, 0], [2.74, -1.39, 0], [3.6, -1.39, 0], [4.5, -1.39, 0])
-        gata1 = MathTex(*text.GATA).next_to(gago, DOWN).shift(DOWN + 0.04 * RIGHT)
+        positions_gata = ([1.8, -1.39, 0], [2.7, -1.39, 0], [3.6, -1.39, 0], [4.5, -1.39, 0])
+        gata1 = MathTex(*text.GATA)
         for i, p in enumerate(positions_gata):
-            gata1[i].next_to(p)
+            gata1[i].move_to(p)
 
-        # [gata1[i].next_to(p) for p, i in (positions_gata, len(gata1))]
-        # print(gata1[0].get_critical_point(ORIGIN), gata1[1].get_critical_point(ORIGIN), gata1[2].get_critical_point(ORIGIN), gata1[3].get_critical_point(ORIGIN))
         self.play(Write(gata1))
         self.play(Write(gago))
         self.wait()
 
         # -------------------------- Point 14 ------------------------------- #
-        self.fix_formula(gata1)
-        self.fix_formula(gago)
-        self.play(ModifyFormula(gago,
-                                replace_items=[[0], [2]],
-                                replace_items_strs=[[r"\text{ 2 }"], [r"\text{ 2 }"]],
-                                ),
-                  ModifyFormula(gata1,
-                                replace_items=[[0]],
-                                replace_items_strs=[[r"\text{ 2 }"]],
-                                ))
+        two = MathTex(text.TWO)
+        self.play(ReplacementTransform(gago[0], two.move_to(positions_gago[0])),
+                  ReplacementTransform(gago[2], two.copy().move_to(positions_gago[2])),
+                  ReplacementTransform(gata1[0], two.copy().move_to(positions_gata[0])))
         self.wait()
 
         # -------------------------- Point 15 ------------------------------- #
-        self.fix_formula(gata1)
-        self.fix_formula(gago)
-        self.play(ModifyFormula(gata1,
-                                replace_items=[[1], [3]],
-                                replace_items_strs=[[r"\text{ 0 }"], [r"\text{ 0 }"]],
-                                ),
-                  ModifyFormula(gago,
-                                replace_items=[[1]],
-                                replace_items_strs=[[r"\text{ 0 }"]],
-                                ))
+        zero = MathTex(text.ZERO)
+        self.play(ReplacementTransform(gata1[1], zero.move_to(positions_gata[1])),
+                  ReplacementTransform(gata1[3], zero.copy().move_to(positions_gata[3])),
+                  ReplacementTransform(gago[1], zero.copy().move_to(positions_gago[1])))
         self.wait()
 
         # -------------------------- Point 16 ------------------------------- #
-        condition_6 = MathTex(text.CONDITION_6).next_to(gago, DOWN).shift(0.19 * DOWN + 0.8 * RIGHT)
-        plus = MathTex(text.PLUS).next_to(gago, DOWN, aligned_edge=LEFT).shift(0.4 * UP + 0.5 * LEFT)
+        positions_19 = ([3.6, -0.6, 0], [4.5, -0.6, 0])
+        condition_6 = MathTex(*text.CONDITION_6)
+        condition_6[0].move_to(positions_19[0])
+        condition_6[1].move_to(positions_19[1])
+        plus = MathTex(text.PLUS).next_to(gago, DOWN, aligned_edge=LEFT).shift(0.4 * UP + 0.6 * LEFT)
         rectangle_1 = SurroundingRectangle(Group(gago[3], gata1[3]))
         line_3 = Line(gata1.get_critical_point(UL),
                       gata1.get_critical_point(UR),
@@ -158,17 +142,13 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         self.wait()
 
         # -------------------------- Point 17 ------------------------------- #
-        self.play(ModifyFormula(gago,
-                                replace_items=[[3]],
-                                replace_items_strs=[[r"\text{ 1 }"]],
-                                ))
+        one = MathTex(text.ONE)
+        self.play(ReplacementTransform(gago[3], one.move_to(positions_gago[3])))
         self.wait()
 
         # -------------------------- Point 18 ------------------------------- #
-        self.play(ModifyFormula(gata1,
-                                replace_items=[[2]],
-                                replace_items_strs=[[r"\text{ 4 }"]],
-                                ))
+        four = MathTex(text.FOUR)
+        self.play(ReplacementTransform(gata1[2], four.move_to(gata1[2])))
         self.wait()
 
         # -------------------------- Point 19 ------------------------------- #

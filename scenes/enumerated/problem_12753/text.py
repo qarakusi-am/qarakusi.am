@@ -7,5 +7,9 @@ else:
 
 
 QUESTION_MARK = r"\mathord{?}"
-CONDITION_6 = r"\text{ 1 } \text{ 9 }"
+CONDITION_6 = [r"\text{ 1 }", r"\text{ 9 }"]
 PLUS = r"+"
+TWO = r"2"
+ZERO = r"0"
+ONE = r"1"
+FOUR = r"4"
