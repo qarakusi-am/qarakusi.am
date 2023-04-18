@@ -9,7 +9,7 @@ else:
 SOLUTION_1_2 = r"(n^2)^2"
 SOLUTION_1_3 = r"2\cdot 0.5\cdot n^2"
 SOLUTION_1_4 = r" + \ 0.5^2"
-SOLUTION_1_5 = r"= (n^2)^2 + 2\cdot n^2\cdot 0.5 + 0.5^2 - 0.5^2 + 1"
+SOLUTION_1_5 = r" - \ 0.5^2 + 1"
 SOLUTION_1_6 = r"= (n^2+0.5)^2 + 0.75"
 SOLUTION_2_2 = r"=n^4+(2n^2-n^2) + 1"
 SOLUTION_2_3 = r" (n^2)^2 + 2\cdot n^2\cdot 1 + 1^2"

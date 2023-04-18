@@ -14,14 +14,14 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
     """Ապացուցել, որ թվերը բաղադրյալ են"""
     def construct(self):
         screen_center = [0, 0.9, 0]
-        condition_point = [-5.25, 3.4, 0]
+        condition_point = [-6, 3.4, 0]
         self.add_task_number(text=text.TASK_NUMBER_STR)
-        MathTex.set_default(font_size=57)
-        # MathTex.set_default(font_size=65)
+        # MathTex.set_default(font_size=57)
+        MathTex.set_default(font_size=65)
         self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
-        condition_1 = MathTex(*text.CONDITION_1).next_to(condition_point)
+        condition_1 = MathTex(*text.CONDITION_1).next_to(condition_point).scale(0.86)
         self.play(Write(condition_1), run_time=3)
         self.wait()
 
@@ -33,7 +33,7 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 3 ------------------------------- #
-        condition_1_0_copy = condition_1[0].copy()
+        condition_1_0_copy = condition_1[0].copy().scale(1.16)
         self.play(rectangle_1.animate.shift(2.3 * DOWN), condition_2.animate.shift(0.8 * UP))
         self.play(condition_1_0_copy.animate.move_to(rectangle_1).shift(1.4 * UP))
         self.wait()
@@ -44,28 +44,28 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 5 ------------------------------- #
-        solution_1_2 = MathTex(text.SOLUTION_1_2).move_to(condition_1_0_copy_0[:2]).shift(0.25 * LEFT)
+        solution_1_2 = MathTex(text.SOLUTION_1_2).next_to(condition_1_0_copy_0[:2], ORIGIN, aligned_edge=DOWN).shift(0.25 * LEFT + 0.2 * DOWN)
         self.play(ReplacementTransform(condition_1_0_copy_0[:2], solution_1_2))
         self.wait()
 
         # -------------------------- Point 6 ------------------------------- #
-        solution_1_3 = MathTex(text.SOLUTION_1_3).move_to(condition_1_0_copy_0[2:]).shift(1.3 * RIGHT)
+        solution_1_3 = MathTex(text.SOLUTION_1_3).next_to(condition_1_0_copy_0[2:], ORIGIN, aligned_edge=DOWN).shift(1.3 * RIGHT)
         self.play(ReplacementTransform(condition_1_0_copy_0[3:], solution_1_3))
         self.wait()
 
         # -------------------------- Point 7 -------------------------------
-        self.play(VGroup(solution_1_2, solution_1_3, condition_1_0_copy_0).animate.shift(1.7 * LEFT))
+        self.play(VGroup(solution_1_2, solution_1_3, condition_1_0_copy_0).animate.shift(3.3 * LEFT))
         solution_1_4 = MathTex(text.SOLUTION_1_4).next_to(solution_1_3)
         self.play(Write(solution_1_4))
         self.wait()
 
         # -------------------------- Point 8 ------------------------------- #
-        solution_1_5 = MathTex(text.SOLUTION_1_5).next_to(solution_1_4, DOWN).shift(2.25 * LEFT)
+        solution_1_5 = MathTex(text.SOLUTION_1_5).next_to(solution_1_4)
         self.play(Write(solution_1_5))
         self.wait()
 
         # -------------------------- Point 9 ------------------------------- #
-        solution_1_6 = MathTex(text.SOLUTION_1_6).next_to(solution_1_5, DOWN).shift(0.2 * UP)
+        solution_1_6 = MathTex(text.SOLUTION_1_6).next_to(solution_1_4, DOWN).shift(LEFT)
         self.play(Write(solution_1_6))
         self.wait()
 
@@ -130,7 +130,7 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         # self.play(Group(condition_1_0_copy, solution_2_2, solution_2_4).animate.shift(2.1 * LEFT))
         equal_0 = MathTex(text.EQUAL).next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.4)
         self.play(Write(equal_0), solution_2_4.animate.next_to(equal_0))
-        solution_2_5 = MathTex(text.SOLUTION_2_5, color=ORANGE).next_to(solution_2_4)
+        solution_2_5 = MathTex(text.SOLUTION_2_5, color=ORANGE).next_to(solution_2_4).shift(0.1 * UP)
         # solution_2_5[0][8:11].set_color(ORANGE)
         self.play(Write(solution_2_5))
         self.wait()
@@ -142,7 +142,12 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
 
         # -------------------------- Point 18 ------------------------------- #
         # equal = MathTex(text.EQUAL).next_to(condition_1_0_copy)
-        self.play(FadeOut(Group(solution_2_2, solution_2_4, solution_2_5, equal_0)),
+        self.play(FadeOut(Group(solution_2_2[0][:4],
+                                solution_2_2[0][5:11],
+                                solution_2_2[0][12:],
+                                solution_2_4,
+                                solution_2_5,
+                                equal_0)),
                   # Write(equal),
                   solution_2_6.animate.next_to(condition_1_0_copy, aligned_edge=UP))
         # self.play(Group(condition_1_0_copy, solution_2_6).animate.shift(0.15 * UP))
@@ -150,12 +155,12 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
 
         # -------------------------- Point 19 ------------------------------- #
         condition_3 = MathTex(*text.CONDITION_3).next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.2)
-        condition_3[4:].next_to(condition_3[:4], DOWN, buff=0.2, aligned_edge=RIGHT).shift(3.95 * LEFT)
+        condition_3[4:].next_to(condition_3[:4], DOWN, buff=0.2, aligned_edge=RIGHT).shift(4.55 * LEFT)
         self.play(Write(condition_3))
         self.wait()
 
         # -------------------------- Point 20 ------------------------------- #
-        condition_1_2_copy = condition_1[2].copy()
+        condition_1_2_copy = condition_1[2].copy().scale(1.16)
         self.play(FadeOut(condition_3),
                   condition_1_2_copy.animate.next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.2))
         self.wait()
@@ -169,17 +174,17 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 22 ------------------------------- #
-        solution_3_3 = MathTex(text.SOLUTION_3_3).next_to(solution_3_2)
+        solution_3_3 = MathTex(text.SOLUTION_3_3).next_to(condition_1_2_copy, DOWN, aligned_edge=LEFT)
         self.play(Write(solution_3_3))
         self.wait()
 
         # -------------------------- Point 23 ------------------------------- #
-        solution_3_4 = MathTex(text.SOLUTION_3_4).move_to(solution_3_3[0][-3:]).shift(0.3 * RIGHT)
+        solution_3_4 = MathTex(text.SOLUTION_3_4).move_to(solution_3_3[0][-3:]).shift(0.3 * RIGHT + 0.1 * DOWN)
         self.play(ReplacementTransform(solution_3_3[0][-3:], solution_3_4))
         self.wait()
 
         # -------------------------- Point 24 ------------------------------- #
-        solution_3_5 = MathTex(text.SOLUTION_3_5).next_to(condition_1_2_copy, DOWN, aligned_edge=LEFT, buff=0.2)
+        solution_3_5 = MathTex(text.SOLUTION_3_5).next_to(solution_3_3, DOWN, aligned_edge=LEFT, buff=0.2)
         self.play(Write(solution_3_5))
         self.wait()
 
@@ -190,6 +195,6 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
 
         # -------------------------- Point 26 ------------------------------- #
         result = MathTex(*text.RESULT).next_to(condition_1_2_copy, DOWN, aligned_edge=LEFT, buff=0.2)
-        result[3].next_to(result[0], DOWN, aligned_edge=LEFT)
+        result[4].next_to(result[0], DOWN, aligned_edge=LEFT)
         self.play(Write(result))
         self.wait(3)
