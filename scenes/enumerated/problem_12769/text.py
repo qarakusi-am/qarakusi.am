@@ -15,5 +15,5 @@ __all__=[
     "abscissa_str",
     "abscissa_axis_str",
     "ordinate_str",
-    "x_y_are_whole_numbers"
+    "x_y_are_integers"
 ]
