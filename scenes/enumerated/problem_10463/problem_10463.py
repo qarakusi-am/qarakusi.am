@@ -1,17 +1,14 @@
-from manim import SurroundingRectangle, Brace, CurvedArrow, Transform, Arrow
-from manim import Write, Indicate, Wiggle, Create, Uncreate, FadeIn, FadeOut, AnimationGroup
-from manim import ReplacementTransform, TransformFromCopy, CounterclockwiseTransform
-from manim import GREEN, RED, BLUE, ORANGE, WHITE, YELLOW
-from manim import PI, UR, RIGHT, LEFT, UP, DOWN
+from manim import SurroundingRectangle, Brace, CurvedArrow, Arrow, DashedLine, UL
+from manim import Write, FadeIn, FadeOut, AnimationGroup
+from manim import ReplacementTransform, TransformFromCopy
+from manim import  BLUE, ORANGE, YELLOW
+from manim import  RIGHT, LEFT, UP, DOWN
 from manim import Tex, MathTex, VGroup
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from qarakusiscene import TaskNumberBox
 from .text import *
 
-
 FONT_SIZE=63
-SCALE_FACTOR = 1.5
-WIGGLE_SCALE_FACTOR = 1.25
 
 class Problem10463(FormulaModificationsScene):
     def construct(self):
@@ -24,7 +21,7 @@ class Problem10463(FormulaModificationsScene):
         self.wait()
 
         self.formulas = formulas = VGroup(
-            Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$',' $+$ ', '$y$', '$^2$', ' $+$ ', '$8$', '$y$',' $+$ ', '$2$', '$5$', ' $=$ ', '$0$', font_size=FONT_SIZE).next_to(2.5*UP + 6.5*LEFT, buff=0.2),
+            Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$',' $+$ ', '$y$', '$^2$', ' $-$ ', '$8$', '$y$',' $+$ ', '$2$', '$5$', ' $=$ ', '$0$', font_size=FONT_SIZE).next_to(2.5*UP + 6.5*LEFT, buff=0.2),
             Tex('$x$', '$^2$', ' $-$ ', '$6$', '$x$','$y$',' $+$ ',  '$1$', '$3$','$y$', '$^2$', ' $-$ ', '$4$', '$y$',' $+$ ','$1$', ' $=$ ', '$0$', font_size=FONT_SIZE).next_to(1.5*UP + 6.5*LEFT, buff=0.2),
              )
         self.numbers = numbers = VGroup(*[MathTex(f'{i+1})', font_size=FONT_SIZE-7).next_to(formulas[i], LEFT, buff=0.3) for i in range(2)]).align_to(taskNumber, LEFT)
@@ -44,6 +41,10 @@ class Problem10463(FormulaModificationsScene):
 
     def first(self):
         formulas = self.formulas
+
+        #store solution lines to display on the screen in the end
+        first_solution=self.first_solution=VGroup()
+
         # copy x^2+6x part and move down
         abbr_formula = Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$', font_size=FONT_SIZE).move_to(
             formulas[0]).align_to(formulas[0], LEFT)
@@ -59,17 +60,19 @@ class Problem10463(FormulaModificationsScene):
             Tex(' $+$ ', '$3$', '$^2$', font_size=FONT_SIZE).next_to(abbr_formula[-1], RIGHT).align_to(abbr_formula,
                                                                                                        DOWN),
             Tex(' $-$ ', '$3$', '$^2$', font_size=FONT_SIZE),
-            Tex(' $+$ ', '$y$', '$^2$', ' $+$ ', '$8$', '$y$',' $+$ ', '$2$', '$5$', ' $=$ ', '$0$', font_size=FONT_SIZE),
+            Tex(' $+$ ', '$y$', '$^2$', ' $-$ ', '$8$', '$y$',' $+$ ', '$2$', '$5$', ' $=$ ', '$0$', font_size=FONT_SIZE),
             Tex('$($','$x$', ' $+$ ', '$3$','$)$', '$^2$', font_size=FONT_SIZE),
-            Tex(' $+$ ', '$y$', '$^2$', ' $+$ ', '$8$', '$y$', ' $+$ ', '$1$', '$6$', ' $=$ ', '$0$',
+            Tex(' $+$ ', '$y$', '$^2$', ' $-$ ', '$8$', '$y$', ' $+$ ', '$1$', '$6$', ' $=$ ', '$0$',
                 font_size=FONT_SIZE),
-            Tex( '$y$', '$^2$', ' $+$ ', '$2$', '$\cdot$','$y$', '$\cdot$','$4$',' $+$ ', '$4$', '$^2$',
+            Tex( '$y$', '$^2$', ' $-$ ', '$2$', '$\cdot$','$y$', '$\cdot$','$4$',' $+$ ', '$4$', '$^2$',
                 font_size=FONT_SIZE),
-            Tex('$($', '$y$', ' $+$ ', '$4$', '$)$', '$^2$', font_size=FONT_SIZE),
+            Tex('$($', '$y$', ' $-$ ', '$4$', '$)$', '$^2$', font_size=FONT_SIZE),
             Tex('$($', '$x$', ' $+$ ', '$3$', '$)$', '$^2$', ' $+$ ', font_size=FONT_SIZE),
             Tex( ' $=$ ', '$0$',
                 font_size=FONT_SIZE),
         )
+
+        first_solution.add(helper_equations[-3:])
         # add 3^2 to abbreviate form and move to equality sign
 
         self.play(Write(helper_equations[0]))
@@ -153,9 +156,9 @@ class Problem10463(FormulaModificationsScene):
             Tex('$($', '$x$', ' $+$ ', '$3$', '$)$', '$^2$', ' $=$ ', '$0$', font_size=FONT_SIZE).align_to(
                 helper_equations[-2], LEFT).shift(DOWN*1.8 ),
 
-            Tex('$($', '$y$', ' $+$ ', '$4$', '$)$', '$^2$',' $=$ ', '$0$', font_size=FONT_SIZE).align_to(helper_equations[-2],LEFT).shift(DOWN*1.8+ RIGHT * 5),
+            Tex('$($', '$y$', ' $-$ ', '$4$', '$)$', '$^2$',' $=$ ', '$0$', font_size=FONT_SIZE).align_to(helper_equations[-2],LEFT).shift(DOWN*1.8+ RIGHT * 5),
             Tex( '$x$', ' $+$ ', '$3$', ' $=$ ', '$0$', font_size=FONT_SIZE),
-            Tex('$y$', ' $+$ ', '$4$', ' $=$ ', '$0$', font_size=FONT_SIZE))
+            Tex('$y$', ' $-$ ', '$4$', ' $=$ ', '$0$', font_size=FONT_SIZE))
 
         solution_equations[2].align_to(solution_equations[0],LEFT).shift(DOWN*2.7)
         solution_equations[3].align_to(solution_equations[1],LEFT).shift(DOWN*2.7)
@@ -174,10 +177,12 @@ class Problem10463(FormulaModificationsScene):
             ModifyFormula(solution_equations[2], replace_items=[[1,2,3,4,5]],
                           replace_items_strs=[[' $=$ ', '$-$' '$3$']]),
             ModifyFormula(solution_equations[3], replace_items=[[1,2,3,4,5]],
-                          replace_items_strs=[[' $=$ ', '$-$' '$4$']])
+                          replace_items_strs=[[' $=$ ', '$4$']])
         ))
+
+
         self.wait()
-        final_solution=Tex(' $(x,y) = (-3,-4)$', font_size=FONT_SIZE,color=ORANGE).next_to(formulas[0],RIGHT).shift(UP*0.06+LEFT*0.1)
+        final_solution=Tex(' $(x,y) = (-3,4)$', font_size=FONT_SIZE,color=ORANGE).next_to(formulas[0],RIGHT).shift(UP*0.06+RIGHT*0.2)
         self.play(TransformFromCopy(solution_equations[2:],final_solution))
         self.wait()
 
@@ -187,11 +192,13 @@ class Problem10463(FormulaModificationsScene):
         self.play(FadeOut(helper_equations[0:5],helper_equations[6:],solution_equations,abbr_formula,surrounding_rectangle2))
         self.wait(2)
 
+        first_solution.add(solution_equations)
 
 
     def second(self):
         formulas = self.formulas
         numbers = self.numbers
+        solution=VGroup()
 
         self.play(FadeIn(formulas[1]), FadeIn(numbers[1]))
         self.wait()
@@ -212,6 +219,7 @@ class Problem10463(FormulaModificationsScene):
             Tex('$($', '$2$', '$y$', ' $-$ ', '$1$', '$)$', '$^2$', font_size=FONT_SIZE).move_to(brace2).shift(
                 DOWN * 0.5)
         )
+        solution.add(helper_equations)
 
         # extract first square from equality
 
@@ -233,6 +241,8 @@ class Problem10463(FormulaModificationsScene):
             Tex( ' $+$ ', font_size=FONT_SIZE).next_to(helper_equations[0],RIGHT).shift(RIGHT*0.67),
             Tex( ' $=$ ', '$0$',  font_size=FONT_SIZE).next_to(helper_equations[1],RIGHT)
         )
+        solution.add(helper_signs)
+
         self.play(Write(helper_signs[0]))
         self.play(Write(helper_signs[1]))
         self.wait()
@@ -251,6 +261,7 @@ class Problem10463(FormulaModificationsScene):
             Tex( '$x$', ' $-$ ', '$1.5$', ' $=$ ', '$0$', font_size=FONT_SIZE).move_to(
                 helper_equations[0], LEFT).shift(DOWN * 2.3),
         )
+        solution.add(solution_equations[0:2])
 
 
         self.play(Write(solution_equations[0]))
@@ -264,6 +275,8 @@ class Problem10463(FormulaModificationsScene):
             Tex('$y$', ' $=$ ', '$\\frac{1}{2}$', font_size=FONT_SIZE).move_to(
                 helper_equations[1], LEFT).shift(DOWN * 2.3),
         )
+
+        solution.add(final_values)
         #find y
         surrounding_rectangle1=SurroundingRectangle(solution_equations[1],color=YELLOW,buff=0.2)
         self.play(Write(surrounding_rectangle1))
@@ -276,8 +289,8 @@ class Problem10463(FormulaModificationsScene):
         self.wait()
 
         # find x
-        curved_arrow = CurvedArrow(final_values[1][2].get_bottom(), solution_equations[0][3].get_bottom(),
-                                   tip_length=0.15,angle=-.5).shift(DOWN * 0.1)
+        curved_arrow = CurvedArrow(final_values[1][2].get_top(), solution_equations[0][3].get_bottom(),
+                                   tip_length=0.15,angle=.1).shift(UP * 0.04)
 
         self.play(Write(curved_arrow))
         self.wait()
@@ -293,6 +306,30 @@ class Problem10463(FormulaModificationsScene):
         #write final solution
         final_solution = Tex(' $(x,y) = ($',r'$\frac{3}{2}$','$,$',r' $\frac{1}{2}$','$)$', font_size=FONT_SIZE, color=ORANGE).next_to(formulas[1], RIGHT).shift( UP * 0.06)
         self.play(TransformFromCopy(VGroup(solution_equations[2:],final_values[1]), final_solution))
+        self.wait()
+
+
+
+        #display both solutions
+
+        self.first_solution.scale(0.7)
+        self.play(AnimationGroup(solution.animate.scale(0.7).next_to(DOWN + .5*RIGHT, buff=0.2)))
+
+        dashed_line=DashedLine(solution.get_top(),solution.get_top()+DOWN*2.2,color=BLUE).shift(LEFT*3.86)
+
+        self.first_solution[0].move_to(solution[1],RIGHT).shift(LEFT*8.22)
+        self.first_solution[1][0:2].move_to(solution[2],RIGHT).shift(LEFT*6.75)
+        self.first_solution[1][2:].move_to(solution[3],RIGHT).shift(LEFT*7)
+        solution_numbers = VGroup(
+
+            Tex('$2)$', font_size=FONT_SIZE).move_to(solution[1],LEFT).scale(0.7).shift(LEFT*3.15+DOWN*0.02),
+            Tex('$1)$', font_size=FONT_SIZE).move_to(solution[1],LEFT).scale(0.7).shift(LEFT*10.25+DOWN*0.02),
+        )
+        self.play(Write(solution_numbers[0]))
+        self.play(Write(dashed_line,run_time=1))
+        self.play(Write(solution_numbers[1]))
+        self.play(FadeIn(self.first_solution))
+
         self.wait()
 
 
