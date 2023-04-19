@@ -78,7 +78,7 @@ class Problem12754(MovingCameraScene):
         self.play(Write(line_intersection_point2[-1]))
         self.wait()
 
-        self.play(self.camera.frame.animate.scale(0.8).shift(RIGHT * 0.5 + UP * 0.6))
+        self.play(self.camera.frame.animate.scale(0.8).shift(RIGHT * 0.5 + UP * 0.75))
         self.wait()
 
         self.play(AnimationGroup(
