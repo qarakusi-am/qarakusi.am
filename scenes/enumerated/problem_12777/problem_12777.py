@@ -88,9 +88,10 @@ class Problem12777(Scene):
         self.play(AnimationGroup(VGroup(line[0],y_crossing_point).animate(run_time=2.5).shift(UP * 4)))
         self.wait(2)
 
-        # write parallel line properties
+        # write parallel lines slope  properties
 
         slope_property = Tex(parallel_lines_have_the_same_slope, font_size=FONT_SIZE).shift(UP * 2 + LEFT * 3.8)
+        slope_property.set_color_by_gradient("#FF9673", "#BFCC49")
         self.play(Write(slope_property,run_time=2.5))
         self.wait()
 
