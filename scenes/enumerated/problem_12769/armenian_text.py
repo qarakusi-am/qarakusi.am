@@ -8,4 +8,4 @@ condition6="6) գտնվում է 2-րդ քառորդում, կոորդինատն
 abscissa_str="աբսցիս"
 abscissa_axis_str=" աբսցիսների առանցք"
 ordinate_str="օրդինատ"
-x_y_are_integers="$x$ և $y$ ամբողջ \\\\թվեր են"
+x_y_are_integers="$x$ և $y$ ամբողջ թվեր են"

@@ -8,4 +8,4 @@ condition6="6) is in the second quadrant, the coordinates\\\\ are integers whose
 abscissa_str="abscissa"
 abscissa_axis_str=" abscissa axis"
 ordinate_str="ordinate"
-x_y_are_integers="$x$ and $y$ are\\\\ integers"
+x_y_are_integers="$x$ and $y$ are integers"
