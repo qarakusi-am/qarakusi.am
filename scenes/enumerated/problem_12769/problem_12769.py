@@ -119,10 +119,13 @@ class Problem12769(FormulaModificationsScene):
         self.play(ModifyFormula(coordinates, replace_items=[[4]], replace_items_strs=[["$4$"]]))
         self.wait()
 
+        self.play(FadeOut(equation))
+        self.wait()
+
         self.play(AnimationGroup(coordinates.animate.scale(SCALE_FACTOR).next_to(coordinate_system.c2p(3, 4, 0)), Write(point)))
         self.wait(2)
 
-        self.play(FadeOut(conditions[1], equation, point[1:]))
+        self.play(FadeOut(conditions[1], point[1:]))
         self.wait()
 
         # add to shift the whole coordinate system down in the end
@@ -146,14 +149,13 @@ class Problem12769(FormulaModificationsScene):
         line = coordinate_system.plot(lambda x: -2, x_range=[-6.5, 6.3])
 
         length_value = ValueTracker(1)
-        length_from_x_axis = always_redraw(
-            lambda: MathTex(str(round(length_value.get_value(), 2))).move_to(line, LEFT).shift(
-                RIGHT * 1.7 + DOWN))
+
 
         brace = always_redraw(lambda: Brace(
             VGroup(Dot(coordinate_system.c2p(0, 0, 0)),
                    Dot(coordinate_system.c2p(round(length_value.get_value(), 2) * (-1) + 0.1, -2, 0)))).shift(LEFT * 0.1))
-
+        length_from_x_axis = always_redraw(
+            lambda: MathTex(str(round(length_value.get_value(), 2))).move_to(brace).shift(DOWN))
         point = always_redraw(lambda: Dot(coordinate_system.c2p(round(length_value.get_value(), 2) * (-1), -2, 0)))
 
         self.play(Write(conditions[2],run_time=3.2))
@@ -179,11 +181,13 @@ class Problem12769(FormulaModificationsScene):
             coordinate_system.get_horizontal_line(coordinate_system.c2p(-6, -2, 0)),
             coordinate_system.get_vertical_line(coordinate_system.c2p(-6, -2, 0)))
 
-        self.play(AnimationGroup(FadeOut(line), Write(point_coordinates[1:])))
+        self.play(FadeOut(line,length_from_x_axis,brace))
+        self.wait(2)
+        self.play( Write(point_coordinates[1:]))
         self.play(Write(point_coordinates[0]))
         self.wait(3)
 
-        self.play(FadeOut(point_coordinates[1:], brace, length_from_x_axis, conditions[2], third_quarter))
+        self.play(FadeOut(point_coordinates[1:], conditions[2], third_quarter))
         self.wait()
 
         # add to shift the whole coordinate system down in the end
@@ -196,11 +200,12 @@ class Problem12769(FormulaModificationsScene):
         helper_point = VGroup(Dot(point=coordinate_system.c2p(3, 2, 0)),
                               Tex("(3, 2)", font_size=FONT_SIZE).scale(SCALE_FACTOR).next_to(coordinate_system.c2p(3, 2, 0)))
 
-        arrow = Arrow(helper_point[0].get_top(), coordinate_system.c2p(3, -0.2, 0), stroke_width=3,
-                      max_tip_length_to_length_ratio=0.15).scale(1.2, 1).shift(UP * 0.1)
 
-        abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(arrow, DOWN).shift(
-            DOWN  + RIGHT * 0.3)
+
+        abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(coordinate_system.c2p(3.6, -3.5, 0)).shift(
+            DOWN*3  + RIGHT * 0.3)
+        arrow = Arrow(abscissa_axes.get_center(), abscissa_axes.get_center()+UP*2, stroke_width=3,
+                      max_tip_length_to_length_ratio=0.15).scale(1.2, 1).shift(UP * 0.1)
 
         brace1 = VGroup(Tex("$2$", font_size=FONT_SIZE).next_to(coordinate_system.c2p(4.2, 1, 0)),
                         BraceBetweenPoints(coordinate_system.c2p(3, 2, 0), coordinate_system.c2p(3, 0, 0),direction=(1., 0., 0.))).shift(LEFT*0.14)
@@ -211,7 +216,7 @@ class Problem12769(FormulaModificationsScene):
                        coordinate_system.get_horizontal_line(coordinate_system.c2p(3, -2, 0)),
                        coordinate_system.get_vertical_line(coordinate_system.c2p(3, -2, 0)))
 
-        line = Line(coordinate_system.c2p(3, 2, 0), coordinate_system.c2p(3, -2, 0))
+        line = Line(coordinate_system.c2p(3, 2, 0), coordinate_system.c2p(3, -5, 0))
 
         self.play(Write(conditions[3],run_time=2))
         self.wait()
@@ -270,12 +275,14 @@ class Problem12769(FormulaModificationsScene):
         self.play(ModifyFormula(coordinates[0], replace_items=[[2]], replace_items_strs=[["$0$"]]))
         self.wait(2)
 
-        point =Dot(point=coordinate_system.c2p(0, 3, 0))
+        self.play(FadeOut( ordinate, arrow))
+        self.wait()
 
+        point =Dot(point=coordinate_system.c2p(0, 3, 0))
         self.play(AnimationGroup(coordinates.animate.scale(SCALE_FACTOR).next_to(coordinate_system.c2p(0, 3, 0)),Write(point)))
         self.wait(2)
 
-        self.play(FadeOut( conditions[4], ordinate, arrow))
+        self.play(FadeOut( conditions[4]))
         self.wait()
 
         # add to shift the whole coordinate system down in the end
@@ -325,9 +332,13 @@ class Problem12769(FormulaModificationsScene):
 
         self.play(Transform(VGroup(helper_equations[0:2]), helper_equations[-1]))
         self.wait(2)
+
         self.fix_formula(coordinates)
         self.play(ModifyFormula(coordinates, replace_items=[[2],[4]], replace_items_strs=[["$-1$"],["$1$"]]))
         self.wait(2)
+
+        self.play(FadeOut(helper_equations[-1]))
+        self.wait()
 
         point = VGroup(Dot(point=coordinate_system.c2p(-1, 1, 0)),
                        coordinate_system.get_horizontal_line(coordinate_system.c2p(-1, 1, 0)),
