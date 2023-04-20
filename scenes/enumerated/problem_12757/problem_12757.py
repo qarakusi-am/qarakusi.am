@@ -1,9 +1,8 @@
 from manim import LEFT, UP, DOWN, RIGHT, ORIGIN
 from manim import FadeOut, Write
-from manim import AnimationGroup, Group, VGroup, ReplacementTransform, Wiggle, Dot, Restore
-from manim import Line, Rectangle, Arrow, MathTex, SurroundingRectangle
-from manim import UL, DR, UR, DL
-from manim import RED, GREEN, ORANGE, YELLOW
+from manim import Group, VGroup, ReplacementTransform
+from manim import Line, Rectangle, Arrow, MathTex
+from manim import RED, ORANGE, YELLOW
 
 from qarakusiscene import QarakusiScene
 from hanrahashiv import ModifyFormula, FormulaModificationsScene
@@ -16,12 +15,11 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         screen_center = [0, 0.9, 0]
         condition_point = [-6, 3.4, 0]
         self.add_task_number(text=text.TASK_NUMBER_STR)
-        # MathTex.set_default(font_size=57)
-        MathTex.set_default(font_size=65)
+        MathTex.set_default(font_size=text.default_font_size)
         self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
-        condition_1 = MathTex(*text.CONDITION_1).next_to(condition_point).scale(0.86)
+        condition_1 = MathTex(*text.CONDITION_1).next_to(condition_point).scale(0.86).shift(text.condition_1_shift * LEFT)
         self.play(Write(condition_1), run_time=3)
         self.wait()
 
@@ -33,9 +31,9 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 3 ------------------------------- #
-        condition_1_0_copy = condition_1[0].copy().scale(1.16)
+        condition_1_0_copy = condition_1[0].copy()
         self.play(rectangle_1.animate.shift(2.3 * DOWN), condition_2.animate.shift(0.8 * UP))
-        self.play(condition_1_0_copy.animate.move_to(rectangle_1).shift(1.4 * UP))
+        self.play(condition_1_0_copy.animate.move_to(rectangle_1).shift(1.4 * UP).scale(1.16))
         self.wait()
 
         # -------------------------- Point 4 ------------------------------- #
@@ -127,11 +125,9 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 16 ------------------------------- #
-        # self.play(Group(condition_1_0_copy, solution_2_2, solution_2_4).animate.shift(2.1 * LEFT))
         equal_0 = MathTex(text.EQUAL).next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.4)
         self.play(Write(equal_0), solution_2_4.animate.next_to(equal_0))
         solution_2_5 = MathTex(text.SOLUTION_2_5, color=ORANGE).next_to(solution_2_4).shift(0.1 * UP)
-        # solution_2_5[0][8:11].set_color(ORANGE)
         self.play(Write(solution_2_5))
         self.wait()
 
@@ -141,16 +137,13 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 18 ------------------------------- #
-        # equal = MathTex(text.EQUAL).next_to(condition_1_0_copy)
         self.play(FadeOut(Group(solution_2_2[0][:4],
                                 solution_2_2[0][5:11],
                                 solution_2_2[0][12:],
                                 solution_2_4,
                                 solution_2_5,
                                 equal_0)),
-                  # Write(equal),
                   solution_2_6.animate.next_to(condition_1_0_copy, aligned_edge=UP))
-        # self.play(Group(condition_1_0_copy, solution_2_6).animate.shift(0.15 * UP))
         self.wait()
 
         # -------------------------- Point 19 ------------------------------- #
@@ -160,9 +153,9 @@ class Problem12757(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 20 ------------------------------- #
-        condition_1_2_copy = condition_1[2].copy().scale(1.16)
+        condition_1_2_copy = condition_1[2].copy()
         self.play(FadeOut(condition_3),
-                  condition_1_2_copy.animate.next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.2))
+                  condition_1_2_copy.animate.next_to(condition_1_0_copy, DOWN, aligned_edge=LEFT, buff=0.2).scale(1.16))
         self.wait()
         self.play(FadeOut(condition_2),
                   Group(rectangle_1, condition_1_2_copy, solution_2_6, condition_1_0_copy).animate.shift(1.2 * UP))
