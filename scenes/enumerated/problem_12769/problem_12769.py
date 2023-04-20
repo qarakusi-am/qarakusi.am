@@ -196,7 +196,7 @@ class Problem12769(FormulaModificationsScene):
         helper_point = VGroup(Dot(point=coordinate_system.c2p(3, 2, 0)),
                               Tex("(3, 2)", font_size=FONT_SIZE).scale(SCALE_FACTOR).next_to(coordinate_system.c2p(3, 2, 0)))
 
-        arrow = Arrow(helper_point[0].get_top(), coordinate_system.c2p(3, -0.8, 0), stroke_width=3,
+        arrow = Arrow(helper_point[0].get_top(), coordinate_system.c2p(3, -0.2, 0), stroke_width=3,
                       max_tip_length_to_length_ratio=0.08).scale(1.2, 1).shift(UP * 0.1)
 
         abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(arrow, DOWN).shift(
@@ -250,7 +250,7 @@ class Problem12769(FormulaModificationsScene):
 
         coordinates = VGroup(Tex("$E$","$($", "$x$",  font_size=FONT_SIZE))
         coordinates.add(Tex("$,$", font_size=FONT_SIZE).next_to(coordinates[0][-1],RIGHT).align_to(coordinates[0],DOWN))
-        coordinates.add(Tex("$y$", "$)$", font_size=FONT_SIZE).next_to(coordinates[0][-1],RIGHT).align_to(coordinates[0],DOWN))
+        coordinates.add(Tex("$y$", "$)$", font_size=FONT_SIZE).next_to(coordinates[1][-1],RIGHT).align_to(coordinates[0],DOWN))
         coordinates.move_to(conditions[0]).shift(DOWN*1.2)
         self.play(Write(coordinates))
         self.wait(2)
