@@ -3,15 +3,14 @@ from manim import Write, AnimationGroup
 from manim import TransformFromCopy
 from manim import YELLOW, BLUE, WHITE, ORANGE, GREEN
 from manim import RIGHT, LEFT, UP, DOWN
-from manim import MathTex, VGroup, MovingCameraScene
+from manim import MathTex, VGroup, Scene
 
 FONT_SIZE = 55
 RUN_TIME_SPEED = 2
 
 
-class Problem12754(MovingCameraScene):
+class Problem12754(Scene):
     def construct(self):
-        self.camera.frame.save_state()
 
         coordinate_axes = Axes(
             x_range=[-4, 6, 1],
@@ -78,8 +77,6 @@ class Problem12754(MovingCameraScene):
         self.play(Write(line_intersection_point2[-1]))
         self.wait()
 
-        self.play(self.camera.frame.animate.scale(0.8).shift(RIGHT * 0.5 + UP * 0.75))
-        self.wait()
 
         self.play(AnimationGroup(
             VGroup(line_intersection_point1[0], line_intersection_point2[0]).animate(run_time = 2.5).shift(RIGHT * 2.38),
@@ -115,7 +112,6 @@ class Problem12754(MovingCameraScene):
         )
         self.wait()
         self.play(AnimationGroup(
-            self.camera.frame.animate.restore(),
             TransformFromCopy(line_intersection_point1[2][1], equations[0][0][0:4]),
             TransformFromCopy(line_intersection_point2[2][1], equations[0][0][5:]), run_time = RUN_TIME_SPEED))
         self.play(Write(equations[0][0][4]))
