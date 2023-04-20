@@ -196,11 +196,11 @@ class Problem12769(FormulaModificationsScene):
         helper_point = VGroup(Dot(point=coordinate_system.c2p(3, 2, 0)),
                               Tex("(3, 2)", font_size=FONT_SIZE).scale(SCALE_FACTOR).next_to(coordinate_system.c2p(3, 2, 0)))
 
-        arrow = Arrow(helper_point[0].get_top(), coordinate_system.c2p(3, 0.5, 0), stroke_width=3,
-                      max_tip_length_to_length_ratio=0.3).scale(1.2, 1).shift(UP * 0.1)
+        arrow = Arrow(helper_point[0].get_top(), coordinate_system.c2p(3, -0.8, 0), stroke_width=3,
+                      max_tip_length_to_length_ratio=0.08).scale(1.2, 1).shift(UP * 0.1)
 
         abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(arrow, DOWN).shift(
-            DOWN * 0.4 + RIGHT * 0.3)
+            DOWN  + RIGHT * 0.3)
 
         brace1 = VGroup(Tex("$2$", font_size=FONT_SIZE).next_to(coordinate_system.c2p(4.2, 1, 0)),
                         BraceBetweenPoints(coordinate_system.c2p(3, 2, 0), coordinate_system.c2p(3, 0, 0),direction=(1., 0., 0.))).shift(LEFT*0.14)
@@ -248,23 +248,26 @@ class Problem12769(FormulaModificationsScene):
         self.play(Write(conditions[4],run_time=2))
         self.wait()
 
-        coordinates = Tex("$E$","$($", "$x$", " $,$ ", "$y$", "$)$", font_size=FONT_SIZE).move_to(conditions[0]).shift(
-            DOWN*1.2)
+        coordinates = VGroup(Tex("$E$","$($", "$x$",  font_size=FONT_SIZE))
+        coordinates.add(Tex("$,$", font_size=FONT_SIZE).next_to(coordinates[0][-1],RIGHT).align_to(coordinates[0],DOWN))
+        coordinates.add(Tex("$y$", "$)$", font_size=FONT_SIZE).next_to(coordinates[0][-1],RIGHT).align_to(coordinates[0],DOWN))
+        coordinates.move_to(conditions[0]).shift(DOWN*1.2)
         self.play(Write(coordinates))
         self.wait(2)
 
         ordinate = Tex(ordinate_str, font_size=FONT_SIZE).move_to(coordinates).shift(DOWN * 1.5)
-        arrow = Arrow(coordinates[4].get_bottom() + DOWN, coordinates[4].get_bottom()).scale(2, 1).shift(DOWN * 0.05)
+        arrow = Arrow(coordinates[-1][0].get_bottom() + DOWN, coordinates[-1][0].get_bottom()).scale(2, 1).shift(DOWN * 0.05)
 
         self.play(Write(arrow))
         self.play(Write(ordinate))
         self.wait()
 
-        self.fix_formula(coordinates)
-        self.play(ModifyFormula(coordinates, replace_items=[[4]], replace_items_strs=[["$3$"]]))
+        self.fix_formula(coordinates[2])
+        self.play(ModifyFormula(coordinates[2], replace_items=[[0]], replace_items_strs=[["$3$"]]))
         self.wait(2)
 
-        self.play(ModifyFormula(coordinates, replace_items=[[2]], replace_items_strs=[["$0$"]]))
+        self.fix_formula(coordinates[0])
+        self.play(ModifyFormula(coordinates[0], replace_items=[[2]], replace_items_strs=[["$0$"]]))
         self.wait(2)
 
         point =Dot(point=coordinate_system.c2p(0, 3, 0))
