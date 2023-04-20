@@ -197,7 +197,7 @@ class Problem12769(FormulaModificationsScene):
                               Tex("(3, 2)", font_size=FONT_SIZE).scale(SCALE_FACTOR).next_to(coordinate_system.c2p(3, 2, 0)))
 
         arrow = Arrow(helper_point[0].get_top(), coordinate_system.c2p(3, -0.2, 0), stroke_width=3,
-                      max_tip_length_to_length_ratio=0.08).scale(1.2, 1).shift(UP * 0.1)
+                      max_tip_length_to_length_ratio=0.15).scale(1.2, 1).shift(UP * 0.1)
 
         abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(arrow, DOWN).shift(
             DOWN  + RIGHT * 0.3)
