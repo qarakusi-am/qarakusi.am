@@ -155,7 +155,7 @@ class Problem12769(FormulaModificationsScene):
             VGroup(Dot(coordinate_system.c2p(0, 0, 0)),
                    Dot(coordinate_system.c2p(round(length_value.get_value(), 2) * (-1) + 0.1, -2, 0)))).shift(LEFT * 0.1))
         length_from_x_axis = always_redraw(
-            lambda: MathTex(str(round(length_value.get_value(), 2))).move_to(brace).shift(DOWN))
+            lambda: MathTex(str(round(length_value.get_value(), 2))).move_to(brace).shift(DOWN*0.3))
         point = always_redraw(lambda: Dot(coordinate_system.c2p(round(length_value.get_value(), 2) * (-1), -2, 0)))
 
         self.play(Write(conditions[2],run_time=3.2))
@@ -202,13 +202,12 @@ class Problem12769(FormulaModificationsScene):
 
 
 
-        abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(coordinate_system.c2p(3.6, -3.5, 0)).shift(
-            DOWN*3  + RIGHT * 0.3)
-        arrow = Arrow(abscissa_axes.get_center(), abscissa_axes.get_center()+UP*2, stroke_width=3,
+        abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(coordinate_system.c2p(3.6, -2.5, 0))
+        arrow = Arrow(abscissa_axes.get_center(), abscissa_axes.get_center()+UP*1.7, stroke_width=3,
                       max_tip_length_to_length_ratio=0.15).scale(1.2, 1).shift(UP * 0.1)
 
-        brace1 = VGroup(Tex("$2$", font_size=FONT_SIZE).next_to(coordinate_system.c2p(4.2, 1, 0)),
-                        BraceBetweenPoints(coordinate_system.c2p(3, 2, 0), coordinate_system.c2p(3, 0, 0),direction=(1., 0., 0.))).shift(LEFT*0.14)
+        brace1 = VGroup( BraceBetweenPoints(coordinate_system.c2p(3, 2, 0), coordinate_system.c2p(3, 0, 0),direction=(1., 0., 0.)),
+                         Tex("$2$", font_size=FONT_SIZE).next_to(coordinate_system.c2p(4.2, 1, 0))).shift(LEFT*0.14)
         brace2 = brace1.copy().shift(DOWN * 1.16)
         #put point up to make it visible behind A
         point = VGroup(Tex("$D(3, -2)$", font_size=FONT_SIZE).scale(SCALE_FACTOR).next_to(coordinate_system.c2p(3, -2, 0)),
