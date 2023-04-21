@@ -59,7 +59,6 @@ class Problem12707(Scene):
         number_of_pages = ValueTracker(126)
         book_length = VGroup(always_redraw(lambda: Brace(total_segment.line, DOWN)))
         book_length.add(always_redraw(lambda: book_length[0].get_tex(f"{int(number_of_pages.get_value())} \\text{{{page_str}}}").scale(FONT_SIZE/48)))
-        # BraceLabel(total_segment, f"126 \\text{{{page_str}}}", font_size=FONT_SIZE)
         self.play(
             GrowFromCenter(book_length[0]),
             Write(book_length[1])
