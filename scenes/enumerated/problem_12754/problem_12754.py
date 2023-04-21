@@ -142,4 +142,12 @@ class Problem12754(Scene):
         self.play(AnimationGroup(
             TransformFromCopy(VGroup(equations[3][0][-3:], equations[4][0][-4:]), graphs_intersection_point_label),
             VGroup(line_intersection_point1[-1], line_intersection_point2[-1]).animate.set_opacity(0)))
+        self.wait()
+
+        y_label=MathTex('4.4',font_size=40).move_to(coordinate_axes.c2p(5, .88, 0))
+        surrounding_rectangle=SurroundingRectangle(y_label,color=YELLOW,buff=0.1)
+
+        self.play(TransformFromCopy(equations[3][0][-3:],y_label))
+        self.wait()
+        self.play(Write(surrounding_rectangle))
         self.wait(2)
