@@ -43,7 +43,6 @@ class Problem12769(FormulaModificationsScene):
             Tex(condition4, font_size=FONT_SIZE).to_edge(UP),
             Tex(condition5, font_size=FONT_SIZE).to_edge(UP),
             Tex(condition6, font_size=FONT_SIZE).to_edge(UP),
-
         )
         self.solve_for_condition1()
         self.solve_for_condition2()
@@ -203,7 +202,7 @@ class Problem12769(FormulaModificationsScene):
 
 
         abscissa_axes = Tex(abscissa_axis_str, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(coordinate_system.c2p(3.6, -2.5, 0))
-        arrow = Arrow(abscissa_axes.get_center(), abscissa_axes.get_center()+UP*1.7, stroke_width=3,
+        arrow = Arrow(abscissa_axes.get_center(), abscissa_axes.get_center()+UP*1.4, stroke_width=3,
                       max_tip_length_to_length_ratio=0.15).scale(1.2, 1).shift(UP * 0.1)
 
         brace1 = VGroup( BraceBetweenPoints(coordinate_system.c2p(3, 2, 0), coordinate_system.c2p(3, 0, 0),direction=(1., 0., 0.)),
