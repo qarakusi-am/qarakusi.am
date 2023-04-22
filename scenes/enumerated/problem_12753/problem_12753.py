@@ -29,7 +29,7 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         self.wait()
 
         # -------------------------- Point 2 ------------------------------- #
-        nums_1 = MathTex(*list(range(1, 10)))
+        nums_1 = MathTex(*range(1, 10))
         nums_1.arrange(DOWN, buff=0.3).to_edge().shift(0.1 * RIGHT + 0.3 * DOWN)
         self.play(Write(nums_1, run_time=2))
         self.wait()
