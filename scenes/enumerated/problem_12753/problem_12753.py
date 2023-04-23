@@ -24,7 +24,7 @@ class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
         MathTex.set_default(font_size=60)
 
         # -------------------------- Point 1 ------------------------------- #
-        girl = SimpleSVGMobject("people/children/girl_4").scale(1.5)
+        girl = SimpleSVGMobject("colored_girl_1").scale(1.5)
         self.play(FadeIn(girl))
         self.wait()
 
