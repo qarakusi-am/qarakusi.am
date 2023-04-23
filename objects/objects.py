@@ -69,9 +69,8 @@ svg_defaults.add_prefix_default(
     {'folder': path_to_SVG / 'people' / 'men',
      'color': WHITE})
 svg_defaults.add_prefix_default(
-    'woman_',
-    {'folder': path_to_SVG / 'people' / 'woman',
-     'color': WHITE})
+    'colored_woman_',
+    {'folder': path_to_SVG / 'people' / 'woman'})
 svg_defaults.add_prefix_default(
     'city_',
     {'folder': path_to_SVG / 'cities'})
@@ -83,6 +82,9 @@ svg_defaults.add_prefix_default(
     'girl_',
     {'folder': path_to_SVG / 'people' / 'children',
      'color': WHITE})
+svg_defaults.add_prefix_default(
+    'colored_girl_',
+    {'folder': path_to_SVG / 'people' / 'children'})
 svg_defaults.add_default(
     'pigeon',
     {'folder': path_to_SVG / 'animals',

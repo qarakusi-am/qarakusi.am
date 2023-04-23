@@ -213,9 +213,9 @@ class Problem10107(Scene):
 
     def set_up(self, add = False):
         self.time = ValueTracker(0)
-        daughter = self.daughter_svg = SimpleSVGMobject('girl_4')
+        daughter = self.daughter_svg = SimpleSVGMobject('colored_girl_1')
         daughter.scale(1.4)
-        mother = self.mother_svg = SimpleSVGMobject('woman_1')
+        mother = self.mother_svg = SimpleSVGMobject('colored_woman_1')
         mother.scale(1.9)
         mother_pos = self.mother_pos = [-5.5, -1, 0]
         daughter_pos = self.daughter_pos = [-5.5, 2.5, 0]
