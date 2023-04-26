@@ -1,7 +1,6 @@
-from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from manim import Scene, MathTex, FadeIn, Write, SurroundingRectangle, VGroup, Create, AnimationGroup, Transform, Brace, GrowFromEdge, Indicate, FadeOut, TransformFromCopy, ReplacementTransform
 from qarakusiscene import TaskNumberBox
-from manim import UP, DOWN, LEFT, DL, UL
+from manim import UP, DOWN, LEFT, DL
 from manim import ORANGE
 from .text import taskNumberStr
 
@@ -86,52 +85,18 @@ class Problem12785(Scene):
         self.play(VGroup(proof[4], proof[8]).animate.set_color(ORANGE))
         self.wait()
 
-        # self.fix_formula(proof)
-        # self.play(
-        #     ModifyFormula(
-        #         proof,
-        #         add_after_items=[len(proof)-1],
-        #         add_items_strs=[["\\cdot", "1"]],
-        #         add_items_animation_style=Write
-        #     )
-        # )
-        # self.wait()
-
-        # self.play(
-        #     ModifyFormula(
-        #         proof,
-        #         replace_items=[[5]],
-        #         replace_items_strs=[["("]],
-        #         remove_items=[8, 9],
-        #         add_after_items=[len(proof)-1],
-        #         add_items_strs=[[")"]],
-        #         new_formula_alignment=LEFT,
-        #         add_items_animation_style=Write
-        #     )
-        # )
-        # self.wait()
-
-        # self.play(
-        #     ModifyFormula(
-        #         proof,
-        #         replace_items=[[5, 6, 7, 8, 9]],
-        #         replace_items_strs=[["\\cdot", "5"]],
-        #         new_formula_alignment=LEFT
-        #     )
-        # )
-
         proof1 = MathTex("6!", "-", "5!", "=", "5!", "\\cdot", "6", "-", "5!", "\\cdot", "1")
         proof1.next_to(proof, DOWN, aligned_edge=LEFT, buff=.6)
         VGroup(proof1[4], proof1[8]).set_color(ORANGE)
         self.play(Write(proof1[3]))
-        self.play(TransformFromCopy(proof[4:], proof1[4:-2])) # self.play(TransformFromCopy(proof, proof1[:-2]))
+        self.play(TransformFromCopy(proof[4:], proof1[4:-2]))
         self.play(Write(proof1[-2:]))
         self.wait()
 
         proof2 = MathTex("6!", "-", "5!", "=", "5!", "(", "6", "-", "1", ")")
         proof2.next_to(proof1, DOWN, aligned_edge=LEFT, buff=.6)
         proof2[4].set_color(ORANGE)
-        self.play(Write(proof2[3])) # self.play(TransformFromCopy(proof1[:4], proof2[:4]))
+        self.play(Write(proof2[3]))
         self.play(TransformFromCopy(VGroup(proof1[4], proof1[8]), proof2[4]))
         self.play(Write(proof2[5]))
         self.wait()
@@ -144,7 +109,7 @@ class Problem12785(Scene):
         proof3 = MathTex("6!", "-", "5!", "=", "5!", "\\cdot", "5")
         proof3.next_to(proof2, DOWN, aligned_edge=LEFT, buff=.45)
         self.play(Write(proof3[3]))
-        self.play(TransformFromCopy(proof2[4], proof3[4])) # self.play(TransformFromCopy(proof2[:5], proof3[:5]))
+        self.play(TransformFromCopy(proof2[4], proof3[4]))
         self.play(Write(proof3[5]))
         self.play(TransformFromCopy(proof2[-5:], proof3[-1]))
 
