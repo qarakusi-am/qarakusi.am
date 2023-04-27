@@ -154,7 +154,7 @@ class Problem12769(FormulaModificationsScene):
             VGroup(Dot(coordinate_system.c2p(0, 0, 0)),
                    Dot(coordinate_system.c2p(round(length_value.get_value(), 2) * (-1) + 0.1, -2, 0)))).shift(LEFT * 0.1))
         length_from_x_axis = always_redraw(
-            lambda: MathTex(str(round(length_value.get_value(), 2))).move_to(brace).shift(DOWN*0.3))
+            lambda: MathTex(str(round(length_value.get_value(), 2))).move_to(brace).shift(DOWN*0.6))
         point = always_redraw(lambda: Dot(coordinate_system.c2p(round(length_value.get_value(), 2) * (-1), -2, 0)))
 
         self.play(Write(conditions[2],run_time=3.2))
