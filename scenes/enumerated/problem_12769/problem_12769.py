@@ -86,7 +86,7 @@ class Problem12769(FormulaModificationsScene):
         coordinate_system = self.coordinate_system
 
         coordinates = Tex("$B$", "$($", "$x$", " $,$ ", "$y$", "$)$", font_size=FONT_SIZE).move_to(
-            conditions[0]).shift(DOWN*1.2+LEFT*0.3)
+            conditions[0]).shift(DOWN*1.6+LEFT*0.3)
 
         abscissa = Tex(abscissa_str, font_size=FONT_SIZE).move_to(coordinates).shift(DOWN * 1.4)
         arrow = Arrow(coordinates[2].get_bottom() + DOWN, coordinates[2].get_bottom()).scale(2, 1).shift(DOWN * 0.1)
@@ -254,7 +254,7 @@ class Problem12769(FormulaModificationsScene):
         coordinates = VGroup(Tex("$E$","$($", "$x$",  font_size=FONT_SIZE))
         coordinates.add(Tex("$,$", font_size=FONT_SIZE).next_to(coordinates[0][-1],RIGHT).align_to(coordinates[0],DOWN))
         coordinates.add(Tex("$y$", "$)$", font_size=FONT_SIZE).next_to(coordinates[1][-1],RIGHT).align_to(coordinates[0],DOWN))
-        coordinates.move_to(conditions[0]).shift(DOWN*1.2)
+        coordinates.move_to(conditions[0]).shift(DOWN*1.6)
         self.play(Write(coordinates))
         self.wait(2)
 
@@ -328,7 +328,7 @@ class Problem12769(FormulaModificationsScene):
         self.play(Write(helper_equations[2]))
         self.wait()
 
-        self.play(Transform(VGroup(helper_equations[0:2]), helper_equations[-1]))
+        self.play(ReplacementTransform(VGroup(helper_equations[0:2]), helper_equations[-1]))
         self.wait(2)
 
         self.fix_formula(coordinates)
