@@ -1,7 +1,3 @@
-from qarakusiscene import QarakusiScene
-from hanrahashiv import ModifyFormula, FormulaModificationsScene
-from . import text
-
 from manim import LEFT, UP, DOWN, RIGHT
 from manim import FadeOut, Write
 from manim import AnimationGroup, Group, VGroup, ReplacementTransform
@@ -9,9 +5,11 @@ from manim import Rectangle, Arrow, MathTex, SurroundingRectangle
 from manim import PI
 from manim import RED, PURE_GREEN, BLUE_C, YELLOW, WHITE
 
+from qarakusiscene import QarakusiScene
+from . import text
 
 
-class Problem11104(QarakusiScene, FormulaModificationsScene):
+class Problem11104(QarakusiScene):
     """Վեց տարբեր քարտերի վրա գրված են 61, 24, 7, 599, թվերը: Այդ քարտերը դասավորելով իրար կողքի
      կստացվի 8-անիշ թիվ: Այդ եղանակով ստացեք՝
     ա) հնարավոր ամենամեծ 8-անիշ թիվը,
