@@ -1,5 +1,5 @@
 from manim import Scene, FadeIn, Tex, MathTex, Write, VGroup, AnimationGroup, Transform, Indicate, Table, \
-    ReplacementTransform, Group, Wiggle, ORANGE
+    ReplacementTransform, Group, Wiggle, ORANGE, FadeOut, CurvedArrow
 from manim import UL, UP, UR, DOWN, RIGHT, LEFT, ORIGIN
 from qarakusiscene import TaskNumberBox
 from objects import BagOfMandarins, SimpleSVGMobject
@@ -36,7 +36,7 @@ class Problem12804(Scene):
             self.play(Write(item, run_time=2.2))
             self.wait(1.5)
 
-        book_count_variable = Tex(book_count_x, font_size=FONT_SIZE).shift(UP * 0.4),
+        book_count_variable = Tex(book_count_x, font_size=FONT_SIZE).shift(UP * 0.6),
 
         self.play(ReplacementTransform(bookshelf, book_count_variable[0]))
         self.wait()
@@ -62,7 +62,7 @@ class Problem12804(Scene):
                   ))
         self.wait()
 
-        self.play(helpers_for_part1.animate.align_to(taskNumber, LEFT).shift(UP))
+        self.play(helpers_for_part1.animate.move_to(book_count_variable[0]).shift( LEFT * 4.5))
         self.wait(2)
 
         # write problem settings part 2 in terms of x
@@ -70,7 +70,7 @@ class Problem12804(Scene):
         self.wait()
 
         helpers_for_part2 = VGroup(
-            Tex("$(x - 8)$", font_size=FONT_SIZE).next_to(problem_settings[1][1], LEFT).shift(RIGHT*0.1),
+            Tex("$(x - 8)$", font_size=FONT_SIZE).next_to(problem_settings[1][1], LEFT).shift(RIGHT * 0.1),
             Tex("$\cdot 7 $", font_size=FONT_SIZE).next_to(problem_settings[1][0], RIGHT).shift(LEFT * 0.2)
         )
         helpers_for_part2[0][0][0].set_opacity(0)
@@ -86,17 +86,25 @@ class Problem12804(Scene):
                   ))
         self.wait()
 
-        self.play(helpers_for_part2.animate.next_to(helpers_for_part1,RIGHT))
+        self.play(AnimationGroup(helpers_for_part2.animate.next_to(helpers_for_part1, RIGHT).shift(RIGHT * 0.55),
+                                 FadeOut(book_count_variable[0])))
         self.wait()
 
         # combine problem settings
 
         helpers_for_part3 = VGroup(
-            Tex("$=$", font_size=FONT_SIZE).next_to(helpers_for_part1, LEFT),
-            Tex("$x\cdot 5- 4\cdot 5 = x\cdot 7 - 8\cdot 7$", font_size=FONT_SIZE).next_to(problem_settings[1][0], RIGHT).shift(LEFT * 0.2)
+            Tex("$=$", font_size=FONT_SIZE).next_to(helpers_for_part1, RIGHT),
+            Tex("$x\cdot 5- 4\cdot 5 = x\cdot 7 - 8\cdot 7$", font_size=FONT_SIZE).move_to(helpers_for_part1).shift(
+                DOWN * 0.7 + RIGHT*1.35),
+            Tex("$5x - 20 = 7x - 56$", font_size=FONT_SIZE).move_to(helpers_for_part1).shift(DOWN * 1.4 +RIGHT*1.35),
+            Tex("$5x - 7x = - 56 + 20$", font_size=FONT_SIZE).move_to(helpers_for_part1).shift(DOWN * 2.1 + RIGHT*1.5),
+            Tex("$-2x = -36$", font_size=FONT_SIZE).move_to(helpers_for_part1).shift(DOWN * 2.8 + RIGHT*1.33),
+            Tex(r"$x=\frac{-36}{-2} = 18$", font_size=FONT_SIZE).move_to(helpers_for_part1).shift(
+                DOWN * 3.5 + RIGHT*2.18)
+
         )
 
-        self.play(ReplacementTransform(problem_settings[2], helpers_for_part3))
+        self.play(ReplacementTransform(problem_settings[2], helpers_for_part3[0]))
         self.wait()
 
         self.play(AnimationGroup(
@@ -105,5 +113,27 @@ class Problem12804(Scene):
         ))
         self.wait()
 
+        for i in range(1,3):
+            self.play(Write(helpers_for_part3[i],run_time=1.5))
+            self.wait()
+        self.wait()
 
+        curved_arrows=VGroup(
+            CurvedArrow(helpers_for_part3[2][0][3].get_bottom(),helpers_for_part3[2][0][8].get_bottom(),tip_length=0.15,
+                                    angle=.6).shift(DOWN*0.1),
+            CurvedArrow(helpers_for_part3[2][0][6].get_top(), helpers_for_part3[2][0][2].get_top(),tip_length=0.15,
+                                    angle=.6).shift(UP*0.1)
+        )
 
+        self.play(Write(curved_arrows[0]))
+        self.play(Write(curved_arrows[1]))
+        self.wait(2)
+
+        for i in range(3,6):
+            self.play(Write(helpers_for_part3[i],run_time=1.5))
+            self.wait()
+
+        solution=Tex(solution_str,font_size=FONT_SIZE).shift(UP*2)
+
+        self.play(Write(solution))
+        self.wait(2)

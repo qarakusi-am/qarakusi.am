@@ -12,6 +12,7 @@ __all__ = [
     "problem_setting_2_part_1",
     "problem_setting_2_part_2",
     "problem_setting_part3",
-    "book_count_x"
+    "book_count_x",
+    "solution_str"
 
 ]
