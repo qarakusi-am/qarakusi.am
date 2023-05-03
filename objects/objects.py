@@ -309,6 +309,10 @@ svg_defaults.add_default(
     'yellow_apple',
     {'folder': path_to_SVG / 'fruits'}
 )
+svg_defaults.add_default(
+    'computer',
+    {'folder': path_to_SVG / 'technology'}
+)
 
 
 class SimpleSVGMobject(VMobject):

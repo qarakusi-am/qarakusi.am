@@ -1,8 +1,8 @@
-from manim import LEFT, RIGHT, ORIGIN, UL, UP, UR, DR, DOWN, DL
+from manim import LEFT, RIGHT, UL, UP, UR, DOWN, DL
 from manim import FadeOut, Write, FadeIn
-from manim import Group, VGroup, ReplacementTransform, ImageMobject, AnimationGroup
-from manim import Line, Rectangle, Arrow, MathTex, Dot, BraceText, Tex, Brace
-from manim import RED, ORANGE, YELLOW, WHITE, PURE_GREEN
+from manim import Group, VGroup, ReplacementTransform, AnimationGroup
+from manim import MathTex, Dot, BraceText, Brace, ImageMobject
+from manim import RED, YELLOW, WHITE, PURE_GREEN
 
 from movement_problems import Coordinate
 from qarakusiscene import QarakusiScene
@@ -15,9 +15,9 @@ class Problem12781(QarakusiScene):
     """Նարեկը վիդեոներ է մոնտաժում"""
     def construct(self):
         screen_center = [0, 0, 0]
-        condition_point = [-4.5, 3.15, 0]
+        condition_point = [-4.5, 3.18, 0]
 
-        coord_y = -2.6
+        coord_y = -2.14
         start_point = [-6.5, coord_y, 0]
         end_point = [6.5, coord_y, 0]
 
@@ -25,10 +25,8 @@ class Problem12781(QarakusiScene):
         segment_coord = coordinate.divide_segment_into_equal_parts(7)
         segment_coord.insert(0, start_point)
 
-
         self.add_task_number(text=text.TASK_NUMBER_STR)
         MathTex.set_default(font_size=text.default_font_size)
-        self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
         boy = SimpleSVGMobject('boy_2', color=WHITE).move_to(screen_center).scale(1.3)
@@ -83,7 +81,9 @@ class Problem12781(QarakusiScene):
         self.wait()
 
         # -------------------------- Point 7 ------------------------------- #
-        brace_text_1 = BraceText(segments_2, text.SEGMENT_TEXT_1, label_constructor=MathTex, buff=0, font_size=65)
+        brace_1 = Brace(segments_2, buff=0).shift(0.05 * UP)
+        text_of_brace_1 = MathTex(text.SEGMENT_TEXT_1).next_to(brace_1, DOWN, buff=0)
+        brace_text_1 = VGroup(brace_1, text_of_brace_1)
         self.play(FadeIn(brace_text_1))
         self.wait()
 
@@ -106,18 +106,24 @@ class Problem12781(QarakusiScene):
         self.wait()
 
         # -------------------------- Point 11 ------------------------------- #
-        brace_text_2 = BraceText(segments_3, text.SEGMENT_TEXT_1, label_constructor=MathTex, buff=0, font_size=65)
+        brace_2 = Brace(segments_3, buff=0).shift(0.05 * UP)
+        text_of_brace_2 = MathTex(text.SEGMENT_TEXT_1).next_to(brace_2, DOWN, buff=0)
+        brace_text_2 = VGroup(brace_2, text_of_brace_2)
+
         brace_text_3 = BraceText(segments_4, "5", label_constructor=MathTex, buff=0, font_size=65)
         self.play(FadeIn(brace_text_2))
         self.play(FadeIn(brace_text_3))
         self.wait()
 
         # -------------------------- Point 12 ------------------------------- #
+        condition_6 = MathTex(*text.CONDITION_6).next_to(condition_2, DOWN, aligned_edge=LEFT)
         invisible_line = Segment(segments_4_second_p, end_point).set_opacity(0)
         brace_text_4 = BraceText(invisible_line,
                                  "19", label_constructor=MathTex, buff=0, font_size=65)
+        self.play(Write(condition_6))
+        self.wait()
         self.play(FadeIn(brace_text_4))
-        self.play(FadeOut(Group(condition_1, condition_2)))
+        self.play(FadeOut(Group(condition_1, condition_2, condition_6)))
         self.wait()
 
         # -------------------------- Point 13 ------------------------------- #
@@ -143,7 +149,6 @@ class Problem12781(QarakusiScene):
         self.wait()
         self.play(Write(condition_4[3]))
         self.wait()
-
 
         # -------------------------- Point 16 ------------------------------- #
         condition_4_3_copy = condition_4[3].copy()
