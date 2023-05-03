@@ -291,33 +291,20 @@ class Problem12769(FormulaModificationsScene):
         conditions = self.conditions
         coordinate_system = self.coordinate_system
 
-        coordinates = Tex("$F$","$($", "$x$", " $,$ ", "$y$", "$)$", font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(conditions[5],).shift(
-            DOWN*1.2+LEFT*6 )
+        coordinates = Tex("$F$", "$($", "$x$", " $,$ ", "$y$", "$)$", font_size=FONT_SIZE).move_to(conditions[5]).shift(
+            DOWN * 1.2 + LEFT * 6)
 
-        helper_equations = VGroup(Tex('$x\cdot y = -1$',font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(coordinates, LEFT).shift(DOWN*0.8),
-                                  Tex(x_y_are_integers, font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(coordinates, LEFT).shift(DOWN*1.5),
-                                  Tex('$x<0, y>0$', font_size=FONT_SIZE).scale(SCALE_FACTOR).shift(LEFT*0.4),
-                                  Tex("$x=-1, y=1$", font_size=FONT_SIZE).scale(SCALE_FACTOR).move_to(coordinates, LEFT).shift(DOWN*0.8),)
+        helper_equations = VGroup(
+            Tex('$x\cdot y = -1$', font_size=FONT_SIZE).move_to(coordinates, LEFT).shift(DOWN * 0.8),
+            Tex(x_y_are_integers, font_size=FONT_SIZE).move_to(coordinates, LEFT).shift(DOWN * 1.5),
+            Tex('$x<0, y>0$', font_size=FONT_SIZE).shift(LEFT * 0.4 + UP * .9),
+            Tex("$x=-1, y=1$", font_size=FONT_SIZE).move_to(coordinates, LEFT).shift(DOWN * 0.8), )
 
-        self.play(Write(conditions[-1],run_time=2.5))
+        self.play(Write(conditions[-1], run_time=2.5))
         self.wait(2)
 
         self.play(Write(coordinates))
         self.wait(2)
-
-        self.play(VGroup(coordinate_system,self.points).animate.shift(DOWN *1.2))
-
-        second_quarter = coordinate_system.get_area(
-            graph=coordinate_system.plot(lambda x: 0, x_range=[-6.5, 0], ),
-            bounded_graph=coordinate_system.plot(lambda x: 6.5, x_range=[-6.5, 0]),
-            x_range=(-6.5, 0),
-            color=ORANGE,
-            opacity=0.5,
-        )
-        second_quarter.z_index = second_quarter.z_index - 1
-
-        self.play(Write(second_quarter))
-        self.wait()
 
         self.play(Write(helper_equations[0]))
         self.wait()
@@ -332,7 +319,7 @@ class Problem12769(FormulaModificationsScene):
         self.wait(2)
 
         self.fix_formula(coordinates)
-        self.play(ModifyFormula(coordinates, replace_items=[[2],[4]], replace_items_strs=[["$-1$"],["$1$"]]))
+        self.play(ModifyFormula(coordinates, replace_items=[[2], [4]], replace_items_strs=[["$-1$"], ["$1$"]]))
         self.wait(2)
 
         self.play(FadeOut(helper_equations[-1]))
@@ -342,7 +329,8 @@ class Problem12769(FormulaModificationsScene):
                        coordinate_system.get_horizontal_line(coordinate_system.c2p(-1, 1, 0)),
                        coordinate_system.get_vertical_line(coordinate_system.c2p(-1, 1, 0)))
 
-
-        self.play(AnimationGroup(Write(point),coordinates.animate.next_to(coordinate_system.c2p(-1, 1, 0)).shift(
-                           LEFT * 2.3)))
+        self.play(AnimationGroup(Write(point),
+                                 coordinates.animate.next_to(coordinate_system.c2p(-1, 1, 0)).shift(LEFT * 2.45).scale(
+                                     SCALE_FACTOR),
+                                 FadeOut(helper_equations[2])))
         self.wait(3)
