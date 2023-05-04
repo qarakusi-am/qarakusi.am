@@ -118,7 +118,7 @@ class BallPathGraph(Scene):
         #display clock
         clock = VGroup(
             SimpleSVGMobject('stopwatch/stopwatch').shift(UP * 2.8 + RIGHT * 4.2),
-            SimpleSVGMobject('stopwatch/stopwatch_arow').shift(UP * 2.8 + RIGHT * 4.2)
+            SimpleSVGMobject('stopwatch/stopwatch_arow').shift(UP  *2.8 + RIGHT * 4.2)
         )
 
         clock_nums = VGroup(
@@ -142,7 +142,7 @@ class BallPathGraph(Scene):
         self.wait(2)
 
         def graphs(t):
-            graph = a * (1.5 + 14.5 * t - 5 * t ** 2)
+            graph = a*  (1.5 + 14.5*  t - 5 * t ** 2)
             return graph
 
         # display graphs
