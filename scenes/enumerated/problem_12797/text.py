@@ -7,5 +7,5 @@ else:
 
 __all__ = [
     'taskNumberString',
-    'a_line_through_the_points'
+    'line_passing_through_points_string'
 ]
