@@ -124,10 +124,10 @@ class BallPathGraph(Scene):
         clock_nums = VGroup(
             Tex("0.4", sec, font_size=45).next_to(clock[0]),
             Tex("0.8", sec, font_size=45).next_to(clock[0]),
-            Tex("1", sec, font_size=45).next_to(clock[0]),
+            Tex("$1$", sec, font_size=45).next_to(clock[0]),
             Tex("1.45", sec, font_size=45).next_to(clock[0]),
             Tex("2.5", sec, font_size=45).next_to(clock[0]),
-            Tex("3", sec, font_size=45).next_to(clock[0])
+            Tex("$3$", sec, font_size=45).next_to(clock[0])
         )
 
         self.play(AnimationGroup(FadeIn(clock, run_time=2),
