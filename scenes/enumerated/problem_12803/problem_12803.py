@@ -1,12 +1,12 @@
-from manim import LEFT, UP, DOWN, RIGHT, ORIGIN
+from manim import LEFT, UP, DOWN, RIGHT, UL
 from manim import FadeOut, Write
-from manim import Group, VGroup, ReplacementTransform, AnimationGroup
-from manim import Line, Rectangle, Arrow, MathTex, rate_functions
-from manim import RED, ORANGE, YELLOW
+from manim import Group, ReplacementTransform, AnimationGroup
+from manim import MathTex, rate_functions
+from manim import ORANGE
 
 from qarakusiscene import QarakusiScene
 from hanrahashiv import ModifyFormula, FormulaModificationsScene
-from . import text
+from . import text as t
 
 
 class Problem12803(QarakusiScene, FormulaModificationsScene):
@@ -19,46 +19,61 @@ class Problem12803(QarakusiScene, FormulaModificationsScene):
     def construct(self):
         screen_center = [-0.6, 1.3, 0]
         row_buff = 0.9
-        self.add_task_number(text=text.TASK_NUMBER_STR)
-        MathTex.set_default(font_size=text.default_font_size)
-        # self.add_plane()
+        self.add_task_number(text=t.TASK_NUMBER_STR)
+        MathTex.set_default(font_size=t.default_font_size)
+        self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
-        condition_1 = MathTex(*text.CONDITION_1)
+        condition_1 = MathTex(*t.CONDITION_1)
         condition_1[:10].move_to(screen_center)
         condition_1[10].next_to(condition_1[:10], DOWN, aligned_edge=LEFT)
         self.play(Write(condition_1), run_time=3)
         self.wait()
 
         # -------------------------- Point 2 ------------------------------- #
-        equal_1 = MathTex(text.EQUAL).next_to(condition_1[0]).shift(0.13 * DOWN)
-        brackets_1 = MathTex(*text.BRACKETS_1).next_to(equal_1).shift(0.11 * UP)
+        equal_1 = MathTex(t.EQUAL).next_to(condition_1[t.i_nums[0]]
+                                           ).shift(0.13 * DOWN + t.condition_shift_left * LEFT)
+        brackets_1 = MathTex(*t.BRACKETS_1).next_to(equal_1).shift(0.11 * UP)
         self.play(AnimationGroup(
-            AnimationGroup(condition_1[4:9].animate(rate_func=rate_functions.linear).shift(2 * UP + RIGHT),
-                           FadeOut(Group(condition_1[1], condition_1[-2:], condition_1[3]))),
+            AnimationGroup(condition_1[t.i_nums[2]:t.i_nums[-1] + 1].animate(
+                rate_func=rate_functions.linear).shift(2 * UP + t.condition_shift_right * RIGHT),
+                           condition_1[t.i_nums[0]].animate.shift(t.condition_shift_left * LEFT),
+                           FadeOut(Group(condition_1[t.i_text[0]],
+                                         condition_1[t.i_text[1]],
+                                         condition_1[t.i_text[2]],
+                                         condition_1[t.i_text[3]]
+                                         ))),
                   Write(equal_1),
-                  condition_1[2].animate(rate_func=rate_functions.linear).move_to(brackets_1).shift(0.2 * LEFT),
+                  condition_1[t.i_nums[1]].animate(rate_func=rate_functions.linear
+                                                   ).move_to(brackets_1).shift(0.2 * LEFT),
                   Write(brackets_1),
                   lag_ratio=0.3,
                   run_time=2))
         self.wait()
 
         # -------------------------- Point 3 ------------------------------- #
-        solution_1_2 = MathTex(*text.SOLUTION_1_2).next_to(brackets_1)
+        solution_1_2 = MathTex(*t.SOLUTION_1_2).next_to(brackets_1)
         self.play(Write(solution_1_2))
         self.wait()
 
         # -------------------------- Point 4 ------------------------------- #
-        self.play(condition_1[0][-2:].animate.set_color(ORANGE), solution_1_2[2][-2:].animate.set_color(ORANGE))
+        self.play(condition_1[t.i_nums[0]][-2:].animate.set_color(ORANGE),
+                  solution_1_2[2][-2:].animate.set_color(ORANGE))
         self.wait()
 
         # -------------------------- Point 5 ------------------------------- #
-        hint_1 = MathTex(text.HINT_1).next_to(solution_1_2, DOWN, aligned_edge=RIGHT, buff=row_buff).shift(0.19 * LEFT)
+        hint_1 = MathTex(t.HINT_1).next_to(solution_1_2,
+                                           DOWN,
+                                           aligned_edge=RIGHT,
+                                           buff=row_buff).shift(0.19 * LEFT)
         self.play(Write(hint_1))
         self.wait()
 
         # -------------------------- Point 6 ------------------------------- #
-        solution_1_3 = MathTex(*text.SOLUTION_1_3).next_to(hint_1, DOWN, aligned_edge=LEFT, buff=row_buff).shift(0.25 * RIGHT)
+        solution_1_3 = MathTex(*t.SOLUTION_1_3).next_to(hint_1,
+                                                        DOWN,
+                                                        aligned_edge=LEFT,
+                                                        buff=row_buff).shift(0.25 * RIGHT)
         self.play(Write(solution_1_3[0]))
         self.wait()
         self.play(Write(solution_1_3[1:]))
@@ -74,30 +89,36 @@ class Problem12803(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 8 ------------------------------- #
-        condition_1_0_copy = condition_1[0].copy()
-        self.play(condition_1_0_copy.animate.next_to(condition_1[0], DOWN, aligned_edge=LEFT, buff=row_buff))
+        condition_1_0_copy = condition_1[t.i_nums[0]].copy()
+        self.play(condition_1_0_copy.animate.next_to(condition_1[t.i_nums[0]],
+                                                     DOWN,
+                                                     aligned_edge=LEFT,
+                                                     buff=row_buff))
         equal_2 = equal_1.copy().next_to(condition_1_0_copy).shift(0.13 * DOWN)
         self.play(Write(equal_2))
         self.wait()
 
         # -------------------------- Point 9 ------------------------------- #
-        brackets_2 = MathTex(*text.BRACKETS_2).next_to(equal_2).shift(0.11 * UP)
+        brackets_2 = MathTex(*t.BRACKETS_2).next_to(equal_2).shift(0.11 * UP)
         brackets_2[-1].set_color(ORANGE)
         self.play(AnimationGroup(
-            FadeOut(condition_1[5]),
-            condition_1[4].animate(rate_func=rate_functions.linear).move_to(brackets_2).shift(0.2 * LEFT),
+            FadeOut(condition_1[t.i_text[4]]),
+            condition_1[t.i_nums[2]].animate(rate_func=rate_functions.linear).move_to(brackets_2).shift(0.2 * LEFT),
             lag_ratio=0.5,
             run_time=2))
         self.play(Write(brackets_2))
         self.wait()
 
         # -------------------------- Point 10 ------------------------------- #
-        hint_2 = MathTex(text.HINT_2).next_to(condition_1[4], DOWN, aligned_edge=RIGHT, buff=row_buff).shift(0.03 * LEFT)
+        hint_2 = MathTex(t.HINT_2).next_to(condition_1[t.i_nums[2]],
+                                           DOWN,
+                                           aligned_edge=RIGHT,
+                                           buff=row_buff).shift(0.03 * LEFT)
         self.play(Write(hint_2))
         self.wait()
 
         # -------------------------- Point 11 ------------------------------- #
-        solution_2_3 = MathTex(text.SOLUTION_2_3).next_to(hint_2, DOWN).shift(0.6 * RIGHT)
+        solution_2_3 = MathTex(t.SOLUTION_2_3).next_to(hint_2, DOWN).shift(0.6 * RIGHT)
         self.play(Write(solution_2_3))
         self.wait()
 
@@ -108,45 +129,54 @@ class Problem12803(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 13 ------------------------------- #
-        condition_1_0_copy_1 = condition_1[0].copy()
-        self.play(condition_1_0_copy_1.animate(run_time=2).next_to(condition_1[0], aligned_edge=DOWN).shift(6 * RIGHT))
+        condition_1_0_copy_1 = condition_1[t.i_nums[0]].copy()
+        self.play(condition_1_0_copy_1.animate(run_time=2).next_to(condition_1[t.i_nums[0]],
+                                                                   aligned_edge=DOWN).shift(6 * RIGHT))
         equal_3 = equal_1.copy().next_to(condition_1_0_copy_1).shift(0.13 * DOWN)
         self.play(Write(equal_3))
         self.wait()
 
         # -------------------------- Point 14 ------------------------------- #
         self.play(AnimationGroup(
-            FadeOut(condition_1[7]),
-            condition_1[6].animate(
+            FadeOut(condition_1[t.i_text[5]]),
+            condition_1[t.i_nums[3]].animate(
                 rate_func=rate_functions.linear
             ).next_to(condition_1_0_copy_1, aligned_edge=DOWN, buff=1),
             lag_ratio=0.5,
             run_time=2))
         self.wait()
-        solution_3_2 = MathTex(*text.SOLUTION_3_2).move_to(condition_1[6]).shift(0.2 * RIGHT)
+        solution_3_2 = MathTex(*t.SOLUTION_3_2).move_to(condition_1[t.i_nums[3]]).shift(0.2 * RIGHT)
         solution_3_2[-1].set_color(ORANGE)
-        self.play(ReplacementTransform(condition_1[6], solution_3_2))
+        self.play(ReplacementTransform(condition_1[t.i_nums[3]], solution_3_2))
         self.wait()
 
         # -------------------------- Point 15 ------------------------------- #
-        solution_3_3 = MathTex(*text.SOLUTION_3_3).next_to(solution_3_2, DOWN, buff=row_buff).shift(0.28 * RIGHT)
+        solution_3_3 = MathTex(*t.SOLUTION_3_3).next_to(solution_3_2,
+                                                        DOWN,
+                                                        buff=row_buff).shift(0.39 * RIGHT)
         self.play(Write(solution_3_3))
         self.wait()
 
         # -------------------------- Point 16 ------------------------------- #
-        solution_3_4 = MathTex(*text.SOLUTION_3_4).next_to(solution_3_2)
+        solution_3_4 = MathTex(*t.SOLUTION_3_4).next_to(solution_3_2)
         solution_3_4[-1].set_color(ORANGE)
         self.play(ReplacementTransform(solution_3_3[1], solution_3_4),
                   FadeOut(solution_3_3[0]))
         self.wait()
 
         # -------------------------- Point 17 ------------------------------- #
-        solution_3_5 = MathTex(text.SOLUTION_3_5).next_to(condition_1_0_copy_1, DOWN, aligned_edge=LEFT, buff=row_buff).shift(0.2 * RIGHT)
+        solution_3_5 = MathTex(t.SOLUTION_3_5).next_to(condition_1_0_copy_1,
+                                                       DOWN,
+                                                       aligned_edge=LEFT,
+                                                       buff=row_buff).shift(0.2 * RIGHT)
         self.play(Write(solution_3_5))
         self.wait()
 
         # -------------------------- Point 18 ------------------------------- #
-        solution_3_6 = MathTex(text.SOLUTION_3_6).next_to(solution_3_5, DOWN, aligned_edge=LEFT, buff=row_buff).shift(0.27 * RIGHT)
+        solution_3_6 = MathTex(t.SOLUTION_3_6).next_to(solution_3_5,
+                                                       DOWN,
+                                                       aligned_edge=LEFT,
+                                                       buff=row_buff).shift(0.27 * RIGHT)
         self.play(Write(solution_3_6))
         self.wait()
 
@@ -158,20 +188,23 @@ class Problem12803(QarakusiScene, FormulaModificationsScene):
         self.wait()
 
         # -------------------------- Point 20 ------------------------------- #
-        solution_4_1 = MathTex(*text.SOLUTION_4_1).next_to(condition_1_0_copy_1, DOWN, aligned_edge=LEFT, buff=row_buff)
+        solution_4_1 = MathTex(*t.SOLUTION_4_1).next_to(condition_1_0_copy_1,
+                                                        DOWN,
+                                                        aligned_edge=LEFT,
+                                                        buff=row_buff)
         solution_4_1[0][1:3].set_color(ORANGE)
         solution_4_1[1][-1].set_color(ORANGE)
-        self.play(Write(solution_4_1), FadeOut(condition_1[-3]))
+        self.play(Write(solution_4_1), FadeOut(condition_1[t.i_nums[4]]))
         self.wait()
 
         # -------------------------- Point 21 ------------------------------- #
-        solution_4_2 = MathTex(*text.SOLUTION_4_2).move_to(solution_4_1[1]).shift(0.3 * RIGHT)
+        solution_4_2 = MathTex(*t.SOLUTION_4_2).move_to(solution_4_1[1]).shift(0.3 * RIGHT)
         solution_4_2[-1].set_color(ORANGE)
         self.play(ReplacementTransform(solution_4_1[1], solution_4_2))
         self.wait()
 
         # -------------------------- Point 22 ------------------------------- #
-        solution_4_3 = MathTex(text.SOLUTION_4_3).next_to(solution_4_1, DOWN, aligned_edge=LEFT, buff=row_buff)
+        solution_4_3 = MathTex(t.SOLUTION_4_3).next_to(solution_4_1, DOWN, aligned_edge=LEFT, buff=row_buff)
         self.play(Write(solution_4_3))
         self.wait()
 
@@ -185,5 +218,5 @@ class Problem12803(QarakusiScene, FormulaModificationsScene):
         self.fix_formula(solution_4_2)
         self.play(ModifyFormula(solution_4_2, replace_items=[[0]],
                                 replace_items_strs=[["27^"]],
-                                new_formula_alignment=UP))
+                                new_formula_alignment=UL))
         self.wait(3)
