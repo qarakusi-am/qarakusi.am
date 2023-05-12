@@ -1,8 +1,3 @@
-from qarakusiscene import QarakusiScene
-from objects import SimpleSVGMobject
-from hanrahashiv import ModifyFormula, FormulaModificationsScene
-from . import text
-
 from manim import LEFT, DOWN, RIGHT
 from manim import FadeOut, Write, FadeIn
 from manim import VGroup, ReplacementTransform, SurroundingRectangle, Group
@@ -11,9 +6,12 @@ from manim import UL, DR, UR, DL, UP
 from manim import RED
 from manim import MovingCameraScene
 
+from qarakusiscene import QarakusiScene
+from objects import SimpleSVGMobject
+from . import text
 
 
-class Problem12753(QarakusiScene, FormulaModificationsScene, MovingCameraScene):
+class Problem12753(QarakusiScene, MovingCameraScene):
     """Հասմիկն ընտրեց 10 տառ և որոշեց յուրաքանչյուր թվանշանի փոխարեն օգտագործել տառերից մեկը։
     Նա ասաց, որ իր եղբայր Գագիկը ծնվել է ԳԱԳՈ թվականին, իսկ ԳԱԹԱ թվականին կդառնա 19 տարեկան։
     Ո՞ր թվականին է ծնվել Գագիկը։"""
