@@ -311,6 +311,15 @@ svg_defaults.add_default(
     'yellow_apple',
     {'folder': path_to_SVG / 'fruits'}
 )
+svg_defaults.add_default(
+    'bicycle',
+    {'folder': path_to_SVG / 'healthy_transport',
+     'stroke_width': 1}
+)
+svg_defaults.add_default(
+    'scooter',
+    {'folder': path_to_SVG / 'healthy_transport'}
+)
 
 
 class SimpleSVGMobject(VMobject):
