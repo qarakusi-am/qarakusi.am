@@ -5,18 +5,16 @@ from manim import Line, Rectangle, Arrow, MathTex
 from manim import RED, ORANGE, YELLOW
 
 from qarakusiscene import QarakusiScene
-from hanrahashiv import ModifyFormula, FormulaModificationsScene
 from . import text
 
 
-class Problem12757(QarakusiScene, FormulaModificationsScene):
+class Problem12757(QarakusiScene):
     """Ապացուցել, որ թվերը բաղադրյալ են"""
     def construct(self):
         screen_center = [0, 0.9, 0]
         condition_point = [-6, 3.4, 0]
         self.add_task_number(text=text.TASK_NUMBER_STR)
         MathTex.set_default(font_size=text.default_font_size)
-        self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
         condition_1 = MathTex(*text.CONDITION_1).next_to(condition_point).scale(0.86).shift(text.condition_1_shift * LEFT)

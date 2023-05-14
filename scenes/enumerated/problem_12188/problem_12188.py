@@ -1,15 +1,13 @@
-from qarakusiscene import QarakusiScene
-from hanrahashiv import ModifyFormula, FormulaModificationsScene
-from . import text
-
 from manim import LEFT, UP, DOWN, RIGHT
 from manim import FadeOut, Write
 from manim import AnimationGroup, VGroup, ReplacementTransform
 from manim import Rectangle, Arrow, MathTex, BraceText
 from manim import PURE_GREEN, ORANGE
 
+from qarakusiscene import QarakusiScene
+from . import text
 
-class Problem12188(QarakusiScene, FormulaModificationsScene):
+class Problem12188(QarakusiScene):
     """Քանի՞ հատ եռանիշ թիվ կա, որ թվանշանների արտադրյալը հավասար է ա) 5-ի, բ) 6-ի:"""
     def construct(self):
         screen_center = [0, 0, 0]

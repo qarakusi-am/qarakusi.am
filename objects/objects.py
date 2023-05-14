@@ -312,6 +312,10 @@ svg_defaults.add_default(
     {'folder': path_to_SVG / 'fruits'}
 )
 svg_defaults.add_default(
+    'computer',
+    {'folder': path_to_SVG / 'technology'}
+)
+svg_defaults.add_default(
     'bicycle',
     {'folder': path_to_SVG / 'healthy_transport',
      'stroke_width': 1}
