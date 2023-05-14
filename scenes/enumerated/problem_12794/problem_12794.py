@@ -201,12 +201,9 @@ class Problem12794(Scene):
         )
         self.wait()
         self.play(
-            AnimationGroup(
-                ReplacementTransform(bicycle_count, only_bicycle_count[0]),
-                Write(only_bicycle_count[1]),
-                TransformFromCopy(bicycle_and_ball_count, only_bicycle_count[2]),
-                lag_ratio=.6
-            )
+            ReplacementTransform(bicycle_count, only_bicycle_count[0]),
+            Write(only_bicycle_count[1]),
+            TransformFromCopy(bicycle_and_ball_count, only_bicycle_count[2])
         )
         self.wait()
         self.play(
@@ -254,12 +251,9 @@ class Problem12794(Scene):
         )
         self.wait()
         self.play(
-            AnimationGroup(
-                ReplacementTransform(scooter_count, only_scooter_count[0]),
-                Write(only_scooter_count[1]),
-                TransformFromCopy(scooter_and_ball_count, only_scooter_count[2]),
-                lag_ratio=.6
-            )
+            ReplacementTransform(scooter_count, only_scooter_count[0]),
+            Write(only_scooter_count[1]),
+            TransformFromCopy(scooter_and_ball_count, only_scooter_count[2])
         )
         self.wait()
         self.play(
@@ -299,8 +293,10 @@ class Problem12794(Scene):
         self.play(FadeOut(condition6, checkmark6))
         self.wait()
 
-        only_ball_count = MathTex("17", "-", "7", "-", "4", font_size=CIRCLE_FONT_SIZE*ball_circle.radius*.35)
-        only_ball_count.move_to(ball_circle, aligned_edge=UP).shift(DOWN*ball_circle.radius*.3)
+        # only_ball_count = MathTex("17", "-", "7", "-", "4", font_size=CIRCLE_FONT_SIZE*ball_circle.radius*.35)
+        # only_ball_count.move_to(ball_circle, aligned_edge=UP).shift(DOWN*ball_circle.radius*.3)
+        only_ball_count = MathTex("6", font_size=CIRCLE_FONT_SIZE*ball_circle.radius*.9)
+        only_ball_count.move_to(ball_circle, aligned_edge=UP).shift(DOWN*ball_circle.radius*.25)
         only_ball = Intersection(
             Difference(ball_circle, bicycle_circle),
             Difference(ball_circle, scooter_circle),
@@ -313,21 +309,24 @@ class Problem12794(Scene):
             Create(only_ball, run_time=2)
         )
         self.wait()
+        # self.play(
+        #     ReplacementTransform(ball_count, only_ball_count[0]),
+        #     Write(only_ball_count[1]),
+        #     TransformFromCopy(bicycle_and_ball_count, only_ball_count[2]),
+        #     Write(only_ball_count[3]),
+        #     TransformFromCopy(scooter_and_ball_count, only_ball_count[4])
+        # )
+        # self.wait()
+        # self.play(
+        #     Transform(
+        #         only_ball_count,
+        #         MathTex("6", font_size=CIRCLE_FONT_SIZE*ball_circle.radius*.9).move_to(only_ball_count.get_center())
+        #     )
+        # )
         self.play(
-            AnimationGroup(
-                ReplacementTransform(ball_count, only_ball_count[0]),
-                Write(only_ball_count[1]),
-                TransformFromCopy(bicycle_and_ball_count, only_ball_count[2]),
-                Write(only_ball_count[3]),
-                TransformFromCopy(scooter_and_ball_count, only_ball_count[4]),
-                lag_ratio=.6
-            )
-        )
-        self.wait()
-        self.play(
-            Transform(
-                only_ball_count,
-                MathTex("6", font_size=CIRCLE_FONT_SIZE*ball_circle.radius*.9).move_to(only_ball_count.get_center())
+            ReplacementTransform(
+                ball_count,
+                only_ball_count
             )
         )
         self.play(FadeOut(only_ball))
