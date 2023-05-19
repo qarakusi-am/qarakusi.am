@@ -58,21 +58,19 @@ class BallPathGraph(Scene):
             slanted_lines.add(Line(UP + RIGHT, DOWN + LEFT).scale(.2).shift(DOWN*2.71 + LEFT*i))
             i = i + .5
 
-        # shift the axis to left
+        # shift the axis to the left
         self.play(AnimationGroup(ball.animate.shift(LEFT*4.2 + DOWN*.05).scale(0.15),
                                  arrow_to_up.animate.shift(LEFT*3.7 + UP*.3).scale(0.8),
                                  speed[0].animate.shift(LEFT*3.57 + UP*.3).scale(0.8),
                                  speed[1].animate.shift(LEFT*3.7 + UP*.3).scale(0.8),
-                                 Write(VGroup(horizontal_line,
-                                              slanted_lines))))
+                                 Write(VGroup(horizontal_line,slanted_lines))))
         self.wait(2)
 
         double_arrow = DoubleArrow(UP, DOWN, tip_length=0.15, stroke_width=4,
                                    color=BLUE).next_to(ball).shift(DOWN*.65).scale(.8)
         ball_distance = Tex(ball_line_distance, font_size=35, color=BLUE).next_to(double_arrow)
 
-        self.play(Write(VGroup(double_arrow,
-                               ball_distance)))
+        self.play(Write(VGroup(double_arrow,ball_distance)))
         self.wait(2)
 
         # create coordinate axis
@@ -115,7 +113,7 @@ class BallPathGraph(Scene):
         self.play(Write(points[0]))
         self.wait(2)
 
-        #display clock
+        #display the clock
         clock = VGroup(
             SimpleSVGMobject('stopwatch/stopwatch').shift(UP * 2.8 + RIGHT * 4.2),
             SimpleSVGMobject('stopwatch/stopwatch_arow').shift(UP  *2.8 + RIGHT * 4.2)
@@ -130,9 +128,7 @@ class BallPathGraph(Scene):
             Tex("$3$", sec, font_size=45).next_to(clock[0])
         )
 
-        self.play(AnimationGroup(FadeIn(clock, run_time=2),
-                                 FadeOut(VGroup(ball_distance,
-                                                double_arrow))))
+        self.play(AnimationGroup(FadeIn(clock, run_time=2),FadeOut(VGroup(ball_distance,double_arrow))))
         self.wait(2)
 
         self.play(AnimationGroup(ball.animate.shift(UP*2.3),
@@ -145,91 +141,69 @@ class BallPathGraph(Scene):
             graph = a*  (1.5 + 14.5*  t - 5 * t ** 2)
             return graph
 
-        # display graphs
-        graph_1 = coordinate_axis.plot(lambda t: graphs(t),
-                                       x_range=[0, .4],
-                                       color=BLUE)
+        # display the graphs
+        graph1 = coordinate_axis.plot(lambda t: graphs(t),x_range=[0, .4], color=BLUE)
 
         self.play(AnimationGroup(Write(points[2][0]),
                                  TransformFromCopy(ball, points[1][2]),
                                  TransformFromCopy(clock_nums[0], points[2][1]),
-                                 Write(VGroup(vertical_line,
-                                              points[1][:2],
-                                              points[1][-1])),
-                  run_time=2)
-                  )
+                                 Write(VGroup(vertical_line,points[1][-1:2])),run_time=2))
         self.wait()
 
-        self.play(Write(graph_1))
+        self.play(Write(graph1))
         self.wait(2)
 
-        graph_2 = coordinate_axis.plot(lambda t: graphs(t),
-                                       x_range=[.4, .8],
-                                       color=BLUE)
+        graph2 = coordinate_axis.plot(lambda t: graphs(t),x_range=[.4, .8],color=BLUE)
 
         self.play(AnimationGroup(ball.animate.shift(UP * 1.55),
                                  clock[1].animate.rotate(-.04),
                                  Transform(clock_nums[0], clock_nums[1])))
         self.wait(2)
 
-        self.play(AnimationGroup(TransformFromCopy(ball, points[4][0]),
-                                 Write(VGroup(points[4][1])),
-                  run_time=2))
+        self.play(AnimationGroup(TransformFromCopy(ball, points[4][0]), Write(VGroup(points[4][1])),run_time=2))
         self.wait()
 
-        self.play(Write(graph_2))
+        self.play(Write(graph2))
         self.wait(2)
 
-        graph_3 = coordinate_axis.plot(lambda t: graphs(t),
-                                       x_range=[.8, 1],
-                                       color=BLUE)
+        graph3 = coordinate_axis.plot(lambda t: graphs(t),x_range=[.8, 1],color=BLUE)
 
         self.play(AnimationGroup(ball.animate.shift(UP*.5),
                                  clock[1].animate.rotate(-.02),
                                  Transform(clock_nums[0], clock_nums[2])))
         self.wait(2)
 
-        self.play(AnimationGroup(TransformFromCopy(ball, points[3][0]),
-                                 Write(VGroup(points[3][1]))),
-                  run_time=2)
+        self.play(AnimationGroup(TransformFromCopy(ball, points[3][0]),Write(VGroup(points[3][1]))),run_time=2)
         self.wait()
 
-        self.play(Write(graph_3))
+        self.play(Write(graph3))
         self.wait(2)
 
-        graph_4 = coordinate_axis.plot(lambda t: graphs(t),
-                                       x_range=[1, 1.45],
-                                       color=BLUE)
+        graph4 = coordinate_axis.plot(lambda t: graphs(t),x_range=[1, 1.45],color=BLUE)
 
         self.play(AnimationGroup(ball.animate.shift(UP*.5),
                                  clock[1].animate.rotate(-.045),
                                  Transform(clock_nums[0], clock_nums[3]),
-                                 Write(graph_4, run_time=2)))
+                                 Write(graph4, run_time=2)))
         self.wait(2)
 
-        graph_5 = coordinate_axis.plot(lambda t: graphs(t),
-                                       x_range=[1.45, 2.5],
-                                       color=BLUE)
+        graph5 = coordinate_axis.plot(lambda t: graphs(t),x_range=[1.45, 2.5],color=BLUE)
 
         self.play(AnimationGroup(ball.animate.shift(DOWN*2.5),
                                  clock[1].animate.rotate(-.15),
                                  Transform(clock_nums[0], clock_nums[4])))
         self.wait(2)
 
-        self.play(AnimationGroup(TransformFromCopy(ball, points[5][0]),
-                                 Write(VGroup(points[5][1])),
-                  run_time=2))
+        self.play(AnimationGroup(TransformFromCopy(ball, points[5][0]),Write(VGroup(points[5][1])),run_time=2))
         self.wait()
 
-        self.play(Write(graph_5))
+        self.play(Write(graph5))
         self.wait(2)
 
-        graph_6 = coordinate_axis.plot(lambda t: graphs(t),
-                                       x_range=[2.5, 3],
-                                       color=BLUE)
+        graph6 = coordinate_axis.plot(lambda t: graphs(t),x_range=[2.5, 3],color=BLUE)
 
         self.play(AnimationGroup(ball.animate.shift(DOWN*3),
                                  clock[1].animate.rotate(-.05),
                                  Transform(clock_nums[0], clock_nums[5]),
-                                 Write(graph_6, run_time=2)))
+                                 Write(graph6, run_time=2)))
         self.wait(2)
