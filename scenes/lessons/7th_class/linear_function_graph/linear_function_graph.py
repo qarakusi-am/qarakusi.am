@@ -29,7 +29,7 @@ class LinearFunctionGraph(Scene):
         self.play(Write(functions[0]))
         self.wait()
 
-        # displaying coordinate axes
+        # displaying coordinate system
         coordinate_system = Axes(
             x_range=[-3, 3, 1],
             y_range=[-5, 7, 1],
@@ -59,22 +59,16 @@ class LinearFunctionGraph(Scene):
         self.wait()
 
         # displaying random lines
-        rand_graphs = VGroup(
-            coordinate_system.plot(lambda x: 2 * x,
-                                 x_range=[-3, 3],
-                                 color=RED),
-            coordinate_system.plot(lambda x: 3 - 0.5 * x,
-                                 x_range=[-3, 3],
-                                 color=GREEN),
-            coordinate_system.plot(lambda x: x + 1,
-                                 x_range=[-3, 3],
-                                 color=ORANGE)
+        random_graphs = VGroup(
+            coordinate_system.plot(lambda x: 2 * x, x_range=[-3, 3],color=RED),
+            coordinate_system.plot(lambda x: 3 - 0.5 * x, x_range=[-3, 3],color=GREEN),
+            coordinate_system.plot(lambda x: x + 1, x_range=[-3, 3], color=ORANGE)
         )
 
-        self.play(Write(rand_graphs))
+        self.play(Write(random_graphs))
         self.wait(2)
 
-        self.play(FadeOut(rand_graphs))
+        self.play(FadeOut(random_graphs))
         self.wait()
 
         self.play(Write(functions[1:3]))
@@ -84,9 +78,9 @@ class LinearFunctionGraph(Scene):
                                  FadeOut(functions[1:3])))
         self.wait()
 
-        graph_1 = coordinate_system.plot(lambda x: 2 * x, x_range=[-3, 3])
+        graph1 = coordinate_system.plot(lambda x: 2 * x, x_range=[-3, 3])
 
-        self.play(Write(VGroup(graph_1,
+        self.play(Write(VGroup(graph1,
                                functions[4])))
         self.wait()
 
@@ -185,7 +179,7 @@ class LinearFunctionGraph(Scene):
             )
         )
 
-        # display first point
+        # display the first point
         self.play(TransformFromCopy(VGroup(table[0][0][1], table[0][0][3]), points[0][0]))
         self.wait(0.5)
 
@@ -196,7 +190,7 @@ class LinearFunctionGraph(Scene):
         self.play(Write(table[0][0][5]))
         self.wait()
 
-        # display second point
+        # display the second point
         self.play(TransformFromCopy(VGroup(table[0][0][1], table[0][0][5]), points[1][0]))
         self.wait(0.5)
 
@@ -212,13 +206,13 @@ class LinearFunctionGraph(Scene):
                    Arrow(points[6][0], points[7][0], max_stroke_width_to_length_ratio=0).shift(UP * 0.25))
         )
 
-        value_for_arrows = ValueTracker(3)
-        counter_for_arrow = always_redraw(lambda: MathTex(str(round(value_for_arrows.get_value(), 2)),
+        arrow_value = ValueTracker(3)
+        arrow_counter = always_redraw(lambda: MathTex(str(round(arrow_value.get_value(), 2)),
                                                           font_size=font_sizes['points']).next_to(arrows[0]).shift(
             LEFT))
 
         self.play(Write(VGroup(arrows[0],
-                               counter_for_arrow)),
+                               arrow_counter)),
                   FadeOut(points[0][2:]
                           ,
                           points[1][2:]))
@@ -239,10 +233,7 @@ class LinearFunctionGraph(Scene):
                                  Write(points[3][1:])))
         self.wait()
 
-        self.play(AnimationGroup(Write(arrows[1]),
-                                 FadeOut(points[2][2:]
-                                         ,
-                                         points[3][2:])))
+        self.play(AnimationGroup(Write(arrows[1]),FadeOut(points[2][2:], points[3][2:])))
         self.wait()
 
         self.play(Write(table[2]))
@@ -253,8 +244,7 @@ class LinearFunctionGraph(Scene):
                                  TransformFromCopy(VGroup(table[2][0][0], table[2][0][2]), points[5][0])))
 
         self.wait(0.5)
-        self.play(Write(VGroup(points[4][1:]
-                               , points[5][1:])))
+        self.play(Write(VGroup(points[4][1:], points[5][1:])))
         self.wait()
 
         self.play(Write(table[3]))
@@ -265,14 +255,10 @@ class LinearFunctionGraph(Scene):
                                  TransformFromCopy(VGroup(table[3][0][0], table[3][0][2]), points[7][0])))
         self.wait()
 
-        self.play(Write(VGroup(points[6][1:]
-                               , points[7][1:])))
+        self.play(Write(VGroup(points[6][1:], points[7][1:])))
         self.wait()
 
-        self.play(AnimationGroup(Write(arrows[2]),
-                                 FadeOut(points[6][2:]
-                                         ,
-                                         points[7][2:])))
+        self.play(AnimationGroup(Write(arrows[2]),FadeOut(points[6][2:] , points[7][2:])))
 
         # display points for the line 2x + 3
         points_for_lines = VGroup()
@@ -292,8 +278,8 @@ class LinearFunctionGraph(Scene):
         self.play(points_for_lines_copy.animate.shift(UP * 1.9).set_color(GREEN))
         self.wait()
 
-        graph_2 = coordinate_system.plot(lambda x: 2 * x + 3, [-4, 2.5])
-        self.play(Write(graph_2))
+        graph2 = coordinate_system.plot(lambda x: 2 * x + 3, [-4, 2.5])
+        self.play(Write(graph2))
         self.wait()
 
         self.play(functions[0].animate.shift(RIGHT * .5).scale(1.2))
@@ -303,16 +289,15 @@ class LinearFunctionGraph(Scene):
         counter_for_equation = always_redraw(lambda: MathTex(str(round(value_for_3.get_value(), 2)),
                                                              font_size=66).next_to(functions[0][0][-2]).shift(UP * .05 +
                                                                                                               LEFT * .025))
-        self.play(AnimationGroup(FadeIn(counter_for_equation,
-                                        run_time=10 ** -20),
-                                 FadeOut(functions[0][0][-1],
-                                         run_time=10 ** -20)))
+        #convert 3 to 3.0 to use value tracker
+        self.play(AnimationGroup(FadeIn(counter_for_equation,run_time=10 ** -20),
+                                 FadeOut(functions[0][0][-1],run_time=10 ** -20)))
 
         self.play(AnimationGroup(
             value_for_3.animate.set_value(2.50),
-            value_for_arrows.animate.set_value(2.50),
+            arrow_value.animate.set_value(2.50),
             arrows.animate.shift(DOWN * .17),
-            graph_2.animate.shift(DOWN * .34),
+            graph2.animate.shift(DOWN * .34),
             points_for_lines_copy.animate.shift(DOWN * .34),
             FadeOut(VGroup(points[1][:2],
                            points[3][:2],
@@ -324,23 +309,22 @@ class LinearFunctionGraph(Scene):
         self.wait(3)
 
         self.play(AnimationGroup(value_for_3.animate.set_value(0),
-                                 value_for_arrows.animate.set_value(0),
+                                 arrow_value.animate.set_value(0),
                                  points_for_lines_copy.animate.shift(DOWN * 1.56),
                                  FadeOut(arrows),
                                  rate_func=rate_functions.rush_from,
                                  run_time=4))
         self.wait(3)
 
-        self.play(FadeOut(counter_for_arrow))
+        self.play(FadeOut(arrow_counter))
         self.wait()
 
-        value_for_arrows = ValueTracker(0)
-        counter_for_arrow = always_redraw(lambda: MathTex(str(round(value_for_arrows.get_value(), 2)),
+        arrow_value = ValueTracker(0)
+        arrow_counter = always_redraw(lambda: MathTex(str(round(arrow_value.get_value(), 2)),
                                                           font_size=font_sizes['points']).move_to(points[2]).shift(
-            DOWN * .71 +
-            LEFT * .8))
+            DOWN * .71 +LEFT * .8))
 
-        graph_3 = coordinate_system.plot(lambda x: 2 * x - 2, [-4, 2.5])
+        graph3 = coordinate_system.plot(lambda x: 2 * x - 2, [-4, 2.5])
 
         arrows_down = VGroup(VGroup(DashedLine(points[0][0], coordinate_system.c2p(1, .15, 0), dashed_ratio=.5),
                                     Arrow(points[0][0], coordinate_system.c2p(1, 0, 0),
@@ -349,11 +333,11 @@ class LinearFunctionGraph(Scene):
                                     Arrow(points[2][0], coordinate_system.c2p(2, 2, 0),
                                           max_stroke_width_to_length_ratio=0).shift(DOWN * .2)))
 
-        self.play(Write(VGroup(graph_3,
-                               counter_for_arrow)))
+        self.play(Write(VGroup(graph3,
+                               arrow_counter)))
 
         self.play(AnimationGroup(value_for_3.animate.set_value(2),
-                                 value_for_arrows.animate.set_value(2),
+                                 arrow_value.animate.set_value(2),
                                  points_for_lines_copy.animate.shift(DOWN * 1.23),
                                  Write(arrows_down),
                                  rate_func=rate_functions.rush_from,
@@ -361,8 +345,8 @@ class LinearFunctionGraph(Scene):
                   Transform(functions[0][0][-2], functions[-1]))
         self.wait(3)
 
-        self.play(FadeOut(graph_2,
-                          graph_3,
+        self.play(FadeOut(graph2,
+                          graph3,
                           arrows_down,
                           points[0][:2],
                           points[2][:2],
@@ -370,7 +354,7 @@ class LinearFunctionGraph(Scene):
                           points[6][:2],
                           points_for_lines,
                           points_for_lines_copy,
-                          counter_for_arrow,
+                          arrow_counter,
                           counter_for_equation,
                           functions[0][0][:-1],
                           functions[-1]
@@ -385,11 +369,10 @@ class LinearFunctionGraph(Scene):
             x_label.animate.shift(RIGHT * .7),
             y_label.animate.shift(RIGHT),
             functions[4].animate.shift(RIGHT * .4 + DOWN),
-            graph_1.animate.shift(RIGHT),
+            graph1.animate.shift(RIGHT),
             points[5].animate.shift(RIGHT)))
         self.wait()
 
-        # displaying conclutions
         conclusions = VGroup(
             Tex("$1) y = 2x + 3$ ", passes_through_point, font_size=font_sizes['functions']).to_edge(LEFT + UP).shift(
                 LEFT * .4),
@@ -403,7 +386,7 @@ class LinearFunctionGraph(Scene):
         self.play(Write(conclusions[0]))
         self.wait(2)
 
-        # displaying curved arrow
+        # displaying the curved arrow
         curved_arrow = CurvedArrow(conclusions[0][1][11].get_bottom(), points[-3][1].get_left(), tip_length=.1,
                                    angle=.9).shift(DOWN * .1)
 
@@ -416,13 +399,13 @@ class LinearFunctionGraph(Scene):
         self.play(Write(conclusions[1]))
         self.wait(2)
 
-        graph_1_copy = coordinate_system.plot(lambda x: 2 * x, [-3, 3])
+        graph1_copy = coordinate_system.plot(lambda x: 2 * x, [-3, 3])
 
-        self.play(graph_1_copy.animate.shift(UP * 1.85))
+        self.play(graph1_copy.animate.shift(UP * 1.85))
         self.wait()
 
-        self.play(FadeOut(graph_1,
-                          graph_1_copy,
+        self.play(FadeOut(graph1,
+                          graph1_copy,
                           points[5],
                           functions[4]))
         self.wait()
@@ -468,12 +451,12 @@ class LinearFunctionGraph(Scene):
                    )
         )
 
-        graph_4 = coordinate_system.plot(lambda x: 3 * x, [-3, 3])
+        graph4 = coordinate_system.plot(lambda x: 3 * x, [-3, 3])
 
         self.play(Write(final_points[:-1]))
         self.wait(2)
 
-        self.play(Write(VGroup(graph_4,
+        self.play(Write(VGroup(graph4,
                                functions[5]),
                         run_time=2))
         self.wait(2)
@@ -490,7 +473,7 @@ class LinearFunctionGraph(Scene):
         self.wait(2)
 
         self.play(
-            AnimationGroup(graph_4.animate.shift(DOWN * 3.15),
+            AnimationGroup(graph4.animate.shift(DOWN * 3.15),
                            FadeOut(functions[5]))
         )
         self.wait(2)
