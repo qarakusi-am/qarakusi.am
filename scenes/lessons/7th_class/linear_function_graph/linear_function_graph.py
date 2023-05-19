@@ -131,7 +131,6 @@ class LinearFunctionGraph(Scene):
         self.play(Write(table[0]))
         self.wait(2)
 
-        # vgroup of dots for displaying points
         points = VGroup(VGroup(
             Dot(point=coordinate_system.c2p(1, 2, 0), color=ORANGE),
             Tex("(1, 2)", font_size=font_sizes['points'], color=ORANGE).next_to(coordinate_system.c2p(1, 2, 0)),
@@ -275,7 +274,7 @@ class LinearFunctionGraph(Scene):
                                          ,
                                          points[7][2:])))
 
-        # display points for 2x + 3
+        # display points for the line 2x + 3
         points_for_lines = VGroup()
         x = -3
         while x <= 3:
