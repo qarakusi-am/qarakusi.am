@@ -1,0 +1,1 @@
+TASK_NUMBER_STR = "Խ. 12795"
