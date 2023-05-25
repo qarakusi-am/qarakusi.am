@@ -5,6 +5,7 @@ from manim import Scene, LEFT, UP, DOWN, RIGHT, Circle, Line, ORIGIN, Replacemen
 from qarakusiscene import TaskNumberBox
 from .text import *
 from numpy import *
+import math
 
 FONT_SIZE = 64
 RUN_TIME_SPEED = 2

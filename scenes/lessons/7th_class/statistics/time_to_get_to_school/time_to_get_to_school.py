@@ -1,11 +1,9 @@
 import numpy as np
 import statistics
-from manim import DOWN, RIGHT, ORIGIN, WHITE, linear, Table, LEFT, UP, RED, BLACK, MobjectTable
-from manim import Tex, Wiggle, AnimationGroup, ReplacementTransform, VGroup, TransformFromCopy, Line
-from manim import FadeIn, FadeOut, Write
-from manim import Scene, Arrow
+from manim import DOWN, RIGHT, ORIGIN, WHITE, LEFT, UP, RED, BLACK, linear
+from manim import Scene, Tex, VGroup, Line, Table, MobjectTable, Arrow
+from manim import FadeIn, FadeOut, Write, TransformFromCopy, Wiggle, AnimationGroup, ReplacementTransform
 from objects import SimpleSVGMobject
-from hanrahashiv import FormulaModificationsScene, ModifyFormula
 from .text import *
 
 UNIT = 0.27
@@ -140,9 +138,13 @@ class TimeToGetToSchool(Scene):
         result_denominator=Tex(len(minutes))
         result_fraction_line=Line(ORIGIN)
         result_numerator=Tex(str(sum(minutes)))
-        result_fraction=VGroup(first_equality_sign.next_to(sum_fraction_line,RIGHT),result_numerator.next_to(sum_nominator,RIGHT).shift(RIGHT),
-                               result_fraction_line.next_to(result_numerator,DOWN),
-                               result_denominator.next_to(result_fraction_line,DOWN),second_equality_sign.next_to(result_fraction_line,RIGHT))
+        result_fraction=VGroup(
+            first_equality_sign.next_to(sum_fraction_line, RIGHT, buff=0.1),
+            result_numerator.next_to(sum_nominator, RIGHT, buff=1.5),
+            result_fraction_line.next_to(result_numerator,DOWN),
+            result_denominator.next_to(result_fraction_line,DOWN),
+            second_equality_sign.next_to(result_fraction_line,RIGHT)
+        )
         quotient=Tex(str(int(sum(minutes)/len(minutes))))
 
         self.play(Write(result_fraction.scale(scale_factor)))

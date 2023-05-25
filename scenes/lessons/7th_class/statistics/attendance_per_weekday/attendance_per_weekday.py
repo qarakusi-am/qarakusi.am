@@ -1,6 +1,6 @@
-from manim import DOWN, RIGHT, WHITE, LEFT, UP, BLACK, MobjectTable, PI
-from manim import Tex, Wiggle, AnimationGroup, ReplacementTransform, VGroup, Brace
-from manim import FadeOut, Write
+from manim import DOWN, RIGHT, WHITE, LEFT, UP, BLACK, PI
+from manim import Tex, VGroup, Brace, MobjectTable
+from manim import FadeOut, Write, Wiggle, AnimationGroup, ReplacementTransform
 from manim import Scene
 
 from .text import *
@@ -71,6 +71,7 @@ class AttendancePerWeekday(Scene):
         self.wait()
         self.play(FadeOut(brace, consequence_days))
         self.wait()
+        
         self.play(AnimationGroup(
             *[ReplacementTransform(days[i][0], week_days[i].scale(scale_factor).next_to(days[i][1], LEFT)) for i in
               range(1, len(days))]))
@@ -78,25 +79,30 @@ class AttendancePerWeekday(Scene):
 
         self.play(data[5][1][0].animate.next_to(data[0][1][0], RIGHT))
         self.play(
-            AnimationGroup(
-                days[5][1].animate.set_opacity(0),
-                data[5][1][0].animate.set_opacity(0),
-                week_days[5].animate.set_color(BLACK).set_opacity(0),
-                data[0][1].animate.set_color(WHITE),
-            )
+            ReplacementTransform(data[5][1][0], data[0][1][1][1:].set_color(WHITE)),
+            Write(data[0][1][1][0].set_color(WHITE)),
+            days[5][1].animate.set_opacity(0),
+            week_days[5].animate.set_color(BLACK).set_opacity(0)
         )
         self.wait()
-        self.play(AnimationGroup(*[data[i][1][0].animate.next_to(data[i - int(len(days) / 2)][1][0], RIGHT) for i in
-                                   range(int(len(days) / 2) + 1, len(days))]))
+
+        self.play(AnimationGroup(*[
+            data[i][1][0].animate.next_to(data[i - int(len(days) / 2)][1][0], RIGHT) for i in range(int(len(days) / 2) + 1, len(days))
+        ]))
         self.wait()
 
-        self.play(AnimationGroup(*[AnimationGroup(
-            days[i][1].animate.set_opacity(0),
-            data[i][1][0].animate.set_opacity(0),
-            week_days[i].animate.set_color(BLACK).set_opacity(0),
-            data[len(days) - i][1].animate.set_color(WHITE)) for i in range(int(len(days) / 2) + 1, len(days))]))
+        print(len(days))
+        self.play(*[
+            AnimationGroup(
+                ReplacementTransform(data[i][1][0], data[i - int(len(days) / 2)][1][1][1:].set_color(WHITE)),
+                Write(data[len(days) - i][1][1][0].set_color(WHITE)),
+                days[i][1].animate.set_opacity(0),
+                week_days[i].animate.set_color(BLACK).set_opacity(0)
+            )
+            for i in range(int(len(days) / 2) + 1, len(days))
+        ])
         self.wait()
-
+####################
         self.play(AnimationGroup(*[data[i][0].animate.remove(days[i][1]) for i in range(int(len(days) / 2))]))
         table1.get_horizontal_lines().set_opacity(1)
         table1.get_vertical_lines().set_opacity(1)
@@ -119,13 +125,14 @@ class AttendancePerWeekday(Scene):
         data = []
         for index in range(len(days)):
             if index < len(days) / 2:
-                data.append([VGroup(days[index][0], days[index][1].next_to(days[index][0], RIGHT)),
-                             Tex(minutes[index][0] + minute,
-                                 " , " + minutes[int(len(minutes) / 2) + index][0] + minute).next_to(
-                                 days[index][1], RIGHT)])
+                data.append([
+                    VGroup(days[index][0], days[index][1].next_to(days[index][0], RIGHT)),
+                    Tex(minutes[index][0] + minute," , " + minutes[int(len(minutes) / 2) + index][0] + minute).next_to(days[index][1], RIGHT)
+                    ])
             else:
-                data.append([VGroup(days[index][0], days[index][1].next_to(days[index][0], RIGHT)),
-                             Tex(minutes[index][0] + minute, " , " + minutes[index][0] + minute).next_to(days[index][1],
-                                                                                                         RIGHT)])
+                data.append([
+                    VGroup(days[index][0], days[index][1].next_to(days[index][0], RIGHT)),
+                    Tex(minutes[index][0] + minute, " , " + minutes[index][0] + minute).next_to(days[index][1],RIGHT)
+                ])
 
         return data

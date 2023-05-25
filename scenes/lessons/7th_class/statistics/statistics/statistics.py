@@ -3,12 +3,12 @@ from manim import Tex, SurroundingRectangle, VGroup,  ReplacementTransform
 from manim import FadeOut, Write, Table, Brace
 from manim import Scene
 import numpy as np
-from .text import *
+from . import text
 
 class Statistics(Scene):
     def construct(self):
         run_time = 5
-        data = [f"{ind} {minute}" for ind in range(10, 19)]
+        data = [f"{ind} {text.minute}" for ind in range(10, 19)]
 
         count = [1, 2, 3, 5, 14, 13, 9, 2, 1]
 
@@ -17,8 +17,8 @@ class Statistics(Scene):
         table = Table(
             data_for_table,
             col_labels=[
-                Tex(data),
-                Tex(count)
+                Tex(text.data),
+                Tex(text.count)
             ],
             include_outer_lines=True,
             v_buff=0.5,
@@ -44,17 +44,16 @@ class Statistics(Scene):
         self.play(ReplacementTransform(table, histogram))
         self.wait(2)
 
-        total_days = Tex(total_days_str)
+        total_days = Tex(text.total_days_str)
         equality = Tex('$13$', '$ + $', '$9$', '$ + $', '$2$', '$ + $', '$1$').set_color(ORANGE)
         result = Tex('$25$')
-        days_bought_a_pie = Tex(days_bought_a_pie_str)
-        conclusion = Tex(number_of_pie_bought_days, r'$\frac{25}{50} $ ', '$ = 0.5 $' + part)
-        concolusion_box = SurroundingRectangle(conclusion, color=ORANGE, buff=0.5)
+        days_bought_a_pie = Tex(text.days_bought_a_pie_str)
+        conclusion = Tex(text.number_of_pie_bought_days, r'$\frac{25}{50} $ ', '$ = 0.5 $' + text.part)
+        conclusion_box = SurroundingRectangle(conclusion, color=ORANGE, buff=0.5)
 
         self.play(Write(total_days.next_to(histogram, UP).shift(UP * 1.5)), run_time=2)
         self.wait()
-        histogram.bar_colors = [WHITE, WHITE, WHITE, WHITE, WHITE, ORANGE, ORANGE, ORANGE, ORANGE]
-        histogram.change_bar_values(values=count, update_colors=True)
+        histogram.bars[-4:].set_color(ORANGE)
         self.add(histogram)
         self.wait()
 
@@ -62,13 +61,11 @@ class Statistics(Scene):
         brace.stretch(0.35, dim=0).shift(RIGHT * 2.6)
         self.play(Write(brace), run_time=2)
         self.wait()
-        bought_a_pie_text = Tex(bought_a_pie).scale(0.8).set_color(ORANGE)
+        bought_a_pie_text = Tex(text.bought_a_pie).scale(0.8).set_color(ORANGE)
         equality_text = VGroup(brace, bought_a_pie_text)
 
         self.play(Write(bought_a_pie_text.next_to(brace, UP)), run_time=2)
         self.wait(2)
-
-        self.wait()
 
         self.play(ReplacementTransform(equality_text, equality.next_to(total_days, DOWN).shift(RIGHT * 3 + DOWN)))
         self.wait(2)
@@ -82,6 +79,5 @@ class Statistics(Scene):
         self.play(FadeOut(histogram))
         self.wait()
 
-        self.play(Write(VGroup(conclusion, concolusion_box)), run_time=run_time)
+        self.play(Write(VGroup(conclusion, conclusion_box)), run_time=run_time)
         self.wait(2)
-

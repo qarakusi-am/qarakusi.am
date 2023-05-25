@@ -21,7 +21,7 @@ class Problem12803(QarakusiScene, FormulaModificationsScene):
         row_buff = 0.9
         self.add_task_number(text=t.TASK_NUMBER_STR)
         MathTex.set_default(font_size=t.default_font_size)
-        self.add_plane()
+        # self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
         condition_1 = MathTex(*t.CONDITION_1)

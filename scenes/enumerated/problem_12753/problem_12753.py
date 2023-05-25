@@ -18,7 +18,6 @@ class Problem12753(QarakusiScene, MovingCameraScene):
     def construct(self):
         condition_point = [-5.3, 3.40, 0]
         self.add_task_number(text=text.TASK_NUMBER_STR)
-        self.add_plane()
         MathTex.set_default(font_size=60)
 
         # -------------------------- Point 1 ------------------------------- #
