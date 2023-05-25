@@ -54,17 +54,21 @@ class Problem12795(QarakusiScene, MovingCameraScene):
         condition_1_9_copy = condition_1[9].copy()
         condition_1_11_copy = condition_1[11].copy()
 
-        self.play(condition_1_7_copy.animate.shift(condition_1_down_shift * DOWN),
-                  condition_1_9_copy.animate.shift(condition_1_down_shift * DOWN+ 0.1 * LEFT),
-                  condition_1_11_copy.animate.shift(condition_1_down_shift * DOWN + 0.7 * LEFT))
+        self.play(
+            condition_1_7_copy.animate.shift(condition_1_down_shift * DOWN),
+            condition_1_9_copy.animate.shift(condition_1_down_shift * DOWN+ 0.1 * LEFT),
+            condition_1_11_copy.animate.shift(condition_1_down_shift * DOWN + 0.7 * LEFT)
+        )
 
         transform_4 = MathTex(text.TRANSFORM_4, color=ORANGE).move_to(condition_1_7_copy)
         transform_5 = MathTex(text.TRANSFORM_5, color=ORANGE).move_to(condition_1_9_copy)
         transform_6 = MathTex(text.TRANSFORM_6, color=ORANGE).move_to(condition_1_11_copy).shift(0.05 * UP)
 
-        self.play(ReplacementTransform(condition_1_7_copy, transform_4),
-                  ReplacementTransform(condition_1_9_copy, transform_5),
-                  ReplacementTransform(condition_1_11_copy, transform_6))
+        self.play(
+            ReplacementTransform(condition_1_7_copy, transform_4),
+            ReplacementTransform(condition_1_9_copy, transform_5),
+            ReplacementTransform(condition_1_11_copy, transform_6)
+        )
         self.wait()
 
         multipoint_1 = MathTex(text.MULTIPOINT, color=ORANGE).next_to(transform_6, aligned_edge=DOWN, buff=0.5)
@@ -78,8 +82,10 @@ class Problem12795(QarakusiScene, MovingCameraScene):
         # -------------------------- Point 6 ------------------------------- #
         circle_1 = Circle(1.5, color=ORANGE).shift(2.2 * DOWN + 2 * RIGHT)
         num_49 = MathTex(text.NUM_49).move_to(circle_1)
-        self.play(ReplacementTransform(Group(transform_1, transform_2, transform_3, transform_4,
-                                             transform_5, transform_6, multipoint_1, for_49), circle_1))
+        self.play(ReplacementTransform(
+            Group(transform_1, transform_2, transform_3, transform_4,transform_5, transform_6, multipoint_1, for_49),
+            circle_1)
+        )
         self.play(Write(num_49))
         self.wait()
 
@@ -112,9 +118,8 @@ class Problem12795(QarakusiScene, MovingCameraScene):
         self.play(ReplacementTransform(condition_1_11_copy, transform_10))
         self.wait()
 
-        multipoint_2 = MathTex(text.MULTIPOINT,
-                               color=PURE_GREEN).next_to(condition_1_11_copy,
-                                                         aligned_edge=DOWN, buff=0.5).shift(0.01 * UP)
+        multipoint_2 = MathTex(text.MULTIPOINT, color=PURE_GREEN)
+        multipoint_2.next_to(condition_1_11_copy, aligned_edge=DOWN, buff=0.5).shift(0.01 * UP)
         self.play(Write(multipoint_2))
         self.wait()
 
@@ -130,24 +135,16 @@ class Problem12795(QarakusiScene, MovingCameraScene):
 
         # -------------------------- Point 8 ------------------------------- #
         dot_1 = Dot([1, -1, 0])
-        arrow_1 = Arrow(condition_1[5].get_critical_point(DOWN),
-                        dot_1,
-                        color=ORANGE)
+        arrow_1 = Arrow(condition_1[5].get_critical_point(DOWN), dot_1, color=ORANGE)
 
-        arrow_2 = Arrow(condition_1[5].get_critical_point(DOWN),
-                        circle_2.get_critical_point(UP),
-                        color=PURE_GREEN)
+        arrow_2 = Arrow(condition_1[5].get_critical_point(DOWN), circle_2.get_critical_point(UP), color=PURE_GREEN)
         self.play(Write(arrow_1), Write(arrow_2))
         self.wait()
 
-        arrow_3 = Arrow(condition_1[11].get_critical_point(DOWN),
-                        circle_1.get_critical_point(UP),
-                        color=ORANGE)
+        arrow_3 = Arrow(condition_1[11].get_critical_point(DOWN), circle_1.get_critical_point(UP), color=ORANGE)
 
         dot_2 = Dot([-1, -1, 0])
-        arrow_4 = Arrow(condition_1[11].get_critical_point(DOWN),
-                        dot_2,
-                        color=PURE_GREEN)
+        arrow_4 = Arrow(condition_1[11].get_critical_point(DOWN), dot_2, color=PURE_GREEN)
         self.play(Write(arrow_3), Write(arrow_4))
 
         # -------------------------- Point 9 ------------------------------- #
@@ -172,12 +169,14 @@ class Problem12795(QarakusiScene, MovingCameraScene):
         self.play(FadeOut(Group(arrow_1, arrow_2, arrow_3, arrow_4)))
         condition_2_1_copy_1 = condition_2[1].copy()
         condition_2_1_copy_2 = condition_2[1].copy()
-        self.play(condition_2_1_copy_1.animate.move_to(line_1),
-                  condition_2_1_copy_2.animate.move_to(line_2),
-                  self.camera.frame.animate.move_to(Group(circle_1, circle_2)).scale(0.7),
-                  num_33.animate.scale(0.7).set_opacity(0.7),
-                  num_49.animate.scale(0.7).set_opacity(0.7),
-                  run_time=3)
+        self.play(
+            condition_2_1_copy_1.animate.move_to(line_1),
+            condition_2_1_copy_2.animate.move_to(line_2),
+            self.camera.frame.animate.move_to(Group(circle_1, circle_2)).scale(0.7),
+            num_33.animate.scale(0.7).set_opacity(0.7),
+            num_49.animate.scale(0.7).set_opacity(0.7),
+            run_time=3
+        )
         self.wait()
 
         # -------------------------- Point 11 ------------------------------- #
@@ -192,10 +191,12 @@ class Problem12795(QarakusiScene, MovingCameraScene):
         self.wait()
 
         # -------------------------- Point 10 ------------------------------- # + 1.5 * UP
-        self.play(Group(circle_1, num_33_copy, arc_1, condition_2_1_copy_1).animate.shift(LEFT + 1.5 * UP),
-                  Group(circle_2, num_17, arc_2, condition_2_1_copy_2).animate.shift(RIGHT + 1.5 * UP),
-                  Restore(self.camera.frame),
-                  run_time=3)
+        self.play(
+            Group(circle_1, num_33_copy, arc_1, condition_2_1_copy_1).animate.shift(LEFT + 1.5 * UP),
+            Group(circle_2, num_17, arc_2, condition_2_1_copy_2).animate.shift(RIGHT + 1.5 * UP),
+            Restore(self.camera.frame),
+            run_time=3
+        )
         self.wait()
 
         # -------------------------- Point 13 ------------------------------- #
@@ -206,11 +207,8 @@ class Problem12795(QarakusiScene, MovingCameraScene):
         result[2].set_color(ORANGE)
         self.play(Write(result))
         self.play(FadeIn(diff_1), FadeIn(diff_2))
-        arrow_5 = Arrow(result[0],
-                        circle_2,
-                        color=PURE_GREEN,
-                        max_tip_length_to_length_ratio=0.45,
-                        max_stroke_width_to_length_ratio=9).scale(1.4)
+        arrow_5 = Arrow(result[0], circle_2, color=PURE_GREEN, max_tip_length_to_length_ratio=0.45, max_stroke_width_to_length_ratio=9)
+        arrow_5.scale(1.4)
         arrow_6 = Arrow(result[2], circle_1,  color=ORANGE)
         self.play(FadeIn(arrow_5), FadeIn(arrow_6))
         self.wait(3)
