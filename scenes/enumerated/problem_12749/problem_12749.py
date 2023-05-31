@@ -58,25 +58,30 @@ class Problem12749(FormulaModificationsScene):
 
         self.first()
         self.second()
-        self.third()
-        self.fourth()
+        # self.third()
+        # self.fourth()
 
     def first(self):
         formulas = self.formulas
-        # copy a^2+10a part and move down
-        abbr_formula = Tex('$a$', '$^2$', ' $+$ ', '$1$', '$0$', '$a$', font_size = FONT_SIZE).move_to(
-            formulas[0]).align_to(formulas[0], LEFT)
-        self.play(abbr_formula.animate.shift(DOWN))
-        self.wait()
-        self.fix_formula(abbr_formula)
-
-        self.play(ModifyFormula(abbr_formula, replace_items = [[3, 4, 5]],
-                                replace_items_strs = [['$2$', '$\cdot$', '$a$', '$\cdot$' '$5$']]))
-        self.wait()
 
         # write sum square property
         square_prop = self.sum_square_prop.copy().move_to(formulas[0]).align_to(formulas[0], LEFT).shift(DOWN * 2)
         self.play(Write(square_prop))
+        self.wait()
+
+        # copy a^2+10a part and move down
+        abbr_formula = Tex('$a$', '$^2$', ' $+$ ', '$1$', '$0$', '$a$', font_size = FONT_SIZE)
+        abbr_formula.move_to(formulas[0]).align_to(formulas[0], LEFT)
+        self.play(abbr_formula.animate.shift(DOWN))
+        self.wait()
+
+        self.fix_formula(abbr_formula)
+        self.play(
+            ModifyFormula(
+                abbr_formula,
+                replace_items = [[3, 4, 5]], replace_items_strs = [['$2$', '$\cdot$', '$a$', '$\cdot$' '$5$']]
+            )
+        )
         self.wait()
 
         self.play(AnimationGroup(
@@ -259,8 +264,11 @@ class Problem12749(FormulaModificationsScene):
         formulas = self.formulas
         numbers = self.numbers
 
-        self.play(FadeIn(formulas[1]), FadeIn(numbers[1]))
-        self.wait(0.25)
+        self.play(FadeIn(formulas[1:]), FadeIn(numbers[1:]))
+        self.wait(2)
+        self.play(FadeOut(formulas[2:], numbers[2:]))
+        self.wait()
+
         # copy x^2+6x part and move down
         abbr_formula = Tex('$x$', '$^2$', ' $+$ ', '$6$', '$x$', font_size = FONT_SIZE).move_to(
             formulas[1]).align_to(formulas[1], LEFT)
