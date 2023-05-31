@@ -58,8 +58,8 @@ class Problem12749(FormulaModificationsScene):
 
         self.first()
         self.second()
-        # self.third()
-        # self.fourth()
+        self.third()
+        self.fourth()
 
     def first(self):
         formulas = self.formulas
