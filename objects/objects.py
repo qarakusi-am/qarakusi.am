@@ -3,8 +3,8 @@ from pathlib import Path
 import numpy as np
 from manim import linear, MathTex
 from manim import VMobject, VGroup, ValueTracker, Scene
-from manim import Dot, Rectangle
-from manim import RED, WHITE, BLACK, GOLD, GREEN
+from manim import Dot, Rectangle, Polygon
+from manim import RED, WHITE, BLACK, GOLD, GREEN, DEFAULT_STROKE_WIDTH
 from manim import RIGHT, DOWN, UP, ORIGIN, OUT, PI
 from manim import FadeIn, UpdateFromAlphaFunc
 from manim import SVGMobject as OriginalSVGMobject
@@ -911,3 +911,122 @@ class Car(VGroup):
             for obj_idx, stoke_width in stroke_prop[index]['object_stokes'].items():
                 car[obj_idx].set_stroke(width=stoke_width)
         self.add(car)
+
+class ProvincesOfArmenia(VMobject):
+    def __init__(self):
+        super().__init__()
+
+        self.borders = SimpleSVGMobject('provinces_of_armenia')[0]
+        self.borders.set_color(WHITE).scale(2).set_stroke(width=DEFAULT_STROKE_WIDTH)
+
+        self.border_shirak_out = self.border_out_shirak = self.borders[0]
+        self.border_shirak_aragatsotn = self.border_aragatsotn_shirak = self.borders[1]
+        self.border_shirak_lori = self.border_lori_shirak = self.borders[2]
+        self.border_lori_out = self.border_out_lori = self.borders[3]
+        self.border_tavush_out = self.border_out_tavush = self.borders[4]
+        self.border_tavush_lori = self.border_lori_tavush = self.borders[5]
+        self.border_tavush_gegharkunik = self.border_gegharkunik_tavush = self.borders[6]
+        self.border_out_gegharkunik = self.border_gegharkunik_out = self.borders[7]
+        self.border_out_vayotsdzor_north = self.border_vayotsdzor_out_north = self.borders[8]
+        self.border_out_syunik = self.border_syunik_out = self.borders[9]
+        self.border_vayotsdzor_syunik = self.border_syunik_vayotsdzor = self.borders[10]
+        self.border_aragatsotn_out = self.border_out_aragatsotn = self.borders[11]
+        self.border_aragatsotn_armavir = self.border_armavir_aragatsotn = self.borders[12]
+        self.border_aragatsotn_lori = self.border_lori_aragatsotn = self.borders[13]
+        self.border_lori_kotayk = self.border_kotayk_lori = self.borders[14]
+        self.border_out_armavir = self.border_armavir_out = self.borders[15]
+        self.border_ararat_armavir = self.border_armavir_ararat = self.borders[16]
+        self.border_yerevan_armavir = self.border_armavir_yerevan = self.borders[17]
+        self.border_ararat_out = self.border_out_ararat = self.borders[18]
+        self.border_ararat_vayotsdzor = self.border_vayotsdzor_ararat = self.borders[19]
+        self.border_out_vayotsdzor_west = self.border_vayotsdzor_out_west = self.borders[20]
+        self.border_yerevan_ararat = self.border_ararat_yerevan = self.borders[21]
+        self.border_kotayk_ararat = self.border_ararat_kotayk = self.borders[22]
+        self.border_kotayk_aragatsotn = self.border_aragatsotn_kotayk = self.borders[23]
+        self.border_kotayk_gegharkunik = self.border_gegharkunik_kotayk = self.borders[24]
+        self.border_ararat_gegharkunik = self.border_gegharkunik_ararat = self.borders[25]
+        self.border_vayotsdzor_gegharkunik = self.border_gegharkunik_vayotsdzor = self.borders[26]
+        self.border_kotayk_yerevan = self.border_yerevan_kotayk = self.borders[27]
+
+
+        self.yerevan = Polygon(
+            *self.border_armavir_yerevan.points,
+            *self.border_ararat_yerevan.points,
+            *self.border_yerevan_kotayk.reverse_points().points,
+            color=WHITE
+        )
+        self.shirak = Polygon(
+            *self.border_shirak_out.points,
+            *self.border_shirak_aragatsotn.points,
+            *self.border_shirak_lori.points,
+            color=WHITE
+        )
+        self.lori = Polygon(
+            *self.border_lori_shirak.points,
+            *self.border_lori_out.points,
+            *self.border_lori_tavush.points,
+            *self.border_lori_kotayk.reverse_points().points,
+            *self.border_lori_aragatsotn.reverse_points().points,
+            color=WHITE
+        )
+        self.tavush = Polygon(
+            *self.border_tavush_out.reverse_points().points,
+            *self.border_tavush_lori.points,
+            *self.border_tavush_gegharkunik.points,
+            color=WHITE
+        )
+        self.aragatsotn = Polygon(
+            *self.border_aragatsotn_out.reverse_points().points,
+            *self.border_aragatsotn_shirak.points,
+            *self.border_aragatsotn_lori.reverse_points().points,
+            *self.border_aragatsotn_kotayk.points,
+            *self.border_aragatsotn_armavir.reverse_points().points,
+            color=WHITE
+        )
+        self.kotayk = Polygon(
+            *self.border_kotayk_yerevan.reverse_points().points,
+            *self.border_kotayk_ararat.points,
+            *self.border_kotayk_gegharkunik.reverse_points().points,
+            *self.border_kotayk_lori.points,
+            *self.border_kotayk_aragatsotn.points,
+            color=WHITE
+        )
+        self.gegharkunik = Polygon(
+            *self.border_gegharkunik_kotayk.points,
+            *self.border_gegharkunik_tavush.points,
+            *self.border_gegharkunik_out.points,
+            *self.border_gegharkunik_vayotsdzor.reverse_points().points,
+            *self.border_gegharkunik_ararat.reverse_points().points,
+            color=WHITE
+        )
+        self.armavir = Polygon(
+            *self.border_armavir_out.points,
+            *self.border_armavir_ararat.points,
+            *self.border_armavir_yerevan.points,
+            *self.border_armavir_aragatsotn.points,
+            color=WHITE
+        )
+        self.ararat = Polygon(
+            *self.border_ararat_out.points,
+            *self.border_ararat_vayotsdzor.points,
+            *self.border_ararat_gegharkunik.points,
+            *self.border_ararat_kotayk.reverse_points().points,
+            *self.border_ararat_yerevan.reverse_points().points,
+            *self.border_ararat_armavir.reverse_points().points,
+            color=WHITE
+        )
+        self.vayotsdzor = Polygon(
+            *self.border_vayotsdzor_out_west.points,
+            *self.border_vayotsdzor_syunik.points,
+            *self.border_vayotsdzor_out_north.reverse_points().points,
+            *self.border_vayotsdzor_gegharkunik.points,
+            *self.border_vayotsdzor_ararat.points,
+            color=WHITE
+        )
+        self.syunik = Polygon(
+            *self.border_syunik_out.points,
+            *self.border_syunik_vayotsdzor.points,
+            color=WHITE
+        )
+
+        self.add(self.borders)
