@@ -6,6 +6,5 @@ else:
     from .english_text import *
 
 __all__ = [
-    "taskNumberString",
     "carton_str"
 ]

@@ -1,5 +1,6 @@
-from manim import Scene, MathTex, Write, Transform, ReplacementTransform, VGroup, Indicate, Tex, FadeOut, AnimationGroup, SurroundingRectangle, Create
-from manim import LEFT, DOWN, UP, ORIGIN, RIGHT
+from manim import Write, Transform, ReplacementTransform, Indicate, Tex, FadeOut, AnimationGroup, Create
+from manim import MathTex, SurroundingRectangle, VGroup
+from manim import LEFT, DOWN, UP, RIGHT, ORIGIN
 from manim import YELLOW, GREEN
 from objects import SimpleSVGMobject
 from hanrahashiv import FormulaModificationsScene, ModifyFormula
