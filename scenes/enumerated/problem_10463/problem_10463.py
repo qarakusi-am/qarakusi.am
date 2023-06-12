@@ -313,7 +313,7 @@ class Problem10463(FormulaModificationsScene):
         #display both solutions
 
         self.first_solution.scale(0.7)
-        self.play(AnimationGroup(solution.animate.scale(0.7).next_to(DOWN + .5*RIGHT, buff=0.2)))
+        self.play(solution.animate.scale(0.7).next_to(DOWN + .5*RIGHT, buff=0.2))
 
         dashed_line=DashedLine(solution.get_top(),solution.get_top()+DOWN*2.2,color=BLUE).shift(LEFT*3.86)
 
