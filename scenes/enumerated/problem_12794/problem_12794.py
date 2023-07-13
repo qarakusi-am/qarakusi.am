@@ -309,20 +309,7 @@ class Problem12794(Scene):
             Create(only_ball, run_time=2)
         )
         self.wait()
-        # self.play(
-        #     ReplacementTransform(ball_count, only_ball_count[0]),
-        #     Write(only_ball_count[1]),
-        #     TransformFromCopy(bicycle_and_ball_count, only_ball_count[2]),
-        #     Write(only_ball_count[3]),
-        #     TransformFromCopy(scooter_and_ball_count, only_ball_count[4])
-        # )
-        # self.wait()
-        # self.play(
-        #     Transform(
-        #         only_ball_count,
-        #         MathTex("6", font_size=CIRCLE_FONT_SIZE*ball_circle.radius*.9).move_to(only_ball_count.get_center())
-        #     )
-        # )
+
         self.play(
             ReplacementTransform(
                 ball_count,
