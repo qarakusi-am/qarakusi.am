@@ -6,10 +6,11 @@ from manim import PI
 from manim import RED, PURE_GREEN, BLUE_C, YELLOW, WHITE
 
 from qarakusiscene import QarakusiScene
+from hanrahashiv import FormulaModificationsScene
 from . import text
 
 
-class Problem11104(QarakusiScene):
+class Problem11104(QarakusiScene, FormulaModificationsScene):
     """Վեց տարբեր քարտերի վրա գրված են 61, 24, 7, 599, թվերը: Այդ քարտերը դասավորելով իրար կողքի
      կստացվի 8-անիշ թիվ: Այդ եղանակով ստացեք՝
     ա) հնարավոր ամենամեծ 8-անիշ թիվը,
