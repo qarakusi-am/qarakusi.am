@@ -1,13 +1,13 @@
-from manim import Scene, VGroup, Dot, Line, Tex, Graph, Create, FadeIn, AnimationGroup, ReplacementTransform, Square, Write, FadeOut, ValueTracker, MathTex, Integer, Circumscribe, rate_functions
+from manim import MovingCameraScene, VGroup, Dot, Line, Tex, Graph, Create, FadeIn, AnimationGroup, ReplacementTransform, Square, Write, FadeOut, ValueTracker, MathTex, Integer, Circumscribe, rate_functions, Indicate, random_color, Circle
 from objects import Car, SimpleSVGMobject
-from manim import ORANGE, GREEN, DOWN, RIGHT, UP, ORIGIN, LEFT, BLUE, RED, PURPLE
+from manim import ORANGE, GREEN, DOWN, RIGHT, UP, ORIGIN, LEFT, BLUE, RED, PURPLE, PI
 from random import uniform
 import numpy as np
 import networkx as nx
 
 nxgraph = nx.erdos_renyi_graph(6, 1)
 
-class TwoNVideo(Scene):
+class TwoNVideo(MovingCameraScene):
     def construct(self):
         self.wait()
 
@@ -66,65 +66,6 @@ class TwoNVideo(Scene):
         self.play(Create(dots, run_time=4))
         self.remove(*temp)
 
-        number1 = Integer(0, color=GREEN, font_size=120).next_to(square, LEFT, buff=1.5)
-        number2 = Integer(6, color=ORANGE, font_size=120).next_to(square, RIGHT, buff=1.5)
-
-        self.play(
-            Write(number1),
-            Write(number2)
-        )
-        self.wait()
-
-        paralel_line = Line(
-            dots.vertices[1].get_center(),
-            dots.vertices[4].get_center()
-        ).set_length(15).set_color(RED)
-        paralel_line.save_state()
-        paralel_line.shift(LEFT*4)
-
-        self.play(Create(paralel_line))
-        self.wait()
-
-        self.play(
-            paralel_line.animate.next_to(dots.vertices[0]),
-            number1.animate.set_value(1),
-            number2.animate.set_value(5),
-            dots.vertices[0].animate.set_color(GREEN),
-            rate_func=rate_functions.linear
-        )
-        self.wait()
-
-        self.play(
-            paralel_line.animate.next_to(dots.vertices[2], buff=0).shift(LEFT*.35),
-            number1.animate.set_value(2),
-            number2.animate.set_value(4),
-            dots.vertices[2].animate.set_color(GREEN),
-            rate_func=rate_functions.linear
-        )
-        self.wait()
-
-        self.play(
-            paralel_line.animate.restore(),
-            number1.animate.set_value(4),
-            number2.animate.set_value(2),
-            dots.vertices[4].animate.set_color(GREEN),
-            dots.vertices[1].animate.set_color(GREEN),
-            rate_func=rate_functions.linear
-        )
-        self.wait()
-
-        self.play(
-            Circumscribe(number1, fade_out=True),
-            Circumscribe(number2, fade_out=True),
-            run_time=2
-        )
-        self.wait()
-
-        self.play(
-            FadeOut(number1, number2, paralel_line),
-            *[dots.vertices[i].animate.set_color(ORANGE) for i in range(len(dots.vertices))]
-        )
-        self.wait()
 
         line = Line(
             [-5, 10, 0],
@@ -143,29 +84,26 @@ class TwoNVideo(Scene):
         self.wait()
 
         self.play(
-            line.animate.next_to(dots.vertices[0]),
+            line.animate(rate_func=rate_functions.linear).next_to(dots.vertices[0]),
             number1.animate.set_value(1),
             number2.animate.set_value(5),
-            dots.vertices[0].animate.set_color(GREEN),
-            rate_func=rate_functions.linear
+            dots.vertices[0].animate.set_color(GREEN)
         )
         self.wait()
 
         self.play(
-            line.animate.next_to(dots.vertices[2], buff=0).shift(LEFT*.35),
+            line.animate(rate_func=rate_functions.linear).next_to(dots.vertices[2], buff=0).shift(LEFT*.35),
             number1.animate.set_value(2),
             number2.animate.set_value(4),
-            dots.vertices[2].animate.set_color(GREEN),
-            rate_func=rate_functions.linear
+            dots.vertices[2].animate.set_color(GREEN)
         )
         self.wait()
 
         self.play(
-            line.animate.next_to(dots.vertices[2]),
+            line.animate(rate_func=rate_functions.linear).next_to(dots.vertices[2]),
             number1.animate.set_value(3),
             number2.animate.set_value(3),
-            dots.vertices[4].animate.set_color(GREEN),
-            rate_func=rate_functions.linear
+            dots.vertices[4].animate.set_color(GREEN)
         )
         self.wait()
 
@@ -173,5 +111,130 @@ class TwoNVideo(Scene):
             Circumscribe(number1, fade_out=True),
             Circumscribe(number2, fade_out=True)
         )
+        self.wait()
 
-        self.wait(5)
+        self.play(
+            FadeOut(number1, number2, line),
+            *[dots.vertices[i].animate.set_color(ORANGE) for i in range(len(dots.vertices))]
+        )
+        self.wait()
+
+        paralel_line = Line(
+            dots.vertices[1].get_center(),
+            dots.vertices[4].get_center()
+        ).set_length(15).set_color(RED)
+        paralel_line.save_state()
+        paralel_line.shift(LEFT*4)
+
+        self.play(Create(paralel_line))
+        self.wait()
+
+        number1 = Integer(0, color=GREEN, font_size=120).next_to(square, LEFT, buff=1.5)
+        number2 = Integer(6, color=ORANGE, font_size=120).next_to(square, RIGHT, buff=1.5)
+
+        self.play(
+            Write(number1),
+            Write(number2)
+        )
+        self.wait()
+
+        self.play(
+            paralel_line.animate(rate_func=rate_functions.linear).next_to(dots.vertices[0]),
+            number1.animate.set_value(1),
+            number2.animate.set_value(5),
+            dots.vertices[0].animate.set_color(GREEN)
+        )
+        self.wait()
+
+        self.play(
+            paralel_line.animate(rate_func=rate_functions.linear).next_to(dots.vertices[2], buff=0).shift(LEFT*.35),
+            number1.animate.set_value(2),
+            number2.animate.set_value(4),
+            dots.vertices[2].animate.set_color(GREEN)
+        )
+        self.wait()
+
+        self.play(
+            paralel_line.animate(rate_func=rate_functions.linear).restore(),
+            number1.animate.set_value(4),
+            number2.animate.set_value(2),
+            dots.vertices[4].animate.set_color(GREEN),
+            dots.vertices[1].animate.set_color(GREEN)
+        )
+        self.wait()
+
+        self.play(
+            Circumscribe(dots.vertices[4], fade_out=True, shape=Circle),
+            Circumscribe(dots.vertices[1], fade_out=True, shape=Circle)
+        )
+        self.wait()
+
+        self.play(
+            Circumscribe(number1, fade_out=True),
+            Circumscribe(number2, fade_out=True),
+            run_time=2
+        )
+        self.wait()
+
+        self.play(
+            FadeOut(number1, number2, paralel_line),
+            *[dots.vertices[i].animate.set_color(ORANGE) for i in range(len(dots.vertices))]
+        )
+        self.wait()
+
+        edges = VGroup(*dots)
+        edges.remove(*[dots.vertices[i] for i in range(len(dots.vertices))])
+
+        self.play(Indicate(edges))
+        self.wait()
+
+        self.play(
+            VGroup(
+                square,
+                dots
+            ).animate.to_edge(RIGHT)
+        )
+
+        dot = Dot([-5, 0, 0])
+        lines = VGroup(
+            *[
+                Line(
+                    [-4.4, 3.2, 0],
+                    [-4, -3.2, 0]
+                ).set_color(random_color()).rotate(-i*PI/5)
+                for i in range(5)
+            ]
+        )
+        self.play(
+            AnimationGroup(
+                *[Create(lines[i]) for i in range(len(lines))],
+                lag_ratio=.8
+            )
+        )
+        self.wait()
+
+        self.play(
+            self.camera.frame.animate.scale(1.2, about_edge=DOWN)
+        )
+
+        finite_tex = Tex("վերջավոր", font_size=80)
+        finite_tex.next_to(square, UP, buff=.4)
+
+        infinite_tex = Tex("անվերջ", font_size=80)
+        infinite_tex.next_to(lines, UP).align_to(finite_tex, DOWN)
+
+        self.play(Write(finite_tex))
+        self.play(Write(infinite_tex))
+        self.wait()
+
+        self.play(Indicate(lines[0]))
+        self.wait()
+
+        self.play(
+            lines[0].animate(rate_func=rate_functions.linear).next_to(dots.vertices[4], buff=0).set_y(0).shift(LEFT*.07),
+            dots.vertices[4].animate.set_color(GREEN),
+            dots.vertices[0].animate.set_color(GREEN),
+            dots.vertices[2].animate.set_color(GREEN),
+        )
+
+        self.wait(2)
