@@ -27,7 +27,7 @@ class Problem12732(Scene):
         self.play(Write(hours_to_display, run_time=RUN_TIME_SPEED))
         self.wait()
 
-        clock, hands, marks = create_clock_and_time_marks()
+        clock, hands, marks = create_clock_and_time_marks(11, 30)
 
         self.play(Write(clock))
         self.wait()

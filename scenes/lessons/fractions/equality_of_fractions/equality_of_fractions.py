@@ -228,7 +228,7 @@ class Equality_of_fractions(Scene):
         temp1[-1].set_color(ORANGE)
         temp1.move_to(fraction3[0].get_center()).align_to(fraction3[1], RIGHT)
 
-        temp2 = MathTex("4 \\cdot", "4", font_size=FONT_SIZE)
+        temp2 = MathTex("3 \\cdot", "4", font_size=FONT_SIZE)
         temp2[-1].set_color(BLUE)
         temp2.move_to(fraction3[2].get_center()).align_to(fraction3[1], RIGHT)
 

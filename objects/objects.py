@@ -315,6 +315,15 @@ svg_defaults.add_default(
     'computer',
     {'folder': path_to_SVG / 'technology'}
 )
+svg_defaults.add_default(
+    'bicycle',
+    {'folder': path_to_SVG / 'healthy_transport',
+     'stroke_width': 1}
+)
+svg_defaults.add_default(
+    'scooter',
+    {'folder': path_to_SVG / 'healthy_transport'}
+)
 
 
 class SimpleSVGMobject(VMobject):
@@ -911,3 +920,21 @@ class Car(VGroup):
             for obj_idx, stoke_width in stroke_prop[index]['object_stokes'].items():
                 car[obj_idx].set_stroke(width=stoke_width)
         self.add(car)
+
+
+class Bookshelf(VMobject):
+    def __init__(self):
+        super().__init__()
+
+        bookshelf = SimpleSVGMobject("bookshelf")
+
+        for i in [2, 3, 4, 7, 8]:
+            if bookshelf[0][i].stroke_width > 0:
+                bookshelf[0][i].set_stroke(width=1)
+        for i in [0, 1, 5, 6]:
+            bookshelf[0][i].set_stroke(width=0.5)
+        for part in bookshelf[0][9:]:
+            if part.stroke_width > 0:
+                part.set_stroke(width=0.3)
+
+        self.add(bookshelf)
