@@ -18,7 +18,6 @@ class Problem12753(QarakusiScene, MovingCameraScene):
     def construct(self):
         condition_point = [-5.3, 3.40, 0]
         self.add_task_number(text=text.TASK_NUMBER_STR)
-        self.add_plane()
         MathTex.set_default(font_size=60)
 
         # -------------------------- Point 1 ------------------------------- #
@@ -27,13 +26,13 @@ class Problem12753(QarakusiScene, MovingCameraScene):
         self.wait()
 
         # -------------------------- Point 2 ------------------------------- #
-        nums_1 = MathTex(*range(1, 10))
-        nums_1.arrange(DOWN, buff=0.3).to_edge().shift(0.1 * RIGHT + 0.3 * DOWN)
+        nums_1 = MathTex(*range(10))
+        nums_1.arrange(DOWN, buff=0.25).to_edge().shift(0.1 * RIGHT + 0.3 * DOWN)
         self.play(Write(nums_1, run_time=2))
         self.wait()
 
         # -------------------------- Point 3 ------------------------------- #
-        question_marks = VGroup(*[MathTex(text.QUESTION_MARK).next_to(nums_1[i]) for i in range(9)])
+        question_marks = VGroup(*[MathTex(text.QUESTION_MARK).next_to(nums_1[i]) for i in range(10)])
         self.play(Write(question_marks, run_time=2))
         self.wait()
 

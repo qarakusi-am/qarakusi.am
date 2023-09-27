@@ -15,4 +15,3 @@ __all__ = [
     "number_of_pie_bought_days",
     "part"
 ]
-

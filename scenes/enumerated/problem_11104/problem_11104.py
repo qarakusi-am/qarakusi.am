@@ -5,6 +5,7 @@ from manim import Rectangle, Arrow, MathTex, SurroundingRectangle
 from manim import PI
 from manim import RED, PURE_GREEN, BLUE_C, YELLOW, WHITE
 
+from hanrahashiv import FormulaModificationsScene
 from qarakusiscene import QarakusiScene
 from hanrahashiv import FormulaModificationsScene
 from . import text
