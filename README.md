@@ -9,7 +9,7 @@ Before starting, make sure you have installed the following:
 python3.8
 python3-pip
 python3-venv
-manim
+manim0.15.2
 git # of course
 ```
 
