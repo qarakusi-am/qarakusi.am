@@ -13,7 +13,7 @@ class TimeToGetToSchool(Scene):
     def construct(self):
 
         school_child_pos = [0, 0, 0]
-        school_child = SimpleSVGMobject("people/children/girl_1", color=WHITE).move_to(school_child_pos)
+        school_child = SimpleSVGMobject("people/children/boy_1", color=WHITE).move_to(school_child_pos)
 
         school_pos = [5.5, 0, 0]
         school = SimpleSVGMobject("buildings/building_3").move_to(school_pos)
