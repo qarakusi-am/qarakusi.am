@@ -37,9 +37,9 @@ class HistogramToFunction(Scene):
         self.wait(2)
 
         reformed_walk_speed_str = '50' + meter + '/' + minute
-        running_data.add(Tex(reformed_walk_speed_str).next_to(running_data[2][0][7], RIGHT))
+        running_data.add(Tex(reformed_walk_speed_str).next_to(running_data[2][0][-6], RIGHT))
 
-        self.play(ReplacementTransform(VGroup(running_data[2][0][8:16]), running_data[3]))
+        self.play(ReplacementTransform(VGroup(running_data[2][0][-5:]), running_data[3]))
         self.wait(2)
 
         axis_width = 2

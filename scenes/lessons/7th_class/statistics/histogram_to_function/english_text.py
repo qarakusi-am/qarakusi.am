@@ -1,6 +1,6 @@
-running_time_and_speed="Ran 3 minutes, "
+running_time="Ran 3 minutes, "
 speed_in_km_h='9km/h'
-rest_time="rest 4 minutes"
+rest_time="rested 4 minutes"
 walk_back_speed="walked back 3km/h"
 km="km"
 meter="m"
