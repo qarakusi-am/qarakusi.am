@@ -1,4 +1,4 @@
-from manim import LEFT, UP, DOWN, RIGHT, DL, UL, DR, UR, PI, ORIGIN
+from manim import LEFT, UP, DOWN, RIGHT, DL, UL, DR, UR, PI, ORIGIN, rate_functions
 from manim import FadeIn, Write, FadeOut
 from manim import Group, VGroup, AnimationGroup
 from manim import MathTex, Rectangle, Line, Axes, Circle, CurvedArrow, TAU, ArcBetweenPoints, Arrow, Dot
@@ -23,8 +23,19 @@ class Problem12641(QarakusiScene):
 
         # -------------------------- Point 1 ------------------------------- #
         #conditions
-        conditions = MathTex(*text.CONDITIONS).arrange(DOWN, buff=0.5, aligned_edge=LEFT).move_to(ORIGIN).scale(0.9)
-        self.play(AnimationGroup(Write(conditions), lag_ratio=1, run_time=8))
+        # conditions = MathTex(*text.CONDITIONS).arrange(DOWN, buff=0.5, aligned_edge=LEFT).move_to(ORIGIN).scale(0.9)
+        # self.play(AnimationGroup(Write(conditions), lag_ratio=1, run_time=8))
+        # self.wait()
+
+        math_tex_list = []
+        for condition in text.CONDITIONS:
+            condition_tex = MathTex(*condition).scale(0.9)
+            math_tex_list.append(condition_tex)
+
+        # Arrange the MathTex objects in a VGroup
+        conditions = VGroup(*math_tex_list).arrange(DOWN, buff=0.5, aligned_edge=LEFT).move_to(ORIGIN)
+        self.play(Write(conditions, run_time=10, lag_ratio=1))
+
         self.wait()
 
         # -------------------------- Point 2 ------------------------------- #
@@ -37,7 +48,12 @@ class Problem12641(QarakusiScene):
         circle_1 = Circle(radius=0.5, color=PURE_RED, fill_opacity=1).next_to(circle_point)
         operation_1 = MathTex(text.OPERATION_1).next_to(circle_1)
         circle_2 = circle_1.copy().set_color(YELLOW).next_to(operation_1)
-        self.play(AnimationGroup(Write(circle_1), Write(operation_1), Write(circle_2), Write(check_marks[0]), lag_ratio=1))
+
+        condition_0_1 = conditions[0][1].copy()
+        self.play(Write(circle_1))
+        self.play(condition_0_1.animate(run_time=2, rate_func=rate_functions.linear).move_to(circle_2))
+        self.play(ReplacementTransform(condition_0_1, operation_1, rate_func=rate_functions.linear), run_time=1)
+        self.play(AnimationGroup(Write(circle_2), Write(check_marks[0]), lag_ratio=1))
         self.wait()
 
         circle_3_pos = circle_2.copy().next_to(circle_1, DOWN, buff=0.7)
