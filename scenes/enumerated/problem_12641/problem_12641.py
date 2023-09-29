@@ -60,9 +60,6 @@ class Problem12641(QarakusiScene):
         circle_3 = circle_2.copy()
         operation_2 = MathTex(text.OPERATION_2).next_to(circle_3_pos).shift(0.3 * RIGHT)
         circle_4 = circle_2.copy().next_to(operation_2).set_color(BLUE)
-        # arrow_1 = Arrow(circle_2.get_critical_point(DOWN),
-        #                 circle_3_pos.get_critical_point(UR),
-        #                 color=YELLOW)
 
         point_1 = circle_2.get_critical_point(DOWN)
         point_2 = point_1 + 0.5 * LEFT + 0.2 * DOWN
@@ -76,12 +73,17 @@ class Problem12641(QarakusiScene):
         curved_arrow_1 = CurvedArrow(point_3, point_4, angle=TAU / 12)
         arrow_1 = VGroup(arc_1, line_1, curved_arrow_1, dot_1, dot_2).set_color(YELLOW)
 
-        self.play(AnimationGroup(Write(arrow_1),
-                                 circle_3.animate.move_to(circle_3_pos),
-                                 Write(operation_2),
-                                 Write(circle_4),
-                                 Write(check_marks[1]),
-                                 lag_ratio=1))
+        # self.play(AnimationGroup(Write(arrow_1),
+        #                          circle_3.animate.move_to(circle_3_pos),
+        #                          Write(operation_2),
+        #                          Write(circle_4),
+        #                          Write(check_marks[1]),
+        #                          lag_ratio=1))
+        condition_1_1 = conditions[1][1].copy()
+        self.play(AnimationGroup(Write(arrow_1), circle_3.animate.move_to(circle_3_pos), lag_ratio=1, run_time=3))
+        self.play(condition_1_1.animate(run_time=2, rate_func=rate_functions.linear).move_to(circle_4))
+        self.play(ReplacementTransform(condition_1_1, operation_2, rate_func=rate_functions.linear), run_time=1)
+        self.play(AnimationGroup(Write(circle_4), Write(check_marks[1]), lag_ratio=1))
         self.wait()
 
         circle_5_pos = circle_4.copy().next_to(circle_3_pos, DOWN, buff=0.7)
@@ -103,20 +105,23 @@ class Problem12641(QarakusiScene):
         curved_arrow_1 = CurvedArrow(point_3, point_4, angle=TAU / 12)
         arrow_2 = VGroup(arc_1, line_1, curved_arrow_1, dot_1, dot_2).set_color(BLUE)
 
-        self.play(AnimationGroup(Write(arrow_2),
-                                 circle_5.animate.move_to(circle_5_pos),
-                                 Write(operation_3),
-                                 Write(circle_6),
-                                 Write(check_marks[2]),
-                                 lag_ratio=1))
+        # self.play(AnimationGroup(Write(arrow_2),
+        #                          circle_5.animate.move_to(circle_5_pos),
+        #                          Write(operation_3),
+        #                          Write(circle_6),
+        #                          Write(check_marks[2]),
+        #                          lag_ratio=1))
+        condition_2_1 = conditions[2][1].copy()
+        self.play(AnimationGroup(Write(arrow_2), circle_5.animate.move_to(circle_5_pos), lag_ratio=1, run_time=3))
+        self.play(condition_2_1.animate(run_time=2, rate_func=rate_functions.linear).move_to(circle_6))
+        self.play(ReplacementTransform(condition_2_1, operation_3, rate_func=rate_functions.linear), run_time=1)
+        self.play(AnimationGroup(Write(circle_6), Write(check_marks[2]), lag_ratio=1))
         self.wait()
 
         circle_7_pos = circle_4.copy().next_to(circle_5_pos, DOWN, buff=0.7)
         circle_7 = circle_6.copy()
         operation_4 = MathTex(*text.OPERATION_4).next_to(circle_7_pos).shift(0.45 * RIGHT)
-        # arrow_3 = Arrow(circle_6.get_critical_point(DOWN),
-        #                 circle_7_pos.get_critical_point(UR),
-        #                 color=GREEN)
+
         point_1 = circle_6.get_critical_point(DOWN)
         point_2 = point_1 + 0.5 * LEFT + 0.2 * DOWN
         point_4 = circle_7_pos.get_critical_point(UP)
@@ -129,23 +134,34 @@ class Problem12641(QarakusiScene):
         curved_arrow_1 = CurvedArrow(point_3, point_4, angle=TAU / 12)
         arrow_3 = VGroup(arc_1, line_1, curved_arrow_1, dot_1, dot_2).set_color(GREEN)
 
-        self.play(AnimationGroup(Write(arrow_3),
-                                 circle_7.animate.move_to(circle_7_pos),
-                                 Write(operation_4[0]),
-                                 Write(check_marks[3]),
-                                 Write(operation_4[1]),
-                                 Write(check_marks[4]),
-                                 lag_ratio=1))
+        # self.play(AnimationGroup(Write(arrow_3),
+        #                          circle_7.animate.move_to(circle_7_pos),
+        #                          Write(operation_4[0]),
+        #                          Write(check_marks[3]),
+
+        #                          Write(operation_4[1]),
+        #                          Write(check_marks[4]),
+        #                          lag_ratio=1))
+        condition_3_1 = conditions[3][1].copy()
+        self.play(AnimationGroup(Write(arrow_3), circle_7.animate.move_to(circle_7_pos), lag_ratio=1, run_time=3))
+        self.play(condition_3_1.animate(run_time=2, rate_func=rate_functions.linear).next_to(circle_6, DOWN))
+        self.play(ReplacementTransform(condition_3_1, operation_4[0], rate_func=rate_functions.linear), run_time=1)
+        self.play(Write(check_marks[3]))
+
+        condition_4_1 = conditions[4][1].copy()
+        self.play(condition_4_1.animate(run_time=2, rate_func=rate_functions.linear).next_to(circle_6, DOWN))
+        self.play(ReplacementTransform(condition_4_1, operation_4[1], rate_func=rate_functions.linear), run_time=1)
+        self.play(Write(check_marks[4]))
         self.wait()
 
         # -------------------------- Point 3 ------------------------------- #
         self.play(FadeOut(*conditions), FadeOut(*check_marks))
         self.wait()
 
-        solution_1 = MathTex(text.SOLUTION_1).next_to(solution_point)
-        solution_2 = MathTex(text.SOLUTION_2).next_to(solution_1, DOWN, buff=0.5, aligned_edge=LEFT)
-        solution_3 = MathTex(text.SOLUTION_3).next_to(solution_2, DOWN, buff=0.5, aligned_edge=LEFT)
-        solution_4 = MathTex(text.SOLUTION_4).next_to(solution_3, DOWN, buff=0.5, aligned_edge=LEFT)
+        solution_1 = MathTex(*text.SOLUTION_1).next_to(solution_point)
+        solution_2 = MathTex(*text.SOLUTION_2).next_to(solution_1, DOWN, buff=0.5, aligned_edge=LEFT)
+        solution_3 = MathTex(*text.SOLUTION_3).next_to(solution_2, DOWN, buff=0.5, aligned_edge=LEFT)
+        solution_4 = MathTex(*text.SOLUTION_4).next_to(solution_3, DOWN, buff=0.5, aligned_edge=LEFT)
 
         nums = MathTex(*text.NUMS, color=BLACK)
 
@@ -162,6 +178,9 @@ class Problem12641(QarakusiScene):
         # self.play(ReplacementTransform(circle_7, nums[0]))
         # self.play(ReplacementTransform(circle_6, nums[1]))
         self.play(Write(nums[0]), Write(nums[1]))
+        # self.play(solution_1[1].copy().animate(rate_func=rate_functions.linear).move_to(circle_7_pos).set_color(BLACK),
+        #           solution_1[1].copy().animate(color=BLACK, rate_func=rate_functions.linear).move_to(circle_6),
+        #           run_time=3)
         self.wait()
 
         self.play(Write(solution_2))
