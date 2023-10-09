@@ -1,7 +1,0 @@
-task_number_str = "Խ․ 12707"
-condition1_str = "Գիրքն 126 էջանոց է"
-condition2_str = "1-ին օրը՝ 24 էջ"
-condition3_str = "2-րդ օրը՝ 35 էջ"
-page_str = " էջ"
-first_solution_str = "Առաջին եղանակ"
-second_solution_str = "Երկրորդ եղանակ"

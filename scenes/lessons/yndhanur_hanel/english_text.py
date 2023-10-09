@@ -1,1 +1,0 @@
-carton_str = " carton"
