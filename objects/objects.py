@@ -221,8 +221,8 @@ svg_defaults.add_default(
     {'folder': path_to_SVG / 'train'}
 )
 svg_defaults.add_prefix_default(
-    'bridges_',
-    {'folder': path_to_SVG / 'bridge'}
+    'bridge_',
+    {'folder': path_to_SVG / 'bridges'}
 )
 svg_defaults.add_prefix_default(
     'syun_',
