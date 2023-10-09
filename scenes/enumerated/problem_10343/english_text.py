@@ -1,5 +1,0 @@
-taskNumberString = "P. 10343"
-remainder_str = "REM"
-quantity_str = "Quantity"
-tray_str = "tray"
-fruit_str = "Fruit"
