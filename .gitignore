@@ -24,6 +24,7 @@ media/
 **/test.py
 
 .VSCodeCounter/
-.venv
-.env
+.venv/
+.env/
 env/
+venv/

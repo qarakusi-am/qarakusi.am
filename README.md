@@ -6,20 +6,19 @@
 
 Before starting, make sure you have installed the following:
 ```
-python3.8
+python3.11
 python3-pip
 python3-venv
-manim
+manim == v0.17.3
+latex
 git # of course
 ```
-
-// TODO: Add other modules that needs to be installed (e.g. latex related)
 
 ### Create the video
 
 FOR LINUX, MACOS: 
 ```
-PYTHONPATH=lib:objects python qarakusi.am.py 10107 --language armenian -pqh
+PYTHONPATH=lib:objects python qarakusi.am.py 10107 --language armenian -pql
 ```
 
 FOR WINDOWS: 
@@ -28,11 +27,6 @@ $env:PYTHONPATH='lib;objects'; python qarakusi.am.py 10107 --language english -p
 ```
 
 ### Fix scripts
-
-Run the following to make a small fix in your manim:
-```
-python scripts/manim_fix.py
-```
 
 Run the following command on your svg file to make partial fixes (e.g. remove empty polynoms):
 ```
@@ -48,3 +42,9 @@ Never push to the master. Push to another branch, than create a pull request.
 Wait, until your change is reviewed by at least 1 other person. There will never be a super urgent change.
 
 Explicit is better than implicit.
+
+Add demo after creating new class.
+
+Always delete useless branch after merging it to the master.
+
+Always link the issue to the pull request.

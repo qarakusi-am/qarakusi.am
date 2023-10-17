@@ -1,7 +1,0 @@
-task_number_str = "P. $12707$"
-condition1_str = "Book has 126 pages"
-condition2_str = "1st day: 24 pages"
-condition3_str = "2nd day: 35 pages"
-page_str = " page"
-first_solution_str = "First solution"
-second_solution_str = "Second solution"

@@ -1,5 +1,0 @@
-coordinate_text = r"\textrm{կոորդինատներ}"
-number_line_text = r"\textrm{թվային առանցք}"
-step_number_text = r"$6$ \textrm{քայլով ձախ}"
-left_ruler_text = r"\textrm{ձախ քանոնի վրա է}"
-rigth_ruler_text = r"\textrm{աջ քանոնի վրա է}"
