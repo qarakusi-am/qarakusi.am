@@ -324,6 +324,10 @@ svg_defaults.add_default(
     'scooter',
     {'folder': path_to_SVG / 'healthy_transport'}
 )
+svg_defaults.add_default(
+    'house',
+    {'folder': path_to_SVG / 'buildings'}
+)
 
 
 class SimpleSVGMobject(VMobject):
