@@ -1,13 +1,12 @@
-from manim import MovingCameraScene, VGroup, Dot, Line, Tex, Graph, Create, FadeIn, AnimationGroup, ReplacementTransform, Square, Write, FadeOut, ValueTracker, MathTex, Integer, Circumscribe, rate_functions, Indicate, random_color, Circle
-from objects import Car, SimpleSVGMobject
+from manim import MovingCameraScene, VGroup, Line, Tex, Graph, Create, FadeIn, AnimationGroup, ReplacementTransform, Square, Write, FadeOut, Integer, Circumscribe, rate_functions, Indicate, Circle, TransformFromCopy
+from objects import SimpleSVGMobject
 from manim import ORANGE, GREEN, DOWN, RIGHT, UP, ORIGIN, LEFT, BLUE, RED, PURPLE, PI
-from random import uniform
-import numpy as np
+from manim import random_color
 import networkx as nx
 
 nxgraph = nx.erdos_renyi_graph(6, 1)
 
-class TwoNVideo(MovingCameraScene):
+class Problem00000(MovingCameraScene):
     def construct(self):
         self.wait()
 
@@ -54,6 +53,18 @@ class TwoNVideo(MovingCameraScene):
         self.play(
             village.animate.scale(1.3).move_to(ORIGIN)
         )
+        self.wait()
+
+        line = Line(
+            [-5, 10, 0],
+            [-3.8, -10, 0]
+        ).set_color(BLUE)
+        line.save_state()
+        line.next_to(dots.vertices[2]).rotate(PI/17)
+        self.play(Create(line))
+        self.wait()
+        self.play(FadeOut(line))
+        self.wait()
 
         self.play(
             AnimationGroup(
@@ -61,16 +72,9 @@ class TwoNVideo(MovingCameraScene):
                 lag_ratio=.3
             )
         )
-        temp = [dots.vertices[i].copy() for i in range(len(dots.vertices))]
-        self.add(*temp)
-        self.play(Create(dots, run_time=4))
-        self.remove(*temp)
+        self.wait()
 
-
-        line = Line(
-            [-5, 10, 0],
-            [-3.8, -10, 0]
-        ).set_color(BLUE)
+        line.restore()
         self.play(Create(line))
         self.wait()
 
@@ -182,6 +186,20 @@ class TwoNVideo(MovingCameraScene):
         )
         self.wait()
 
+        temp_line = Line(
+            dots.vertices[4].get_center(),
+            dots.vertices[1].get_center()
+        )
+        dots.set_z_index(temp_line.z_index + 1)
+        self.play(Create(temp_line))
+        self.wait()
+
+        temp = [dots.vertices[i].copy() for i in range(len(dots.vertices))]
+        self.add(*temp)
+        self.play(Create(dots, run_time=4))
+        self.remove(*temp, temp_line)
+        self.wait()
+
         edges = VGroup(*dots)
         edges.remove(*[dots.vertices[i] for i in range(len(dots.vertices))])
 
@@ -195,7 +213,6 @@ class TwoNVideo(MovingCameraScene):
             ).animate.to_edge(RIGHT)
         )
 
-        dot = Dot([-5, 0, 0])
         lines = VGroup(
             *[
                 Line(
@@ -205,12 +222,13 @@ class TwoNVideo(MovingCameraScene):
                 for i in range(5)
             ]
         )
-        self.play(
-            AnimationGroup(
-                *[Create(lines[i]) for i in range(len(lines))],
-                lag_ratio=.8
-            )
-        )
+        self.play(Create(lines[0]))
+        for i in range(1, len(lines)):
+            self.play(TransformFromCopy(lines[i-1], lines[i]), rate_func=rate_functions.linear)
+            self.wait(.2)
+        temp_line = lines[-1].copy()
+        self.play(temp_line.animate(rate_func=rate_functions.linear).rotate(-PI/5).set_color(lines[0].get_color()))
+        self.remove(temp_line)
         self.wait()
 
         self.play(
