@@ -1,6 +1,8 @@
-from manim import Scene, FadeIn, FadeOut, VGroup, GrowFromEdge, AnimationGroup, TransformFromCopy, rate_functions, Tex, CoordinateSystem, Axes, Write, Circumscribe, SurroundingRectangle, Create, MathTex, TransformFromCopy, AnimationGroup, Dot, ReplacementTransform, ValueTracker, BraceBetweenPoints, GrowFromCenter, Difference, Union, BraceBetweenPoints, Transform, Indicate, Wiggle
+from manim import Scene, FadeIn, FadeOut, VGroup, GrowFromEdge, AnimationGroup, TransformFromCopy, rate_functions, Tex, Arrow, Axes, Write, Circumscribe, SurroundingRectangle, Create, MathTex, TransformFromCopy, AnimationGroup, Dot, ReplacementTransform, ValueTracker, BraceBetweenPoints, GrowFromCenter, Difference, Union, BraceBetweenPoints, Transform, Indicate, Wiggle, GrowArrow, CurvedArrow
 from manim import ORIGIN, UP, DOWN, LEFT, RIGHT, UL, DL, DR, UR
 from manim import BLUE, RED, GREEN, BLACK, WHITE, ORANGE
+from manim import PI
+import numpy as np
 from qarakusiscene import TaskNumberBox
 from aramanim import get_segment_part
 from objects import SimpleSVGMobject
@@ -77,38 +79,46 @@ class Problem00000(Scene):
             Write(coord_sys_x_label)
         )
 
-        # write info about Gagik
-        gagik_info = VGroup(
-            Tex("արագացում՝ ", "$3$", " մ/վ$^2$", color=RED),
-            Tex("վերջն․ արագություն՝ ", "$9$", " մ/վ", color=RED)
+        # write info about Tigran
+        tigran_info = VGroup(
+            Tex("արագացում՝ ", "$2$", " մ/վ$^2$", color=BLUE),
+            Tex("վերջն․ արագություն՝ ", "$8$", " մ/վ", color=BLUE)
         ).arrange(DOWN, aligned_edge=LEFT)
-        gagik_info.scale(1.2).to_corner(UR).shift(LEFT*1.5)
-
-        self.play(Write(gagik_info))
-        self.wait()
-
-        # draw Gagik's graph points
-        self.play(Circumscribe(gagik_info[1][-2:], fade_out=True), run_time=1.5)
-        self.wait()
-        srr_circle_g1 = SurroundingRectangle(coord_sys.coordinate_labels[1][8], color=RED, corner_radius=0.15)
-        self.play(Create(srr_circle_g1))
-        self.wait()
+        tigran_info.scale(1.07).to_corner(UR).shift(LEFT*1.5)
         
+        self.play(Write(tigran_info))
+        self.wait()
+
+        # draw Tigran's graph points
+        self.play(Circumscribe(tigran_info[1][-2:], fade_out=True), run_time=1.5)
+        self.wait()
+        curved_arrow1 = CurvedArrow(
+            tigran_info[1][-2:].get_bottom() + np.array([-.5, 0, 0]),
+            coord_sys.coordinate_labels[1][7].get_bottom() + np.array([.1, -.1, 0]),
+            angle=-PI/3
+        )
+        self.play(Create(curved_arrow1))
+        self.wait()
+        srr_circle_t1 = SurroundingRectangle(coord_sys.coordinate_labels[1][7], color=BLUE, corner_radius=0.15)
+        self.play(Create(srr_circle_t1))
+        self.play(FadeOut(curved_arrow1))
+        self.wait()
+
         first_second = VGroup(
-            coord_sys.get_lines_to_point(coord_sys.c2p(1, 3), color=RED),
-            Dot(coord_sys.coords_to_point(1, 3), color=RED)
+            coord_sys.get_lines_to_point(coord_sys.c2p(1, 2), color=BLUE),
+            Dot(coord_sys.coords_to_point(1, 2), color=BLUE)
         )
         first_second.add(
             MathTex("I \\text{ վ}").scale(.7).next_to(first_second[1], UR, 0.01)
         )
-        self.play(Circumscribe(gagik_info[0][-2:], fade_out=True), run_time=1.5)
+        self.play(Circumscribe(tigran_info[0][-2:], fade_out=True), run_time=1.5)
         self.wait()
         self.play(Create(first_second))
         self.wait()
 
         second_second = VGroup(
-            coord_sys.get_lines_to_point(coord_sys.c2p(2, 6), color=RED),
-            Dot(coord_sys.coords_to_point(2, 6), color=RED)
+            coord_sys.get_lines_to_point(coord_sys.c2p(2, 4), color=BLUE),
+            Dot(coord_sys.coords_to_point(2, 4), color=BLUE)
         )
         second_second.add(
             MathTex("II \\text{ վ}").scale(.7).next_to(second_second[1], UR, 0.001)
@@ -117,8 +127,8 @@ class Problem00000(Scene):
         self.wait()
 
         third_second = VGroup(
-            coord_sys.get_lines_to_point(coord_sys.c2p(3, 9), color=RED),
-            Dot(coord_sys.coords_to_point(3, 9), color=RED)
+            coord_sys.get_lines_to_point(coord_sys.c2p(3, 6), color=BLUE),
+            Dot(coord_sys.coords_to_point(3, 6), color=BLUE)
         )
         third_second.add(
             MathTex("III \\text{ վ}").scale(.7).next_to(third_second[1], UR, 0.01)
@@ -126,60 +136,14 @@ class Problem00000(Scene):
         self.play(Create(third_second))
         self.wait()
 
-        gagik_acceleration_time = MathTex("9", ":", "3", "=", "3 \\text{ վ}", font_size=80, color=RED)
-        gagik_acceleration_time.move_to(gagik_info, aligned_edge=UP)
-        
-        self.play(
-            AnimationGroup(
-                TransformFromCopy(gagik_info[1][1], gagik_acceleration_time[0]),
-                Write(gagik_acceleration_time[1]),
-                TransformFromCopy(gagik_info[0][1], gagik_acceleration_time[2]),
-                Write(gagik_acceleration_time[3:]),
-                lag_ratio=.3
-            ), 
-            FadeOut(gagik_info)
+        fourth_second = VGroup(
+            coord_sys.get_lines_to_point(coord_sys.c2p(4, 8), color=BLUE),
+            Dot(coord_sys.coords_to_point(4, 8), color=BLUE)
         )
-        self.wait()
-
-        self.play(Circumscribe(gagik_acceleration_time[-1], fade_out=True), run_time=1.5)
-        self.wait()
-        srr_circle_g2 = SurroundingRectangle(coord_sys.coordinate_labels[0][2], color=RED, corner_radius=0.15)
-        self.play(Create(srr_circle_g2))
-        self.wait()
-
-        gagik_acceleration_coord_lines = coord_sys.get_lines_to_point(coord_sys.c2p(3, 9), color=RED)
-        gagik_acceleration_coord_point = Dot(coord_sys.coords_to_point(3, 9), color=RED)
-        self.add(
-            gagik_acceleration_coord_lines,
-            gagik_acceleration_coord_point
+        fourth_second.add(
+            MathTex("IV \\text{ վ}").scale(.7).next_to(fourth_second[1], UR, 0.01)
         )
-        self.play(
-            FadeOut(
-                gagik_acceleration_time,
-                first_second,
-                second_second,
-                third_second,
-                srr_circle_g1,
-                srr_circle_g2
-            )
-        )
-        self.wait()
-
-        # write info about Tigran
-        tigran_info = VGroup(
-            Tex("արագացում՝ ", "$2$", " մ/վ$^2$", color=BLUE),
-            Tex("վերջն․ արագություն՝ ", "$8$", " մ/վ", color=BLUE)
-        ).arrange(DOWN, aligned_edge=LEFT)
-        tigran_info.scale(1.2).to_corner(UR).shift(LEFT*1.5)
-        
-        self.play(Write(tigran_info))
-        self.wait()
-
-        # draw Tigran's graph points
-        self.play(Circumscribe(tigran_info[1][-2:], fade_out=True), run_time=1.5)
-        self.wait()
-        srr_circle_t1 = SurroundingRectangle(coord_sys.coordinate_labels[1][7], color=BLUE, corner_radius=0.15)
-        self.play(Create(srr_circle_t1))
+        self.play(Create(fourth_second))
         self.wait()
 
         tigran_acceleration_time = MathTex("8", ":", "2", "=", "4 \\text{ վ}", font_size=80, color=BLUE)
@@ -200,18 +164,133 @@ class Problem00000(Scene):
         self.play(Circumscribe(tigran_acceleration_time[-1], fade_out=True), run_time=1.5)
         self.wait()
         srr_circle_t2 = SurroundingRectangle(coord_sys.coordinate_labels[0][3], color=BLUE, corner_radius=0.15)
-        self.play(Create(srr_circle_t2))
+        arrow1 = Arrow(tigran_acceleration_time[-1], coord_sys.coordinate_labels[0][3])
+        self.play(GrowArrow(arrow1))
         self.wait()
-
-        self.play(FadeOut(tigran_acceleration_time))
+        self.play(Create(srr_circle_t2))
+        self.play(FadeOut(arrow1))
         self.wait()
 
         tigran_acceleration_coord_lines = coord_sys.get_lines_to_point(coord_sys.c2p(4, 8), color=BLUE)
         tigran_acceleration_coord_point = Dot(coord_sys.coords_to_point(4, 8), color=BLUE)
-        self.play(Create(tigran_acceleration_coord_lines))
-        self.play(FadeIn(tigran_acceleration_coord_point))
+        self.add(
+            tigran_acceleration_coord_lines,
+            tigran_acceleration_coord_point
+        )
+        self.play(
+            FadeOut(
+                tigran_acceleration_time,
+                first_second[-1],
+                second_second[-1],
+                third_second[-1],
+                fourth_second,
+                srr_circle_t1,
+                srr_circle_t2
+            )
+        )
         self.wait()
-        self.play(FadeOut(srr_circle_t1, srr_circle_t2))
+
+        # write info about Gagik
+        gagik_info = VGroup(
+            Tex("արագացում՝ ", "$3$", " մ/վ$^2$", color=RED),
+            Tex("վերջն․ արագություն՝ ", "$9$", " մ/վ", color=RED)
+        ).arrange(DOWN, aligned_edge=LEFT)
+        gagik_info.scale(1.2).to_corner(UR).shift(LEFT*1.5)
+
+        self.play(Write(gagik_info))
+        self.wait()
+
+        # draw Gagik's graph points
+        self.play(Circumscribe(gagik_info[1][-2:], fade_out=True), run_time=1.5)
+        self.wait()
+        curved_arrow2 = CurvedArrow(
+            gagik_info[1][-2:].get_bottom() + np.array([-.5, 0, 0]),
+            coord_sys.coordinate_labels[1][8].get_center() + np.array([.1, -.1, 0]),
+            angle=-PI/3
+        )
+        self.play(Create(curved_arrow2))
+        self.wait()
+        srr_circle_g1 = SurroundingRectangle(coord_sys.coordinate_labels[1][8], color=RED, corner_radius=0.15)
+        self.play(Create(srr_circle_g1))
+        self.play(FadeOut(curved_arrow2))
+        self.wait()
+        
+        # first_second = VGroup(
+        #     coord_sys.get_lines_to_point(coord_sys.c2p(1, 3), color=RED),
+        #     Dot(coord_sys.coords_to_point(1, 3), color=RED)
+        # )
+        # first_second.add(
+        #     MathTex("I \\text{ վ}").scale(.7).next_to(first_second[1], UR, 0.01)
+        # )
+        # self.play(Circumscribe(gagik_info[0][-2:], fade_out=True), run_time=1.5)
+        # self.wait()
+        # self.play(Create(first_second))
+        # self.wait()
+
+        # second_second = VGroup(
+        #     coord_sys.get_lines_to_point(coord_sys.c2p(2, 6), color=RED),
+        #     Dot(coord_sys.coords_to_point(2, 6), color=RED)
+        # )
+        # second_second.add(
+        #     MathTex("II \\text{ վ}").scale(.7).next_to(second_second[1], UR, 0.001)
+        # )
+        # self.play(Create(second_second))
+        # self.wait()
+
+        # third_second = VGroup(
+        #     coord_sys.get_lines_to_point(coord_sys.c2p(3, 9), color=RED),
+        #     Dot(coord_sys.coords_to_point(3, 9), color=RED)
+        # )
+        # third_second.add(
+        #     MathTex("III \\text{ վ}").scale(.7).next_to(third_second[1], UR, 0.01)
+        # )
+        # self.play(Create(third_second))
+        # self.wait()
+
+        gagik_acceleration_time = MathTex("9", ":", "3", "=", "3 \\text{ վ}", font_size=80, color=RED)
+        gagik_acceleration_time.move_to(gagik_info, aligned_edge=UP)
+        
+        self.play(
+            AnimationGroup(
+                TransformFromCopy(gagik_info[1][1], gagik_acceleration_time[0]),
+                Write(gagik_acceleration_time[1]),
+                TransformFromCopy(gagik_info[0][1], gagik_acceleration_time[2]),
+                Write(gagik_acceleration_time[3:]),
+                lag_ratio=.3
+            ), 
+            FadeOut(gagik_info)
+        )
+        self.wait()
+
+        self.play(Circumscribe(gagik_acceleration_time[-1], fade_out=True), run_time=1.5)
+        self.wait()
+        srr_circle_g2 = SurroundingRectangle(coord_sys.coordinate_labels[0][2], color=RED, corner_radius=0.15)
+        arrow2 = Arrow(gagik_acceleration_time[-1], coord_sys.coordinate_labels[0][2])
+        self.play(GrowArrow(arrow2))
+        self.wait()
+        self.play(Create(srr_circle_g2))
+        self.play(FadeOut(arrow2))
+        self.wait()
+
+        gagik_acceleration_coord_lines = coord_sys.get_lines_to_point(coord_sys.c2p(3, 9), color=RED)
+        gagik_acceleration_coord_lines.set_z_index(tigran_acceleration_coord_lines.z_index + 1)
+        gagik_acceleration_coord_point = Dot(coord_sys.coords_to_point(3, 9), color=RED)
+        self.play(
+            Create(gagik_acceleration_coord_lines),
+            Create(gagik_acceleration_coord_point)
+        )
+        self.wait()
+
+        self.play(
+            FadeOut(
+                gagik_acceleration_time,
+                # first_second[-1],
+                # second_second[-1],
+                # third_second,
+                srr_circle_g1,
+                srr_circle_g2
+            )
+        )
         self.wait()
 
         # Gagik's graph
@@ -265,6 +344,13 @@ class Problem00000(Scene):
                     tigran_location_value_2.animate(rate_func=rate_functions.linear, run_time=8).set_value(80/94.5)
                 ),
                 lag_ratio=1
+            )
+        )
+        self.play(
+            FadeOut(
+                first_second[:-1],
+                second_second[:-1],
+                third_second[:-1]
             )
         )
         gagik_finish_coord_lines = coord_sys.get_lines_to_point(coord_sys.c2p(12, 9), color=RED)
