@@ -12,6 +12,7 @@ from . import text
 
 class Problem12641(QarakusiScene):
     """հետհաշվարկով գտնել մտապահած թիվը"""
+
     def construct(self):
         # -------------- Base ------------ #
         ax = Axes()
@@ -22,7 +23,7 @@ class Problem12641(QarakusiScene):
         # self.add_plane()
 
         # -------------------------- Point 1 ------------------------------- #
-        #conditions
+        # conditions
         # conditions = MathTex(*text.CONDITIONS).arrange(DOWN, buff=0.5, aligned_edge=LEFT).move_to(ORIGIN).scale(0.9)
         # self.play(AnimationGroup(Write(conditions), lag_ratio=1, run_time=8))
         # self.wait()
@@ -41,9 +42,9 @@ class Problem12641(QarakusiScene):
         # -------------------------- Point 2 ------------------------------- #
         self.play(conditions.animate(run_time=3).shift(2.8 * RIGHT + UP).scale(0.7))
         self.wait()
-        check_marks = [SimpleSVGMobject('check').scale(0.25).next_to(conditions[i],
-                                                                    LEFT,
-                                                                    buff=0.02) for i in range(len(conditions))]
+        check_marks = [SimpleSVGMobject('other/check').scale(0.25).next_to(conditions[i],
+                                                                           LEFT,
+                                                                           buff=0.02) for i in range(len(conditions))]
 
         circle_1 = Circle(radius=0.5, color=PURE_RED, fill_opacity=1).next_to(circle_point)
         operation_1 = MathTex(text.OPERATION_1).next_to(circle_1)
@@ -80,7 +81,14 @@ class Problem12641(QarakusiScene):
         #                          Write(check_marks[1]),
         #                          lag_ratio=1))
         condition_1_1 = conditions[1][1].copy()
-        self.play(AnimationGroup(Write(arrow_1), circle_3.animate.move_to(circle_3_pos), lag_ratio=1, run_time=3))
+
+        circle_3.scale(0.5).move_to(circle_3_pos)
+        # self.play()
+        self.play(AnimationGroup(Write(circle_3), Write(arrow_1), lag_ratio=1, run_time=2.5))
+        self.play(circle_3.animate.scale(2), run_time=1)
+
+        # self.play(AnimationGroup(Write(arrow_1), circle_3.animate.move_to(circle_3_pos), lag_ratio=1, run_time=3))
+
         self.play(condition_1_1.animate(run_time=2, rate_func=rate_functions.linear).move_to(circle_4))
         self.play(ReplacementTransform(condition_1_1, operation_2, rate_func=rate_functions.linear), run_time=1)
         self.play(AnimationGroup(Write(circle_4), Write(check_marks[1]), lag_ratio=1))
