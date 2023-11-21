@@ -149,6 +149,7 @@ class FormulaModificationsScene(Scene):
         formula : Tex or MathTex, new_sequence : List,
         move_up : List = [], move_down : List = [],
         fade_out : List = [], fade_in : List = [],
+        remove : List = [],
         run_time=3
     ):
         """
@@ -162,6 +163,7 @@ class FormulaModificationsScene(Scene):
 
         """
         tex_string_list = [tex.get_tex_string() for tex in formula]
+        [tex_string_list.pop(i) for i in remove]
 
         new_tex_string_list = [tex_string_list[new_sequence[i]] for i in range(len(tex_string_list))]
         new_formula = type(formula)(
@@ -182,6 +184,7 @@ class FormulaModificationsScene(Scene):
             *[formula[i].animate.shift(0.5 * UP) for i in move_up],
             *[formula[i].animate.shift(0.5 * DOWN) for i in move_down],
             *[formula[i].animate.set_opacity(0) for i in fade_out],
+            *[formula[i].animate.set_opacity(0) for i in remove],
             run_time=run_time / 4
         )
         self.play(
@@ -197,8 +200,9 @@ class FormulaModificationsScene(Scene):
             run_time=run_time / 4
         )
         self.play(
-            *[ReplacementTransform(formula[new_sequence[i]], new_formula[i], run_time=0.1) for i in range(len(formula))]
+            *[ReplacementTransform(formula[new_sequence[i]], new_formula[i], run_time=0.1) for i in range(len(new_formula))]
         )
 
+        self.remove(*[formula[i] for i in remove])
         formula.remove(*formula)
         formula.add(*new_formula)
