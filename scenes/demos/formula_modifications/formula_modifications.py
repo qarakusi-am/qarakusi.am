@@ -79,3 +79,9 @@ class test(FormulaModificationsScene):
         self.play(FadeOut(formula_2))
         self.wait()
 
+        operation_1 = MathTex("x^{2}", "+", "14", "x", "-", "32", "=", "0")
+        self.play(FadeIn(operation_1))
+        self.wait()
+        self.fix_formula(operation_1)
+        self.rearrange_formula(operation_1, new_sequence=[0, 1, 2, 3, 6, 4, 5], move_up=[4, 5], remove=[7])
+        self.wait(2)
