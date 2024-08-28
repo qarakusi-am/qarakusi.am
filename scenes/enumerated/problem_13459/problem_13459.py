@@ -1,4 +1,4 @@
-from manim import LEFT, UP, DOWN, RIGHT, CurvedArrow, Create, Rectangle, YELLOW, RED
+from manim import LEFT, UP, DOWN, RIGHT, CurvedArrow, Create, Rectangle, YELLOW, RED, Tex
 from manim import FadeOut, Write, FadeIn
 from manim import Group, ReplacementTransform, AnimationGroup, VGroup
 from manim import MathTex
@@ -7,7 +7,7 @@ from qarakusiscene import QarakusiScene
 from . import text as t
 
 
-class Problem6p101(QarakusiScene):
+class Problem13459(QarakusiScene):
     """Գրե՛ք հնարավոր ամենամեծ տասնորդական կոտորակը, որը.
         ա) փոքր է 5-ից և կետից հետո ունի մեկ թվանշան,
         բ) փոքր է 1-ից և կետից հետո ունի երկու թվանշան,

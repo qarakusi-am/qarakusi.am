@@ -1,5 +1,3 @@
-TASK_NUMBER_STR = "խ. 6p101"
-
 CONDITION_0 = r"\text{ Ամենամեծ թիվը, որ }"
 CONDITION_1 = (r"\text{ա) փոքր է 5-ից և կետից հետո ունի }", r"\text{մեկ}", r"\text{ թվանշան }")
 CONDITION_2 = "."
@@ -26,8 +24,8 @@ NUM_23 = r"\text{ 8 }"
 NUM_24 = r"\text{ 7 }"
 
 NUM_31 = r"\text{ 123 }"
-NUM_32 = r"\text{ 7 }"
-NUM_33 = r"\text{ 8 }"
+NUM_32 = r"\text{ 9 }"
+NUM_33 = r"\text{ 6 }"
 
 default_font_size = 50
 condition_shift_left = 2.5
