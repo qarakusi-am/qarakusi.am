@@ -1,3 +1,4 @@
+enumerated_archive/
 .pylintrc
 !/.gitignore
 .idea/
