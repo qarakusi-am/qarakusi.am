@@ -1,0 +1,11 @@
+running_time="Վազեց 3 րոպե, "
+speed_in_km_h='9կմ/ժ'
+rest_time="հանգստացավ 4 րոպե"
+walk_back_speed="ետ քայլեց 3կմ/ժ"
+km="կմ"
+meter="մ"
+minute='ր'
+hour='ժ'
+second='վ'
+run='վազք'
+rest='հանգիստ'
