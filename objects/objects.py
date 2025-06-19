@@ -632,7 +632,7 @@ class Scales(VMobject):
 
         self.plate_stretch_factor = plate_stretch_factor
 
-        scales = SVGMobject(path_to_SVG / 'scales').scale(1.2)
+        scales = SVGMobject(path_to_SVG / 'other' / 'scales').scale(1.2)
 
         scales[0].set_color('#8c6239')
         scales[1].set_color('#764d26')

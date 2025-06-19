@@ -6,10 +6,10 @@
 
 Before starting, make sure you have installed the following:
 ```
-python3.11
+python3.13
 python3-pip
 python3-venv
-manim == v0.17.3
+manim == v0.19.0
 latex
 git # of course
 ```
