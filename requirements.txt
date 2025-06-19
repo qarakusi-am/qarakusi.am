@@ -3,6 +3,7 @@ av==13.1.0
 beautifulsoup4==4.13.4
 click==8.2.1
 cloup==3.0.7
+colour==0.1.5
 decorator==5.2.1
 glcontext==3.0.0
 isosurfaces==0.1.2
